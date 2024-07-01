@@ -1,0 +1,38 @@
+{
+  "name": "prism-neuro-backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev:backend": "ts-node-dev ./src/apps/prism-neuro-backend/Backend/start.ts",
+    "start:backend": "ts-node-dev dist/src/apps/prism-neuro-backend/Backend/start",
+    "migration:create": "prisma migrate dev --create-only",
+    "migration:dev": "prisma migrate dev",
+    "migration:status": "prisma migrate status",
+    "migration:deploy": "prisma migrate deploy",
+    "generate:prisma": "prisma generate",
+    "swagger": "ts-node src/Contexts/Shared/infrastructure/Swagger/swagger.ts",
+    "prepare": "husky"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.14.9",
+    "@types/swagger-ui-express": "^4.1.6",
+    "husky": "^9.0.11",
+    "prisma": "^5.16.1",
+    "swagger-autogen": "^2.23.7",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.5.2"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.16.1",
+    "awilix": "^10.0.2",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "swagger-ui-express": "^5.0.1"
+  }
+}
