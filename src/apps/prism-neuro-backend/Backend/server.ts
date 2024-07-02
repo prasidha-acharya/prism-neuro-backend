@@ -2,7 +2,7 @@ import express from 'express';
 import * as http from 'http';
 import { Configuration } from '../../../../config';
 import { AddressInfo } from 'net';
-import { RequestLogger } from '../../../Contexts/shared/infrastructure/requestLogs/requestLogs';
+import { RequestLogger } from '../../../contexts/shared/infrastructure/requestLogs/requestLogs';
 
 export class Server {
   private readonly express: express.Application;

@@ -3,7 +3,7 @@ import { Router } from './Router';
 import { config } from '../../../../config';
 import { Server } from './Server';
 import { masterRouter } from './routes/routes';
-import { RequestLogger } from '../../../Contexts/shared/infrastructure/requestLogs/requestLogs';
+import { RequestLogger } from '../../../contexts/shared/infrastructure/requestLogs/requestLogs';
 
 export class Container {
   private readonly container: AwilixContainer;
