@@ -4,16 +4,17 @@ import * as dotenv from 'dotenv';
 
 dotenv.config();
 
+console.log(process.env.BASE_URL ,"Base urlll")
 const doc = {
   info: {
-    title: 'Neuroß API',
+    title: 'Neuro API',
     description: 'Description'
   },
   schemes: ['http', 'https'],
   host: [`${process.env.BASE_URL}`]
 };
 
-const routes = [path.join(__dirname, '../../../../apps/CapitalRemit/Backend/routes/**/*.routes.ts')];
+const routes = [path.join(__dirname, '../../../../apps/prism-neuro-backend/backend/routes/**/*.routes.ts')];
 const outputFile = path.join(__dirname, '../../../../../swaggerApi.json');
 
 /* NOTE: If you are using the express Router, you must pass in the 'routes' only the 

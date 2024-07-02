@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "Neuroß API",
+    "title": "Neuro API",
     "description": "Description",
     "version": "1.0.0"
   },
@@ -13,5 +13,20 @@
     "http",
     "https"
   ],
-  "paths": {}
+  "paths": {
+    "/test": {
+      "get": {
+        "tags": [
+          "tests"
+        ],
+        "summary": "Some summary...",
+        "description": "Some description...",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    }
+  }
 }

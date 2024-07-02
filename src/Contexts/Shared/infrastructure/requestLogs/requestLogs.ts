@@ -6,7 +6,7 @@ export class RequestLogger {
   public logs = async (req: Request, res: Response, next: NextFunction) => {
     const { method, body, url, headers } = req;
 
-    console.log(method, body, url, headers);
+    // console.log(method, body, url, headers);
     try {
     } catch (error) {
       next(error);
