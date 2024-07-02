@@ -12,3 +12,16 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model RequestLogs {
+  request_log_id String    @id @db.VarChar(40)
+  method         String?
+  url            String?
+  request        Json?
+  user_id        String?
+  status_code    Int?
+  response       Json?
+  created_at     DateTime  @default(now())
+  updated_at     DateTime  @updatedAt
+  deleted_at     DateTime?
+}

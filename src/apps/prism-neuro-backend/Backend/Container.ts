@@ -3,6 +3,7 @@ import { Router } from './Router';
 import { config } from '../../../../config';
 import { Server } from './Server';
 import { masterRouter } from './routes/routes';
+import { RequestLogger } from '../../../Contexts/shared/infrastructure/requestLogs/requestLogs';
 
 export class Container {
   private readonly container: AwilixContainer;
@@ -20,7 +21,8 @@ export class Container {
       .register({
         router: asFunction(Router).singleton(),
         config: asValue(config),
-        server: asClass(Server).singleton()
+        server: asClass(Server).singleton(),
+        requestLogger:asClass(RequestLogger).singleton()
       })
       .register({
         // errorMiddleware: asClass(ErrorMiddleware).singleton()

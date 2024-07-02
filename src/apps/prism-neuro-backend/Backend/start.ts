@@ -9,9 +9,7 @@ const config = container.invoke().resolve<Configuration>('config');
 server
   .start()
   .then(() => {
-    console.log(`Environment: ${config.NODE_ENV}`);
-
-    console.log(`Log level: ${config.APP_LOG_LEVEL}`);
+    console.log('🚀 ~ Environment:', config.NODE_ENV, '🚀 ~  App Log', config.APP_LOG_LEVEL);
   })
   .catch(error => {
     console.log(error);

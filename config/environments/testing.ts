@@ -1,4 +1,7 @@
 import { type Configuration } from '..';
+import * as dotenv from "dotenv"
+
+dotenv.config();
 
 const TEST: Configuration = {
   NODE_ENV: 'test',

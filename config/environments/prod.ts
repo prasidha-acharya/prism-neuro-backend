@@ -1,4 +1,7 @@
 import { type Configuration } from '../';
+import * as dotenv from "dotenv"
+
+dotenv.config();
 
 const PROD: Configuration = {
   JWT_SECRET: process.env.JWT_SECRET_TOKEN || '',
