@@ -1,8 +1,5 @@
 class GetUsersService {
   constructor() {}
 
-  public invoke() {
-
-    
-  }
+  public invoke() {}
 }

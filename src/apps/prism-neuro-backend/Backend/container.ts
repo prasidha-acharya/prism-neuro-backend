@@ -22,7 +22,7 @@ export class Container {
         router: asFunction(Router).singleton(),
         config: asValue(config),
         server: asClass(Server).singleton(),
-        requestLogger:asClass(RequestLogger).singleton()
+        requestLogger: asClass(RequestLogger).singleton()
       })
       .register({
         // errorMiddleware: asClass(ErrorMiddleware).singleton()
