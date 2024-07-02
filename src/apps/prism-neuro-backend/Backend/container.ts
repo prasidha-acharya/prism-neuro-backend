@@ -1,7 +1,7 @@
 import { AwilixContainer, InjectionMode, asClass, asFunction, asValue, createContainer } from 'awilix';
-import { Router } from './Router';
+import { Router } from './router';
 import { config } from '../../../../config';
-import { Server } from './Server';
+import { Server } from './server';
 import { masterRouter } from './routes/routes';
 import { RequestLogger } from '../../../contexts/shared/infrastructure/requestLogs/requestLogs';
 
