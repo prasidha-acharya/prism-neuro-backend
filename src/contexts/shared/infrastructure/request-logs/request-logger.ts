@@ -5,7 +5,7 @@ import { randomUUID } from 'node:crypto';
 export class RequestLogger {
   constructor(private db: PrismaClient) {}
 
-  public logs: Middleware = async (req: Request, res: Response, next: NextFunction) => {
+  public logs: Middleware = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     const request_log_id = randomUUID();
     try {
       const { headers, body, method, url } = req;
