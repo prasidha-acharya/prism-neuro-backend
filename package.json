@@ -2,7 +2,6 @@
   "name": "prism-neuro-backend",
   "version": "1.0.0",
   "main": "index.js",
-  "type": "module",
   "scripts": {
     "build": "npm run build:clean && npm run build:tsc ",
     "build:tsc": "tsc -p tsconfig.prod.json",
