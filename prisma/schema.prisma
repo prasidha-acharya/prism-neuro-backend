@@ -32,36 +32,28 @@ enum UserRoles {
   PHYSIO
 }
 
-model Role {
-  id   String    @id @default(uuid())
-  name UserRoles @unique
-  User Users[]
-}
-
-model Users {
+model User {
   id         String      @id @default(uuid())
   email      String      @unique
   userName   String
-  firstName  String
-  lastName   String
+  firstName  String?
+  lastName   String?
   password   String
-  role       String
-  userDetail UserDetail?
   createdAt  DateTime    @default(now())
   updatedAt  DateTime    @updatedAt
   deletedAt  DateTime?
-  Role       Role?       @relation(fields: [roleId], references: [id])
-  roleId     String?
+  role       UserRoles
+  UserDetail UserDetail?
 }
 
 model UserDetail {
   id          String    @id @default(uuid())
-  userId      String    @unique
-  user        Users     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userEmail   String    @unique
   phoneNumber String?
   phoneCode   String?
   address     String
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
   deletedAt   DateTime?
+  user        User      @relation(fields: [userEmail], references: [email])
 }

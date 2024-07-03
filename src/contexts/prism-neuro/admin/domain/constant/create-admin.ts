@@ -1,8 +1,8 @@
 import { ICreateAdmin } from '../interface/create-admin';
 
 export const adminUser: ICreateAdmin = {
-  email: 'admin@gmail.com',
+  email: 'admin123@gmail.com',
   password: 'admin@@1',
-  name: 'Prism Neuro',
+  userName: 'Prism Neuro',
   address: 'Kathmandu,Nepal'
 };
