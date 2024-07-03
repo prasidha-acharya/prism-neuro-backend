@@ -3,7 +3,8 @@ import { Router } from './router';
 import { config } from '../../../../config';
 import { Server } from './server';
 import { masterRouter } from './routes/routes';
-import { RequestLogger } from '../../../contexts/shared/infrastructure/requestLogs/requestLogs';
+import { RequestLogger } from '../../../contexts/shared/infrastructure/request-logs/request-logger';
+import { createPrismaClient } from '../../../contexts/shared/infrastructure/persistence/prisma';
 
 export class Container {
   private readonly container: AwilixContainer;
@@ -22,7 +23,8 @@ export class Container {
         router: asFunction(Router).singleton(),
         config: asValue(config),
         server: asClass(Server).singleton(),
-        requestLogger: asClass(RequestLogger).singleton()
+        requestLogger: asClass(RequestLogger).singleton(),
+        db: asFunction(createPrismaClient).singleton()
       })
       .register({
         // errorMiddleware: asClass(ErrorMiddleware).singleton()

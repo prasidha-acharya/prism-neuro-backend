@@ -5,20 +5,13 @@
     "description": "Description",
     "version": "1.0.0"
   },
-  "host": [
-    "localhost:8081/api"
-  ],
+  "host": ["localhost:8000"],
   "basePath": "/",
-  "schemes": [
-    "http",
-    "https"
-  ],
+  "schemes": ["http", "https"],
   "paths": {
     "/test": {
       "get": {
-        "tags": [
-          "tests"
-        ],
+        "tags": ["tests"],
         "summary": "Some summary...",
         "description": "Some description...",
         "responses": {

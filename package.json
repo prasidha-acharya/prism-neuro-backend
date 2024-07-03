@@ -7,15 +7,14 @@
     "build:tsc": "tsc -p tsconfig.prod.json",
     "build:clean": "rm -r dist; exit 0",
     "tsc": "tsc",
-    "test": "eslint . --ext ts --ext tsx ",
-    "dev:backend": "ts-node-dev ./src/apps/prism-neuro-backend/backend/start.ts",
+    "dev:backend": "ts-node-dev --ignore-watch node_modules ./src/apps/prism-neuro-backend/backend/start.ts",
     "start:backend": "ts-node-dev dist/src/apps/prism-neuro-backend/backend/start",
     "migration:create": "prisma migrate dev --create-only",
     "migration:dev": "prisma migrate dev",
     "migration:status": "prisma migrate status",
     "migration:deploy": "prisma migrate deploy",
     "generate:prisma": "prisma generate",
-    "swagger": "ts-node-dev src/contexts/shared/infrastructure/Swagger/swagger.ts",
+    "swagger": "ts-node-dev src/contexts/shared/infrastructure/swagger/swagger.ts",
     "prepare": "husky"
   },
   "keywords": [],
@@ -47,6 +46,7 @@
     "awilix": "^10.0.2",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
+    "http-status": "^1.7.4",
     "swagger-ui-express": "^5.0.1"
   }
 }

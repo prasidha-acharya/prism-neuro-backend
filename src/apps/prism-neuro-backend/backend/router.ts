@@ -2,7 +2,7 @@ import { Router as ExpressRouter } from 'express';
 import swaggerUI from 'swagger-ui-express';
 import swaggerDocument from '../../../../swaggerApi.json';
 
-export const Router = (masterRouter: ExpressRouter) => {
+export const Router = (masterRouter: ExpressRouter): ExpressRouter => {
   const router = ExpressRouter();
 
   router.use('/api', masterRouter);

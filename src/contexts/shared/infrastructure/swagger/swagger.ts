@@ -1,17 +1,15 @@
 import swaggerAutogen from 'swagger-autogen';
 import path from 'path';
-import * as dotenv from 'dotenv';
 
-dotenv.config();
+import { config } from '../../../../../config/index';
 
-console.log(process.env.BASE_URL ,"Base urlll")
 const doc = {
   info: {
     title: 'Neuro API',
     description: 'Description'
   },
   schemes: ['http', 'https'],
-  host: [`${process.env.BASE_URL}`]
+  host: [`${config.BASE_URL}`]
 };
 
 const routes = [path.join(__dirname, '../../../../apps/prism-neuro-backend/backend/routes/**/*.routes.ts')];
