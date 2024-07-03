@@ -18,6 +18,7 @@
       "jsx": true // Allows for the parsing of JSX
     }
   },
+  "overrides": [],
   "rules": {
     "no-unused-expressions": "off",
     "@typescript-eslint/naming-convention": [
@@ -72,5 +73,6 @@
 //       "@typescript-eslint/explicit-function-return-type": "off"
 //     }
 //   }
+
 
 // ],

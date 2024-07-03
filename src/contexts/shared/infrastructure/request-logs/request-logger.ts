@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import { RequestHandler as Middleware, NextFunction, Request, Response } from 'express';
-import { randomUUID } from 'node:crypto';
+import { randomUUID } from 'crypto';
 
 export class RequestLogger {
   constructor(private db: PrismaClient) {}
