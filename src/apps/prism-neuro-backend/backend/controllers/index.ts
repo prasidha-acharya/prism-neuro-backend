@@ -1,1 +1,2 @@
-export * from './doctor/create-doctor.controller';
+export * from './admin/auth/login-admin.controller';
+export * from './admin/doctor/create-doctor.controller';

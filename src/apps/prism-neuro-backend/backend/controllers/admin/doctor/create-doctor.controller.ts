@@ -3,8 +3,9 @@ import { ParamsDictionary } from 'express-serve-static-core';
 import httpStatus from 'http-status';
 import { ParsedQs } from 'qs';
 import { CreateDoctorService } from 'src/contexts/prism-neuro/admin/application/create-doctor.service';
+import { Controller } from '../../controller';
 
-export class CreateDoctorController {
+export class CreateDoctorController implements Controller {
   constructor(private createDoctorService: CreateDoctorService) {}
 
   public async invoke(

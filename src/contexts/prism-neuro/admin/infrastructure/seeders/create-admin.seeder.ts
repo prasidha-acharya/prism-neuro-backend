@@ -1,7 +1,7 @@
 import { UserRoles } from '@prisma/client';
 import { hashPassword } from '../../../../shared/infrastructure/encryptor/encryptor';
 import { adminUser } from '../../domain/constant/create-admin';
-import { PrismaAdminRepository } from '../../domain/repositories/prisma-admin-repository';
+import { PrismaAdminRepository } from '../repositories/prisma-admin-repository';
 export class CreateAdminSeeder {
   constructor(private prismaAdminRepository: PrismaAdminRepository) {}
 
