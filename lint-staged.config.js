@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
 // lint-staged.config.js
 module.exports = {
   // Type check TypeScript files

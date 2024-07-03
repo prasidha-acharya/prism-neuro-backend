@@ -7,7 +7,14 @@
   },
 
   "extends": ["eslint-config-prettier"],
-  "overrides": [],
+  "overrides": [
+    {
+      "files": ["*.js"],
+      "rules": {
+        "@typescript-eslint/explicit-function-return-type": "off"
+      }
+    }
+  ],
   "plugins": ["@typescript-eslint"],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
