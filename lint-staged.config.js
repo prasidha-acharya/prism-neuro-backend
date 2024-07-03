@@ -7,7 +7,7 @@ module.exports = {
   '**/*.(ts|js)?(x)': () => `eslint . --ext ts --ext tsx `,
 
   // Lint then format TypeScript and JavaScript files
-  '**/*.(ts|tsx)': filenames => [
+  '**/*.(ts|tsx|js)': filenames => [
     `npx eslint --fix ${filenames.join(' ')}`,
     `npx  prettier --write ${filenames.join(' ')}`
     // `npx test`
