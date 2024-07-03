@@ -5,6 +5,8 @@ import { Server } from './server';
 import { masterRouter } from './routes/routes';
 import { RequestLogger } from '../../../contexts/shared/infrastructure/request-logs/request-logger';
 import { createPrismaClient } from '../../../contexts/shared/infrastructure/persistence/prisma';
+import { ServerLogger } from 'src/contexts/shared/infrastructure/winston-logger';
+import { ErrorMiddleware } from 'src/contexts/shared/infrastructure/middleware/error-middleware';
 
 export class Container {
   private readonly container: AwilixContainer;
@@ -24,10 +26,11 @@ export class Container {
         config: asValue(config),
         server: asClass(Server).singleton(),
         requestLogger: asClass(RequestLogger).singleton(),
-        db: asFunction(createPrismaClient).singleton()
+        db: asFunction(createPrismaClient).singleton(),
+        logger: asClass(ServerLogger).singleton()
       })
       .register({
-        // errorMiddleware: asClass(ErrorMiddleware).singleton()
+        errorMiddleware: asClass(ErrorMiddleware).singleton(),
         masterRouter: asFunction(masterRouter).singleton()
       });
   }
