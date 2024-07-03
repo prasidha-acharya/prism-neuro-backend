@@ -2,10 +2,11 @@ import express from 'express';
 import * as http from 'http';
 import { Configuration } from '../../../../config';
 import { AddressInfo } from 'net';
-import { RequestLogger } from '../../../contexts/shared/infrastructure/requestLogs/requestLogs';
+import { RequestLogger } from '../../../contexts/shared/infrastructure/request-logs/request-logger';
 
 export class Server {
   private readonly express: express.Application;
+
   private http: http.Server | any;
 
   constructor(
@@ -31,7 +32,7 @@ export class Server {
     });
   };
 
-  get httpServer() {
+  get httpServer(): http.Server {
     return this.http;
   }
 

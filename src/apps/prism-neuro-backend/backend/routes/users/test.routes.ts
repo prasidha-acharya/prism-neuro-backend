@@ -1,14 +1,14 @@
 import { NextFunction, Request, Response, Router } from 'express';
 
-export const testRouteHandlers = (router: Router) => {
+export const testRouteHandlers = (router: Router): Router => {
   router.get(
     '/test',
-
-    (req: Request, res: Response, nextFunction: NextFunction) => {
-      console.log(req.body, 'herererere');
+    (_req: Request, res: Response, next: NextFunction) => {
       try {
         res.send('Ok');
-      } catch (error) {}
+      } catch (error) {
+        next(error);
+      }
     }
     /* 
    #swagger.tags = ['tests']

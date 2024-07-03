@@ -13,7 +13,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model RequestLogs {
+model RequestResponseLogs {
   request_log_id String    @id @db.VarChar(40)
   method         String?
   url            String?
