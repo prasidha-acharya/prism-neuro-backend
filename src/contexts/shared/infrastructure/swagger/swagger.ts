@@ -1,7 +1,7 @@
-import swaggerAutogen from 'swagger-autogen';
 import path from 'path';
-
+import swaggerAutogen from 'swagger-autogen';
 import { config } from '../../../../../config/index';
+import { AdminSchema } from '../../../../contexts/prism-neuro/admin/infrastructure/swagger/schema';
 
 const doc = {
   info: {
@@ -9,7 +9,19 @@ const doc = {
     description: 'Description'
   },
   schemes: ['http', 'https'],
-  host: [`${config.BASE_URL}`]
+  host: [`${config.BASE_URL}`],
+  components: {
+    securitySchemes: {
+      bearerAuth: {
+        type: 'http',
+        scheme: 'bearer'
+      }
+    },
+    schemas: {
+      createDoctorRequest: AdminSchema.createDoctorRequest
+    },
+    parameters: {}
+  }
 };
 
 const routes = [path.join(__dirname, '../../../../apps/prism-neuro-backend/backend/routes/**/*.routes.ts')];

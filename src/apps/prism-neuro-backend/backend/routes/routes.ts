@@ -1,12 +1,11 @@
 import { Router } from 'express';
-import { testRouteHandlers } from './users/test.routes';
+import * as controllers from '../controllers';
+import { physioRoutesHandler } from './admin/physio.routes';
 
-export const masterRouter = (): Router => {
+export const masterRouter = (createDoctorController: controllers.CreateDoctorController): Router => {
   const apiRouter = Router();
 
-  // routers
-  console.log('first');
-  testRouteHandlers(apiRouter);
+  physioRoutesHandler({ createDoctorController }, apiRouter);
 
   return apiRouter;
 };

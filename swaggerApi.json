@@ -9,17 +9,49 @@
   "basePath": "/",
   "schemes": ["http", "https"],
   "paths": {
-    "/test": {
-      "get": {
-        "tags": ["tests"],
-        "summary": "Some summary...",
-        "description": "Some description...",
+    "/create-doctor": {
+      "post": {
+        "tags": ["Admin"],
+        "summary": "Admin creates doctor",
+        "description": "",
         "responses": {
-          "200": {
-            "description": "OK"
+          "201": {
+            "description": "Created"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/createDoctorRequest"
+              }
+            }
           }
         }
       }
     }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    },
+    "schemas": {
+      "createDoctorRequest": {
+        "firstName": "John",
+        "lastName": "Doe",
+        "role": "PHYSIO",
+        "address": "Kapan"
+      }
+    },
+    "parameters": {}
   }
 }
