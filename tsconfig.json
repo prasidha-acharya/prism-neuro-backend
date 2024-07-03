@@ -18,6 +18,6 @@
     "baseUrl": "."
   },
 
-  "include": ["src/**/**.ts", "lint-staged.config", "config/environments", "**/*.js", "**/*.ts", "**/*.tsx"],
+  "include": ["src/**/**.ts", "lint-staged.config.js", "config/environments", "**/*.js", "**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules", "dist"]
 }
