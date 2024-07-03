@@ -8,7 +8,7 @@
     "build:tsc": "tsc -p tsconfig.prod.json",
     "build:clean": "rm -r dist; exit 0",
     "tsc": "tsc",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "eslint . --ext ts --ext tsx ",
     "dev:backend": "ts-node-dev ./src/apps/prism-neuro-backend/backend/start.ts",
     "start:backend": "ts-node-dev dist/src/apps/prism-neuro-backend/backend/start",
     "migration:create": "prisma migrate dev --create-only",

@@ -13,7 +13,10 @@
     "ecmaVersion": "latest",
     "sourceType": "module",
     "project": "tsconfig.json",
-    "createDefaultProgram": true
+    "createDefaultProgram": true,
+    "ecmaFeatures": {
+      "jsx": true // Allows for the parsing of JSX
+    }
   },
   "rules": {
     "no-unused-expressions": "off",
