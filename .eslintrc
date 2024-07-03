@@ -8,9 +8,6 @@
 
   "extends": ["eslint-config-prettier"],
   "overrides": [],
-  "plugins": [
-    "@typescript-eslint" // This was missing ;)
-  ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaVersion": "latest",
