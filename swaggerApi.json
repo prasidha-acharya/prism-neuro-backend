@@ -98,6 +98,10 @@
       "createDoctorRequest": {
         "type": "object",
         "properties": {
+          "userName": {
+            "type": "string",
+            "example": "Dr.John"
+          },
           "firstName": {
             "type": "string",
             "example": "John"

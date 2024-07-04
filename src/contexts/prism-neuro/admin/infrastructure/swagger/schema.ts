@@ -1,4 +1,5 @@
 const createDoctorRequest = {
+  userName: 'Dr.John',
   firstName: 'John',
   lastName: 'Doe',
   email: 'user@gmail.com',

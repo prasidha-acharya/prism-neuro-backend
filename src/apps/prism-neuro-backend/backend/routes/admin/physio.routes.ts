@@ -1,13 +1,19 @@
-import { Router } from 'express';
+import { NextFunction, Request, Response, Router } from 'express';
+import { IAuthorizer } from 'src/contexts/shared/domain/model/authentication/authorizer';
 import * as controllers from '../../controllers/index';
 
 interface IHandler {
   createDoctorController: controllers.CreateDoctorController;
 }
 
-export const physioRoutesHandler = ({ createDoctorController }: IHandler, router: Router): Router => {
+export const physioRoutesHandler = (
+  { createDoctorController }: IHandler,
+  adminAuthorizer: IAuthorizer<Request, Response, NextFunction>,
+  router: Router
+): Router => {
   router.post(
     '/admin/create-doctor',
+    adminAuthorizer.authorize,
     createDoctorController.validate,
     createDoctorController.invoke.bind(createDoctorController)
     /* 
