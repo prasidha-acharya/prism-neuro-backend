@@ -1,13 +1,18 @@
 {
-  "swagger": "2.0",
+  "openapi": "3.0.0",
   "info": {
     "title": "Neuro API",
     "description": "Description",
     "version": "1.0.0"
   },
-  "host": ["localhost:4000"],
-  "basePath": "/",
-  "schemes": ["http", "https"],
+  "servers": [
+    {
+      "url": "http://localhost:4000/"
+    },
+    {
+      "url": "https://localhost:4000/"
+    }
+  ],
   "paths": {
     "/auth/login": {
       "post": {
@@ -16,10 +21,19 @@
         "description": "Endpoint for administrators to log in, providing email, password, and optionally device info and device type",
         "responses": {
           "200": {
-            "schema": {
-              "$ref": "#/components/schemas/loginAdminReponse"
-            },
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/loginAdminReponse"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/loginAdminReponse"
+                }
+              }
+            }
           }
         },
         "requestBody": {
@@ -45,7 +59,7 @@
         }
       }
     },
-    "admin/create-doctor": {
+    "/admin/create-doctor": {
       "post": {
         "tags": ["Admin Doctor"],
         "summary": "Admin creates doctor",
@@ -82,28 +96,89 @@
     },
     "schemas": {
       "createDoctorRequest": {
-        "firstName": "John",
-        "lastName": "Doe",
-        "role": "PHYSIO",
-        "address": "Kapan"
+        "type": "object",
+        "properties": {
+          "firstName": {
+            "type": "string",
+            "example": "John"
+          },
+          "lastName": {
+            "type": "string",
+            "example": "Doe"
+          },
+          "email": {
+            "type": "string",
+            "example": "user@gmail.com"
+          },
+          "password": {
+            "type": "string",
+            "example": "12345678"
+          },
+          "address": {
+            "type": "string",
+            "example": "Kapan"
+          }
+        },
+        "xml": {
+          "name": "createDoctorRequest"
+        }
       },
       "loginAdminReponse": {
-        "data": {
-          "token": {
-            "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMzRiZTkxNDctMjRlMi00ZTRlLTkwM2QtM2Y0NDY5MTVhYjM0IiwiZW1haWwiOiJhZG1pbkBnbWFpbC5jb20iLCJyb2xlIjoiQURNSU4iLCJzY29wZSI6WyJhZG1pbjphY2Nlc3MiXSwiaWF0IjoxNzIwMDYyMDA2LCJleHAiOjE3MjAwNjU2MDZ9.pZRkhIGahX8FVaJ5pCBxuBSfoOzDEV3sXGEzcauLMHw",
-            "refresh_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMzRiZTkxNDctMjRlMi00ZTRlLTkwM2QtM2Y0NDY5MTVhYjM0IiwiZW1haWwiOiJhZG1pbkBnbWFpbC5jb20iLCJyb2xlIjoiQURNSU4iLCJzY29wZSI6WyJyZWZyZXNoIl0sImlhdCI6MTcyMDA2MjAwNiwiZXhwIjoxNzIwMDY1ODA2fQ.mN9FoLY5rdXSphhz5RI6URJ691unibI7iUi4h1NiLLc"
-          },
-          "user_detail": {
-            "id": "34be9147-24e2-4e4e-903d-3f446915ab34",
-            "email": "admin@gmail.com",
-            "userName": "Prism Neuro",
-            "firstName": null,
-            "lastName": null,
-            "createdAt": "2024-07-04T02:35:27.666Z",
-            "updatedAt": "2024-07-04T02:35:27.666Z",
-            "deletedAt": null,
-            "role": "ADMIN"
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "object",
+            "properties": {
+              "token": {
+                "type": "object",
+                "properties": {
+                  "access_token": {
+                    "type": "string",
+                    "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMzRiZTkxNDctMjRlMi00ZTRlLTkwM2QtM2Y0NDY5MTVhYjM0IiwiZW1haWwiOiJhZG1pbkBnbWFpbC5jb20iLCJyb2xlIjoiQURNSU4iLCJzY29wZSI6WyJhZG1pbjphY2Nlc3MiXSwiaWF0IjoxNzIwMDYyMDA2LCJleHAiOjE3MjAwNjU2MDZ9.pZRkhIGahX8FVaJ5pCBxuBSfoOzDEV3sXGEzcauLMHw"
+                  },
+                  "refresh_token": {
+                    "type": "string",
+                    "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMzRiZTkxNDctMjRlMi00ZTRlLTkwM2QtM2Y0NDY5MTVhYjM0IiwiZW1haWwiOiJhZG1pbkBnbWFpbC5jb20iLCJyb2xlIjoiQURNSU4iLCJzY29wZSI6WyJyZWZyZXNoIl0sImlhdCI6MTcyMDA2MjAwNiwiZXhwIjoxNzIwMDY1ODA2fQ.mN9FoLY5rdXSphhz5RI6URJ691unibI7iUi4h1NiLLc"
+                  }
+                }
+              },
+              "user_detail": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "example": "34be9147-24e2-4e4e-903d-3f446915ab34"
+                  },
+                  "email": {
+                    "type": "string",
+                    "example": "admin@gmail.com"
+                  },
+                  "userName": {
+                    "type": "string",
+                    "example": "Prism Neuro"
+                  },
+                  "firstName": {},
+                  "lastName": {},
+                  "createdAt": {
+                    "type": "string",
+                    "example": "2024-07-04T02:35:27.666Z"
+                  },
+                  "updatedAt": {
+                    "type": "string",
+                    "example": "2024-07-04T02:35:27.666Z"
+                  },
+                  "deletedAt": {},
+                  "role": {
+                    "type": "string",
+                    "example": "ADMIN"
+                  }
+                }
+              }
+            }
           }
+        },
+        "xml": {
+          "name": "loginAdminReponse"
         }
       }
     },

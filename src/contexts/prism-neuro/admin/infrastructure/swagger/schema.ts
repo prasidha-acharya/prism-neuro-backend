@@ -1,7 +1,8 @@
 const createDoctorRequest = {
   firstName: 'John',
   lastName: 'Doe',
-  role: 'PHYSIO',
+  email: 'user@gmail.com',
+  password: '12345678',
   address: 'Kapan'
 };
 
