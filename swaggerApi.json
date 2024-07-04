@@ -9,6 +9,42 @@
   "basePath": "/",
   "schemes": ["http", "https"],
   "paths": {
+    "/auth/login": {
+      "post": {
+        "tags": ["Admin Auth"],
+        "summary": "Login for Admin Controller",
+        "description": "Endpoint for administrators to log in, providing email, password, and optionally device info and device type",
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/components/schemas/loginAdminResponse"
+            },
+            "description": "OK"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["email", "password"],
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "format": "email"
+                  },
+                  "password": {
+                    "type": "string",
+                    "minLength": 6
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/create-doctor": {
       "post": {
         "tags": ["Admin"],
