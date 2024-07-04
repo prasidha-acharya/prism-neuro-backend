@@ -1,5 +1,10 @@
 import { PrismaClient, User, UserSession } from '@prisma/client';
-import { ICreateAdminRequest, ICreateDoctorRequest, ICreatePatientRequest } from '../../domain/interface/user-request.interface';
+import {
+  ICreateAdminRequest,
+  ICreateDoctorRequest,
+  ICreatePatientRequest,
+  IUpdateDoctorRequest
+} from '../../domain/interface/user-request.interface';
 import { CreateSession } from '../../domain/interface/user-session.interface';
 import { IPrismaUserRepository } from '../../domain/repositories/users-repository';
 
@@ -47,6 +52,28 @@ export class PrismaUserRepository implements IPrismaUserRepository {
     });
   }
 
+  updatePatientByDoctor(request: IUpdateDoctorRequest): Promise<User | null> {
+    return this.db.user.update({
+      where: {
+        id: request.id,
+        deletedAt: {
+          not: null
+        }
+      },
+      data: {
+        ...request.data
+      }
+    });
+  }
+
+  async deletePatientByDoctor(userId: string): Promise<void> {
+    await this.db.user.delete({
+      where: {
+        id: userId
+      }
+    });
+  }
+
   async createAdmin(request: ICreateAdminRequest): Promise<void> {
     await this.db.user.create({
       data: {
@@ -81,6 +108,28 @@ export class PrismaUserRepository implements IPrismaUserRepository {
             address
           }
         }
+      }
+    });
+  }
+
+  updateDoctorByAdmin(request: IUpdateDoctorRequest): Promise<User | null> {
+    return this.db.user.update({
+      where: {
+        id: request.id,
+        deletedAt: {
+          not: null
+        }
+      },
+      data: {
+        ...request.data
+      }
+    });
+  }
+
+  async deleteDoctorByAdmin(userId: string): Promise<void> {
+    await this.db.user.delete({
+      where: {
+        id: userId
       }
     });
   }
