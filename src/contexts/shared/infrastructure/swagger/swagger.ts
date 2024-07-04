@@ -9,7 +9,7 @@ const doc = {
     description: 'Description'
   },
   schemes: ['http', 'https'],
-  host: [`${config.BASE_URL}`],
+  host: [`${config.BASE_URL}/api`],
   components: {
     securitySchemes: {
       bearerAuth: {
