@@ -5,6 +5,7 @@ interface IHandler {
   loginDoctorController: controllers.LoginDoctorController;
 }
 export const doctorRoutesHandler = ({ loginDoctorController }: IHandler, router: Router): Router => {
+  console.log('first ========================>=  ================');
   router.post(
     '/doctor/login',
     loginDoctorController.validate,

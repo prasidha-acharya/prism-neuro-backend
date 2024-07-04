@@ -18,7 +18,7 @@ export const userRoutesHandler = (
     refreshAuthorizer.authorize,
     generateAccessTokenController.invoke.bind(generateAccessTokenController)
     /*
-        #swagger.tags = ['Users']
+        #swagger.tags = ['User']
         #swagger.security = [{
               "bearerAuth": []
             }]
@@ -34,7 +34,7 @@ export const userRoutesHandler = (
     userAuthorizer.authorize,
     userLogoutController.invoke.bind(userLogoutController)
     /*
-        #swagger.tags = ['Users']
+        #swagger.tags = ['User']
         #swagger.security = [{
               "bearerAuth": []
             }]

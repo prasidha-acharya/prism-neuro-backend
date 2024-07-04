@@ -6,7 +6,7 @@ import * as controllers from '../controllers';
 import { adminAuthRoutesHandler } from './admin/auth.routes';
 import { physioRoutesHandler } from './admin/physio.routes';
 import { userRoutesHandler } from './admin/user.routes';
-import { doctorRoutesHandler } from './doctor/doctor.route';
+import { doctorRoutesHandler } from './doctor/doctor.routes';
 import { PatientRoutesHandler } from './patient/patient.routes';
 
 export const masterRouter = (

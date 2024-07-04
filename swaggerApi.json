@@ -88,7 +88,7 @@
     },
     "/refresh": {
       "get": {
-        "tags": ["Users"],
+        "tags": ["User"],
         "description": "",
         "responses": {
           "200": {
@@ -116,7 +116,7 @@
     },
     "/logout": {
       "get": {
-        "tags": ["Users"],
+        "tags": ["User"],
         "description": "",
         "responses": {
           "200": {
@@ -140,6 +140,51 @@
             "bearerAuth": []
           }
         ]
+      }
+    },
+    "/doctor/login": {
+      "post": {
+        "tags": ["Doctor"],
+        "summary": "Login for Admin Controller",
+        "description": "Endpoint for administrators to log in, providing email, password, and optionally device info and device type",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/loginAdminReponse"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/loginAdminReponse"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["email", "password"],
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "format": "email"
+                  },
+                  "password": {
+                    "type": "string",
+                    "minLength": 6
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/patient/login": {
