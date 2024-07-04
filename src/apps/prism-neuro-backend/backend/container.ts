@@ -1,9 +1,9 @@
 import { AwilixContainer, InjectionMode, asClass, asFunction, asValue, createContainer } from 'awilix';
-import { PrismaDoctorRepository } from 'src/contexts/prism-neuro/admin/infrastructure/repositories/prisma-doctor-repository';
 import { config } from '../../../../config';
 import { CreateDoctorService } from '../../../contexts/prism-neuro/admin/application/create-doctor.service';
 import { GetAdminByEmailService } from '../../../contexts/prism-neuro/admin/application/get-admin-email.service';
 import { PrismaAdminRepository } from '../../../contexts/prism-neuro/admin/infrastructure/repositories/prisma-admin-repository';
+import { PrismaDoctorRepository } from '../../../contexts/prism-neuro/admin/infrastructure/repositories/prisma-doctor-repository';
 import { CreateAdminSeeder } from '../../../contexts/prism-neuro/admin/infrastructure/seeders/create-admin.seeder';
 import { JWTAdminAuthorizer } from '../../../contexts/shared/infrastructure/authorizer/admin.authorizer';
 import { ErrorMiddleware } from '../../../contexts/shared/infrastructure/middleware/error-middleware';

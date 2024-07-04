@@ -8,6 +8,5 @@ export interface ICreateAdmin {
 }
 
 export interface ICreateAdminRequest extends ICreateAdmin {
-  id: string;
   role: UserRoles;
 }
