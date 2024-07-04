@@ -1,5 +1,5 @@
 import { Configuration } from '../../../../config';
-import { CreateAdminSeeder } from '../../../contexts/prism-neuro/admin/infrastructure/seeders/create-admin.seeder';
+import { CreateAdminSeeder } from '../../../contexts/prism-neuro/users/infrastructure/seeders/create-admin.seeder';
 import { Container } from './container';
 import { Server } from './server';
 const container = new Container();

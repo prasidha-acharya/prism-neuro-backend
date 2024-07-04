@@ -1,7 +1,7 @@
 import path from 'path';
 import swaggerAutogen from 'swagger-autogen';
 import { config } from '../../../../../config/index';
-import { AdminSchema } from '../../../../contexts/prism-neuro/admin/infrastructure/swagger/schema';
+import { AdminSchema } from '../../../../contexts/prism-neuro/users/infrastructure/swagger/schema';
 
 const doc = {
   info: {

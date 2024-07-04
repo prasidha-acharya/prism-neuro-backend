@@ -4,7 +4,7 @@ import { ParamsDictionary } from 'express-serve-static-core';
 import { body } from 'express-validator';
 import httpStatus from 'http-status';
 import { ParsedQs } from 'qs';
-import { CreateDoctorService } from '../../../../../../contexts/prism-neuro/admin/application/create-doctor.service';
+import { CreateDoctorService } from '../../../../../../contexts/prism-neuro/users/application/create-doctor.service';
 import { hashPassword } from '../../../../../../contexts/shared/infrastructure/encryptor/encryptor';
 import { RequestValidator } from '../../../../../../contexts/shared/infrastructure/middleware/request-validator';
 import { MESSAGE_CODES } from '../../../../../../contexts/shared/infrastructure/utils/message-code';

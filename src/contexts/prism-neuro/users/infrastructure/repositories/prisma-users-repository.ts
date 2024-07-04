@@ -1,8 +1,9 @@
 import { PrismaClient, User } from '@prisma/client';
 import { ICreateAdminRequest } from '../../domain/interface/create-admin';
-import { IPrismaAdminRepository } from '../../domain/repositories/admin-repository';
+import { ICreateDoctorRequest } from '../../domain/interface/create-doctor';
+import { IPrismaUserRepository } from '../../domain/repositories/users-repository';
 
-export class PrismaAdminRepository implements IPrismaAdminRepository {
+export class PrismaUserRepository implements IPrismaUserRepository {
   constructor(private db: PrismaClient) {}
 
   async createAdmin(request: ICreateAdminRequest): Promise<void> {
@@ -25,6 +26,20 @@ export class PrismaAdminRepository implements IPrismaAdminRepository {
     return this.db.user.findFirst({
       where: {
         email
+      }
+    });
+  }
+
+  async createDoctor(request: ICreateDoctorRequest): Promise<void> {
+    const { address, ...remainigRequest } = request;
+    await this.db.user.create({
+      data: {
+        ...remainigRequest,
+        UserDetail: {
+          create: {
+            address
+          }
+        }
       }
     });
   }

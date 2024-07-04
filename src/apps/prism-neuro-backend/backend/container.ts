@@ -1,10 +1,9 @@
 import { AwilixContainer, InjectionMode, asClass, asFunction, asValue, createContainer } from 'awilix';
 import { config } from '../../../../config';
-import { CreateDoctorService } from '../../../contexts/prism-neuro/admin/application/create-doctor.service';
-import { GetAdminByEmailService } from '../../../contexts/prism-neuro/admin/application/get-admin-email.service';
-import { PrismaAdminRepository } from '../../../contexts/prism-neuro/admin/infrastructure/repositories/prisma-admin-repository';
-import { PrismaDoctorRepository } from '../../../contexts/prism-neuro/admin/infrastructure/repositories/prisma-doctor-repository';
-import { CreateAdminSeeder } from '../../../contexts/prism-neuro/admin/infrastructure/seeders/create-admin.seeder';
+import { CreateDoctorService } from '../../../contexts/prism-neuro/users/application/create-doctor.service';
+import { GetAdminByEmailService } from '../../../contexts/prism-neuro/users/application/get-admin-email.service';
+import { PrismaUserRepository } from '../../../contexts/prism-neuro/users/infrastructure/repositories/prisma-users-repository';
+import { CreateAdminSeeder } from '../../../contexts/prism-neuro/users/infrastructure/seeders/create-admin.seeder';
 import { JWTAdminAuthorizer } from '../../../contexts/shared/infrastructure/authorizer/admin.authorizer';
 import { ErrorMiddleware } from '../../../contexts/shared/infrastructure/middleware/error-middleware';
 import { createPrismaClient } from '../../../contexts/shared/infrastructure/persistence/prisma';
@@ -43,7 +42,7 @@ export class Container {
       })
       // admin repository
       .register({
-        prismaAdminRepository: asClass(PrismaAdminRepository),
+        prismaUserRepository: asClass(PrismaUserRepository),
         createDoctorService: asClass(CreateDoctorService).singleton(),
         createDoctorController: asClass(CreateDoctorController),
         getAdminByEmailService: asClass(GetAdminByEmailService).singleton()
@@ -51,10 +50,6 @@ export class Container {
       //admin auth
       .register({
         loginAdminController: asClass(LoginAdminController)
-      })
-      //admin doctor
-      .register({
-        prismaDoctorRepository: asClass(PrismaDoctorRepository).singleton()
       })
       //authorizer
       .register({

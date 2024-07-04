@@ -4,7 +4,7 @@ import { ParamsDictionary } from 'express-serve-static-core';
 import { body } from 'express-validator';
 import httpStatus from 'http-status';
 import { ParsedQs } from 'qs';
-import { GetAdminByEmailService } from '../../../../../../contexts/prism-neuro/admin/application/get-admin-email.service';
+import { GetAdminByEmailService } from '../../../../../../contexts/prism-neuro/users/application/get-admin-email.service';
 import { Payload, TokenScope } from '../../../../../../contexts/shared/domain/interface/payload';
 import { JWTSign } from '../../../../../../contexts/shared/infrastructure/authorizer/jwt-token';
 import { comparePassword } from '../../../../../../contexts/shared/infrastructure/encryptor/encryptor';
