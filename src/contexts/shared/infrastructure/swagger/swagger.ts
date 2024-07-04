@@ -1,7 +1,7 @@
-import swaggerAutogen from 'swagger-autogen';
 import path from 'path';
-
+import swaggerAutogen from 'swagger-autogen';
 import { config } from '../../../../../config/index';
+import { AdminSchema } from '../../../../contexts/prism-neuro/users/infrastructure/swagger/schema';
 
 const doc = {
   info: {
@@ -9,7 +9,20 @@ const doc = {
     description: 'Description'
   },
   schemes: ['http', 'https'],
-  host: [`${config.BASE_URL}`]
+  host: [`${config.BASE_URL}/api`],
+  components: {
+    securitySchemes: {
+      bearerAuth: {
+        type: 'http',
+        scheme: 'bearer'
+      }
+    },
+    schemas: {
+      createDoctorRequest: AdminSchema.createDoctorRequest,
+      loginAdminReponse: AdminSchema.loginAdminReponse
+    },
+    parameters: {}
+  }
 };
 
 const routes = [path.join(__dirname, '../../../../apps/prism-neuro-backend/backend/routes/**/*.routes.ts')];
@@ -18,4 +31,4 @@ const outputFile = path.join(__dirname, '../../../../../swaggerApi.json');
 /* NOTE: If you are using the express Router, you must pass in the 'routes' only the 
 root file where the route starts, such as index.js, app.js, routes.js, etc ... */
 
-swaggerAutogen()(outputFile, routes, doc);
+swaggerAutogen({ openapi: '3.0.0' })(outputFile, routes, doc);

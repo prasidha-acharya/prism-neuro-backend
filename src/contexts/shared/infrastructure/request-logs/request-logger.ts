@@ -1,19 +1,19 @@
 import { PrismaClient } from '@prisma/client';
-import { RequestHandler as Middleware, NextFunction, Request, Response } from 'express';
 import { randomUUID } from 'crypto';
+import { RequestHandler as Middleware, NextFunction, Request, Response } from 'express';
 
 export class RequestLogger {
   constructor(private db: PrismaClient) {}
 
   public logs: Middleware = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    const request_log_id = randomUUID();
+    const id = randomUUID();
     try {
       const { headers, body, method, url } = req;
 
       if (req.method !== 'OPTIONS') {
         const requestLogs = await this.db.requestResponseLogs.create({
           data: {
-            request_log_id,
+            id,
             method,
             url,
             request: {
@@ -32,11 +32,11 @@ export class RequestLogger {
           this.db.requestResponseLogs
             .update({
               where: {
-                request_log_id: requestLogs.request_log_id
+                id: requestLogs.id
               },
               data: {
-                status_code: res.statusCode,
-                user_id: user_id ?? '',
+                statusCode: res.statusCode,
+                userId: user_id ?? '',
                 response: {
                   body
                 }
