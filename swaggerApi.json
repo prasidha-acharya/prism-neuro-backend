@@ -5,7 +5,7 @@
     "description": "Description",
     "version": "1.0.0"
   },
-  "host": ["localhost:8000"],
+  "host": ["localhost:4000"],
   "basePath": "/",
   "schemes": ["http", "https"],
   "paths": {
@@ -45,9 +45,9 @@
         }
       }
     },
-    "/create-doctor": {
+    "admin/create-doctor": {
       "post": {
-        "tags": ["Admin"],
+        "tags": ["Admin Doctor"],
         "summary": "Admin creates doctor",
         "description": "",
         "responses": {

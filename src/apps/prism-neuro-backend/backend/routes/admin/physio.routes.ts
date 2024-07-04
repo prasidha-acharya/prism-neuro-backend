@@ -7,13 +7,13 @@ interface IHandler {
 
 export const physioRoutesHandler = ({ createDoctorController }: IHandler, router: Router): Router => {
   router.post(
-    '/create-doctor',
+    'admin/create-doctor',
     createDoctorController.invoke.bind(createDoctorController)
     /* 
     #swagger.security = [{
             "bearerAuth": []
     }] 
-   #swagger.tags = ['Admin']
+   #swagger.tags = ['Admin Doctor']
    #swagger.summary = 'Admin creates doctor'
    #swagger.description = ''
    #swagger.requestBody = {
