@@ -1,5 +1,5 @@
-import { ICreateAdminRequest } from '../interface/create-admin';
+import { ICreateDoctorRequest } from '../interface/create-doctor';
 
 export interface IDoctorRepository {
-  createAdmin(request: ICreateAdminRequest): Promise<void>;
+  createDoctor(request: ICreateDoctorRequest): Promise<void>;
 }

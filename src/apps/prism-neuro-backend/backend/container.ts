@@ -1,4 +1,5 @@
 import { AwilixContainer, InjectionMode, asClass, asFunction, asValue, createContainer } from 'awilix';
+import { PrismaDoctorRepository } from 'src/contexts/prism-neuro/admin/infrastructure/repositories/prisma-doctor-repository';
 import { config } from '../../../../config';
 import { CreateDoctorService } from '../../../contexts/prism-neuro/admin/application/create-doctor.service';
 import { GetAdminByEmailService } from '../../../contexts/prism-neuro/admin/application/get-admin-email.service';
@@ -46,6 +47,11 @@ export class Container {
         createDoctorController: asClass(CreateDoctorController),
         getAdminByEmailService: asClass(GetAdminByEmailService).singleton()
       })
+      //admin doctor
+      .register({
+        prismaDoctorRepository: asClass(PrismaDoctorRepository).singleton()
+      })
+      //authorizer
       .register({
         adminAuthorizer: asClass(JWTAdminAuthorizer).singleton()
       })
