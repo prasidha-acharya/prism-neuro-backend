@@ -37,7 +37,7 @@ export class CreateDoctorController implements Controller {
       await this.createDoctorService.invoke({
         firstName,
         lastName,
-        email,
+        email: email.toLowerCase(),
         password: hashPassword(password),
         address,
         role: UserRoles.PHYSIO,
