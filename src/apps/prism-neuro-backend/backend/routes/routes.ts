@@ -1,8 +1,11 @@
 import { NextFunction, Request, Response, Router } from 'express';
-import { IAuthorizer } from 'src/contexts/shared/domain/model/authentication/authorizer';
+import { RefreshAuthorizer } from 'src/contexts/shared/infrastructure/authorizer/refresh.authorizer';
+import { JWTUserAuthorizer } from 'src/contexts/shared/infrastructure/authorizer/user.authorizer';
+import { IAuthorizer } from '../../../../contexts/shared/domain/model/authentication/authorizer';
 import * as controllers from '../controllers';
 import { adminAuthRoutesHandler } from './admin/auth.routes';
 import { physioRoutesHandler } from './admin/physio.routes';
+import { userRoutesHandler } from './admin/user.routes';
 import { doctorRoutesHandler } from './doctor/doctor.route';
 import { PatientRoutesHandler } from './patient/patient.routes';
 
@@ -10,7 +13,11 @@ export const masterRouter = (
   createDoctorController: controllers.CreateDoctorController,
   loginAdminController: controllers.LoginAdminController,
   loginPatientController: controllers.LoginPatientController,
-  adminAuthorizer: IAuthorizer<Request, Response, NextFunction>
+  adminAuthorizer: IAuthorizer<Request, Response, NextFunction>,
+  userLogoutController: controllers.UserLogoutController,
+  generateAccessTokenController: controllers.GenerateAccessTokenController,
+  refreshAuthorizer: RefreshAuthorizer,
+  userAuthorizer: JWTUserAuthorizer
 ): Router => {
   const apiRouter = Router();
 
@@ -18,6 +25,7 @@ export const masterRouter = (
   adminAuthRoutesHandler({ loginAdminController }, apiRouter);
   doctorRoutesHandler({}, apiRouter);
   PatientRoutesHandler({ loginPatientController }, apiRouter);
+  userRoutesHandler({ userLogoutController, generateAccessTokenController }, userAuthorizer, refreshAuthorizer, apiRouter);
 
   return apiRouter;
 };

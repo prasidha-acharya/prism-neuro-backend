@@ -26,7 +26,7 @@ export class GenerateAccessTokenController implements Controller {
         throw new HTTP400Error(MESSAGE_CODES.USER.INVALID_REFRESH_TOKEN);
       }
 
-      const payload: Payload = { user_id, email, role, session_id, scopes };
+      const payload: Payload = { userId: user_id, email, role, sessionId: session_id, scopes };
       const jwtToken = JWTSign(
         payload,
         this.config.JWT_SECRET,

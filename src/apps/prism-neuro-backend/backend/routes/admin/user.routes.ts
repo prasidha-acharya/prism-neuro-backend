@@ -3,17 +3,19 @@ import { IAuthorizer } from 'src/contexts/shared/domain/model/authentication/aut
 import * as controllers from '../../controllers/index';
 
 interface IHandler {
-  generateAccessTokenController: controllers.CreateDoctorController;
+  userLogoutController: controllers.UserLogoutController;
+  generateAccessTokenController: controllers.GenerateAccessTokenController;
 }
 
 export const userRoutesHandler = (
-  { generateAccessTokenController }: IHandler,
-  adminAuthorizer: IAuthorizer<Request, Response, NextFunction>,
+  { userLogoutController, generateAccessTokenController }: IHandler,
+  userAuthorizer: IAuthorizer<Request, Response, NextFunction>,
+  refreshAuthorizer: IAuthorizer<Request, Response, NextFunction>,
   router: Router
 ): Router => {
   router.get(
     '/refresh',
-    // refreshAuthorizer.authorize,
+    refreshAuthorizer.authorize,
     generateAccessTokenController.invoke.bind(generateAccessTokenController)
     /*
         #swagger.tags = ['Users']
@@ -29,8 +31,8 @@ export const userRoutesHandler = (
   );
   router.get(
     '/logout',
-    // refreshAuthorizer.authorize,
-    generateAccessTokenController.invoke.bind(generateAccessTokenController)
+    userAuthorizer.authorize,
+    userLogoutController.invoke.bind(userLogoutController)
     /*
         #swagger.tags = ['Users']
         #swagger.security = [{

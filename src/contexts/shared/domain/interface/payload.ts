@@ -6,8 +6,8 @@ export enum TokenScope {
 }
 
 export interface Payload {
-  user_id: string;
-  session_id: string;
+  userId: string;
+  sessionId: string;
   email: string;
   scopes: TokenScope[];
   role: string;

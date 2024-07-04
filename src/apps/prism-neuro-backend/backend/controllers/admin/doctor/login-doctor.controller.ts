@@ -52,9 +52,9 @@ export class LoginDoctorController implements Controller {
       }
 
       const payload: Payload = {
-        user_id: user.id!,
+        userId: user.id!,
         email: user.email!,
-        session_id: sessionResponse.id,
+        sessionId: sessionResponse.id,
         role: user.role,
         scopes: [TokenScope.PHYSIO_ACCESS]
       };

@@ -5,10 +5,11 @@ import { IAuthorizer } from '../../domain/model/authentication/authorizer';
 // var jwt = require('jsonwebtoken');
 import { UserRoles } from '@prisma/client';
 import jwt from 'jsonwebtoken';
+import { GetUserSessionService } from '../../../../contexts/prism-neuro/users/application/get-user-session.service';
 import { Payload, TokenScope } from '../../domain/interface/payload';
 
 export class JWTAdminAuthorizer implements IAuthorizer<Request, Response, NextFunction> {
-  constructor() {}
+  constructor(private getUserSessionService: GetUserSessionService) {}
 
   public authorize: Middleware = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     const { authorization } = req.headers;
@@ -19,11 +20,11 @@ export class JWTAdminAuthorizer implements IAuthorizer<Request, Response, NextFu
     try {
       const payload: Payload = jwt.verify(token, process.env.JWT_SECRET_TOKEN!) as Payload;
 
-      //   const userSession = await this.getUserSessionService.invoke(payload.session_id);
+      const userSession = await this.getUserSessionService.invoke(payload.sessionId);
 
-      //   if (!userSession || userSession.user_id !== payload.user_id) {
-      //     throw new HTTP401Error();
-      //   }
+      if (!userSession || userSession.userId !== payload.userId) {
+        throw new HTTP401Error();
+      }
 
       if (payload.role === UserRoles.ADMIN && payload.scopes.includes(TokenScope.ADMIN_ACCESS)) {
         req.body.user = payload;
