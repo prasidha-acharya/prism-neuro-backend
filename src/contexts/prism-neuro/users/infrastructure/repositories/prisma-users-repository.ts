@@ -22,7 +22,7 @@ export class PrismaUserRepository implements IPrismaUserRepository {
     });
   }
 
-  async getAdminById(email: string): Promise<User | null> {
+  async getAdminByEmail(email: string): Promise<User | null> {
     return this.db.user.findFirst({
       where: {
         email

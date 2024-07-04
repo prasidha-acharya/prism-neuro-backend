@@ -7,7 +7,7 @@ export class CreateAdminSeeder {
 
   public async invoke(): Promise<void> {
     try {
-      const isSuperUserExists = await this.prismaUserRepository.getAdminById(adminUser.email);
+      const isSuperUserExists = await this.prismaUserRepository.getAdminByEmail(adminUser.email);
       if (!isSuperUserExists) {
         await this.prismaUserRepository.createAdmin({ ...adminUser, password: hashPassword(adminUser.password), role: UserRoles.ADMIN });
       }
