@@ -39,7 +39,7 @@ export class PrismaUserRepository implements IPrismaUserRepository {
         role: request.role,
         password: request.password,
         userName: request.userName,
-        userDetail: {
+        userDetails: {
           create: {
             address: request.address
           }
@@ -55,7 +55,7 @@ export class PrismaUserRepository implements IPrismaUserRepository {
         role: request.role,
         password: request.password,
         userName: request.userName,
-        userDetail: {
+        userDetails: {
           create: {
             address: request.address
           }
@@ -77,7 +77,7 @@ export class PrismaUserRepository implements IPrismaUserRepository {
     await this.db.user.create({
       data: {
         ...remainigRequest,
-        userDetail: {
+        userDetails: {
           create: {
             address
           }

@@ -33,38 +33,92 @@ enum UserRoles {
 }
 
 model User {
-  id          String        @id @default(uuid())
-  email       String        @unique
-  userName    String
-  firstName   String?
-  lastName    String?
-  password    String
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
-  deletedAt   DateTime?
-  role        UserRoles
-  userDetail  UserDetail?
-  userSession UserSession[]
+  id           String        @id @default(uuid())
+  email        String        @unique
+  userName     String
+  firstName    String?
+  lastName     String?
+  password     String
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  deletedAt    DateTime?
+  role         UserRoles
+  userDetails  UserDetail[]
+  userSessions UserSession[]
 }
 
 model UserDetail {
   id          String    @id @default(uuid())
-  userEmail   String    @unique
+  userId      String
   phoneNumber String?
   phoneCode   String?
   address     String
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
   deletedAt   DateTime?
-  user        User      @relation(fields: [userEmail], references: [email])
+  user        User      @relation(fields: [userId], references: [id])
 }
 
 model UserSession {
-  id            String    @id @db.VarChar(40)
-  userId        String    @db.VarChar(40)
+  id            String    @id @default(uuid())
+  userId        String
   deviceTokenId String?
   user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt     DateTime  @default(now()) @db.Timestamptz()
   updatedAt     DateTime  @default(now()) @db.Timestamptz()
   deletedAt     DateTime? @db.Timestamptz()
+}
+
+enum ModeSessionStatus {
+  START
+  STOP
+}
+
+model ModeSession {
+  id        String            @id @default(uuid())
+  patientId String
+  doctorId  String
+  modeId    String
+  status    ModeSessionStatus
+  createdAt DateTime          @default(now()) @db.Timestamptz()
+  updatedAt DateTime          @default(now()) @db.Timestamptz()
+  deletedAt DateTime?         @db.Timestamptz()
+}
+
+model Mode {
+  id               String             @id @default(uuid())
+  name             String
+  images           String[]
+  trialCount       Int
+  trialDuration    Int
+  type             String
+  createdAt        DateTime           @default(now()) @db.Timestamptz()
+  updatedAt        DateTime           @default(now()) @db.Timestamptz()
+  deletedAt        DateTime?          @db.Timestamptz()
+  modeDetail       ModeDetail?
+  ModeTrialSession ModeTrialSession[]
+}
+
+model ModeDetail {
+  id        String    @id @default(uuid())
+  imageUrls String[]
+  videoUrls String[]
+  createdAt DateTime  @default(now()) @db.Timestamptz()
+  updatedAt DateTime  @default(now()) @db.Timestamptz()
+  deletedAt DateTime? @db.Timestamptz()
+  modeId    String    @unique
+  mode      Mode      @relation(fields: [modeId], references: [id])
+}
+
+enum ModeTrialSessionStatus {
+  COMPLETED
+}
+
+model ModeTrialSession {
+  id        String                  @id @default(uuid())
+  startTime DateTime?
+  endTime   DateTime?
+  status    ModeTrialSessionStatus?
+  mode      Mode                    @relation(fields: [modeId], references: [id])
+  modeId    String
 }

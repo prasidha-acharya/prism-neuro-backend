@@ -1,4 +1,5 @@
 import { AwilixContainer, InjectionMode, asClass, asFunction, asValue, createContainer } from 'awilix';
+import { AddUserSessionService } from 'src/contexts/prism-neuro/users/application/create-user-session.service';
 import { config } from '../../../../config';
 import { CreateDoctorByAdminService } from '../../../contexts/prism-neuro/users/application/create-doctor-by-admin.service';
 import { GetAdminByEmailService } from '../../../contexts/prism-neuro/users/application/get-admin-email.service';
@@ -57,6 +58,10 @@ export class Container {
       .register({
         adminAuthorizer: asClass(JWTAdminAuthorizer).singleton(),
         generateAccessTokenController: asClass(GenerateAccessTokenController).singleton()
+      })
+      // user session
+      .register({
+        addUserSessionService: asClass(AddUserSessionService).singleton()
       })
       // patient login
       .register({
