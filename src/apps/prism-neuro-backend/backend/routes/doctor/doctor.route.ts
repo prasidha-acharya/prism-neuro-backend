@@ -7,6 +7,7 @@ interface IHandler {
 export const doctorRoutesHandler = ({ loginDoctorController }: IHandler, router: Router): Router => {
   router.post(
     '/doctor/login',
+    loginDoctorController.validate,
     loginDoctorController.invoke.bind(loginDoctorController)
     /*
       #swagger.tags = ['Doctor']
