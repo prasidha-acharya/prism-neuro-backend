@@ -33,17 +33,18 @@ enum UserRoles {
 }
 
 model User {
-  id         String      @id @default(uuid())
-  email      String      @unique
-  userName   String
-  firstName  String?
-  lastName   String?
-  password   String
-  createdAt  DateTime    @default(now())
-  updatedAt  DateTime    @updatedAt
-  deletedAt  DateTime?
-  role       UserRoles
-  UserDetail UserDetail?
+  id          String        @id @default(uuid())
+  email       String        @unique
+  userName    String
+  firstName   String?
+  lastName    String?
+  password    String
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  deletedAt   DateTime?
+  role        UserRoles
+  userDetail  UserDetail?
+  userSession UserSession[]
 }
 
 model UserDetail {
@@ -56,4 +57,14 @@ model UserDetail {
   updatedAt   DateTime  @updatedAt
   deletedAt   DateTime?
   user        User      @relation(fields: [userEmail], references: [email])
+}
+
+model UserSession {
+  id            String    @id @db.VarChar(40)
+  userId        String    @db.VarChar(40)
+  deviceTokenId String?
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt     DateTime  @default(now()) @db.Timestamptz()
+  updatedAt     DateTime  @default(now()) @db.Timestamptz()
+  deletedAt     DateTime? @db.Timestamptz()
 }

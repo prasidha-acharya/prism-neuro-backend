@@ -3,6 +3,7 @@ import { IAuthorizer } from 'src/contexts/shared/domain/model/authentication/aut
 import * as controllers from '../controllers';
 import { adminAuthRoutesHandler } from './admin/auth.routes';
 import { physioRoutesHandler } from './admin/physio.routes';
+import { doctorRoutesHandler } from './doctor/doctor.route';
 
 export const masterRouter = (
   createDoctorController: controllers.CreateDoctorController,
@@ -13,6 +14,7 @@ export const masterRouter = (
 
   physioRoutesHandler({ createDoctorController }, adminAuthorizer, apiRouter);
   adminAuthRoutesHandler({ loginAdminController }, apiRouter);
+  doctorRoutesHandler({}, apiRouter);
 
   return apiRouter;
 };
