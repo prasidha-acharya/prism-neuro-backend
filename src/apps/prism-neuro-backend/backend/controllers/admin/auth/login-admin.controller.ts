@@ -17,6 +17,7 @@ export class LoginAdminController implements Controller {
     private getAdminByEmailService: GetAdminByEmailService,
     private config: Configuration
   ) {}
+
   public validate = [
     body('email').exists().withMessage(MESSAGE_CODES.USER.REQUIRED_EMAIL).isEmail().withMessage(MESSAGE_CODES.USER.INVALID_EMAIL),
     body('password')
@@ -28,6 +29,7 @@ export class LoginAdminController implements Controller {
     body('device_type').optional().isString().withMessage(MESSAGE_CODES.USER.INVALID_DEVICE_TYPE),
     RequestValidator
   ];
+
   async invoke(
     req: Request<ParamsDictionary, any, any, ParsedQs, Record<string, any>>,
     res: Response<any, Record<string, any>>,
@@ -44,9 +46,9 @@ export class LoginAdminController implements Controller {
       }
 
       const payload: Payload = {
-        user_id: user.user_id!,
+        user_id: user.id!,
         email: user.email!,
-        role: user.Role!.name!,
+        role: user.role,
         scope: [TokenScope.ADMIN_ACCESS]
       };
 

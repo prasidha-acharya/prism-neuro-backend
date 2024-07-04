@@ -3,6 +3,7 @@ import { RequestHandler as Middleware, NextFunction, Request, Response } from 'e
 import { HTTP401Error } from '../../domain/errors/http.exception';
 import { IAuthorizer } from '../../domain/model/authentication/authorizer';
 // var jwt = require('jsonwebtoken');
+import { UserRoles } from '@prisma/client';
 import jwt from 'jsonwebtoken';
 import { Payload, TokenScope } from '../../domain/interface/payload';
 
