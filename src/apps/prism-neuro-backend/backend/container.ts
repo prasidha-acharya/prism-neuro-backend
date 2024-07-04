@@ -1,7 +1,7 @@
 import { AwilixContainer, InjectionMode, asClass, asFunction, asValue, createContainer } from 'awilix';
-import { AddUserSessionService } from 'src/contexts/prism-neuro/users/application/create-user-session.service';
 import { config } from '../../../../config';
 import { CreateDoctorByAdminService } from '../../../contexts/prism-neuro/users/application/create-doctor-by-admin.service';
+import { AddUserSessionService } from '../../../contexts/prism-neuro/users/application/create-user-session.service';
 import { GetAdminByEmailService } from '../../../contexts/prism-neuro/users/application/get-admin-email.service';
 import { PrismaUserRepository } from '../../../contexts/prism-neuro/users/infrastructure/repositories/prisma-users-repository';
 import { CreateAdminSeeder } from '../../../contexts/prism-neuro/users/infrastructure/seeders/create-admin.seeder';
