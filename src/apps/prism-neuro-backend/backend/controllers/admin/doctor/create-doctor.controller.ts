@@ -4,14 +4,14 @@ import { ParamsDictionary } from 'express-serve-static-core';
 import { body } from 'express-validator';
 import httpStatus from 'http-status';
 import { ParsedQs } from 'qs';
-import { CreateDoctorService } from '../../../../../../contexts/prism-neuro/users/application/create-doctor.service';
+import { CreateDoctorByAdminService } from '../../../../../../contexts/prism-neuro/users/application/create-doctor-by-admin.service';
 import { hashPassword } from '../../../../../../contexts/shared/infrastructure/encryptor/encryptor';
 import { RequestValidator } from '../../../../../../contexts/shared/infrastructure/middleware/request-validator';
 import { MESSAGE_CODES } from '../../../../../../contexts/shared/infrastructure/utils/message-code';
 import { Controller } from '../../controller';
 
 export class CreateDoctorController implements Controller {
-  constructor(private createDoctorService: CreateDoctorService) {}
+  constructor(private createDoctorByAdminService: CreateDoctorByAdminService) {}
 
   public validate = [
     body('email').exists().withMessage(MESSAGE_CODES.USER.REQUIRED_EMAIL).isEmail().withMessage(MESSAGE_CODES.USER.INVALID_EMAIL),
@@ -34,7 +34,7 @@ export class CreateDoctorController implements Controller {
   ): Promise<void> {
     const { firstName, lastName, email, password, address, userName } = req.body;
     try {
-      await this.createDoctorService.invoke({
+      await this.createDoctorByAdminService.invoke({
         firstName,
         lastName,
         email: email.toLowerCase(),
