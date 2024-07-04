@@ -14,7 +14,7 @@ import { ErrorMiddleware } from '../../../contexts/shared/infrastructure/middlew
 import { createPrismaClient } from '../../../contexts/shared/infrastructure/persistence/prisma';
 import { RequestLogger } from '../../../contexts/shared/infrastructure/request-logs/request-logger';
 import { ServerLogger } from '../../../contexts/shared/infrastructure/winston-logger/index';
-import { LoginAdminController } from './controllers';
+import { LoginAdminController, LoginDoctorController } from './controllers';
 import { CreateDoctorController } from './controllers/admin/doctor/create-doctor.controller';
 import { GenerateAccessTokenController } from './controllers/general/access-token.controller';
 import { UserLogoutController } from './controllers/general/logout.controller';
@@ -73,7 +73,8 @@ export class Container {
       })
       // patient login
       .register({
-        loginPatientController: asClass(LoginPatientController)
+        loginPatientController: asClass(LoginPatientController),
+        loginDoctorController: asClass(LoginDoctorController)
       })
       //seeder
       .register({ adminSeeder: asClass(CreateAdminSeeder).singleton() })

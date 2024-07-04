@@ -16,6 +16,7 @@ export const masterRouter = (
   adminAuthorizer: IAuthorizer<Request, Response, NextFunction>,
   userLogoutController: controllers.UserLogoutController,
   generateAccessTokenController: controllers.GenerateAccessTokenController,
+  loginDoctorController: controllers.LoginDoctorController,
   refreshAuthorizer: RefreshAuthorizer,
   userAuthorizer: JWTUserAuthorizer
 ): Router => {
@@ -23,7 +24,7 @@ export const masterRouter = (
 
   physioRoutesHandler({ createDoctorController }, adminAuthorizer, apiRouter);
   adminAuthRoutesHandler({ loginAdminController }, apiRouter);
-  doctorRoutesHandler({}, apiRouter);
+  doctorRoutesHandler({ loginDoctorController }, apiRouter);
   PatientRoutesHandler({ loginPatientController }, apiRouter);
   userRoutesHandler({ userLogoutController, generateAccessTokenController }, userAuthorizer, refreshAuthorizer, apiRouter);
 
