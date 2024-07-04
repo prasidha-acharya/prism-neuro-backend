@@ -27,5 +27,21 @@ export const userRoutesHandler = (
         }
         */
   );
+  router.get(
+    '/logout',
+    // refreshAuthorizer.authorize,
+    generateAccessTokenController.invoke.bind(generateAccessTokenController)
+    /*
+        #swagger.tags = ['Users']
+        #swagger.security = [{
+              "bearerAuth": []
+            }]
+        #swagger.responses[200] = {
+          schema: {
+            $ref: "#/components/schemas/customerRefreshSchema"
+          }
+        }
+        */
+  );
   return router;
 };

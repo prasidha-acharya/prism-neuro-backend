@@ -1,6 +1,6 @@
 export enum TokenScope {
   REFRESH = 'refresh',
-  USER_ACCESS = 'user:access',
+  PATIENT_ACCESS = 'patient:access',
   PHYSIO_ACCESS = 'physio:access',
   ADMIN_ACCESS = 'admin:access'
 }

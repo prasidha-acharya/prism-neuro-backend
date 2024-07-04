@@ -21,7 +21,7 @@ export class GenerateAccessTokenController implements Controller {
       if (role === UserRoles.ADMIN) {
         scopes = [TokenScope.ADMIN_ACCESS];
       } else if (role === UserRoles.PHYSIO) {
-        scopes = [TokenScope.USER_ACCESS];
+        scopes = [TokenScope.PHYSIO_ACCESS];
       } else {
         throw new HTTP400Error(MESSAGE_CODES.USER.INVALID_REFRESH_TOKEN);
       }

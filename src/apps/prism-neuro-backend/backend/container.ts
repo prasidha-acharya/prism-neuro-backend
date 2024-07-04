@@ -12,6 +12,7 @@ import { ServerLogger } from '../../../contexts/shared/infrastructure/winston-lo
 import { LoginAdminController } from './controllers';
 import { CreateDoctorController } from './controllers/admin/doctor/create-doctor.controller';
 import { GenerateAccessTokenController } from './controllers/general/access-token.controller';
+import { LoginPatientController } from './controllers/patient/login-patient.controller';
 import { Router } from './router';
 import { masterRouter } from './routes/routes';
 import { Server } from './server';
@@ -56,6 +57,10 @@ export class Container {
       .register({
         adminAuthorizer: asClass(JWTAdminAuthorizer).singleton(),
         generateAccessTokenController: asClass(GenerateAccessTokenController).singleton()
+      })
+      // patient login
+      .register({
+        loginPatientController: asClass(LoginPatientController)
       })
       //seeder
       .register({ adminSeeder: asClass(CreateAdminSeeder).singleton() });
