@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/unbound-method */
 
-import { NextFunction, Request, Response, Router } from 'express';
-import { IAuthorizer } from '../../../../../contexts/shared/domain/model/authentication/authorizer';
+import { Router } from 'express';
 import * as controller from '../../controllers';
 
 interface Handler {
@@ -10,7 +9,7 @@ interface Handler {
 
 export const adminAuthRoutesHandler = (
   { loginAdminController }: Handler,
-  adminAuthorizer: IAuthorizer<Request, Response, NextFunction>,
+  // adminAuthorizer: IAuthorizer<Request, Response, NextFunction>,
   router: Router
 ): Router => {
   //TODO Swagger request body ref implimentation required
@@ -39,7 +38,7 @@ export const adminAuthRoutesHandler = (
     }
       #swagger.responses[200]  = {
       schema: {
-        $ref: "#/components/schemas/loginAdminResponse"
+        $ref: "#/components/schemas/loginAdminReponse"
       }
     }
     */

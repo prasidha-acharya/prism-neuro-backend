@@ -10,6 +10,7 @@ import { ErrorMiddleware } from '../../../contexts/shared/infrastructure/middlew
 import { createPrismaClient } from '../../../contexts/shared/infrastructure/persistence/prisma';
 import { RequestLogger } from '../../../contexts/shared/infrastructure/request-logs/request-logger';
 import { ServerLogger } from '../../../contexts/shared/infrastructure/winston-logger/index';
+import { LoginAdminController } from './controllers';
 import { CreateDoctorController } from './controllers/admin/doctor/create-doctor.controller';
 import { Router } from './router';
 import { masterRouter } from './routes/routes';
@@ -46,6 +47,10 @@ export class Container {
         createDoctorService: asClass(CreateDoctorService).singleton(),
         createDoctorController: asClass(CreateDoctorController),
         getAdminByEmailService: asClass(GetAdminByEmailService).singleton()
+      })
+      //admin auth
+      .register({
+        loginAdminController: asClass(LoginAdminController)
       })
       //admin doctor
       .register({

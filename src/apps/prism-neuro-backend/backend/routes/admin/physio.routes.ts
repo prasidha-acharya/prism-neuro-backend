@@ -7,7 +7,8 @@ interface IHandler {
 
 export const physioRoutesHandler = ({ createDoctorController }: IHandler, router: Router): Router => {
   router.post(
-    'admin/create-doctor',
+    '/admin/create-doctor',
+    createDoctorController.validate,
     createDoctorController.invoke.bind(createDoctorController)
     /* 
     #swagger.security = [{
