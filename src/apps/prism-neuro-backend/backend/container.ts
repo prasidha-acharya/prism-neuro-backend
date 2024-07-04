@@ -8,6 +8,7 @@ import { GetUserSessionService } from '../../../contexts/prism-neuro/users/appli
 import { PrismaUserRepository } from '../../../contexts/prism-neuro/users/infrastructure/repositories/prisma-users-repository';
 import { CreateAdminSeeder } from '../../../contexts/prism-neuro/users/infrastructure/seeders/create-admin.seeder';
 import { JWTAdminAuthorizer } from '../../../contexts/shared/infrastructure/authorizer/admin.authorizer';
+import { JWTDoctorAuthorizer } from '../../../contexts/shared/infrastructure/authorizer/doctor.authorizer';
 import { RefreshAuthorizer } from '../../../contexts/shared/infrastructure/authorizer/refresh.authorizer';
 import { JWTUserAuthorizer } from '../../../contexts/shared/infrastructure/authorizer/user.authorizer';
 import { ErrorMiddleware } from '../../../contexts/shared/infrastructure/middleware/error-middleware';
@@ -63,6 +64,7 @@ export class Container {
       .register({
         adminAuthorizer: asClass(JWTAdminAuthorizer).singleton(),
         userAuthorizer: asClass(JWTUserAuthorizer).singleton(),
+        doctorAuthorizer: asClass(JWTDoctorAuthorizer).singleton(),
         generateAccessTokenController: asClass(GenerateAccessTokenController).singleton()
       })
       // user session
