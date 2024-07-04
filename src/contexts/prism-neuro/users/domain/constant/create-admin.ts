@@ -1,4 +1,4 @@
-import { ICreateAdmin } from '../interface/create-admin';
+import { ICreateAdmin } from '../interface/user-request.interface';
 
 export const adminUser: ICreateAdmin = {
   email: 'admin@gmail.com',

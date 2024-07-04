@@ -48,8 +48,9 @@ export class LoginAdminController implements Controller {
       const payload: Payload = {
         user_id: user.id!,
         email: user.email!,
+        session_id: '',
         role: user.role,
-        scope: [TokenScope.ADMIN_ACCESS]
+        scopes: [TokenScope.ADMIN_ACCESS]
       };
 
       const jwtToken = JWTSign(

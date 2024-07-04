@@ -11,6 +11,7 @@ import { RequestLogger } from '../../../contexts/shared/infrastructure/request-l
 import { ServerLogger } from '../../../contexts/shared/infrastructure/winston-logger/index';
 import { LoginAdminController } from './controllers';
 import { CreateDoctorController } from './controllers/admin/doctor/create-doctor.controller';
+import { GenerateAccessTokenController } from './controllers/general/access-token.controller';
 import { Router } from './router';
 import { masterRouter } from './routes/routes';
 import { Server } from './server';
@@ -53,7 +54,8 @@ export class Container {
       })
       //authorizer
       .register({
-        adminAuthorizer: asClass(JWTAdminAuthorizer).singleton()
+        adminAuthorizer: asClass(JWTAdminAuthorizer).singleton(),
+        generateAccessTokenController: asClass(GenerateAccessTokenController).singleton()
       })
       //seeder
       .register({ adminSeeder: asClass(CreateAdminSeeder).singleton() });

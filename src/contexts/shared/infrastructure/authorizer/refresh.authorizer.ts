@@ -3,11 +3,12 @@ import { RequestHandler as Middleware, NextFunction, Request, Response } from 'e
 import { HTTP401Error } from '../../domain/errors/http.exception';
 import { IAuthorizer } from '../../domain/model/authentication/authorizer';
 // var jwt = require('jsonwebtoken');
-import { UserRoles } from '@prisma/client';
 import jwt from 'jsonwebtoken';
 import { Payload, TokenScope } from '../../domain/interface/payload';
+// import { GetUserSessionService } from '../../../CapitalRemit/User/application/get-use';
+// import { Payload, TokenScope } from '../../domain/interface/Payload';
 
-export class JWTAdminAuthorizer implements IAuthorizer<Request, Response, NextFunction> {
+export class RefreshAuthorizer implements IAuthorizer<Request, Response, NextFunction> {
   constructor() {}
 
   public authorize: Middleware = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
@@ -18,14 +19,12 @@ export class JWTAdminAuthorizer implements IAuthorizer<Request, Response, NextFu
 
     try {
       const payload: Payload = jwt.verify(token, process.env.JWT_SECRET_TOKEN!) as Payload;
-
       //   const userSession = await this.getUserSessionService.invoke(payload.session_id);
 
       //   if (!userSession || userSession.user_id !== payload.user_id) {
       //     throw new HTTP401Error();
       //   }
-
-      if (payload.role === UserRoles.ADMIN && payload.scopes.includes(TokenScope.ADMIN_ACCESS)) {
+      if (payload.scopes.includes(TokenScope.REFRESH)) {
         req.body.user = payload;
         return next();
       } else {

@@ -10,7 +10,7 @@ export const JWTSign = (
   access_token: string;
   refresh_token: string;
 } => {
-  const refreshPayload: Payload = { ...payload, scope: [TokenScope.REFRESH] };
+  const refreshPayload: Payload = { ...payload, scopes: [TokenScope.REFRESH] };
   return {
     access_token: jwt.sign(payload, secret, options),
     refresh_token: jwt.sign(refreshPayload, secret, refreshOptions)

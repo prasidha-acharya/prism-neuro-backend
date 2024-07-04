@@ -1,13 +1,13 @@
 export enum TokenScope {
   REFRESH = 'refresh',
-  CUSTOMER_ACCESS = 'customer:access',
+  USER_ACCESS = 'user:access',
   ADMIN_ACCESS = 'admin:access'
 }
 
 export interface Payload {
   user_id: string;
-  // session_id: string;
+  session_id: string;
   email: string;
-  scope: TokenScope[];
+  scopes: TokenScope[];
   role: string;
 }
