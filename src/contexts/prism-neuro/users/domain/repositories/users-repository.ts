@@ -11,7 +11,7 @@ export interface IPrismaUserRepository {
 
   createPatientByDoctor(request: ICreatePatientRequest): Promise<void>;
 
-  createSession(request: CreateSession): Promise<void>;
+  createSession(request: CreateSession): Promise<UserSession | null>;
 
   removeSession(session_id: string): Promise<void>;
 

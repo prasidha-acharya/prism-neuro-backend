@@ -1,5 +1,5 @@
 export interface CreateSession {
-  sessionId: string;
+  sessionId?: string;
   userId: string;
   deviceTokenId?: string;
 }

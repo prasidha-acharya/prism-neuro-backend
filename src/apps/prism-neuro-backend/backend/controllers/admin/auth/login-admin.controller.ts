@@ -4,6 +4,7 @@ import { ParamsDictionary } from 'express-serve-static-core';
 import { body } from 'express-validator';
 import httpStatus from 'http-status';
 import { ParsedQs } from 'qs';
+import { AddUserSessionService } from 'src/contexts/prism-neuro/users/application/create-user-session.service';
 import { GetAdminByEmailService } from '../../../../../../contexts/prism-neuro/users/application/get-admin-email.service';
 import { Payload, TokenScope } from '../../../../../../contexts/shared/domain/interface/payload';
 import { JWTSign } from '../../../../../../contexts/shared/infrastructure/authorizer/jwt-token';
@@ -15,7 +16,8 @@ import { Controller } from '../../controller';
 export class LoginAdminController implements Controller {
   constructor(
     private getAdminByEmailService: GetAdminByEmailService,
-    private config: Configuration
+    private config: Configuration,
+    private addUserSessionService: AddUserSessionService
   ) {}
 
   public validate = [
@@ -25,8 +27,6 @@ export class LoginAdminController implements Controller {
       .withMessage(MESSAGE_CODES.USER.REQUIRED_PASSWORD)
       .isLength({ min: 6 })
       .withMessage(MESSAGE_CODES.USER.PASSWORD_MIN_LENGTH),
-    body('token').optional().isString().withMessage(MESSAGE_CODES.USER.INVALID_FCM_TOKEN),
-    body('device_type').optional().isString().withMessage(MESSAGE_CODES.USER.INVALID_DEVICE_TYPE),
     RequestValidator
   ];
 
@@ -45,10 +45,16 @@ export class LoginAdminController implements Controller {
         return;
       }
 
+      const sessionResponse = await this.addUserSessionService.invoke({ userId: user.id });
+
+      if (!sessionResponse) {
+        throw new Error('');
+      }
+
       const payload: Payload = {
-        user_id: user.id!,
-        email: user.email!,
-        session_id: '',
+        user_id: user.id,
+        email: user.email,
+        session_id: sessionResponse.id,
         role: user.role,
         scopes: [TokenScope.ADMIN_ACCESS]
       };

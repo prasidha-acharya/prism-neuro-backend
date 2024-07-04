@@ -6,10 +6,9 @@ import { IPrismaUserRepository } from '../../domain/repositories/users-repositor
 export class PrismaUserRepository implements IPrismaUserRepository {
   constructor(private db: PrismaClient) {}
 
-  async createSession({ sessionId, deviceTokenId, userId }: CreateSession): Promise<void> {
-    await this.db.userSession.create({
+  async createSession({ deviceTokenId, userId }: CreateSession): Promise<UserSession> {
+    return this.db.userSession.create({
       data: {
-        id: sessionId,
         deviceTokenId,
         userId
       }

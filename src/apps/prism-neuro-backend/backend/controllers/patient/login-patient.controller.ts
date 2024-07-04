@@ -1,10 +1,10 @@
-import { UserRoles } from '@prisma/client';
 import { Configuration } from 'config';
 import { NextFunction, Request, Response } from 'express';
 import { ParamsDictionary } from 'express-serve-static-core';
 import { body } from 'express-validator';
 import httpStatus from 'http-status';
 import { ParsedQs } from 'qs';
+import { AddUserSessionService } from '../../../../../contexts/prism-neuro/users/application/create-user-session.service';
 import { GetAdminByEmailService } from '../../../../../contexts/prism-neuro/users/application/get-admin-email.service';
 import { Payload, TokenScope } from '../../../../../contexts/shared/domain/interface/payload';
 import { JWTSign } from '../../../../../contexts/shared/infrastructure/authorizer/jwt-token';
@@ -16,7 +16,8 @@ import { Controller } from '../controller';
 export class LoginPatientController implements Controller {
   constructor(
     private getAdminByEmailService: GetAdminByEmailService,
-    private config: Configuration
+    private config: Configuration,
+    private addUserSessionService: AddUserSessionService
   ) {}
 
   public validate = [
@@ -44,11 +45,17 @@ export class LoginPatientController implements Controller {
         return;
       }
 
+      const sessionResponse = await this.addUserSessionService.invoke({ userId: user.id });
+
+      if (!sessionResponse) {
+        throw new Error('');
+      }
+
       const payload: Payload = {
         user_id: user.id!,
         email: user.email!,
-        session_id: '',
-        role: UserRoles.PATIENT,
+        session_id: sessionResponse.id,
+        role: user.role,
         scopes: [TokenScope.PATIENT_ACCESS]
       };
 
