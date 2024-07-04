@@ -1,6 +1,6 @@
 import { PrismaClient, User } from '@prisma/client';
 import { ICreateAdminRequest } from '../../domain/interface/create-admin';
-import { IPrismaAdminRepository } from '../../domain/repositories/prisma-admin-repository';
+import { IPrismaAdminRepository } from '../../domain/repositories/admin-repository';
 
 export class PrismaAdminRepository implements IPrismaAdminRepository {
   constructor(private db: PrismaClient) {}
