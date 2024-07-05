@@ -42,7 +42,7 @@ model User {
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt
   deletedAt    DateTime?
-  firstLogin   Boolean
+  firstLogin   Boolean       @default(true)
   role         UserRoles
   userDetails  UserDetail[]
   userSessions UserSession[]
