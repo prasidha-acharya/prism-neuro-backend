@@ -339,6 +339,54 @@
         ]
       }
     },
+    "/forgot-password": {
+      "post": {
+        "tags": ["User"],
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/reset-password": {
+      "post": {
+        "tags": ["User"],
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/change-password": {
+      "post": {
+        "tags": ["User"],
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
     "/doctor/login": {
       "post": {
         "tags": ["Doctor"],

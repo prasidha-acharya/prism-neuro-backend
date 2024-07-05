@@ -4,5 +4,6 @@ export * from './admin/doctor/delete-doctor.controller';
 export * from './admin/doctor/login-doctor.controller';
 export * from './admin/doctor/update-doctor.controller';
 export * from './general/access-token.controller';
+export * from './general/forgot-password.controller';
 export * from './general/logout.controller';
 export * from './patient/login-patient.controller';

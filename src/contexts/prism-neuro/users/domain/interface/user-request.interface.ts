@@ -1,4 +1,4 @@
-import { UserRoles } from '@prisma/client';
+import { OTP_TYPE, UserRoles } from '@prisma/client';
 
 export interface ICreateAdmin {
   email: string;
@@ -28,5 +28,32 @@ export interface IUpdateDoctorRequest {
   data: {
     firstName: string;
     lastName: string;
+  };
+}
+
+export interface IFogotPasswordRequest {
+  userId: string;
+  expiresAt: Date;
+  type: OTP_TYPE;
+  otp: string;
+}
+
+export interface deleteOtp {
+  type: OTP_TYPE;
+  otpId: string;
+  userId?: string;
+}
+
+export interface IChangePassword {
+  userId: string;
+  data: {
+    password: string;
+  };
+}
+
+export interface IResetPassword {
+  email: string;
+  data: {
+    password: string;
   };
 }

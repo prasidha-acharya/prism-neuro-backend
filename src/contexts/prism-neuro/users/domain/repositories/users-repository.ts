@@ -1,8 +1,11 @@
 import { User, UserSession } from '@prisma/client';
 import {
+  IChangePassword,
   ICreateAdminRequest,
   ICreateDoctorRequest,
   ICreatePatientRequest,
+  IFogotPasswordRequest,
+  IResetPassword,
   IUpdateDoctorRequest
 } from '../../domain/interface/user-request.interface';
 import { CreateSession } from '../interface/user-session.interface';
@@ -30,5 +33,11 @@ export interface IPrismaUserRepository {
 
   getSession(session_id: string): Promise<UserSession | null>;
 
-  forgetPassword(email: string): Promise<void>;
+  createOTP(request: IFogotPasswordRequest): Promise<void>;
+
+  deleteOTP(request: IFogotPasswordRequest): Promise<void>;
+
+  resetPassword(request: IResetPassword): Promise<void>;
+
+  changePassword(request: IChangePassword): Promise<void>;
 }

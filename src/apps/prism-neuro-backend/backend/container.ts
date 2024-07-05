@@ -4,6 +4,7 @@ import { CreateDoctorByAdminService } from '../../../contexts/prism-neuro/users/
 import { AddUserSessionService } from '../../../contexts/prism-neuro/users/application/create-user-session.service';
 import { DeleteDoctorService } from '../../../contexts/prism-neuro/users/application/delete-doctor-by-admin.service';
 import { DeleteUserSessionService } from '../../../contexts/prism-neuro/users/application/delete-user-session.service';
+import { ForgotPasswordService } from '../../../contexts/prism-neuro/users/application/forgot-password.service';
 import { GetAdminByEmailService } from '../../../contexts/prism-neuro/users/application/get-admin-email.service';
 import { GetUserSessionService } from '../../../contexts/prism-neuro/users/application/get-user-session.service';
 import { UpdateDoctorService } from '../../../contexts/prism-neuro/users/application/update-doctor-by-admin.service';
@@ -17,17 +18,22 @@ import { ErrorMiddleware } from '../../../contexts/shared/infrastructure/middlew
 import { createPrismaClient } from '../../../contexts/shared/infrastructure/persistence/prisma';
 import { RequestLogger } from '../../../contexts/shared/infrastructure/request-logs/request-logger';
 import { ServerLogger } from '../../../contexts/shared/infrastructure/winston-logger/index';
-import { LoginAdminController, LoginDoctorController } from './controllers';
-import { CreateDoctorController } from './controllers/admin/doctor/create-doctor.controller';
-import { DeleteDoctorController } from './controllers/admin/doctor/delete-doctor.controller';
-import { UpdateDoctorController } from './controllers/admin/doctor/update-doctor.controller';
-import { GenerateAccessTokenController } from './controllers/general/access-token.controller';
-import { UserLogoutController } from './controllers/general/logout.controller';
-import { LoginPatientController } from './controllers/patient/login-patient.controller';
+import * as controller from './controllers';
 import { Router } from './router';
 import { masterRouter } from './routes/routes';
 import { Server } from './server';
 
+const {
+  CreateDoctorController,
+  DeleteDoctorController,
+  ForgotPasswordController,
+  GenerateAccessTokenController,
+  LoginAdminController,
+  LoginDoctorController,
+  LoginPatientController,
+  UpdateDoctorController,
+  UserLogoutController
+} = controller;
 export class Container {
   private readonly container: AwilixContainer;
 
@@ -64,6 +70,10 @@ export class Container {
       .register({
         loginAdminController: asClass(LoginAdminController)
       })
+      // general auth
+      .register({
+        forgotPasswordController: asClass(ForgotPasswordController)
+      })
       //authorizer
       .register({
         adminAuthorizer: asClass(JWTAdminAuthorizer).singleton(),
@@ -87,7 +97,8 @@ export class Container {
       //user logout
       .register({
         userLogoutController: asClass(UserLogoutController),
-        refreshAuthorizer: asClass(RefreshAuthorizer)
+        refreshAuthorizer: asClass(RefreshAuthorizer),
+        forgotPasswordService: asClass(ForgotPasswordService).singleton()
       })
       //doctor
       .register({

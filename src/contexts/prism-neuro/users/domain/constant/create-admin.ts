@@ -6,3 +6,5 @@ export const adminUser: ICreateAdmin = {
   userName: 'Prism Neuro',
   address: 'Kathmandu,Nepal'
 };
+
+export const expiresAfter15Days = new Date(new Date().getTime() + 15 * 60 * 1000);

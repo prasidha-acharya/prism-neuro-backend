@@ -5,10 +5,11 @@ import * as controllers from '../../controllers/index';
 interface IHandler {
   userLogoutController: controllers.UserLogoutController;
   generateAccessTokenController: controllers.GenerateAccessTokenController;
+  forgotPasswordController: controllers.ForgotPasswordController;
 }
 
 export const userRoutesHandler = (
-  { userLogoutController, generateAccessTokenController }: IHandler,
+  { userLogoutController, generateAccessTokenController, forgotPasswordController }: IHandler,
   userAuthorizer: IAuthorizer<Request, Response, NextFunction>,
   refreshAuthorizer: IAuthorizer<Request, Response, NextFunction>,
   router: Router
@@ -45,6 +46,40 @@ export const userRoutesHandler = (
         }
         */
   );
-  router.post('/forget-password');
+  router.post(
+    '/forgot-password',
+    forgotPasswordController.invoke.bind(forgotPasswordController)
+    /*
+        #swagger.tags = ['User']
+        #swagger.security = [{
+              "bearerAuth": []
+            }]
+        #swagger.responses[200]
+        */
+  );
+
+  router.post(
+    '/reset-password',
+    forgotPasswordController.invoke.bind(forgotPasswordController)
+    /*
+        #swagger.tags = ['User']
+        #swagger.security = [{
+              "bearerAuth": []
+            }]
+        #swagger.responses[200]
+        */
+  );
+
+  router.post(
+    '/change-password',
+    forgotPasswordController.invoke.bind(forgotPasswordController)
+    /*
+        #swagger.tags = ['User']
+        #swagger.security = [{
+              "bearerAuth": []
+            }]
+        #swagger.responses[200]
+        */
+  );
   return router;
 };

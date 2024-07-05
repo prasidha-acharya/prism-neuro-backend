@@ -1,8 +1,11 @@
 import { PrismaClient, User, UserSession } from '@prisma/client';
 import {
+  IChangePassword,
   ICreateAdminRequest,
   ICreateDoctorRequest,
   ICreatePatientRequest,
+  IFogotPasswordRequest,
+  IResetPassword,
   IUpdateDoctorRequest
 } from '../../domain/interface/user-request.interface';
 import { CreateSession } from '../../domain/interface/user-session.interface';
@@ -11,9 +14,35 @@ import { IPrismaUserRepository } from '../../domain/repositories/users-repositor
 export class PrismaUserRepository implements IPrismaUserRepository {
   constructor(private db: PrismaClient) {}
 
-  forgetPassword(email: string): Promise<void> {
-    console.log(email);
+  deleteOTP(request: IFogotPasswordRequest): Promise<void> {
+    console.log(request);
     throw new Error('Method not implemented.');
+  }
+
+  async resetPassword({ email, data }: IResetPassword): Promise<void> {
+    await this.db.user.update({
+      where: {
+        email: email.toLowerCase()
+      },
+      data
+    });
+  }
+
+  async changePassword({ userId, data }: IChangePassword): Promise<void> {
+    await this.db.user.update({
+      where: {
+        id: userId
+      },
+      data
+    });
+  }
+
+  async createOTP(request: IFogotPasswordRequest): Promise<void> {
+    await this.db.otp.create({
+      data: {
+        ...request
+      }
+    });
   }
 
   async createSession({ deviceTokenId, userId }: CreateSession): Promise<UserSession> {

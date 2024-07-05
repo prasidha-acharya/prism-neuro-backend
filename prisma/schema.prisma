@@ -48,6 +48,7 @@ model User {
   userSessions UserSession[]
   createdBy    String?
   otp          Otp?
+  mode         Mode[]
 }
 
 model UserDetail {
@@ -97,11 +98,13 @@ model Mode {
   trialCount       Int
   trialDuration    Int
   type             String
+  patientId        String
   createdAt        DateTime           @default(now()) @db.Timestamptz()
   updatedAt        DateTime           @default(now()) @db.Timestamptz()
   deletedAt        DateTime?          @db.Timestamptz()
   modeDetail       ModeDetail?
   ModeTrialSession ModeTrialSession[]
+  patient          User               @relation(fields: [patientId], references: [id])
 }
 
 model ModeDetail {
@@ -136,6 +139,7 @@ model ModeTrialSession {
 enum OTP_TYPE {
   FORGET_PASSWORD
   CHNAGE_PASSWORD
+  RESET_PASSWORD
 }
 
 model Otp {
@@ -146,5 +150,6 @@ model Otp {
   updatedAt DateTime  @default(now()) @db.Timestamptz()
   deletedAt DateTime? @db.Timestamptz()
   expiresAt DateTime
-  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  sessionId String?
+  user      User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
