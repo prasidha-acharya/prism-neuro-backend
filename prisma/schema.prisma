@@ -54,7 +54,8 @@ model UserDetail {
   id          String    @id @default(uuid())
   userId      String
   phoneNumber String?
-  age         String?
+  age         Int?
+  weight      Int?
   phoneCode   String?
   address     String
   createdAt   DateTime  @default(now())
