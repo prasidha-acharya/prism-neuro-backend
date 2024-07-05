@@ -15,6 +15,9 @@ export class UserDTO {
   password!: string;
 
   @Expose()
+  age!: string;
+
+  @Expose()
   userName!: string;
 
   @Expose()

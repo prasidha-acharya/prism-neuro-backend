@@ -45,12 +45,14 @@ model User {
   role         UserRoles
   userDetails  UserDetail[]
   userSessions UserSession[]
+  createdBy    String?
 }
 
 model UserDetail {
   id          String    @id @default(uuid())
   userId      String
   phoneNumber String?
+  age         String?
   phoneCode   String?
   address     String
   createdAt   DateTime  @default(now())
