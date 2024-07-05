@@ -1,5 +1,10 @@
 import { PrismaClient, User, UserSession } from '@prisma/client';
-import { ICreateAdminRequest, ICreateDoctorRequest, ICreatePatientRequest } from '../../domain/interface/user-request.interface';
+import {
+  ICreateAdminRequest,
+  ICreateDoctorRequest,
+  ICreatePatientRequest,
+  IUpdateDoctorRequest
+} from '../../domain/interface/user-request.interface';
 import { CreateSession } from '../../domain/interface/user-session.interface';
 import { IPrismaUserRepository } from '../../domain/repositories/users-repository';
 
@@ -16,9 +21,12 @@ export class PrismaUserRepository implements IPrismaUserRepository {
   }
 
   async removeSession(sessionId: string): Promise<void> {
-    await this.db.userSession.delete({
+    await this.db.userSession.update({
       where: {
         id: sessionId
+      },
+      data: {
+        deletedAt: new Date()
       }
     });
   }
@@ -43,6 +51,28 @@ export class PrismaUserRepository implements IPrismaUserRepository {
             address: request.address
           }
         }
+      }
+    });
+  }
+
+  updatePatientByDoctor(request: IUpdateDoctorRequest): Promise<User | null> {
+    return this.db.user.update({
+      where: {
+        id: request.id,
+        deletedAt: {
+          not: null
+        }
+      },
+      data: {
+        ...request.data
+      }
+    });
+  }
+
+  async deletePatientByDoctor(userId: string): Promise<void> {
+    await this.db.user.delete({
+      where: {
+        id: userId
       }
     });
   }
@@ -81,6 +111,31 @@ export class PrismaUserRepository implements IPrismaUserRepository {
             address
           }
         }
+      }
+    });
+  }
+
+  updateDoctorByAdmin(request: IUpdateDoctorRequest): Promise<User | null> {
+    return this.db.user.update({
+      where: {
+        id: request.id,
+        deletedAt: {
+          not: null
+        }
+      },
+      data: {
+        ...request.data
+      }
+    });
+  }
+
+  async deleteDoctorByAdmin(userId: string): Promise<void> {
+    await this.db.user.update({
+      where: {
+        id: userId
+      },
+      data: {
+        deletedAt: new Date()
       }
     });
   }

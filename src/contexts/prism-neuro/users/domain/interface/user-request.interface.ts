@@ -22,3 +22,11 @@ export interface ICreatePatientRequest extends ICreateAdmin {
   firstName: string;
   lastName: string;
 }
+
+export interface IUpdateDoctorRequest {
+  id: string;
+  data: {
+    firstName: string;
+    lastName: string;
+  };
+}
