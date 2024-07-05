@@ -72,7 +72,7 @@ export class LoginAdminController implements Controller {
       res.status(httpStatus.OK).send({
         data: {
           token: jwtToken,
-          user_detail: user
+          userDetail: user
         }
       });
     } catch (error) {
