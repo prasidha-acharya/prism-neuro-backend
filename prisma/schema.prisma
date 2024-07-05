@@ -46,6 +46,7 @@ model User {
   userDetails  UserDetail[]
   userSessions UserSession[]
   createdBy    String?
+  otp          Otp?
 }
 
 model UserDetail {
@@ -102,14 +103,15 @@ model Mode {
 }
 
 model ModeDetail {
-  id        String    @id @default(uuid())
-  imageUrls String[]
-  videoUrls String[]
-  createdAt DateTime  @default(now()) @db.Timestamptz()
-  updatedAt DateTime  @default(now()) @db.Timestamptz()
-  deletedAt DateTime? @db.Timestamptz()
-  modeId    String    @unique
-  mode      Mode      @relation(fields: [modeId], references: [id])
+  id           String    @id @default(uuid())
+  imageUrls    String[]
+  videoUrls    String[]
+  instructions String[]
+  createdAt    DateTime  @default(now()) @db.Timestamptz()
+  updatedAt    DateTime  @default(now()) @db.Timestamptz()
+  deletedAt    DateTime? @db.Timestamptz()
+  modeId       String    @unique
+  mode         Mode      @relation(fields: [modeId], references: [id])
 }
 
 enum ModeTrialSessionStatus {
@@ -123,4 +125,24 @@ model ModeTrialSession {
   status    ModeTrialSessionStatus?
   mode      Mode                    @relation(fields: [modeId], references: [id])
   modeId    String
+  data      Json?
+  createdAt DateTime                @default(now()) @db.Timestamptz()
+  updatedAt DateTime                @default(now()) @db.Timestamptz()
+  deletedAt DateTime?               @db.Timestamptz()
+}
+
+enum OTP_TYPE {
+  FORGET_PASSWORD
+  CHNAGE_PASSWORD
+}
+
+model Otp {
+  id        String    @id @default(uuid())
+  userId    String    @unique
+  type      OTP_TYPE
+  createdAt DateTime  @default(now()) @db.Timestamptz()
+  updatedAt DateTime  @default(now()) @db.Timestamptz()
+  deletedAt DateTime? @db.Timestamptz()
+  expiresAt DateTime
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

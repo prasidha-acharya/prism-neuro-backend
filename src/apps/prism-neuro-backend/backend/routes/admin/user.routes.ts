@@ -45,5 +45,6 @@ export const userRoutesHandler = (
         }
         */
   );
+  router.post('/forget-password');
   return router;
 };

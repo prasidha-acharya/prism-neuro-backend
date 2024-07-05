@@ -11,6 +11,11 @@ import { IPrismaUserRepository } from '../../domain/repositories/users-repositor
 export class PrismaUserRepository implements IPrismaUserRepository {
   constructor(private db: PrismaClient) {}
 
+  forgetPassword(email: string): Promise<void> {
+    console.log(email);
+    throw new Error('Method not implemented.');
+  }
+
   async createSession({ deviceTokenId, userId }: CreateSession): Promise<UserSession> {
     return this.db.userSession.create({
       data: {

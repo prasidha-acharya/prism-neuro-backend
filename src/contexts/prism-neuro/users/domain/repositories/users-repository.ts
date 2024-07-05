@@ -29,4 +29,6 @@ export interface IPrismaUserRepository {
   removeSession(session_id: string): Promise<void>;
 
   getSession(session_id: string): Promise<UserSession | null>;
+
+  forgetPassword(email: string): Promise<void>;
 }
