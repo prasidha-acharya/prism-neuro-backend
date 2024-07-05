@@ -21,9 +21,12 @@ export class PrismaUserRepository implements IPrismaUserRepository {
   }
 
   async removeSession(sessionId: string): Promise<void> {
-    await this.db.userSession.delete({
+    await this.db.userSession.update({
       where: {
         id: sessionId
+      },
+      data: {
+        deletedAt: new Date()
       }
     });
   }
@@ -127,9 +130,12 @@ export class PrismaUserRepository implements IPrismaUserRepository {
   }
 
   async deleteDoctorByAdmin(userId: string): Promise<void> {
-    await this.db.user.delete({
+    await this.db.user.update({
       where: {
         id: userId
+      },
+      data: {
+        deletedAt: new Date()
       }
     });
   }
