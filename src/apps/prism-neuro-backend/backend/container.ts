@@ -1,12 +1,12 @@
 import { AwilixContainer, InjectionMode, asClass, asFunction, asValue, createContainer } from 'awilix';
-import { DeleteDoctorService } from 'src/contexts/prism-neuro/users/application/delete-doctor-by-admin.service';
-import { UpdateDoctorService } from 'src/contexts/prism-neuro/users/application/update-doctor-by-admin.service';
 import { config } from '../../../../config';
 import { CreateDoctorByAdminService } from '../../../contexts/prism-neuro/users/application/create-doctor-by-admin.service';
 import { AddUserSessionService } from '../../../contexts/prism-neuro/users/application/create-user-session.service';
+import { DeleteDoctorService } from '../../../contexts/prism-neuro/users/application/delete-doctor-by-admin.service';
 import { DeleteUserSessionService } from '../../../contexts/prism-neuro/users/application/delete-user-session.service';
 import { GetAdminByEmailService } from '../../../contexts/prism-neuro/users/application/get-admin-email.service';
 import { GetUserSessionService } from '../../../contexts/prism-neuro/users/application/get-user-session.service';
+import { UpdateDoctorService } from '../../../contexts/prism-neuro/users/application/update-doctor-by-admin.service';
 import { PrismaUserRepository } from '../../../contexts/prism-neuro/users/infrastructure/repositories/prisma-users-repository';
 import { CreateAdminSeeder } from '../../../contexts/prism-neuro/users/infrastructure/seeders/create-admin.seeder';
 import { JWTAdminAuthorizer } from '../../../contexts/shared/infrastructure/authorizer/admin.authorizer';
@@ -19,6 +19,8 @@ import { RequestLogger } from '../../../contexts/shared/infrastructure/request-l
 import { ServerLogger } from '../../../contexts/shared/infrastructure/winston-logger/index';
 import { LoginAdminController, LoginDoctorController } from './controllers';
 import { CreateDoctorController } from './controllers/admin/doctor/create-doctor.controller';
+import { DeleteDoctorController } from './controllers/admin/doctor/delete-doctor.controller';
+import { UpdateDoctorController } from './controllers/admin/doctor/update-doctor.controller';
 import { GenerateAccessTokenController } from './controllers/general/access-token.controller';
 import { UserLogoutController } from './controllers/general/logout.controller';
 import { LoginPatientController } from './controllers/patient/login-patient.controller';
@@ -90,7 +92,9 @@ export class Container {
       //doctor
       .register({
         deleteDoctorService: asClass(DeleteDoctorService).singleton(),
-        updateDoctorService: asClass(UpdateDoctorService).singleton()
+        updateDoctorService: asClass(UpdateDoctorService).singleton(),
+        deleteDoctorController: asClass(DeleteDoctorController),
+        updateDoctorController: asClass(UpdateDoctorController)
       });
   }
 
