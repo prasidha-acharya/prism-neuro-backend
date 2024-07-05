@@ -1,3 +1,4 @@
+import { plainToClass } from 'class-transformer';
 import { Configuration } from 'config';
 import { NextFunction, Request, Response } from 'express';
 import { ParamsDictionary } from 'express-serve-static-core';
@@ -11,6 +12,7 @@ import { JWTSign } from '../../../../../../contexts/shared/infrastructure/author
 import { comparePassword } from '../../../../../../contexts/shared/infrastructure/encryptor/encryptor';
 import { RequestValidator } from '../../../../../../contexts/shared/infrastructure/middleware/request-validator';
 import { MESSAGE_CODES } from '../../../../../../contexts/shared/infrastructure/utils/message-code';
+import { UserDTO } from '../../../dto/userDto';
 import { Controller } from '../../controller';
 
 export class LoginDoctorController implements Controller {
@@ -69,10 +71,13 @@ export class LoginDoctorController implements Controller {
           expiresIn: this.config.JWT_REFRESH_EXPIRY
         }
       );
+
+      const userdto = plainToClass(UserDTO, user, { excludeExtraneousValues: true });
+
       res.status(httpStatus.OK).send({
         data: {
           token: jwtToken,
-          user_detail: user
+          user_detail: userdto
         }
       });
     } catch (error) {
