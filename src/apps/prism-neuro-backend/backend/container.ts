@@ -1,4 +1,6 @@
 import { AwilixContainer, InjectionMode, asClass, asFunction, asValue, createContainer } from 'awilix';
+import { DeleteDoctorService } from 'src/contexts/prism-neuro/users/application/delete-doctor-by-admin.service';
+import { UpdateDoctorService } from 'src/contexts/prism-neuro/users/application/update-doctor-by-admin.service';
 import { config } from '../../../../config';
 import { CreateDoctorByAdminService } from '../../../contexts/prism-neuro/users/application/create-doctor-by-admin.service';
 import { AddUserSessionService } from '../../../contexts/prism-neuro/users/application/create-user-session.service';
@@ -84,6 +86,11 @@ export class Container {
       .register({
         userLogoutController: asClass(UserLogoutController),
         refreshAuthorizer: asClass(RefreshAuthorizer)
+      })
+      //doctor
+      .register({
+        deleteDoctorService: asClass(DeleteDoctorService).singleton(),
+        updateDoctorService: asClass(UpdateDoctorService).singleton()
       });
   }
 

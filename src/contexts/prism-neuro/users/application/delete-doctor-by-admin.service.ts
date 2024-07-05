@@ -1,5 +1,9 @@
-export class DeleteDoctorService {
-  constructor() {}
+import { PrismaUserRepository } from '../infrastructure/repositories/prisma-users-repository';
 
-  public async invoke(): Promise<void> {}
+export class DeleteDoctorService {
+  constructor(private prismaUserRepository: PrismaUserRepository) {}
+
+  public async invoke(doctorId: string): Promise<void> {
+    this.prismaUserRepository.deleteDoctorByAdmin(doctorId);
+  }
 }

@@ -24,7 +24,7 @@ export const masterRouter = (
 
   physioRoutesHandler({ createDoctorController }, adminAuthorizer, apiRouter);
   adminAuthRoutesHandler({ loginAdminController }, apiRouter);
-  doctorRoutesHandler({ loginDoctorController }, apiRouter);
+  doctorRoutesHandler({ loginDoctorController }, adminAuthorizer, apiRouter);
   PatientRoutesHandler({ loginPatientController }, apiRouter);
   userRoutesHandler({ userLogoutController, generateAccessTokenController }, userAuthorizer, refreshAuthorizer, apiRouter);
 
