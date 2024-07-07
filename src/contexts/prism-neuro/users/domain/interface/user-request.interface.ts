@@ -32,10 +32,10 @@ export interface IUpdateDoctorRequest {
 }
 
 export interface IFogotPasswordRequest {
-  userId: string;
+  // userId: string;
   expiresAt: Date;
   type: OTP_TYPE;
-  otp: string;
+  otpCode: string;
 }
 
 export interface deleteOtp {

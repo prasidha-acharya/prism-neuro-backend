@@ -1,4 +1,4 @@
-import { User, UserSession } from '@prisma/client';
+import { LoginSession, User } from '@prisma/client';
 import {
   IChangePassword,
   ICreateAdminRequest,
@@ -27,13 +27,13 @@ export interface IPrismaUserRepository {
 
   deletePatientByDoctor(userId: string): Promise<void>;
 
-  createSession(request: CreateSession): Promise<UserSession | null>;
+  createSession(request: CreateSession): Promise<LoginSession | null>;
 
   removeSession(session_id: string): Promise<void>;
 
-  getSession(session_id: string): Promise<UserSession | null>;
+  getSession(session_id: string): Promise<LoginSession | null>;
 
-  createOTP(request: IFogotPasswordRequest): Promise<void>;
+  createOTP(request: IFogotPasswordRequest, userId: string): Promise<void>;
 
   deleteOTP(request: IFogotPasswordRequest): Promise<void>;
 

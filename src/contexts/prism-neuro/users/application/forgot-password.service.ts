@@ -4,7 +4,7 @@ import { PrismaUserRepository } from '../infrastructure/repositories/prisma-user
 export class ForgotPasswordService {
   constructor(private prismaUserRepository: PrismaUserRepository) {}
 
-  public async invoke(request: IFogotPasswordRequest): Promise<void> {
-    this.prismaUserRepository.createOTP(request);
+  public async invoke(request: IFogotPasswordRequest, userId: string): Promise<void> {
+    this.prismaUserRepository.createOTP(request, userId);
   }
 }

@@ -34,9 +34,9 @@ export class ForgotPasswordController implements Controller {
 
       const expiresAt = expiresAfter15Days;
 
-      const otp = generateOtp();
+      const otpCode = generateOtp();
 
-      await this.forgotPasswordService.invoke({ userId: user.id, otp, expiresAt, type: OTP_TYPE.RESET_PASSWORD });
+      await this.forgotPasswordService.invoke({ otpCode, expiresAt, type: OTP_TYPE.RESET_PASSWORD }, user.id);
 
       //send otp to user
       res.status(httpStatus.OK).send();

@@ -1,4 +1,4 @@
-import { PrismaClient, User, UserSession } from '@prisma/client';
+import { LoginSession, PrismaClient, User } from '@prisma/client';
 import {
   IChangePassword,
   ICreateAdminRequest,
@@ -37,16 +37,21 @@ export class PrismaUserRepository implements IPrismaUserRepository {
     });
   }
 
-  async createOTP(request: IFogotPasswordRequest): Promise<void> {
+  async createOTP(request: IFogotPasswordRequest, userId: string): Promise<void> {
     await this.db.otp.create({
       data: {
-        ...request
+        ...request,
+        user: {
+          connect: {
+            id: userId
+          }
+        }
       }
     });
   }
 
-  async createSession({ deviceTokenId, userId }: CreateSession): Promise<UserSession> {
-    return this.db.userSession.create({
+  async createSession({ deviceTokenId, userId }: CreateSession): Promise<LoginSession> {
+    return this.db.loginSession.create({
       data: {
         deviceTokenId,
         userId
@@ -55,7 +60,7 @@ export class PrismaUserRepository implements IPrismaUserRepository {
   }
 
   async removeSession(sessionId: string): Promise<void> {
-    await this.db.userSession.update({
+    await this.db.loginSession.update({
       where: {
         id: sessionId
       },
@@ -65,8 +70,8 @@ export class PrismaUserRepository implements IPrismaUserRepository {
     });
   }
 
-  async getSession(sessionId: string): Promise<UserSession | null> {
-    return await this.db.userSession.findUnique({
+  async getSession(sessionId: string): Promise<LoginSession | null> {
+    return await this.db.loginSession.findUnique({
       where: {
         id: sessionId
       }

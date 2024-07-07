@@ -33,22 +33,22 @@ enum UserRoles {
 }
 
 model User {
-  id           String        @id @default(uuid())
-  email        String        @unique
-  userName     String
-  firstName    String?
-  lastName     String?
-  password     String
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
-  deletedAt    DateTime?
-  firstLogin   Boolean       @default(true)
-  role         UserRoles
-  userDetails  UserDetail[]
-  userSessions UserSession[]
-  createdBy    String?
-  otp          Otp?
-  mode         Mode[]
+  id            String         @id @default(uuid())
+  email         String         @unique
+  userName      String?
+  firstName     String?
+  lastName      String?
+  password      String
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  deletedAt     DateTime?
+  firstLogin    Boolean        @default(true)
+  role          UserRoles
+  userDetails   UserDetail[]
+  loginSessions LoginSession[]
+  createdBy     String?
+  otp           Otp?
+  mode          Mode[]
 }
 
 model UserDetail {
@@ -65,7 +65,7 @@ model UserDetail {
   user        User      @relation(fields: [userId], references: [id])
 }
 
-model UserSession {
+model LoginSession {
   id            String    @id @default(uuid())
   userId        String
   deviceTokenId String?
@@ -146,6 +146,7 @@ model Otp {
   id        String    @id @default(uuid())
   userId    String    @unique
   type      OTP_TYPE
+  otpCode   String
   createdAt DateTime  @default(now()) @db.Timestamptz()
   updatedAt DateTime  @default(now()) @db.Timestamptz()
   deletedAt DateTime? @db.Timestamptz()
