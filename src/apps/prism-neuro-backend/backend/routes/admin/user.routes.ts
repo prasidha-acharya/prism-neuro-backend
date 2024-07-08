@@ -53,10 +53,21 @@ export const userRoutesHandler = (
     forgotPasswordController.invoke.bind(forgotPasswordController)
     /*
         #swagger.tags = ['User']
-        #swagger.security = [{
-              "bearerAuth": []
-            }]
         #swagger.responses[200]
+           #swagger.requestBody = {
+          required: true,
+          content: {
+            "application/json": {
+              schema: {
+                type: "object",
+                required: ["email"],
+                properties: {
+                  email: { type: "string", format: "email" },
+                }
+              }
+            }
+          }
+        }
         */
   );
 
@@ -65,9 +76,6 @@ export const userRoutesHandler = (
     resetPasswordController.invoke.bind(resetPasswordController)
     /*
         #swagger.tags = ['User']
-        #swagger.security = [{
-              "bearerAuth": []
-            }]
    #swagger.requestBody = {
           required: true,
           content: {
@@ -78,7 +86,7 @@ export const userRoutesHandler = (
                 properties: {
                   email: { type: "string", format: "email" },
                   otp: { type: "string", minLength: 5, description: "OTP must be at least 5 characters long." },
-                  password: { type: "string", minLength: 6, description: "Password must be at least 6 characters long." },
+                  newPassword: { type: "string", minLength: 6, description: "Password must be at least 6 characters long." },
                   confirmPassword: { type: "string", minLength: 6, description: "Must match the password." }
                 }
               }

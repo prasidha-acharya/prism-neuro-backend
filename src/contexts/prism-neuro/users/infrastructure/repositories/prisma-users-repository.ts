@@ -28,10 +28,10 @@ export class PrismaUserRepository implements IPrismaUserRepository {
     });
   }
 
-  async deleteOTP(userId: string, type: OTP_TYPE): Promise<void> {
+  async deleteOTP(otpId: string, type: OTP_TYPE): Promise<void> {
     await this.db.otp.delete({
       where: {
-        id: userId,
+        id: otpId,
         type
       }
     });

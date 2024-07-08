@@ -4,7 +4,7 @@ import { PrismaUserRepository } from '../infrastructure/repositories/prisma-user
 export class DeleteOTPService {
   constructor(private prismaUserRepository: PrismaUserRepository) {}
 
-  public async invoke(userId: string, type: OTP_TYPE): Promise<void> {
-    this.prismaUserRepository.deleteOTP(userId, type);
+  public async invoke(otpId: string, type: OTP_TYPE): Promise<void> {
+    this.prismaUserRepository.deleteOTP(otpId, type);
   }
 }

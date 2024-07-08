@@ -7,10 +7,10 @@
   },
   "servers": [
     {
-      "url": "http://localhost:8000/api/"
+      "url": "http://localhost:4000/api/"
     },
     {
-      "url": "https://localhost:8000/api/"
+      "url": "https://localhost:4000/api/"
     }
   ],
   "paths": {
@@ -348,11 +348,23 @@
             "description": "OK"
           }
         },
-        "security": [
-          {
-            "bearerAuth": []
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["email"],
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "format": "email"
+                  }
+                }
+              }
+            }
           }
-        ]
+        }
       }
     },
     "/reset-password": {
@@ -364,11 +376,6 @@
             "description": "OK"
           }
         },
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -386,7 +393,7 @@
                     "minLength": 5,
                     "description": "OTP must be at least 5 characters long."
                   },
-                  "password": {
+                  "newPassword": {
                     "type": "string",
                     "minLength": 6,
                     "description": "Password must be at least 6 characters long."
