@@ -63,3 +63,13 @@ export interface IFetchOtpRequest {
   type: OTP_TYPE;
   otp: string;
 }
+
+export interface IFetchUsersRequest {
+  search?: string;
+  startDate?: Date;
+  endDate?: Date;
+  createdBy?: string;
+  role?: UserRoles;
+  limit?: number;
+  page?: number;
+}

@@ -10,6 +10,7 @@ import { ForgotPasswordService } from '../../../contexts/prism-neuro/users/appli
 import { GetAdminByEmailService } from '../../../contexts/prism-neuro/users/application/get-admin-email.service';
 import { GetOtpService } from '../../../contexts/prism-neuro/users/application/get-otp.service';
 import { GetUserSessionService } from '../../../contexts/prism-neuro/users/application/get-user-session.service';
+import { GetUsersService } from '../../../contexts/prism-neuro/users/application/get-users.service';
 import { ResetPasswordService } from '../../../contexts/prism-neuro/users/application/reset-password.service';
 import { UpdateDoctorService } from '../../../contexts/prism-neuro/users/application/update-doctor-by-admin.service';
 import { PrismaUserRepository } from '../../../contexts/prism-neuro/users/infrastructure/repositories/prisma-users-repository';
@@ -70,7 +71,8 @@ export class Container {
         prismaUserRepository: asClass(PrismaUserRepository),
         createDoctorByAdminService: asClass(CreateDoctorByAdminService).singleton(),
         createDoctorController: asClass(CreateDoctorController),
-        getAdminByEmailService: asClass(GetAdminByEmailService).singleton()
+        getAdminByEmailService: asClass(GetAdminByEmailService).singleton(),
+        getUsersService: asClass(GetUsersService).singleton()
       })
       //admin auth
       .register({
@@ -111,6 +113,9 @@ export class Container {
         resetPasswordService: asClass(ResetPasswordService).singleton(),
         changePasswordController: asClass(ChangePasswordController).singleton(),
         resetPasswordController: asClass(ResetPasswordController)
+      })
+      .register({
+        getAllUsersController: asClass(controller.GetAllUsersController)
       })
       //doctor
       .register({

@@ -5,11 +5,13 @@ import {
   ICreateDoctorRequest,
   ICreatePatientRequest,
   IFetchOtpRequest,
+  IFetchUsersRequest,
   IFogotPasswordRequest,
   IResetPassword,
   IUpdateDoctorRequest
 } from '../../domain/interface/user-request.interface';
 import { CreateSession } from '../interface/user-session.interface';
+import { IPaginateResponse } from '../interface/user.response.interface';
 
 export interface IPrismaUserRepository {
   createAdmin(request: ICreateAdminRequest): Promise<void>;
@@ -45,4 +47,6 @@ export interface IPrismaUserRepository {
   changePassword(request: IChangePassword): Promise<void>;
 
   deleteAccount(userId: string): Promise<void>;
+
+  getPaginatedUsers(request: IFetchUsersRequest): Promise<IPaginateResponse<User>>;
 }

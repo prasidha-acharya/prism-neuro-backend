@@ -1,19 +1,95 @@
-import { LoginSession, OTP_TYPE, Otp, PrismaClient, User } from '@prisma/client';
+import { LoginSession, OTP_TYPE, Otp, Prisma, PrismaClient, User } from '@prisma/client';
 import {
   IChangePassword,
   ICreateAdminRequest,
   ICreateDoctorRequest,
   ICreatePatientRequest,
   IFetchOtpRequest,
+  IFetchUsersRequest,
   IFogotPasswordRequest,
   IResetPassword,
   IUpdateDoctorRequest
 } from '../../domain/interface/user-request.interface';
 import { CreateSession } from '../../domain/interface/user-session.interface';
+import { IPaginateResponse } from '../../domain/interface/user.response.interface';
 import { IPrismaUserRepository } from '../../domain/repositories/users-repository';
 
 export class PrismaUserRepository implements IPrismaUserRepository {
   constructor(private db: PrismaClient) {}
+
+  arguments(request: IFetchUsersRequest): Prisma.UserFindManyArgs['where'] {
+    const { startDate, endDate, search, createdBy, role } = request;
+
+    let args: Prisma.UserFindManyArgs['where'] = {
+      deletedAt: null,
+      createdBy: createdBy
+    };
+
+    if (role) {
+      args = { ...args, role };
+    }
+
+    if (startDate) {
+      args = {
+        ...args,
+        createdAt: {
+          gte: startDate,
+          lte: endDate ?? new Date()
+        }
+      };
+    }
+
+    if (search) {
+      args = {
+        ...args,
+        OR: [
+          {
+            email: {
+              contains: search
+            },
+            firstName: {
+              contains: search
+            }
+          }
+        ]
+      };
+    }
+
+    return args;
+  }
+
+  async getPaginatedUsers(request: IFetchUsersRequest): Promise<IPaginateResponse<any>> {
+    const { page = 1, limit = 10 } = request;
+    const args = this.arguments(request);
+
+    const [users, count] = await this.db.$transaction([
+      this.db.user.findMany({
+        where: args,
+        orderBy: {
+          createdAt: 'desc'
+        },
+        take: limit,
+        skip: (page - 1) * limit
+      }),
+      this.db.user.count({
+        where: args
+      })
+    ]);
+
+    const totalPages = Math.ceil(count / limit) ?? 0;
+
+    return {
+      data: users,
+      pagination: {
+        limit,
+        total: count,
+        totalPages,
+        currentPage: page,
+        isFirstPage: page === 0,
+        isLastPage: page === totalPages - 1
+      }
+    };
+  }
 
   async deleteAccount(userId: string): Promise<void> {
     await this.db.user.update({

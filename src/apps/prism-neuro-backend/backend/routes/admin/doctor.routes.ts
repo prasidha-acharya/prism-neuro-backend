@@ -142,5 +142,6 @@ export const physioRoutesHandler = (
       #swagger.responses[200]
     */
   );
+
   return router;
 };
