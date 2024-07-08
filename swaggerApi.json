@@ -7,10 +7,10 @@
   },
   "servers": [
     {
-      "url": "http://localhost:4000/api/"
+      "url": "http://localhost:8000/api/"
     },
     {
-      "url": "https://localhost:4000/api/"
+      "url": "https://localhost:8000/api/"
     }
   ],
   "paths": {
@@ -368,7 +368,39 @@
           {
             "bearerAuth": []
           }
-        ]
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["email", "otp", "newPassword", "confirmPassword"],
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "format": "email"
+                  },
+                  "otp": {
+                    "type": "string",
+                    "minLength": 5,
+                    "description": "OTP must be at least 5 characters long."
+                  },
+                  "password": {
+                    "type": "string",
+                    "minLength": 6,
+                    "description": "Password must be at least 6 characters long."
+                  },
+                  "confirmPassword": {
+                    "type": "string",
+                    "minLength": 6,
+                    "description": "Must match the password."
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/change-password": {
@@ -384,7 +416,35 @@
           {
             "bearerAuth": []
           }
-        ]
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["oldPassword", "newPassword", "confirmPassword"],
+                "properties": {
+                  "oldPassword": {
+                    "type": "string",
+                    "minLength": 6,
+                    "description": "The current password of the user."
+                  },
+                  "newPassword": {
+                    "type": "string",
+                    "minLength": 6,
+                    "description": "The new password to be set."
+                  },
+                  "confirmPassword": {
+                    "type": "string",
+                    "minLength": 6,
+                    "description": "The new password for confirmation, must match the new password."
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/doctor/login": {

@@ -1,9 +1,10 @@
-import { LoginSession, User } from '@prisma/client';
+import { LoginSession, OTP_TYPE, Otp, User } from '@prisma/client';
 import {
   IChangePassword,
   ICreateAdminRequest,
   ICreateDoctorRequest,
   ICreatePatientRequest,
+  IFetchOtpRequest,
   IFogotPasswordRequest,
   IResetPassword,
   IUpdateDoctorRequest
@@ -35,7 +36,9 @@ export interface IPrismaUserRepository {
 
   createOTP(request: IFogotPasswordRequest, userId: string): Promise<void>;
 
-  deleteOTP(request: IFogotPasswordRequest): Promise<void>;
+  deleteOTP(userId: string, type: OTP_TYPE): Promise<void>;
+
+  getOtp(request: IFetchOtpRequest): Promise<Otp | null>;
 
   resetPassword(request: IResetPassword): Promise<void>;
 

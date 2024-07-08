@@ -1,9 +1,10 @@
-import { LoginSession, PrismaClient, User } from '@prisma/client';
+import { LoginSession, OTP_TYPE, Otp, PrismaClient, User } from '@prisma/client';
 import {
   IChangePassword,
   ICreateAdminRequest,
   ICreateDoctorRequest,
   ICreatePatientRequest,
+  IFetchOtpRequest,
   IFogotPasswordRequest,
   IResetPassword,
   IUpdateDoctorRequest
@@ -14,9 +15,26 @@ import { IPrismaUserRepository } from '../../domain/repositories/users-repositor
 export class PrismaUserRepository implements IPrismaUserRepository {
   constructor(private db: PrismaClient) {}
 
-  deleteOTP(request: IFogotPasswordRequest): Promise<void> {
-    console.log(request);
-    throw new Error('Method not implemented.');
+  getOtp({ otp, type, userId }: IFetchOtpRequest): Promise<Otp | null> {
+    return this.db.otp.findFirst({
+      where: {
+        otpCode: otp,
+        type,
+        expiresAt: {
+          gte: new Date()
+        },
+        userId
+      }
+    });
+  }
+
+  async deleteOTP(userId: string, type: OTP_TYPE): Promise<void> {
+    await this.db.otp.delete({
+      where: {
+        id: userId,
+        type
+      }
+    });
   }
 
   async resetPassword({ email, data }: IResetPassword): Promise<void> {
@@ -60,12 +78,9 @@ export class PrismaUserRepository implements IPrismaUserRepository {
   }
 
   async removeSession(sessionId: string): Promise<void> {
-    await this.db.loginSession.update({
+    await this.db.loginSession.delete({
       where: {
         id: sessionId
-      },
-      data: {
-        deletedAt: new Date()
       }
     });
   }

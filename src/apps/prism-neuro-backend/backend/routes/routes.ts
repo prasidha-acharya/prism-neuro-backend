@@ -20,6 +20,8 @@ export const masterRouter = (
   deleteDoctorController: controllers.DeleteDoctorController,
   updateDoctorController: controllers.UpdateDoctorController,
   forgotPasswordController: controllers.ForgotPasswordController,
+  changePasswordController: controllers.ChangePasswordController,
+  resetPasswordController: controllers.ResetPasswordController,
   refreshAuthorizer: RefreshAuthorizer,
   userAuthorizer: JWTUserAuthorizer
 ): Router => {
@@ -29,7 +31,12 @@ export const masterRouter = (
   adminAuthRoutesHandler({ loginAdminController }, apiRouter);
   doctorRoutesHandler({ loginDoctorController, updateDoctorController, deleteDoctorController }, adminAuthorizer, apiRouter);
   PatientRoutesHandler({ loginPatientController }, apiRouter);
-  userRoutesHandler({ userLogoutController, generateAccessTokenController, forgotPasswordController }, userAuthorizer, refreshAuthorizer, apiRouter);
+  userRoutesHandler(
+    { userLogoutController, generateAccessTokenController, forgotPasswordController, changePasswordController, resetPasswordController },
+    userAuthorizer,
+    refreshAuthorizer,
+    apiRouter
+  );
 
   return apiRouter;
 };

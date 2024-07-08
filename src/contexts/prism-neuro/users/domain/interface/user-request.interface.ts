@@ -57,3 +57,9 @@ export interface IResetPassword {
     password: string;
   };
 }
+
+export interface IFetchOtpRequest {
+  userId: string;
+  type: OTP_TYPE;
+  otp: string;
+}
