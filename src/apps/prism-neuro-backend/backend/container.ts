@@ -1,4 +1,5 @@
 import { AwilixContainer, InjectionMode, asClass, asFunction, asValue, createContainer } from 'awilix';
+import { PrismaModeRepository } from 'src/contexts/prism-neuro/mode/infrastructure/repositories/prisma-mode-repository';
 import { config } from '../../../../config';
 import { ChangePasswordService } from '../../../contexts/prism-neuro/users/application/change-password.service';
 import { CreateDoctorByAdminService } from '../../../contexts/prism-neuro/users/application/create-doctor-by-admin.service';
@@ -124,6 +125,10 @@ export class Container {
         updateDoctorService: asClass(UpdateDoctorService).singleton(),
         deleteDoctorController: asClass(DeleteDoctorController),
         updateDoctorController: asClass(UpdateDoctorController)
+      })
+      // mode
+      .register({
+        prismaModeRepository: asClass(PrismaModeRepository)
       });
   }
 

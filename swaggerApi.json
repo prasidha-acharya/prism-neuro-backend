@@ -520,7 +520,7 @@
       }
     },
     "/delete-account": {
-      "post": {
+      "put": {
         "tags": ["User"],
         "summary": "Change password",
         "description": "End point to change password for all users ",

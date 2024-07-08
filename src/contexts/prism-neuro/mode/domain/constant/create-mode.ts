@@ -1,0 +1,3 @@
+import { MODE_TYPE } from '@prisma/client';
+
+export const modeTypes = [MODE_TYPE.BALANCE_MODE, MODE_TYPE.TARGET_MODE, MODE_TYPE.LEFT_RIGHT_MODE, MODE_TYPE.VISUAL_BALANCE_MODE];
