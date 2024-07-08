@@ -115,7 +115,8 @@ export class Container {
         resetPasswordController: asClass(ResetPasswordController)
       })
       .register({
-        getAllUsersController: asClass(controller.GetAllUsersController)
+        getAllUsersController: asClass(controller.GetAllUsersController),
+        getAllPatientListByPhysioIdController: asClass(controller.GetAllPatientListByPhysioIdController)
       })
       //doctor
       .register({

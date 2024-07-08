@@ -6,10 +6,12 @@ interface IHandler {
   createDoctorController: controllers.CreateDoctorController;
   deleteDoctorController: controllers.DeleteDoctorController;
   updateDoctorController: controllers.UpdateDoctorController;
+  getAllUsersController: controllers.GetAllUsersController;
+  getAllPatientListByPhysioIdController: controllers.GetAllPatientListByPhysioIdController;
 }
 
 export const physioRoutesHandler = (
-  { createDoctorController, deleteDoctorController, updateDoctorController }: IHandler,
+  { createDoctorController, deleteDoctorController, updateDoctorController, getAllUsersController, getAllPatientListByPhysioIdController }: IHandler,
   adminAuthorizer: IAuthorizer<Request, Response, NextFunction>,
   router: Router
 ): Router => {
@@ -140,6 +142,60 @@ export const physioRoutesHandler = (
         required: true,
       }
       #swagger.responses[200]
+    */
+  );
+
+  router.get(
+    '/admin/users',
+    adminAuthorizer.authorize,
+    getAllUsersController.validate,
+    getAllUsersController.invoke.bind(getAllUsersController)
+    /*
+      #swagger.security = [{
+            "bearerAuth": []
+    }] 
+      #swagger.tags = ['Admin']
+      #swagger.summary = 'Fetch all physio'
+      #swagger.description = 'Admin can access to all physio and patient'
+       #swagger.parameters['search'] = {
+        in: 'query',
+        type: 'string'
+      }
+      #swagger.parameters['startDate'] = {
+        in: 'query',
+        type: 'Date'
+      }
+         #swagger.parameters['endDate'] = {
+        in: 'query',
+        type: 'Date'
+      }
+      #swagger.parameters['role'] = {
+        in: 'query',
+        type: 'string',
+        enum: ["PATIENT","PHYSIO"]
+      }
+      #swagger.responses[200]
+    }
+    */
+  );
+
+  router.get(
+    '/admin/patients/:physioId',
+    adminAuthorizer.authorize,
+    getAllPatientListByPhysioIdController.invoke.bind(getAllPatientListByPhysioIdController)
+    /*
+      #swagger.security = [{
+            "bearerAuth": []
+    }] 
+      #swagger.tags = ['Admin']
+      #swagger.summary = 'Fetch all patient of physio'
+      #swagger.description = 'Admin can access to all patient detail'
+       #swagger.parameters['search'] = {
+        in: 'query',
+        type: 'string'
+      }
+      #swagger.responses[200]
+    }
     */
   );
 

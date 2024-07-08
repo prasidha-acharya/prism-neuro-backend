@@ -1,6 +1,7 @@
 export * from './admin/auth/login-admin.controller';
 export * from './admin/doctor/create-doctor.controller';
 export * from './admin/doctor/delete-doctor.controller';
+export * from './admin/doctor/get-patient-list-by-patient.controller';
 export * from './admin/doctor/login-doctor.controller';
 export * from './admin/doctor/update-doctor.controller';
 export * from './admin/general/get-all-users.controller';

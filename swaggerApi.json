@@ -262,6 +262,88 @@
         ]
       }
     },
+    "/admin/users": {
+      "get": {
+        "tags": ["Admin"],
+        "summary": "Fetch all physio",
+        "description": "Admin can access to all physio and patient",
+        "parameters": [
+          {
+            "name": "search",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "startDate",
+            "in": "query",
+            "schema": {
+              "type": "Date"
+            }
+          },
+          {
+            "name": "endDate",
+            "in": "query",
+            "schema": {
+              "type": "Date"
+            }
+          },
+          {
+            "name": "role",
+            "in": "query",
+            "enum": ["PATIENT", "PHYSIO"],
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/admin/patients/{physioId}": {
+      "get": {
+        "tags": ["Admin"],
+        "summary": "Fetch all patient of physio",
+        "description": "Admin can access to all patient detail",
+        "parameters": [
+          {
+            "name": "physioId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
     "/refresh": {
       "get": {
         "tags": ["User"],
@@ -442,53 +524,6 @@
         "tags": ["User"],
         "summary": "Change password",
         "description": "End point to change password for all users ",
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        },
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ]
-      }
-    },
-    "/admin/users": {
-      "get": {
-        "tags": ["Admin"],
-        "summary": "Fetch all physio",
-        "description": "Admin can access to all physio and patient",
-        "parameters": [
-          {
-            "name": "search",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "startDate",
-            "in": "query",
-            "schema": {
-              "type": "Date"
-            }
-          },
-          {
-            "name": "endDate",
-            "in": "query",
-            "schema": {
-              "type": "Date"
-            }
-          },
-          {
-            "name": "role",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
         "responses": {
           "200": {
             "description": "OK"
