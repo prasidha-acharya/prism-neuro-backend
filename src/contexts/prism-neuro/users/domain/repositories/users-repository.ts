@@ -43,4 +43,6 @@ export interface IPrismaUserRepository {
   resetPassword(request: IResetPassword): Promise<void>;
 
   changePassword(request: IChangePassword): Promise<void>;
+
+  deleteAccount(userId: string): Promise<void>;
 }

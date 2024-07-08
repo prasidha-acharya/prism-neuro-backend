@@ -22,6 +22,8 @@ export const userRoutesHandler = (
     generateAccessTokenController.invoke.bind(generateAccessTokenController)
     /*
         #swagger.tags = ['User']
+        #swagger.description="Get access token"
+        #swagger.description="End point "
         #swagger.security = [{
               "bearerAuth": []
             }]
@@ -38,6 +40,8 @@ export const userRoutesHandler = (
     userLogoutController.invoke.bind(userLogoutController)
     /*
         #swagger.tags = ['User']
+        #swagger.summary = "Logout"
+        #swagger.description = "End point to logout"
         #swagger.security = [{
               "bearerAuth": []
             }]
@@ -53,6 +57,8 @@ export const userRoutesHandler = (
     forgotPasswordController.invoke.bind(forgotPasswordController)
     /*
         #swagger.tags = ['User']
+        #swagger.summary = "Generate otp to reset password"
+        #swagger.description = "End point to generate otp for changing password for all user"
         #swagger.responses[200]
            #swagger.requestBody = {
           required: true,
@@ -76,6 +82,8 @@ export const userRoutesHandler = (
     resetPasswordController.invoke.bind(resetPasswordController)
     /*
         #swagger.tags = ['User']
+        #swagger.summary = "Reset Password"
+        #swagger.description = "End point to reset password"
    #swagger.requestBody = {
           required: true,
           content: {
@@ -103,6 +111,8 @@ export const userRoutesHandler = (
     changePasswordController.invoke.bind(changePasswordController)
     /*
         #swagger.tags = ['User']
+        #swagger.summary = "Change password"
+        #swagger.description = "End point to change password for all users "
         #swagger.security = [{
               "bearerAuth": []
             }]
@@ -122,6 +132,21 @@ export const userRoutesHandler = (
             }
           }
         }
+        #swagger.responses[200]
+        */
+  );
+
+  router.post(
+    '/delete-account',
+    userAuthorizer.authorize,
+    changePasswordController.invoke.bind(changePasswordController)
+    /*
+        #swagger.tags = ['User']
+        #swagger.summary = "Change password"
+        #swagger.description = "End point to change password for all users "
+        #swagger.security = [{
+              "bearerAuth": []
+            }]
         #swagger.responses[200]
         */
   );

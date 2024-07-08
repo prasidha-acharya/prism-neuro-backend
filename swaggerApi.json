@@ -59,10 +59,10 @@
         }
       }
     },
-    "/admin/create-doctor": {
+    "/admin/create-physio": {
       "post": {
-        "tags": ["Admin Doctor"],
-        "summary": "Admin creates doctor",
+        "tags": ["Admin Physio"],
+        "summary": "Admin creates physio",
         "description": "",
         "responses": {
           "201": {
@@ -86,14 +86,14 @@
         }
       }
     },
-    "/admin/doctor/{doctorId}": {
+    "/admin/physio/{physioId}": {
       "get": {
-        "tags": ["Admin Doctor"],
-        "summary": "Login for Admin Controller",
-        "description": "Endpoint for administrators to log in, providing email, password, and optionally device info and device type",
+        "tags": ["Admin Physio"],
+        "summary": "Fetch physio data by id",
+        "description": "Endpoint to fetch physio data by id",
         "parameters": [
           {
-            "name": "doctorId",
+            "name": "physioId",
             "in": "path",
             "required": true,
             "schema": {
@@ -146,11 +146,11 @@
         }
       }
     },
-    "/admin/doctors": {
+    "/admin/physio": {
       "get": {
-        "tags": ["Admin Doctor"],
-        "summary": "Fetch all doctors",
-        "description": "Admin can access to all doctors",
+        "tags": ["Admin Physio"],
+        "summary": "Fetch all physio",
+        "description": "Admin can access to all physio",
         "responses": {
           "200": {
             "description": "OK",
@@ -175,14 +175,14 @@
         ]
       }
     },
-    "/admin/update-doctor/{doctorId}": {
+    "/admin/update-physio/{physioId}": {
       "put": {
-        "tags": ["Admin Doctor"],
-        "summary": "Login for Admin Controller",
-        "description": "Endpoint for administrators to log in, providing email, password, and optionally device info and device type",
+        "tags": ["Admin Physio"],
+        "summary": "Admin update physio",
+        "description": "Admin can update physio",
         "parameters": [
           {
-            "name": "doctorId",
+            "name": "physioId",
             "in": "path",
             "required": true,
             "schema": {
@@ -235,14 +235,14 @@
         }
       }
     },
-    "/admin/delete-doctor/{doctorId}": {
+    "/admin/delete-physio/{physioId}": {
       "delete": {
-        "tags": ["Admin Doctor"],
-        "summary": "Login for Admin Controller",
-        "description": "Endpoint for administrators to log in, providing email, password, and optionally device info and device type",
+        "tags": ["Admin Physio"],
+        "summary": "Delete physio data",
+        "description": "End point to delete physio",
         "parameters": [
           {
-            "name": "doctorId",
+            "name": "physioId",
             "in": "path",
             "required": true,
             "schema": {
@@ -259,34 +259,13 @@
           {
             "bearerAuth": []
           }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "required": ["email", "password"],
-                "properties": {
-                  "email": {
-                    "type": "string",
-                    "format": "email"
-                  },
-                  "password": {
-                    "type": "string",
-                    "minLength": 6
-                  }
-                }
-              }
-            }
-          }
-        }
+        ]
       }
     },
     "/refresh": {
       "get": {
         "tags": ["User"],
-        "description": "",
+        "description": "Get access token",
         "responses": {
           "200": {
             "description": "OK",
@@ -314,7 +293,8 @@
     "/logout": {
       "get": {
         "tags": ["User"],
-        "description": "",
+        "summary": "Logout",
+        "description": "End point to logout",
         "responses": {
           "200": {
             "description": "OK",
@@ -342,7 +322,8 @@
     "/forgot-password": {
       "post": {
         "tags": ["User"],
-        "description": "",
+        "summary": "Generate otp to reset password",
+        "description": "End point to generate otp for changing password for all user",
         "responses": {
           "200": {
             "description": "OK"
@@ -370,7 +351,8 @@
     "/reset-password": {
       "post": {
         "tags": ["User"],
-        "description": "",
+        "summary": "Reset Password",
+        "description": "End point to reset password",
         "responses": {
           "200": {
             "description": "OK"
@@ -413,7 +395,8 @@
     "/change-password": {
       "post": {
         "tags": ["User"],
-        "description": "",
+        "summary": "Change password",
+        "description": "End point to change password for all users ",
         "responses": {
           "200": {
             "description": "OK"
@@ -454,11 +437,28 @@
         }
       }
     },
-    "/doctor/login": {
+    "/delete-account": {
       "post": {
-        "tags": ["Doctor"],
-        "summary": "Login for Admin Controller",
-        "description": "Endpoint for administrators to log in, providing email, password, and optionally device info and device type",
+        "tags": ["User"],
+        "summary": "Change password",
+        "description": "End point to change password for all users ",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/physio/login": {
+      "post": {
+        "tags": ["Physio"],
+        "summary": "Login for physio",
+        "description": "Endpoint for physio-therapist to log in, providing email, password, and optionally device info and device type",
         "responses": {
           "200": {
             "description": "OK",

@@ -14,13 +14,13 @@ export const doctorRoutesHandler = (
   router: Router
 ): Router => {
   router.post(
-    '/doctor/login',
+    '/physio/login',
     loginDoctorController.validate,
     loginDoctorController.invoke.bind(loginDoctorController)
     /*
-      #swagger.tags = ['Doctor']
-      #swagger.summary = 'Login for Admin Controller'
-      #swagger.description = 'Endpoint for administrators to log in, providing email, password, and optionally device info and device type'
+      #swagger.tags = ['Physio']
+      #swagger.summary = 'Login for physio'
+      #swagger.description = 'Endpoint for physio-therapist to log in, providing email, password, and optionally device info and device type'
       #swagger.requestBody = {
       required: true,
       content: {
@@ -45,7 +45,7 @@ export const doctorRoutesHandler = (
   );
 
   // router.get(
-  //   '/doctor/:doctorId',
+  //   '/physion/:physioId',
   //   adminAuthorizer.authorize
   //   /*
   //     #swagger.security = [{

@@ -33,7 +33,7 @@ export class ResetPasswordController implements Controller {
         if (isUserExist) return true;
         throw new HTTP404Error(MESSAGE_CODES.USER.INVALID_EMAIL);
       }),
-    body('otp').exists().withMessage(MESSAGE_CODES.USER.REQUIRED_OTP).isLength({ min: 5 }).withMessage(MESSAGE_CODES.USER.MIN_OTP_LENGTH_5),
+    body('otp').exists().withMessage(MESSAGE_CODES.USER.REQUIRED_OTP).isLength({ min: 6 }).withMessage(MESSAGE_CODES.USER.MIN_OTP_LENGTH_5),
     body('password')
       .exists()
       .withMessage(MESSAGE_CODES.USER.REQUIRED_PASSWORD)

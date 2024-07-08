@@ -12,7 +12,7 @@ export class DeleteDoctorController implements Controller {
   constructor(private deleteDoctorService: DeleteDoctorService) {}
 
   public validate = [
-    param('doctorId').exists().withMessage(MESSAGE_CODES.USER.REQUIRED_EMAIL).isEmail().withMessage(MESSAGE_CODES.USER.INVALID_EMAIL),
+    param('physioId').exists().withMessage(MESSAGE_CODES.USER.REQUIRED_EMAIL).isEmail().withMessage(MESSAGE_CODES.USER.INVALID_EMAIL),
     RequestValidator
   ];
 
@@ -22,8 +22,8 @@ export class DeleteDoctorController implements Controller {
     next: NextFunction
   ): Promise<void> {
     try {
-      const { doctorId } = req.params;
-      await this.deleteDoctorService.invoke(doctorId);
+      const { physioId } = req.params;
+      await this.deleteDoctorService.invoke(physioId);
       res.status(httpStatus.OK).send();
     } catch (error) {
       next(error);

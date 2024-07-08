@@ -14,7 +14,7 @@ export const physioRoutesHandler = (
   router: Router
 ): Router => {
   router.post(
-    '/admin/create-doctor',
+    '/admin/create-physio',
     adminAuthorizer.authorize,
     createDoctorController.validate,
     createDoctorController.invoke.bind(createDoctorController)
@@ -22,8 +22,8 @@ export const physioRoutesHandler = (
     #swagger.security = [{
             "bearerAuth": []
     }] 
-   #swagger.tags = ['Admin Doctor']
-   #swagger.summary = 'Admin creates doctor'
+   #swagger.tags = ['Admin Physio']
+   #swagger.summary = 'Admin creates physio'
    #swagger.description = ''
    #swagger.requestBody = {
             required: true,
@@ -39,15 +39,15 @@ export const physioRoutesHandler = (
   */
   );
   router.get(
-    '/admin/doctor/:doctorId',
+    '/admin/physio/:physioId',
     adminAuthorizer.authorize
     /*
       #swagger.security = [{
             "bearerAuth": []
     }] 
-      #swagger.tags = ['Admin Doctor']
-      #swagger.summary = 'Login for Admin Controller'
-      #swagger.description = 'Endpoint for administrators to log in, providing email, password, and optionally device info and device type'
+      #swagger.tags = ['Admin Physio']
+      #swagger.summary = 'Fetch physio data by id'
+      #swagger.description = 'Endpoint to fetch physio data by id'
       #swagger.requestBody = {
       required: true,
       content: {
@@ -72,15 +72,15 @@ export const physioRoutesHandler = (
   );
 
   router.get(
-    '/admin/doctors',
+    '/admin/physio',
     adminAuthorizer.authorize
     /*
       #swagger.security = [{
             "bearerAuth": []
     }] 
-      #swagger.tags = ['Admin Doctor']
-      #swagger.summary = 'Fetch all doctors'
-      #swagger.description = 'Admin can access to all doctors'
+      #swagger.tags = ['Admin Physio']
+      #swagger.summary = 'Fetch all physio'
+      #swagger.description = 'Admin can access to all physio'
       #swagger.responses[200]  = {
       schema: {
         $ref: "#/components/schemas/loginAdminReponse"
@@ -90,16 +90,16 @@ export const physioRoutesHandler = (
   );
 
   router.put(
-    '/admin/update-doctor/:doctorId',
+    '/admin/update-physio/:physioId',
     adminAuthorizer.authorize,
     updateDoctorController.invoke.bind(updateDoctorController)
     /*
       #swagger.security = [{
             "bearerAuth": []
     }] 
-      #swagger.tags = ['Admin Doctor']
-      #swagger.summary = 'Login for Admin Controller'
-      #swagger.description = 'Endpoint for administrators to log in, providing email, password, and optionally device info and device type'
+      #swagger.tags = ['Admin Physio']
+      #swagger.summary = 'Admin update physio'
+      #swagger.description = 'Admin can update physio'
       #swagger.requestBody = {
       required: true,
       content: {
@@ -124,31 +124,21 @@ export const physioRoutesHandler = (
   );
 
   router.delete(
-    '/admin/delete-doctor/:doctorId',
+    '/admin/delete-physio/:physioId',
     adminAuthorizer.authorize,
     deleteDoctorController.invoke.bind(deleteDoctorController)
     /*
       #swagger.security = [{
             "bearerAuth": []
     }] 
-      #swagger.tags = ['Admin Doctor']
-      #swagger.summary = 'Login for Admin Controller'
-      #swagger.description = 'Endpoint for administrators to log in, providing email, password, and optionally device info and device type'
-      #swagger.requestBody = {
-      required: true,
-      content: {
-        "application/json": {
-          schema: {
-            type: "object",
-            required: ["email", "password"],
-            properties: {
-              email: { type: "string", format: "email" },
-              password: { type: "string", minLength: 6 },
-            }
-          }
-        }
+      #swagger.tags = ['Admin Physio']
+      #swagger.summary = 'Delete physio data'
+      #swagger.description = 'End point to delete physio'
+         #swagger.parameters['physioId'] = {
+        in: 'path',
+        type: 'string',
+        required: true,
       }
-    }
       #swagger.responses[200]
     */
   );

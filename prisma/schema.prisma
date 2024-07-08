@@ -83,7 +83,7 @@ enum ModeSessionStatus {
 model ModeSession {
   id        String            @id @default(uuid())
   patientId String
-  doctorId  String
+  physioId  String
   modeId    String
   status    ModeSessionStatus
   createdAt DateTime          @default(now()) @db.Timestamptz()

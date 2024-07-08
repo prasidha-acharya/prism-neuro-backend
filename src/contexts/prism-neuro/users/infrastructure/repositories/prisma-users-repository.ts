@@ -15,6 +15,17 @@ import { IPrismaUserRepository } from '../../domain/repositories/users-repositor
 export class PrismaUserRepository implements IPrismaUserRepository {
   constructor(private db: PrismaClient) {}
 
+  async deleteAccount(userId: string): Promise<void> {
+    await this.db.user.update({
+      where: {
+        id: userId
+      },
+      data: {
+        deletedAt: new Date()
+      }
+    });
+  }
+
   getOtp({ otp, type, userId }: IFetchOtpRequest): Promise<Otp | null> {
     return this.db.otp.findFirst({
       where: {
