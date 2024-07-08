@@ -21,7 +21,10 @@ export class PrismaModeRepository implements IModeRepository {
   async createLeftRightMode(request: ICreateLeftRightMode): Promise<void> {
     await this.db.mode.create({
       data: {
-        ...request
+        ...request,
+        modeDetail: {
+          create: {}
+        }
       }
     });
   }
@@ -29,7 +32,10 @@ export class PrismaModeRepository implements IModeRepository {
   async createVisualBalanceMode(request: ICreateVisualBalanceModeRequest): Promise<void> {
     await this.db.mode.create({
       data: {
-        ...request
+        ...request,
+        modeDetail: {
+          create: {}
+        }
       }
     });
   }

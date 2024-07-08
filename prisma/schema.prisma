@@ -84,7 +84,7 @@ model ModeSession {
   id        String            @id @default(uuid())
   patientId String
   physioId  String
-  modeId    String
+  modeId    String?
   status    ModeSessionStatus
   createdAt DateTime          @default(now()) @db.Timestamptz()
   updatedAt DateTime          @default(now()) @db.Timestamptz()

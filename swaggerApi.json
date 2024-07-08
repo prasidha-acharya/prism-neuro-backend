@@ -581,6 +581,28 @@
         }
       }
     },
+    "/mode/session-start": {
+      "post": {
+        "tags": ["Mode session"],
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/mode/session-end": {
+      "post": {
+        "tags": ["Mode session"],
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
     "/patient/login": {
       "post": {
         "tags": ["Patient"],

@@ -1,6 +1,10 @@
 import { AwilixContainer, InjectionMode, asClass, asFunction, asValue, createContainer } from 'awilix';
-import { PrismaModeRepository } from 'src/contexts/prism-neuro/mode/infrastructure/repositories/prisma-mode-repository';
 import { config } from '../../../../config';
+import { EndModeSessionService } from '../../../contexts/prism-neuro/mode-session/application/end-session.service';
+import { StartModeSessionService } from '../../../contexts/prism-neuro/mode-session/application/start-session.service';
+import { PrismaModeSessionRepository } from '../../../contexts/prism-neuro/mode-session/infrastructure/repositories/prisma-mode-session-repository';
+import { PrismaModeRepository } from '../../../contexts/prism-neuro/mode/infrastructure/repositories/prisma-mode-repository';
+import { CreateModeSeeder } from '../../../contexts/prism-neuro/mode/infrastructure/seeders/create-mode.seeder';
 import { ChangePasswordService } from '../../../contexts/prism-neuro/users/application/change-password.service';
 import { CreateDoctorByAdminService } from '../../../contexts/prism-neuro/users/application/create-doctor-by-admin.service';
 import { AddUserSessionService } from '../../../contexts/prism-neuro/users/application/create-user-session.service';
@@ -25,6 +29,7 @@ import { createPrismaClient } from '../../../contexts/shared/infrastructure/pers
 import { RequestLogger } from '../../../contexts/shared/infrastructure/request-logs/request-logger';
 import { ServerLogger } from '../../../contexts/shared/infrastructure/winston-logger/index';
 import * as controller from './controllers';
+import { StartModeSessionController } from './controllers/mode-session/start-mode-session.controller';
 import { Router } from './router';
 import { masterRouter } from './routes/routes';
 import { Server } from './server';
@@ -87,7 +92,7 @@ export class Container {
       .register({
         adminAuthorizer: asClass(JWTAdminAuthorizer).singleton(),
         userAuthorizer: asClass(JWTUserAuthorizer).singleton(),
-        doctorAuthorizer: asClass(JWTDoctorAuthorizer).singleton(),
+        physioAuthorizer: asClass(JWTDoctorAuthorizer).singleton(),
         generateAccessTokenController: asClass(GenerateAccessTokenController).singleton()
       })
       // user session
@@ -102,7 +107,10 @@ export class Container {
         loginDoctorController: asClass(LoginDoctorController)
       })
       //seeder
-      .register({ adminSeeder: asClass(CreateAdminSeeder).singleton() })
+      .register({
+        adminSeeder: asClass(CreateAdminSeeder).singleton(),
+        modeSeeder: asClass(CreateModeSeeder).singleton()
+      })
       //user logout
       .register({
         userLogoutController: asClass(UserLogoutController),
@@ -128,7 +136,12 @@ export class Container {
       })
       // mode
       .register({
-        prismaModeRepository: asClass(PrismaModeRepository)
+        prismaModeRepository: asClass(PrismaModeRepository),
+        prismaModeSessionRepository: asClass(PrismaModeSessionRepository),
+        startModeSessionService: asClass(StartModeSessionService).singleton(),
+        endModeSessionService: asClass(EndModeSessionService).singleton(),
+        startModeSessionController: asClass(StartModeSessionController),
+        endModeSessionController: asClass(controller.EndModeSessionController)
       });
   }
 

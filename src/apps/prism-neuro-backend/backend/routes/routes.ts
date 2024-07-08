@@ -1,12 +1,14 @@
 import { NextFunction, Request, Response, Router } from 'express';
-import { RefreshAuthorizer } from 'src/contexts/shared/infrastructure/authorizer/refresh.authorizer';
-import { JWTUserAuthorizer } from 'src/contexts/shared/infrastructure/authorizer/user.authorizer';
 import { IAuthorizer } from '../../../../contexts/shared/domain/model/authentication/authorizer';
+import { JWTDoctorAuthorizer } from '../../../../contexts/shared/infrastructure/authorizer/doctor.authorizer';
+import { RefreshAuthorizer } from '../../../../contexts/shared/infrastructure/authorizer/refresh.authorizer';
+import { JWTUserAuthorizer } from '../../../../contexts/shared/infrastructure/authorizer/user.authorizer';
 import * as controllers from '../controllers';
 import { adminAuthRoutesHandler } from './admin/auth.routes';
 import { physioRoutesHandler } from './admin/doctor.routes';
 import { userRoutesHandler } from './admin/user.routes';
 import { doctorRoutesHandler } from './doctor/doctor.routes';
+import { modeSessionRoutesHandler } from './mode-session/mode-session.routes';
 import { PatientRoutesHandler } from './patient/patient.routes';
 
 export const masterRouter = (
@@ -24,8 +26,11 @@ export const masterRouter = (
   resetPasswordController: controllers.ResetPasswordController,
   getAllUsersController: controllers.GetAllUsersController,
   getAllPatientListByPhysioIdController: controllers.GetAllPatientListByPhysioIdController,
+  startModeSessionController: controllers.StartModeSessionController,
+  endModeSessionController: controllers.EndModeSessionController,
   refreshAuthorizer: RefreshAuthorizer,
-  userAuthorizer: JWTUserAuthorizer
+  userAuthorizer: JWTUserAuthorizer,
+  physioAuthorizer: JWTDoctorAuthorizer
 ): Router => {
   const apiRouter = Router();
 
@@ -49,6 +54,8 @@ export const masterRouter = (
     refreshAuthorizer,
     apiRouter
   );
+
+  modeSessionRoutesHandler({ endModeSessionController, startModeSessionController }, physioAuthorizer, apiRouter);
 
   return apiRouter;
 };
