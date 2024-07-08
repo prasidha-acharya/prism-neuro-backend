@@ -1,10 +1,18 @@
 import { AwilixContainer, InjectionMode, asClass, asFunction, asValue, createContainer } from 'awilix';
 import { config } from '../../../../config';
+import { ChangePasswordService } from '../../../contexts/prism-neuro/users/application/change-password.service';
 import { CreateDoctorByAdminService } from '../../../contexts/prism-neuro/users/application/create-doctor-by-admin.service';
 import { AddUserSessionService } from '../../../contexts/prism-neuro/users/application/create-user-session.service';
+import { DeleteDoctorService } from '../../../contexts/prism-neuro/users/application/delete-doctor-by-admin.service';
+import { DeleteOTPService } from '../../../contexts/prism-neuro/users/application/delete-otp.service';
 import { DeleteUserSessionService } from '../../../contexts/prism-neuro/users/application/delete-user-session.service';
+import { ForgotPasswordService } from '../../../contexts/prism-neuro/users/application/forgot-password.service';
 import { GetAdminByEmailService } from '../../../contexts/prism-neuro/users/application/get-admin-email.service';
+import { GetOtpService } from '../../../contexts/prism-neuro/users/application/get-otp.service';
 import { GetUserSessionService } from '../../../contexts/prism-neuro/users/application/get-user-session.service';
+import { GetUsersService } from '../../../contexts/prism-neuro/users/application/get-users.service';
+import { ResetPasswordService } from '../../../contexts/prism-neuro/users/application/reset-password.service';
+import { UpdateDoctorService } from '../../../contexts/prism-neuro/users/application/update-doctor-by-admin.service';
 import { PrismaUserRepository } from '../../../contexts/prism-neuro/users/infrastructure/repositories/prisma-users-repository';
 import { CreateAdminSeeder } from '../../../contexts/prism-neuro/users/infrastructure/seeders/create-admin.seeder';
 import { JWTAdminAuthorizer } from '../../../contexts/shared/infrastructure/authorizer/admin.authorizer';
@@ -15,15 +23,24 @@ import { ErrorMiddleware } from '../../../contexts/shared/infrastructure/middlew
 import { createPrismaClient } from '../../../contexts/shared/infrastructure/persistence/prisma';
 import { RequestLogger } from '../../../contexts/shared/infrastructure/request-logs/request-logger';
 import { ServerLogger } from '../../../contexts/shared/infrastructure/winston-logger/index';
-import { LoginAdminController, LoginDoctorController } from './controllers';
-import { CreateDoctorController } from './controllers/admin/doctor/create-doctor.controller';
-import { GenerateAccessTokenController } from './controllers/general/access-token.controller';
-import { UserLogoutController } from './controllers/general/logout.controller';
-import { LoginPatientController } from './controllers/patient/login-patient.controller';
+import * as controller from './controllers';
 import { Router } from './router';
 import { masterRouter } from './routes/routes';
 import { Server } from './server';
 
+const {
+  CreateDoctorController,
+  DeleteDoctorController,
+  ForgotPasswordController,
+  GenerateAccessTokenController,
+  LoginAdminController,
+  LoginDoctorController,
+  LoginPatientController,
+  UpdateDoctorController,
+  UserLogoutController,
+  ChangePasswordController,
+  ResetPasswordController
+} = controller;
 export class Container {
   private readonly container: AwilixContainer;
 
@@ -54,11 +71,16 @@ export class Container {
         prismaUserRepository: asClass(PrismaUserRepository),
         createDoctorByAdminService: asClass(CreateDoctorByAdminService).singleton(),
         createDoctorController: asClass(CreateDoctorController),
-        getAdminByEmailService: asClass(GetAdminByEmailService).singleton()
+        getAdminByEmailService: asClass(GetAdminByEmailService).singleton(),
+        getUsersService: asClass(GetUsersService).singleton()
       })
       //admin auth
       .register({
         loginAdminController: asClass(LoginAdminController)
+      })
+      // general auth
+      .register({
+        forgotPasswordController: asClass(ForgotPasswordController)
       })
       //authorizer
       .register({
@@ -83,7 +105,25 @@ export class Container {
       //user logout
       .register({
         userLogoutController: asClass(UserLogoutController),
-        refreshAuthorizer: asClass(RefreshAuthorizer)
+        refreshAuthorizer: asClass(RefreshAuthorizer),
+        forgotPasswordService: asClass(ForgotPasswordService).singleton(),
+        deleteOTPService: asClass(DeleteOTPService).singleton(),
+        getOtpService: asClass(GetOtpService).singleton(),
+        changePasswordService: asClass(ChangePasswordService).singleton(),
+        resetPasswordService: asClass(ResetPasswordService).singleton(),
+        changePasswordController: asClass(ChangePasswordController).singleton(),
+        resetPasswordController: asClass(ResetPasswordController)
+      })
+      .register({
+        getAllUsersController: asClass(controller.GetAllUsersController),
+        getAllPatientListByPhysioIdController: asClass(controller.GetAllPatientListByPhysioIdController)
+      })
+      //doctor
+      .register({
+        deleteDoctorService: asClass(DeleteDoctorService).singleton(),
+        updateDoctorService: asClass(UpdateDoctorService).singleton(),
+        deleteDoctorController: asClass(DeleteDoctorController),
+        updateDoctorController: asClass(UpdateDoctorController)
       });
   }
 
