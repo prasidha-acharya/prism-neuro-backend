@@ -6,36 +6,54 @@ export class CreateModeSeeder {
   constructor(private prismaModeRepository: PrismaModeRepository) {}
 
   public async invoke(): Promise<void> {
-    const trialCount = 3;
-    const trialDuration = 30;
     try {
-      const response = modeTypes.map(type => {
+      const response = modeTypes.map(async ({ type, name, instructions, trialCount, trialDuration }) => {
         if (type === MODE_TYPE.BALANCE_MODE) {
-          this.prismaModeRepository.createBalanceMode({
-            type: MODE_TYPE.BALANCE_MODE,
-            trialCount,
-            trialDuration,
-            name: 'Balance Mode-with Feedback'
-          });
+          const isModeAvailable = await this.prismaModeRepository.getMode({ type });
+
+          if (!isModeAvailable) {
+            this.prismaModeRepository.createBalanceMode({
+              type: MODE_TYPE.BALANCE_MODE,
+              trialCount,
+              trialDuration,
+              name,
+              instructions
+            });
+          }
         } else if (type === MODE_TYPE.LEFT_RIGHT_MODE) {
-          this.prismaModeRepository.createLeftRightMode({
-            type: MODE_TYPE.LEFT_RIGHT_MODE,
-            trialCount,
-            name: 'Left and Right Mode'
-          });
+          const isModeAvailable = await this.prismaModeRepository.getMode({ type });
+
+          if (!isModeAvailable) {
+            this.prismaModeRepository.createLeftRightMode({
+              type: MODE_TYPE.LEFT_RIGHT_MODE,
+              trialCount,
+              name,
+              instructions
+            });
+          }
         } else if (type === MODE_TYPE.TARGET_MODE) {
-          this.prismaModeRepository.createTargetMode({
-            type: MODE_TYPE.TARGET_MODE,
-            trialCount,
-            trialDuration,
-            name: 'Target Mode'
-          });
+          const isModeAvailable = await this.prismaModeRepository.getMode({ type });
+
+          if (!isModeAvailable) {
+            this.prismaModeRepository.createTargetMode({
+              type: MODE_TYPE.TARGET_MODE,
+              trialCount,
+              trialDuration,
+              name,
+              instructions
+            });
+          }
         } else {
-          this.prismaModeRepository.createVisualBalanceMode({
-            type: MODE_TYPE.VISUAL_BALANCE_MODE,
-            trialCount,
-            name: 'Balance Mode with visuals-no Feedback'
-          });
+          const isModeAvailable = await this.prismaModeRepository.getMode({ type });
+
+          if (!isModeAvailable) {
+            this.prismaModeRepository.createVisualBalanceMode({
+              type: MODE_TYPE.VISUAL_BALANCE_MODE,
+              trialCount,
+              name,
+              instructions
+            });
+          }
         }
       });
 

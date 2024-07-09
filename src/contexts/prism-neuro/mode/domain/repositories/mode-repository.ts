@@ -1,8 +1,10 @@
+import { Mode } from '@prisma/client';
 import {
   ICreateBalanceModeRequest,
   ICreateLeftRightMode,
   ICreateTargetModeRequest,
-  ICreateVisualBalanceModeRequest
+  ICreateVisualBalanceModeRequest,
+  IGetModeRequest
 } from '../interface/mode-request.interface';
 
 export interface IModeRepository {
@@ -10,4 +12,5 @@ export interface IModeRepository {
   createBalanceMode(request: ICreateBalanceModeRequest): Promise<void>;
   createLeftRightMode(request: ICreateLeftRightMode): Promise<void>;
   createVisualBalanceMode(request: ICreateVisualBalanceModeRequest): Promise<void>;
+  getMode(request: IGetModeRequest): Promise<Mode | null>;
 }

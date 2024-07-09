@@ -1,19 +1,29 @@
-import { PrismaClient } from '@prisma/client';
+import { Mode, PrismaClient } from '@prisma/client';
 import {
   ICreateBalanceModeRequest,
   ICreateLeftRightMode,
   ICreateTargetModeRequest,
-  ICreateVisualBalanceModeRequest
+  ICreateVisualBalanceModeRequest,
+  IGetModeRequest
 } from '../../domain/interface/mode-request.interface';
 import { IModeRepository } from '../../domain/repositories/mode-repository';
 
 export class PrismaModeRepository implements IModeRepository {
   constructor(private db: PrismaClient) {}
 
+  getMode(request: IGetModeRequest): Promise<Mode | null> {
+    return this.db.mode.findFirst({ where: { type: request.type } });
+  }
+
   async createTargetMode(request: ICreateTargetModeRequest): Promise<void> {
     await this.db.mode.create({
       data: {
-        ...request
+        ...request,
+        modeDetail: {
+          create: {
+            instructions: request.instructions
+          }
+        }
       }
     });
   }
@@ -23,7 +33,9 @@ export class PrismaModeRepository implements IModeRepository {
       data: {
         ...request,
         modeDetail: {
-          create: {}
+          create: {
+            instructions: request.instructions
+          }
         }
       }
     });
@@ -34,7 +46,9 @@ export class PrismaModeRepository implements IModeRepository {
       data: {
         ...request,
         modeDetail: {
-          create: {}
+          create: {
+            instructions: request.instructions
+          }
         }
       }
     });
@@ -43,7 +57,12 @@ export class PrismaModeRepository implements IModeRepository {
   async createBalanceMode(request: ICreateBalanceModeRequest): Promise<void> {
     await this.db.mode.create({
       data: {
-        ...request
+        ...request,
+        modeDetail: {
+          create: {
+            instructions: request.instructions
+          }
+        }
       }
     });
   }
