@@ -12,47 +12,55 @@ export class CreateModeSeeder {
           const isModeAvailable = await this.prismaModeRepository.getMode({ type });
 
           if (!isModeAvailable) {
-            this.prismaModeRepository.createBalanceMode({
-              type: MODE_TYPE.BALANCE_MODE,
-              trialCount,
-              trialDuration,
-              name,
+            this.prismaModeRepository.createBalanceMode(
+              {
+                type: MODE_TYPE.BALANCE_MODE,
+                trialCount,
+                trialDuration,
+                name
+              },
               instructions
-            });
+            );
           }
         } else if (type === MODE_TYPE.LEFT_RIGHT_MODE) {
           const isModeAvailable = await this.prismaModeRepository.getMode({ type });
 
           if (!isModeAvailable) {
-            this.prismaModeRepository.createLeftRightMode({
-              type: MODE_TYPE.LEFT_RIGHT_MODE,
-              trialCount,
-              name,
+            this.prismaModeRepository.createLeftRightMode(
+              {
+                type: MODE_TYPE.LEFT_RIGHT_MODE,
+                trialCount,
+                name
+              },
               instructions
-            });
+            );
           }
         } else if (type === MODE_TYPE.TARGET_MODE) {
           const isModeAvailable = await this.prismaModeRepository.getMode({ type });
 
           if (!isModeAvailable) {
-            this.prismaModeRepository.createTargetMode({
-              type: MODE_TYPE.TARGET_MODE,
-              trialCount,
-              trialDuration,
-              name,
+            this.prismaModeRepository.createTargetMode(
+              {
+                type: MODE_TYPE.TARGET_MODE,
+                trialCount,
+                trialDuration,
+                name
+              },
               instructions
-            });
+            );
           }
         } else {
           const isModeAvailable = await this.prismaModeRepository.getMode({ type });
 
           if (!isModeAvailable) {
-            this.prismaModeRepository.createVisualBalanceMode({
-              type: MODE_TYPE.VISUAL_BALANCE_MODE,
-              trialCount,
-              name,
+            this.prismaModeRepository.createVisualBalanceMode(
+              {
+                type: MODE_TYPE.VISUAL_BALANCE_MODE,
+                trialCount,
+                name
+              },
               instructions
-            });
+            );
           }
         }
       });

@@ -4,7 +4,6 @@ interface ICreateMode {
   type: MODE_TYPE;
   trialCount: number;
   name: string;
-  instructions: string[];
 }
 
 export interface ICreateBalanceModeRequest extends ICreateMode {

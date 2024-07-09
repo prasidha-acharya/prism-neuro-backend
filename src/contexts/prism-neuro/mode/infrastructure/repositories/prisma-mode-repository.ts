@@ -15,52 +15,52 @@ export class PrismaModeRepository implements IModeRepository {
     return this.db.mode.findFirst({ where: { type: request.type } });
   }
 
-  async createTargetMode(request: ICreateTargetModeRequest): Promise<void> {
+  async createTargetMode(request: ICreateTargetModeRequest, instructions: string[]): Promise<void> {
     await this.db.mode.create({
       data: {
         ...request,
         modeDetail: {
           create: {
-            instructions: request.instructions
+            instructions
           }
         }
       }
     });
   }
 
-  async createLeftRightMode(request: ICreateLeftRightMode): Promise<void> {
+  async createLeftRightMode(request: ICreateLeftRightMode, instructions: string[]): Promise<void> {
     await this.db.mode.create({
       data: {
         ...request,
         modeDetail: {
           create: {
-            instructions: request.instructions
+            instructions
           }
         }
       }
     });
   }
 
-  async createVisualBalanceMode(request: ICreateVisualBalanceModeRequest): Promise<void> {
+  async createVisualBalanceMode(request: ICreateVisualBalanceModeRequest, instructions: string[]): Promise<void> {
     await this.db.mode.create({
       data: {
         ...request,
         modeDetail: {
           create: {
-            instructions: request.instructions
+            instructions
           }
         }
       }
     });
   }
 
-  async createBalanceMode(request: ICreateBalanceModeRequest): Promise<void> {
+  async createBalanceMode(request: ICreateBalanceModeRequest, instructions: string[]): Promise<void> {
     await this.db.mode.create({
       data: {
         ...request,
         modeDetail: {
           create: {
-            instructions: request.instructions
+            instructions
           }
         }
       }
