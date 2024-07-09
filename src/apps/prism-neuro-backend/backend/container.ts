@@ -24,6 +24,8 @@ import { JWTAdminAuthorizer } from '../../../contexts/shared/infrastructure/auth
 import { JWTDoctorAuthorizer } from '../../../contexts/shared/infrastructure/authorizer/doctor.authorizer';
 import { RefreshAuthorizer } from '../../../contexts/shared/infrastructure/authorizer/refresh.authorizer';
 import { JWTUserAuthorizer } from '../../../contexts/shared/infrastructure/authorizer/user.authorizer';
+import { SendResetOtpService } from '../../../contexts/shared/infrastructure/mail/application/send-reset-otp.service';
+import { PrismaMailerRepository } from '../../../contexts/shared/infrastructure/mail/infrastructure/repositories/prisma-mail-repostory';
 import { ErrorMiddleware } from '../../../contexts/shared/infrastructure/middleware/error-middleware';
 import { createPrismaClient } from '../../../contexts/shared/infrastructure/persistence/prisma';
 import { RequestLogger } from '../../../contexts/shared/infrastructure/request-logs/request-logger';
@@ -66,7 +68,9 @@ export class Container {
         server: asClass(Server).singleton(),
         requestLogger: asClass(RequestLogger).singleton(),
         db: asFunction(createPrismaClient).singleton(),
-        logger: asClass(ServerLogger).singleton()
+        logger: asClass(ServerLogger).singleton(),
+        prismaMailerRepository: asClass(PrismaMailerRepository).singleton(),
+        sendResetOtpService: asClass(SendResetOtpService).singleton()
       })
       .register({
         errorMiddleware: asClass(ErrorMiddleware).singleton(),

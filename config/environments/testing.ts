@@ -1,5 +1,5 @@
+import * as dotenv from 'dotenv';
 import { type Configuration } from '..';
-import * as dotenv from "dotenv"
 
 dotenv.config();
 
@@ -14,6 +14,13 @@ const TEST: Configuration = {
   DATABASE_URL: 'postgresql://webandapp:webandapp@127.0.0.1/campus_plus',
   APP_LOG_LEVEL: 'debug',
   BASE_URL: process.env.BASE_URL || '',
+  MAIL: {
+    AUTH_PASS: process.env.MAIL_AUTH_PASS || '',
+    AUTH_USER: process.env.MAIL_AUTH_USER || '',
+    HOST: process.env.MAIL_HOST || '',
+    PORT: Number(process.env.MAIL_PORT) || 587,
+    SENDER_ADDRESS: process.env.MAIL_SENDER_ADDRESS || ''
+  }
 };
 
 export default TEST;

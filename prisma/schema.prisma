@@ -132,12 +132,13 @@ enum ModeTrialSessionStatus {
 
 model ModeTrialSession {
   id        String                  @id @default(uuid())
+  trialId   Int
   startTime DateTime?
   endTime   DateTime?
   status    ModeTrialSessionStatus?
   mode      Mode                    @relation(fields: [modeId], references: [id])
   modeId    String
-  data      Json?
+  results   Json?
   createdAt DateTime                @default(now()) @db.Timestamptz()
   updatedAt DateTime                @default(now()) @db.Timestamptz()
   deletedAt DateTime?               @db.Timestamptz()

@@ -1,7 +1,7 @@
+import * as dotenv from 'dotenv';
 import DEV from './environments/dev';
 import PROD from './environments/prod';
 import TEST from './environments/testing';
-import * as dotenv from 'dotenv';
 
 dotenv.config();
 
@@ -18,6 +18,15 @@ export interface Configuration {
   SALT_ROUNDS: number;
   JWT_SECRET: string;
   BASE_URL: string;
+  MAIL: MailConfiguration;
+}
+
+export interface MailConfiguration {
+  HOST: string;
+  PORT: number;
+  SENDER_ADDRESS: string;
+  AUTH_USER: string;
+  AUTH_PASS: string;
 }
 
 let currentConfig: Configuration = DEV;
