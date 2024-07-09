@@ -1,4 +1,4 @@
-import { UserRoles } from '@prisma/client';
+import { USER_ROLES } from '@prisma/client';
 import { hashPassword } from '../../../../shared/infrastructure/encryptor/encryptor';
 import { adminUser } from '../../domain/constant/create-admin';
 import { PrismaUserRepository } from '../repositories/prisma-users-repository';
@@ -9,7 +9,7 @@ export class CreateAdminSeeder {
     try {
       const isSuperUserExists = await this.prismaUserRepository.getAdminByEmail(adminUser.email);
       if (!isSuperUserExists) {
-        await this.prismaUserRepository.createAdmin({ ...adminUser, password: hashPassword(adminUser.password), role: UserRoles.ADMIN });
+        await this.prismaUserRepository.createAdmin({ ...adminUser, password: hashPassword(adminUser.password), role: USER_ROLES.ADMIN });
       }
     } catch (error) {
       console.log(error);

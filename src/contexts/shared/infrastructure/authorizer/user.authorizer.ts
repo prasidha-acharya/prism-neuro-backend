@@ -1,6 +1,6 @@
 import { RequestHandler as Middleware, NextFunction, Request, Response } from 'express';
 
-import { UserRoles } from '@prisma/client';
+import { USER_ROLES } from '@prisma/client';
 import jwt from 'jsonwebtoken';
 import { GetUserSessionService } from '../../../../contexts/prism-neuro/users/application/get-user-session.service';
 import { HTTP401Error } from '../../domain/errors/http.exception';
@@ -17,7 +17,7 @@ export class JWTUserAuthorizer implements IAuthorizer<Request, Response, NextFun
     const token = tokenArray[1];
 
     try {
-      const validRoles = [UserRoles.ADMIN, UserRoles.PATIENT, UserRoles.PHYSIO];
+      const validRoles = [USER_ROLES.ADMIN, USER_ROLES.PATIENT, USER_ROLES.PHYSIO];
 
       const payload: Payload = jwt.verify(token, process.env.JWT_SECRET_TOKEN!) as Payload;
 

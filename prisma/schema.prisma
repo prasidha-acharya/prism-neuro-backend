@@ -26,7 +26,7 @@ model RequestResponseLogs {
   deletedAt  DateTime?
 }
 
-enum UserRoles {
+enum USER_ROLES {
   ADMIN
   PATIENT
   PHYSIO
@@ -43,26 +43,33 @@ model User {
   updatedAt     DateTime       @updatedAt
   deletedAt     DateTime?
   firstLogin    Boolean        @default(true)
-  role          UserRoles
-  userDetails   UserDetail[]
+  role          USER_ROLES
   loginSessions LoginSession[]
   createdBy     String?
   otp           Otp?
   mode          Mode[]
+  userAddress   UserAddress[]
+  userDetail    UserDetail?
 }
 
 model UserDetail {
   id          String    @id @default(uuid())
-  userId      String
+  userId      String    @unique
   phoneNumber String?
   age         Int?
   weight      Int?
   phoneCode   String?
-  address     String
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
   deletedAt   DateTime?
   user        User      @relation(fields: [userId], references: [id])
+}
+
+model UserAddress {
+  id      String @id @default(uuid())
+  userId  String
+  address String
+  user    User   @relation(fields: [userId], references: [id])
 }
 
 model LoginSession {
@@ -75,20 +82,20 @@ model LoginSession {
   deletedAt     DateTime? @db.Timestamptz()
 }
 
-enum ModeSessionStatus {
+enum MODE_SESSION_STATUS {
   START
   STOP
 }
 
 model ModeSession {
-  id        String            @id @default(uuid())
+  id        String              @id @default(uuid())
   patientId String
   physioId  String
   modeId    String?
-  status    ModeSessionStatus
-  createdAt DateTime          @default(now()) @db.Timestamptz()
-  updatedAt DateTime          @default(now()) @db.Timestamptz()
-  deletedAt DateTime?         @db.Timestamptz()
+  status    MODE_SESSION_STATUS
+  createdAt DateTime            @default(now()) @db.Timestamptz()
+  updatedAt DateTime            @default(now()) @db.Timestamptz()
+  deletedAt DateTime?           @db.Timestamptz()
 }
 
 enum MODE_TYPE {
@@ -110,7 +117,7 @@ model Mode {
   deletedAt        DateTime?          @db.Timestamptz()
   modeDetail       ModeDetail?
   ModeTrialSession ModeTrialSession[]
-  User             User?              @relation(fields: [userId], references: [id])
+  user             User?              @relation(fields: [userId], references: [id])
   userId           String?
 }
 
@@ -123,25 +130,25 @@ model ModeDetail {
   updatedAt    DateTime  @default(now()) @db.Timestamptz()
   deletedAt    DateTime? @db.Timestamptz()
   modeId       String    @unique
-  mode         Mode      @relation(fields: [modeId], references: [id])
+  mode         Mode      @relation(fields: [modeId], references: [id], onDelete: Cascade)
 }
 
-enum ModeTrialSessionStatus {
+enum MODE_TRIAL_SESSION_STATUS {
   COMPLETED
 }
 
 model ModeTrialSession {
-  id        String                  @id @default(uuid())
+  id        String                     @id @default(uuid())
   trialId   Int
   startTime DateTime?
   endTime   DateTime?
-  status    ModeTrialSessionStatus?
-  mode      Mode                    @relation(fields: [modeId], references: [id])
+  status    MODE_TRIAL_SESSION_STATUS?
+  mode      Mode                       @relation(fields: [modeId], references: [id])
   modeId    String
   results   Json?
-  createdAt DateTime                @default(now()) @db.Timestamptz()
-  updatedAt DateTime                @default(now()) @db.Timestamptz()
-  deletedAt DateTime?               @db.Timestamptz()
+  createdAt DateTime                   @default(now()) @db.Timestamptz()
+  updatedAt DateTime                   @default(now()) @db.Timestamptz()
+  deletedAt DateTime?                  @db.Timestamptz()
 }
 
 enum OTP_TYPE {

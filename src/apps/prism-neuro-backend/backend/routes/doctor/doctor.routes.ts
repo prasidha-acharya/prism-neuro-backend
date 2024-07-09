@@ -10,11 +10,43 @@ interface IHandler {
 
 export const doctorRoutesHandler = (
   { loginDoctorController }: IHandler,
-  adminAuthorizer: IAuthorizer<Request, Response, NextFunction>,
+  physioAuthorizer: IAuthorizer<Request, Response, NextFunction>,
   router: Router
 ): Router => {
   router.post(
     '/physio/login',
+    loginDoctorController.validate,
+    loginDoctorController.invoke.bind(loginDoctorController)
+    /*
+      #swagger.tags = ['Physio']
+      #swagger.summary = 'Login for physio'
+      #swagger.description = 'Endpoint for physio-therapist to log in, providing email, password, and optionally device info and device type'
+      #swagger.requestBody = {
+      required: true,
+      content: {
+        "application/json": {
+          schema: {
+            type: "object",
+            required: ["email", "password"],
+            properties: {
+              email: { type: "string", format: "email" },
+              password: { type: "string", minLength: 6 },
+            }
+          }
+        }
+      }
+    }
+      #swagger.responses[200]  = {
+      schema: {
+        $ref: "#/components/schemas/loginAdminReponse"
+      }
+    }
+    */
+  );
+
+  router.post(
+    '/physio/create-patient',
+    physioAuthorizer.authorize,
     loginDoctorController.validate,
     loginDoctorController.invoke.bind(loginDoctorController)
     /*

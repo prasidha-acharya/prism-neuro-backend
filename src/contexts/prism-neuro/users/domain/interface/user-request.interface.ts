@@ -1,4 +1,4 @@
-import { OTP_TYPE, UserRoles } from '@prisma/client';
+import { OTP_TYPE, USER_ROLES } from '@prisma/client';
 
 export interface ICreateAdmin {
   email: string;
@@ -8,17 +8,17 @@ export interface ICreateAdmin {
 }
 
 export interface ICreateAdminRequest extends ICreateAdmin {
-  role: UserRoles;
+  role: USER_ROLES;
 }
 
 export interface ICreateDoctorRequest extends ICreateAdmin {
-  role: UserRoles;
+  role: USER_ROLES;
   firstName: string;
   lastName: string;
 }
 
 export interface ICreatePatientRequest extends ICreateAdmin {
-  role: UserRoles;
+  role: USER_ROLES;
   firstName: string;
   lastName: string;
 }
@@ -69,7 +69,33 @@ export interface IFetchUsersRequest {
   startDate?: Date;
   endDate?: Date;
   createdBy?: string;
-  role?: UserRoles;
+  role?: USER_ROLES;
   limit?: number;
   page?: number;
+}
+
+interface ICreateDoctor {
+  firstName: string;
+  lastName: string;
+  role: USER_ROLES;
+  email: string;
+  password: string;
+}
+
+interface ICreatePhysioDetail {
+  age?: number;
+  weight?: number;
+  phoneCode?: string;
+  phoneNumber?: string;
+}
+export interface ICreatePatientRequest {
+  data: ICreateDoctor;
+  detail: ICreatePhysioDetail;
+  address: string;
+}
+
+export interface IUpdatePatientRequest {
+  id: string;
+  data: Omit<ICreateDoctor, 'email' | 'password'>;
+  detail: ICreatePhysioDetail;
 }

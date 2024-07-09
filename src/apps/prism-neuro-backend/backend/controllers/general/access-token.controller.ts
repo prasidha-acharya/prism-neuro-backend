@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 
-import { UserRoles } from '@prisma/client';
+import { USER_ROLES } from '@prisma/client';
 import { Configuration } from 'config';
 import httpStatus from 'http-status';
 import { HTTP400Error } from '../../../../../contexts/shared/domain/errors/http.exception';
@@ -18,9 +18,9 @@ export class GenerateAccessTokenController implements Controller {
 
       let scopes: TokenScope[] = [];
 
-      if (role === UserRoles.ADMIN) {
+      if (role === USER_ROLES.ADMIN) {
         scopes = [TokenScope.ADMIN_ACCESS];
-      } else if (role === UserRoles.PHYSIO) {
+      } else if (role === USER_ROLES.PHYSIO) {
         scopes = [TokenScope.PHYSIO_ACCESS];
       } else {
         throw new HTTP400Error(MESSAGE_CODES.USER.INVALID_REFRESH_TOKEN);

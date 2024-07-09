@@ -1,4 +1,4 @@
-import { ModeSessionStatus } from '@prisma/client';
+import { MODE_SESSION_STATUS } from '@prisma/client';
 import { NextFunction, Request, Response } from 'express';
 import httpStatus from 'http-status';
 import { EndModeSessionService } from '../../../../../contexts/prism-neuro/mode-session/application/end-session.service';
@@ -13,7 +13,7 @@ export class EndModeSessionController implements Controller {
     const sessionId = req.query.physioId as string;
 
     try {
-      this.endModeSessionService.invoke({ patientId, physioId, status: ModeSessionStatus.STOP }, sessionId);
+      this.endModeSessionService.invoke({ patientId, physioId, status: MODE_SESSION_STATUS.STOP }, sessionId);
       res.status(httpStatus.OK).send();
     } catch (error) {
       next(error);

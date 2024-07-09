@@ -17,6 +17,11 @@ import { IPrismaUserRepository } from '../../domain/repositories/users-repositor
 export class PrismaUserRepository implements IPrismaUserRepository {
   constructor(private db: PrismaClient) {}
 
+  updatePatientByPhysio(request: IUpdateDoctorRequest): Promise<User | null> {
+    console.log(request, 'request');
+    throw new Error('Method not implemented.');
+  }
+
   arguments(request: IFetchUsersRequest): Prisma.UserFindManyArgs['where'] {
     const { startDate, endDate, search, createdBy, role } = request;
 
@@ -180,14 +185,16 @@ export class PrismaUserRepository implements IPrismaUserRepository {
     });
   }
 
-  async createPatientByDoctor(request: ICreatePatientRequest): Promise<void> {
+  async createPatientByPhysio(request: ICreatePatientRequest): Promise<void> {
     await this.db.user.create({
       data: {
-        email: request.email,
-        role: request.role,
-        password: request.password,
-        userName: request.userName,
-        userDetails: {
+        ...request.data,
+        userDetail: {
+          create: {
+            ...request.detail
+          }
+        },
+        userAddress: {
           create: {
             address: request.address
           }
@@ -196,7 +203,7 @@ export class PrismaUserRepository implements IPrismaUserRepository {
     });
   }
 
-  updatePatientByDoctor(request: IUpdateDoctorRequest): Promise<User | null> {
+  updatePatientByPatient(request: IUpdateDoctorRequest): Promise<User | null> {
     return this.db.user.update({
       where: {
         id: request.id,
@@ -225,7 +232,7 @@ export class PrismaUserRepository implements IPrismaUserRepository {
         role: request.role,
         password: request.password,
         userName: request.userName,
-        userDetails: {
+        userAddress: {
           create: {
             address: request.address
           }
@@ -247,7 +254,7 @@ export class PrismaUserRepository implements IPrismaUserRepository {
     await this.db.user.create({
       data: {
         ...remainigRequest,
-        userDetails: {
+        userAddress: {
           create: {
             address
           }

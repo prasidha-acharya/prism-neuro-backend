@@ -3,7 +3,7 @@ import { RequestHandler as Middleware, NextFunction, Request, Response } from 'e
 import { HTTP401Error } from '../../domain/errors/http.exception';
 import { IAuthorizer } from '../../domain/model/authentication/authorizer';
 // var jwt = require('jsonwebtoken');
-import { UserRoles } from '@prisma/client';
+import { USER_ROLES } from '@prisma/client';
 import jwt from 'jsonwebtoken';
 import { GetUserSessionService } from '../../../../contexts/prism-neuro/users/application/get-user-session.service';
 import { Payload, TokenScope } from '../../domain/interface/payload';
@@ -26,7 +26,7 @@ export class JWTDoctorAuthorizer implements IAuthorizer<Request, Response, NextF
         throw new HTTP401Error();
       }
 
-      if (payload.role === UserRoles.PHYSIO && payload.scopes.includes(TokenScope.PHYSIO_ACCESS)) {
+      if (payload.role === USER_ROLES.PHYSIO && payload.scopes.includes(TokenScope.PHYSIO_ACCESS)) {
         req.body.user = payload;
         return next();
       } else {

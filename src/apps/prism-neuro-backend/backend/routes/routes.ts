@@ -40,7 +40,7 @@ export const masterRouter = (
     apiRouter
   );
   adminAuthRoutesHandler({ loginAdminController }, apiRouter);
-  doctorRoutesHandler({ loginDoctorController, updateDoctorController, deleteDoctorController }, adminAuthorizer, apiRouter);
+  doctorRoutesHandler({ loginDoctorController, updateDoctorController, deleteDoctorController }, physioAuthorizer, apiRouter);
   PatientRoutesHandler({ loginPatientController }, apiRouter);
   userRoutesHandler(
     {

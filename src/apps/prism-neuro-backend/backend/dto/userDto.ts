@@ -1,4 +1,4 @@
-import { User, UserRoles } from '@prisma/client';
+import { User, USER_ROLES } from '@prisma/client';
 import { Exclude, Expose } from 'class-transformer';
 
 export class UserDTO {
@@ -33,5 +33,5 @@ export class UserDTO {
   deletedAt!: Date | null;
 
   @Expose()
-  role!: UserRoles;
+  role!: USER_ROLES;
 }

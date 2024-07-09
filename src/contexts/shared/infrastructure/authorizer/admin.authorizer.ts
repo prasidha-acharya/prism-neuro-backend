@@ -3,7 +3,7 @@ import { RequestHandler as Middleware, NextFunction, Request, Response } from 'e
 import { HTTP401Error } from '../../domain/errors/http.exception';
 import { IAuthorizer } from '../../domain/model/authentication/authorizer';
 // var jwt = require('jsonwebtoken');
-import { UserRoles } from '@prisma/client';
+import { USER_ROLES } from '@prisma/client';
 import jwt from 'jsonwebtoken';
 import { GetUserSessionService } from '../../../../contexts/prism-neuro/users/application/get-user-session.service';
 import { Payload, TokenScope } from '../../domain/interface/payload';
@@ -26,7 +26,7 @@ export class JWTAdminAuthorizer implements IAuthorizer<Request, Response, NextFu
         throw new HTTP401Error();
       }
 
-      if (payload.role === UserRoles.ADMIN && payload.scopes.includes(TokenScope.ADMIN_ACCESS)) {
+      if (payload.role === USER_ROLES.ADMIN && payload.scopes.includes(TokenScope.ADMIN_ACCESS)) {
         req.body.user = payload;
         return next();
       } else {

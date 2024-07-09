@@ -24,9 +24,9 @@ export interface IPrismaUserRepository {
 
   deleteDoctorByAdmin(userId: string): Promise<void>;
 
-  createPatientByDoctor(request: ICreatePatientRequest): Promise<void>;
+  createPatientByPhysio(request: ICreatePatientRequest): Promise<void>;
 
-  updatePatientByDoctor(request: IUpdateDoctorRequest): Promise<User | null>;
+  updatePatientByPhysio(request: IUpdateDoctorRequest): Promise<User | null>;
 
   deletePatientByDoctor(userId: string): Promise<void>;
 
@@ -49,4 +49,8 @@ export interface IPrismaUserRepository {
   deleteAccount(userId: string): Promise<void>;
 
   getPaginatedUsers(request: IFetchUsersRequest): Promise<IPaginateResponse<User>>;
+
+  // createPatientByPhysio(request: ICreateAdminRequest): Promise<void>;
+
+  // updatePatientByDoctor(request: IUpdateDoctorRequest): Promise<User | null>;
 }
