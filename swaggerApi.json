@@ -61,7 +61,7 @@
     },
     "/admin/create-physio": {
       "post": {
-        "tags": ["Admin Physio"],
+        "tags": ["Admin"],
         "summary": "Admin creates physio",
         "description": "",
         "responses": {
@@ -88,7 +88,7 @@
     },
     "/admin/physio/{physioId}": {
       "get": {
-        "tags": ["Admin Physio"],
+        "tags": ["Admin"],
         "summary": "Fetch physio data by id",
         "description": "Endpoint to fetch physio data by id",
         "parameters": [
@@ -148,7 +148,7 @@
     },
     "/admin/physio": {
       "get": {
-        "tags": ["Admin Physio"],
+        "tags": ["Admin"],
         "summary": "Fetch all physio",
         "description": "Admin can access to all physio",
         "responses": {
@@ -177,7 +177,7 @@
     },
     "/admin/update-physio/{physioId}": {
       "put": {
-        "tags": ["Admin Physio"],
+        "tags": ["Admin"],
         "summary": "Admin update physio",
         "description": "Admin can update physio",
         "parameters": [
@@ -233,33 +233,6 @@
             }
           }
         }
-      }
-    },
-    "/admin/delete-physio/{physioId}": {
-      "delete": {
-        "tags": ["Admin Physio"],
-        "summary": "Delete physio data",
-        "description": "End point to delete physio",
-        "parameters": [
-          {
-            "name": "physioId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        },
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ]
       }
     },
     "/admin/users": {
@@ -675,7 +648,7 @@
       }
     },
     "/mode/session-end": {
-      "post": {
+      "put": {
         "tags": ["Mode session"],
         "summary": "",
         "description": "",
@@ -715,6 +688,101 @@
             "bearerAuth": []
           }
         ]
+      }
+    },
+    "mode/trial-start": {
+      "post": {
+        "tags": ["Mode Trial"],
+        "summary": "",
+        "description": "",
+        "parameters": [
+          {
+            "name": "modeId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["trialId", "startTime", "results"],
+                "properties": {
+                  "trialId": {
+                    "type": "number"
+                  },
+                  "endTime": {
+                    "type": "DateTime"
+                  },
+                  "results": {
+                    "type": "json"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "mode/trial-end": {
+      "put": {
+        "tags": ["Mode Trial"],
+        "summary": "",
+        "description": "",
+        "parameters": [
+          {
+            "name": "modeId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["trialId", "startTime"],
+                "properties": {
+                  "trialId": {
+                    "type": "number"
+                  },
+                  "endTime": {
+                    "type": "DateTime"
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/patient/login": {

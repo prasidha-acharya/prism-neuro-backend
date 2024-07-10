@@ -5,6 +5,9 @@ import { StartModeSessionService } from '../../../contexts/prism-neuro/mode-sess
 import { PrismaModeSessionRepository } from '../../../contexts/prism-neuro/mode-session/infrastructure/repositories/prisma-mode-session-repository';
 import { PrismaModeRepository } from '../../../contexts/prism-neuro/mode/infrastructure/repositories/prisma-mode-repository';
 import { CreateModeSeeder } from '../../../contexts/prism-neuro/mode/infrastructure/seeders/create-mode.seeder';
+import { EndModeTrialService } from '../../../contexts/prism-neuro/trial/application/end-mode-trial.service';
+import { StartModeTrialService } from '../../../contexts/prism-neuro/trial/application/start-mode-trial.service';
+import { PrismaModeTrialRepository } from '../../../contexts/prism-neuro/trial/infrastructure/repositories/prisma-mode-trial-repository';
 import { ChangePasswordService } from '../../../contexts/prism-neuro/users/application/change-password.service';
 import { CreateDoctorByAdminService } from '../../../contexts/prism-neuro/users/application/create-doctor-by-admin.service';
 import { CreatePatientByPhysioService } from '../../../contexts/prism-neuro/users/application/create-patient-by-physio.service';
@@ -50,7 +53,9 @@ const {
   UserLogoutController,
   ChangePasswordController,
   ResetPasswordController,
-  CreatePatientByPhysioController
+  CreatePatientByPhysioController,
+  EndModeTrialController,
+  StartModeTrialController
 } = controller;
 export class Container {
   private readonly container: AwilixContainer;
@@ -155,6 +160,14 @@ export class Container {
         endModeSessionService: asClass(EndModeSessionService).singleton(),
         startModeSessionController: asClass(StartModeSessionController),
         endModeSessionController: asClass(controller.EndModeSessionController)
+      })
+      //mode trial session
+      .register({
+        prismaModeTrialRepository: asClass(PrismaModeTrialRepository),
+        startModeTrialService: asClass(StartModeTrialService).singleton(),
+        endModeTrialService: asClass(EndModeTrialService).singleton(),
+        startModeTrialController: asClass(StartModeTrialController),
+        endModeTrialController: asClass(EndModeTrialController)
       });
   }
 

@@ -35,7 +35,7 @@ export const modeSessionRoutesHandler = (
     */
   );
 
-  router.post(
+  router.put(
     '/mode/session-end',
     physioAuthorizer.authorize,
     endModeSessionController.invoke.bind(endModeSessionController)

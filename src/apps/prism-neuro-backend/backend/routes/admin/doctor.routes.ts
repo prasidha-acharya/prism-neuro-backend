@@ -11,7 +11,7 @@ interface IHandler {
 }
 
 export const physioRoutesHandler = (
-  { createDoctorController, deleteDoctorController, updateDoctorController, getAllUsersController, getAllPatientListByPhysioIdController }: IHandler,
+  { createDoctorController, updateDoctorController, getAllUsersController, getAllPatientListByPhysioIdController }: IHandler,
   adminAuthorizer: IAuthorizer<Request, Response, NextFunction>,
   router: Router
 ): Router => {
@@ -24,7 +24,7 @@ export const physioRoutesHandler = (
     #swagger.security = [{
             "bearerAuth": []
     }] 
-   #swagger.tags = ['Admin Physio']
+   #swagger.tags = ['Admin']
    #swagger.summary = 'Admin creates physio'
    #swagger.description = ''
    #swagger.requestBody = {
@@ -47,7 +47,7 @@ export const physioRoutesHandler = (
       #swagger.security = [{
             "bearerAuth": []
     }] 
-      #swagger.tags = ['Admin Physio']
+      #swagger.tags = ['Admin']
       #swagger.summary = 'Fetch physio data by id'
       #swagger.description = 'Endpoint to fetch physio data by id'
       #swagger.requestBody = {
@@ -80,7 +80,7 @@ export const physioRoutesHandler = (
       #swagger.security = [{
             "bearerAuth": []
     }] 
-      #swagger.tags = ['Admin Physio']
+      #swagger.tags = ['Admin']
       #swagger.summary = 'Fetch all physio'
       #swagger.description = 'Admin can access to all physio'
       #swagger.responses[200]  = {
@@ -99,7 +99,7 @@ export const physioRoutesHandler = (
       #swagger.security = [{
             "bearerAuth": []
     }] 
-      #swagger.tags = ['Admin Physio']
+      #swagger.tags = ['Admin']
       #swagger.summary = 'Admin update physio'
       #swagger.description = 'Admin can update physio'
       #swagger.requestBody = {
@@ -125,25 +125,25 @@ export const physioRoutesHandler = (
     */
   );
 
-  router.delete(
-    '/admin/delete-physio/:physioId',
-    adminAuthorizer.authorize,
-    deleteDoctorController.invoke.bind(deleteDoctorController)
-    /*
-      #swagger.security = [{
-            "bearerAuth": []
-    }] 
-      #swagger.tags = ['Admin Physio']
-      #swagger.summary = 'Delete physio data'
-      #swagger.description = 'End point to delete physio'
-         #swagger.parameters['physioId'] = {
-        in: 'path',
-        type: 'string',
-        required: true,
-      }
-      #swagger.responses[200]
-    */
-  );
+  // router.delete(
+  //   '/admin/delete-physio/:physioId',
+  //   adminAuthorizer.authorize,
+  //   deleteDoctorController.invoke.bind(deleteDoctorController)
+  //   /*
+  //     #swagger.security = [{
+  //           "bearerAuth": []
+  //   }]
+  //     #swagger.tags = ['Admin']
+  //     #swagger.summary = 'Delete physio data'
+  //     #swagger.description = 'End point to delete physio'
+  //        #swagger.parameters['physioId'] = {
+  //       in: 'path',
+  //       type: 'string',
+  //       required: true,
+  //     }
+  //     #swagger.responses[200]
+  //   */
+  // );
 
   router.get(
     '/admin/users',
