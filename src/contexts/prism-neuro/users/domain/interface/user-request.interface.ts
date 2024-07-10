@@ -15,6 +15,7 @@ export interface ICreateDoctorRequest extends ICreateAdmin {
   role: USER_ROLES;
   firstName: string;
   lastName: string;
+  createdBy: string;
 }
 
 export interface ICreatePatientRequest extends ICreateAdmin {

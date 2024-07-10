@@ -21,6 +21,8 @@ export class CreateDoctorController implements Controller {
     body('email').exists().withMessage(MESSAGE_CODES.USER.REQUIRED_EMAIL).isEmail().withMessage(MESSAGE_CODES.USER.INVALID_EMAIL),
     body('firstName').optional().isString().withMessage(MESSAGE_CODES.USER.INVALID_FIRST_NAME),
     body('lastName').optional().isString().withMessage(MESSAGE_CODES.USER.INVALID_LAST_NAME),
+    body('phoneCode').optional(),
+    body('phoneNumber').optional(),
     body('address').exists().withMessage(MESSAGE_CODES.USER.REQUIRED_ADDRESS).isString().withMessage(MESSAGE_CODES.USER.INVALID_ADDRESS),
     RequestValidator
   ];
@@ -32,6 +34,8 @@ export class CreateDoctorController implements Controller {
   ): Promise<void> {
     const { firstName, lastName, email, address } = req.body;
 
+    const { userId } = req.body.user;
+
     const password = generatePassword();
 
     try {
@@ -41,7 +45,8 @@ export class CreateDoctorController implements Controller {
         email: email.toLowerCase(),
         password: hashPassword(password),
         address,
-        role: USER_ROLES.PHYSIO
+        role: USER_ROLES.PHYSIO,
+        createdBy: userId
       });
       await this.sendPasswordToUserService.invoke({ email, password });
 

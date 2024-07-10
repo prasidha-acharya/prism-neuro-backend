@@ -22,16 +22,19 @@ export const SendPasswordToUserTemplate = ({ email, password }: ISendPasswordToU
                           <div style="font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:1;text-align:left;color:#000000;">Hello ${email},</div>
                         </td>
                       </tr>
-                      <tr>
-                        <td align="center" style="font-size:0px;padding:10px 25px;word-break:break-word;">
-                          <div style="font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:20px;text-align:center;color:#000000;">Please verify your action with the otp provided to proceed.</div>
-                        </td>
-                      </tr>
+                    
                       <tr>
                         <td align="center" style="font-size:0px;padding:10px 25px;padding-top:20px;padding-bottom:10px;word-break:break-word;">
                           <div style="font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:1;text-align:center;color:#000000;">Password: ${password}</div>
                         </td>
                       </tr>
+
+                        <tr>
+                        <td align="center" style="font-size:0px;padding:10px 25px;word-break:break-word;">
+                          <div style="font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:20px;text-align:center;color:#000000;">Please change your password immediately for security purpose.</div>
+                        </td>
+                      </tr>
+
                     </tbody>
                   </table>
                 </div>

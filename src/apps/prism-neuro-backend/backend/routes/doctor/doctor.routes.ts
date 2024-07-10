@@ -6,10 +6,11 @@ interface IHandler {
   loginDoctorController: controllers.LoginDoctorController;
   deleteDoctorController: controllers.DeleteDoctorController;
   updateDoctorController: controllers.UpdateDoctorController;
+  createPatientByPhysioController: controllers.CreatePatientByPhysioController;
 }
 
 export const doctorRoutesHandler = (
-  { loginDoctorController }: IHandler,
+  { loginDoctorController, createPatientByPhysioController }: IHandler,
   physioAuthorizer: IAuthorizer<Request, Response, NextFunction>,
   router: Router
 ): Router => {
@@ -18,6 +19,7 @@ export const doctorRoutesHandler = (
     loginDoctorController.validate,
     loginDoctorController.invoke.bind(loginDoctorController)
     /*
+
       #swagger.tags = ['Physio']
       #swagger.summary = 'Login for physio'
       #swagger.description = 'Endpoint for physio-therapist to log in, providing email, password, and optionally device info and device type'
@@ -47,9 +49,12 @@ export const doctorRoutesHandler = (
   router.post(
     '/physio/create-patient',
     physioAuthorizer.authorize,
-    loginDoctorController.validate,
-    loginDoctorController.invoke.bind(loginDoctorController)
+    createPatientByPhysioController.validate,
+    createPatientByPhysioController.invoke.bind(createPatientByPhysioController)
     /*
+  #swagger.security = [{
+            "bearerAuth": []
+    }] 
       #swagger.tags = ['Physio']
       #swagger.summary = 'Physio can create patient'
       #swagger.description = 'Endpoint for physio-therapist to create patient'

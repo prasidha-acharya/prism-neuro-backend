@@ -79,6 +79,7 @@ export const userRoutesHandler = (
 
   router.post(
     '/reset-password',
+    resetPasswordController.validate,
     resetPasswordController.invoke.bind(resetPasswordController)
     /*
         #swagger.tags = ['User']
