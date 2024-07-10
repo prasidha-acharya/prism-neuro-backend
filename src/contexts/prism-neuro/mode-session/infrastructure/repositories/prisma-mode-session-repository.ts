@@ -1,12 +1,12 @@
-import { PrismaClient } from '@prisma/client';
+import { ModeSession, PrismaClient } from '@prisma/client';
 import { ICreateModeSessionRequest, IUpdateModeSessionRequest } from '../../domain/interface/mode-session-request.interface';
 import { IModeSessionRepository } from '../../domain/repositories/mode-session-repository';
 
 export class PrismaModeSessionRepository implements IModeSessionRepository {
   constructor(private db: PrismaClient) {}
 
-  async startModeSession(request: ICreateModeSessionRequest): Promise<void> {
-    await this.db.modeSession.create({
+  startModeSession(request: ICreateModeSessionRequest): Promise<ModeSession | null> {
+    return this.db.modeSession.create({
       data: {
         ...request
       }

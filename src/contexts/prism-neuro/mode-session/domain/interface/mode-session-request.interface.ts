@@ -9,7 +9,7 @@ export interface ICreateModeSessionRequest {
 
 export interface IUpdateModeSessionRequest {
   modeId?: string;
-  patientId: string;
-  physioId: string;
-  status: MODE_SESSION_STATUS;
+  patientId?: string;
+  physioId?: string;
+  status?: MODE_SESSION_STATUS;
 }

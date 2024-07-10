@@ -146,6 +146,7 @@ model ModeTrialSession {
   mode      Mode                       @relation(fields: [modeId], references: [id])
   modeId    String
   results   Json?
+  rawData   Json?
   createdAt DateTime                   @default(now()) @db.Timestamptz()
   updatedAt DateTime                   @updatedAt
   deletedAt DateTime?                  @db.Timestamptz()

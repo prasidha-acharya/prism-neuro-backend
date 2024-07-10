@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { body, param } from 'express-validator';
 import httpStatus from 'http-status';
+import { UpdateModeSessionService } from '../../../../../contexts/prism-neuro/mode-session/application/update-session.service';
 import { StartModeTrialService } from '../../../../../contexts/prism-neuro/trial/application/start-mode-trial.service';
 import { HTTP422Error } from '../../../../../contexts/shared/domain/errors/http.exception';
 import { RequestValidator } from '../../../../../contexts/shared/infrastructure/middleware/request-validator';
@@ -8,7 +9,10 @@ import { MESSAGE_CODES } from '../../../../../contexts/shared/infrastructure/uti
 import { Controller } from '../controller';
 
 export class StartModeTrialController implements Controller {
-  constructor(private startModeTrialService: StartModeTrialService) {}
+  constructor(
+    private startModeTrialService: StartModeTrialService,
+    private updateModeSessionService: UpdateModeSessionService
+  ) {}
 
   public validate = [
     param('modeId')
@@ -40,11 +44,14 @@ export class StartModeTrialController implements Controller {
   ];
 
   async invoke(req: Request, res: Response, next: NextFunction): Promise<void> {
-    const { trialId, startTime } = req.body;
+    const { trialId, startTime, sessionId } = req.body;
     const modeId = req.params.modeId as string;
 
     try {
       // TODO: update modeId  in mode session
+
+      await this.updateModeSessionService.invoke({ modeId }, sessionId);
+
       await this.startModeTrialService.invoke({ trialId, startTime, modeId });
       res.status(httpStatus.CREATED).send('OK');
     } catch (error) {

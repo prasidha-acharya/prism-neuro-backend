@@ -2,6 +2,7 @@ import { AwilixContainer, InjectionMode, asClass, asFunction, asValue, createCon
 import { config } from '../../../../config';
 import { EndModeSessionService } from '../../../contexts/prism-neuro/mode-session/application/end-session.service';
 import { StartModeSessionService } from '../../../contexts/prism-neuro/mode-session/application/start-session.service';
+import { UpdateModeSessionService } from '../../../contexts/prism-neuro/mode-session/application/update-session.service';
 import { PrismaModeSessionRepository } from '../../../contexts/prism-neuro/mode-session/infrastructure/repositories/prisma-mode-session-repository';
 import { PrismaModeRepository } from '../../../contexts/prism-neuro/mode/infrastructure/repositories/prisma-mode-repository';
 import { CreateModeSeeder } from '../../../contexts/prism-neuro/mode/infrastructure/seeders/create-mode.seeder';
@@ -159,6 +160,7 @@ export class Container {
         startModeSessionService: asClass(StartModeSessionService).singleton(),
         endModeSessionService: asClass(EndModeSessionService).singleton(),
         startModeSessionController: asClass(StartModeSessionController),
+        updateModeSessionService: asClass(UpdateModeSessionService).singleton(),
         endModeSessionController: asClass(controller.EndModeSessionController)
       })
       //mode trial session

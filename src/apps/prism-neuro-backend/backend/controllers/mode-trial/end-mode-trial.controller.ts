@@ -3,9 +3,9 @@ import { NextFunction, Request, Response } from 'express';
 import { body, param } from 'express-validator';
 import httpStatus from 'http-status';
 import { EndModeTrialService } from 'src/contexts/prism-neuro/trial/application/end-mode-trial.service';
-import { HTTP422Error } from 'src/contexts/shared/domain/errors/http.exception';
-import { RequestValidator } from 'src/contexts/shared/infrastructure/middleware/request-validator';
-import { MESSAGE_CODES } from 'src/contexts/shared/infrastructure/utils/message-code';
+import { HTTP422Error } from '../../../../../contexts/shared/domain/errors/http.exception';
+import { RequestValidator } from '../../../../../contexts/shared/infrastructure/middleware/request-validator';
+import { MESSAGE_CODES } from '../../../../../contexts/shared/infrastructure/utils/message-code';
 import { Controller } from '../controller';
 
 export class EndModeTrialController implements Controller {
