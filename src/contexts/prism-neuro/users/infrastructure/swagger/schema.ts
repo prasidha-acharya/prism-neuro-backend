@@ -1,9 +1,9 @@
 const createDoctorRequest = {
-  userName: 'Dr.John',
   firstName: 'John',
   lastName: 'Doe',
   email: 'user@gmail.com',
-  password: '12345678',
+  phoneCode: '+977',
+  phoneNumber: '9807865432',
   address: 'Kapan'
 };
 

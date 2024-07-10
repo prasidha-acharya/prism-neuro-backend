@@ -13,3 +13,4 @@ export * from './general/reset-password.controller';
 export * from './mode-session/end-mode-session.controller';
 export * from './mode-session/start-mode-session.controller';
 export * from './patient/login-patient.controller';
+export * from './physio/create-patient-by-physio.controller';

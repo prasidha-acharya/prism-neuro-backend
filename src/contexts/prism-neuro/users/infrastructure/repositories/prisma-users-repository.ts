@@ -3,7 +3,7 @@ import {
   IChangePassword,
   ICreateAdminRequest,
   ICreateDoctorRequest,
-  ICreatePatientRequest,
+  ICreatePatientByPhysioRequest,
   IFetchOtpRequest,
   IFetchUsersRequest,
   IFogotPasswordRequest,
@@ -185,7 +185,7 @@ export class PrismaUserRepository implements IPrismaUserRepository {
     });
   }
 
-  async createPatientByPhysio(request: ICreatePatientRequest): Promise<void> {
+  async createPatientByPhysio(request: ICreatePatientByPhysioRequest): Promise<void> {
     await this.db.user.create({
       data: {
         ...request.data,
@@ -231,7 +231,6 @@ export class PrismaUserRepository implements IPrismaUserRepository {
         email: request.email,
         role: request.role,
         password: request.password,
-        userName: request.userName,
         userAddress: {
           create: {
             address: request.address

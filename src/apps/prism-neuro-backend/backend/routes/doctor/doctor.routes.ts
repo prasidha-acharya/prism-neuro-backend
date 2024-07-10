@@ -51,28 +51,30 @@ export const doctorRoutesHandler = (
     loginDoctorController.invoke.bind(loginDoctorController)
     /*
       #swagger.tags = ['Physio']
-      #swagger.summary = 'Login for physio'
-      #swagger.description = 'Endpoint for physio-therapist to log in, providing email, password, and optionally device info and device type'
+      #swagger.summary = 'Physio can create patient'
+      #swagger.description = 'Endpoint for physio-therapist to create patient'
       #swagger.requestBody = {
       required: true,
       content: {
         "application/json": {
           schema: {
             type: "object",
-            required: ["email", "password"],
+            required: ["email", "firstName" ,"lastName" ,"age" ,"weight" ,"phoneCode" ,"phoneNumber" ],
             properties: {
               email: { type: "string", format: "email" },
-              password: { type: "string", minLength: 6 },
+              firstName: { type: "string", minLength: 6 },
+              address:{type:"string",required:"true"},
+              lastName: { type: "string",required:"true" },
+              phoneCode: { type: "string" },
+              phoneNumber:{type:"string"},
+              age:{type:"number"},
+              weight:{type:"number"}
             }
           }
         }
       }
     }
-      #swagger.responses[200]  = {
-      schema: {
-        $ref: "#/components/schemas/loginAdminReponse"
-      }
-    }
+      #swagger.responses[201]
     */
   );
 

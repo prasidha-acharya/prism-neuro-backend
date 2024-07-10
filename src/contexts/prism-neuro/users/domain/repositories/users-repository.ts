@@ -3,7 +3,7 @@ import {
   IChangePassword,
   ICreateAdminRequest,
   ICreateDoctorRequest,
-  ICreatePatientRequest,
+  ICreatePatientByPhysioRequest,
   IFetchOtpRequest,
   IFetchUsersRequest,
   IFogotPasswordRequest,
@@ -24,7 +24,7 @@ export interface IPrismaUserRepository {
 
   deleteDoctorByAdmin(userId: string): Promise<void>;
 
-  createPatientByPhysio(request: ICreatePatientRequest): Promise<void>;
+  createPatientByPhysio(request: ICreatePatientByPhysioRequest): Promise<void>;
 
   updatePatientByPhysio(request: IUpdateDoctorRequest): Promise<User | null>;
 

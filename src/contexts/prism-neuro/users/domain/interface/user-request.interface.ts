@@ -3,7 +3,7 @@ import { OTP_TYPE, USER_ROLES } from '@prisma/client';
 export interface ICreateAdmin {
   email: string;
   password: string;
-  userName: string;
+  // userName: string;
   address: string;
 }
 
@@ -74,7 +74,7 @@ export interface IFetchUsersRequest {
   page?: number;
 }
 
-interface ICreateDoctor {
+export interface ICreateUser {
   firstName: string;
   lastName: string;
   role: USER_ROLES;
@@ -82,20 +82,20 @@ interface ICreateDoctor {
   password: string;
 }
 
-interface ICreatePhysioDetail {
+export interface ICreatePhysioDetail {
   age?: number;
   weight?: number;
   phoneCode?: string;
   phoneNumber?: string;
 }
-export interface ICreatePatientRequest {
-  data: ICreateDoctor;
+export interface ICreatePatientByPhysioRequest {
+  data: ICreateUser;
   detail: ICreatePhysioDetail;
   address: string;
 }
 
 export interface IUpdatePatientRequest {
   id: string;
-  data: Omit<ICreateDoctor, 'email' | 'password'>;
+  data: Omit<ICreateUser, 'email' | 'password'>;
   detail: ICreatePhysioDetail;
 }

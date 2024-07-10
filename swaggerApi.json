@@ -581,6 +581,59 @@
         }
       }
     },
+    "/physio/create-patient": {
+      "post": {
+        "tags": ["Physio"],
+        "summary": "Physio can create patient",
+        "description": "Endpoint for physio-therapist to create patient",
+        "responses": {
+          "201": {
+            "description": "Created"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["email", "firstName", "lastName", "age", "weight", "phoneCode", "phoneNumber"],
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "format": "email"
+                  },
+                  "firstName": {
+                    "type": "string",
+                    "minLength": 6
+                  },
+                  "address": {
+                    "type": "string",
+                    "required": "true"
+                  },
+                  "lastName": {
+                    "type": "string",
+                    "required": "true"
+                  },
+                  "phoneCode": {
+                    "type": "string"
+                  },
+                  "phoneNumber": {
+                    "type": "string"
+                  },
+                  "age": {
+                    "type": "number"
+                  },
+                  "weight": {
+                    "type": "number"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/mode/session-start": {
       "post": {
         "tags": ["Mode session"],
@@ -660,10 +713,6 @@
       "createDoctorRequest": {
         "type": "object",
         "properties": {
-          "userName": {
-            "type": "string",
-            "example": "Dr.John"
-          },
           "firstName": {
             "type": "string",
             "example": "John"
@@ -676,9 +725,13 @@
             "type": "string",
             "example": "user@gmail.com"
           },
-          "password": {
+          "phoneCode": {
             "type": "string",
-            "example": "12345678"
+            "example": "+977"
+          },
+          "phoneNumber": {
+            "type": "string",
+            "example": "9807865432"
           },
           "address": {
             "type": "string",

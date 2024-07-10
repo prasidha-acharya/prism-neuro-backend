@@ -7,6 +7,7 @@ import { PrismaModeRepository } from '../../../contexts/prism-neuro/mode/infrast
 import { CreateModeSeeder } from '../../../contexts/prism-neuro/mode/infrastructure/seeders/create-mode.seeder';
 import { ChangePasswordService } from '../../../contexts/prism-neuro/users/application/change-password.service';
 import { CreateDoctorByAdminService } from '../../../contexts/prism-neuro/users/application/create-doctor-by-admin.service';
+import { CreatePatientByPhysioService } from '../../../contexts/prism-neuro/users/application/create-patient-by-physio.service';
 import { AddUserSessionService } from '../../../contexts/prism-neuro/users/application/create-user-session.service';
 import { DeleteDoctorService } from '../../../contexts/prism-neuro/users/application/delete-doctor-by-admin.service';
 import { DeleteOTPService } from '../../../contexts/prism-neuro/users/application/delete-otp.service';
@@ -24,6 +25,7 @@ import { JWTAdminAuthorizer } from '../../../contexts/shared/infrastructure/auth
 import { JWTDoctorAuthorizer } from '../../../contexts/shared/infrastructure/authorizer/doctor.authorizer';
 import { RefreshAuthorizer } from '../../../contexts/shared/infrastructure/authorizer/refresh.authorizer';
 import { JWTUserAuthorizer } from '../../../contexts/shared/infrastructure/authorizer/user.authorizer';
+import { SendPasswordToUserService } from '../../../contexts/shared/infrastructure/mail/application/send-password.service';
 import { SendResetOtpService } from '../../../contexts/shared/infrastructure/mail/application/send-reset-otp.service';
 import { PrismaMailerRepository } from '../../../contexts/shared/infrastructure/mail/infrastructure/repositories/prisma-mail-repostory';
 import { ErrorMiddleware } from '../../../contexts/shared/infrastructure/middleware/error-middleware';
@@ -47,7 +49,8 @@ const {
   UpdateDoctorController,
   UserLogoutController,
   ChangePasswordController,
-  ResetPasswordController
+  ResetPasswordController,
+  CreatePatientByPhysioController
 } = controller;
 export class Container {
   private readonly container: AwilixContainer;
@@ -68,9 +71,13 @@ export class Container {
         server: asClass(Server).singleton(),
         requestLogger: asClass(RequestLogger).singleton(),
         db: asFunction(createPrismaClient).singleton(),
-        logger: asClass(ServerLogger).singleton(),
+        logger: asClass(ServerLogger).singleton()
+      })
+      //mail
+      .register({
         prismaMailerRepository: asClass(PrismaMailerRepository).singleton(),
-        sendResetOtpService: asClass(SendResetOtpService).singleton()
+        sendResetOtpService: asClass(SendResetOtpService).singleton(),
+        sendPasswordToUserService: asClass(SendPasswordToUserService).singleton()
       })
       .register({
         errorMiddleware: asClass(ErrorMiddleware).singleton(),
@@ -136,7 +143,9 @@ export class Container {
         deleteDoctorService: asClass(DeleteDoctorService).singleton(),
         updateDoctorService: asClass(UpdateDoctorService).singleton(),
         deleteDoctorController: asClass(DeleteDoctorController),
-        updateDoctorController: asClass(UpdateDoctorController)
+        updateDoctorController: asClass(UpdateDoctorController),
+        createPatientByPhysioService: asClass(CreatePatientByPhysioService).singleton(),
+        createPatientByPhysioController: asClass(CreatePatientByPhysioController)
       })
       // mode
       .register({

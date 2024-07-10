@@ -8,3 +8,8 @@ export interface IRegisterMailRequest {
   email: string;
   otp: string;
 }
+
+export interface ISendPasswordToUserRequest {
+  email: string;
+  password: string;
+}
