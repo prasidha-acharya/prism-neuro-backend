@@ -11,6 +11,7 @@ export interface IEndModeTrialRequest {
   modeId: string;
   data: {
     results: any;
+    rawData: any;
     endTime: string;
     status: MODE_TRIAL_SESSION_STATUS;
   };

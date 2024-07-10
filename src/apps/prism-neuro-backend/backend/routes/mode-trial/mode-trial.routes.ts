@@ -53,6 +53,7 @@ export const modeTrialRoutesHandler = (
   router.put(
     '/mode/trial-end/:modeId/:modeTrialId',
     physioAuthorizer.authorize,
+    endModeTrialController.validate,
     endModeTrialController.invoke.bind(endModeTrialController)
     /* 
      #swagger.security = [{
@@ -82,10 +83,11 @@ export const modeTrialRoutesHandler = (
         "application/json": {
           schema: {
             type: "object",
-            required: ["trialId", "endTime"],
+            required: ["endTime" ,"results" ,"rawData"],
             properties: {
-              trialId: { type: "number" },
               endTime: { type:"DateTime"},
+              results: { type: "object" },
+              rawData: { type:"object"},
             }
           }
         }
