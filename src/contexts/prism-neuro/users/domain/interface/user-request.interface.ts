@@ -81,6 +81,7 @@ export interface ICreateUser {
   role: USER_ROLES;
   email: string;
   password: string;
+  createdBy: string;
 }
 
 export interface ICreatePhysioDetail {

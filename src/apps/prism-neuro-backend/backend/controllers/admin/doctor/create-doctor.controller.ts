@@ -38,6 +38,8 @@ export class CreateDoctorController implements Controller {
 
     const password = generatePassword();
 
+    console.log('🚀 ~ CreateDoctorController ~ password:', password);
+
     try {
       await this.createDoctorByAdminService.invoke({
         firstName,

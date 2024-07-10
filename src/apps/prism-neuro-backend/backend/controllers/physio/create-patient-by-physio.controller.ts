@@ -30,6 +30,7 @@ export class CreatePatientByPhysioController implements Controller {
 
   async invoke(req: Request, res: Response, next: NextFunction): Promise<void> {
     const { address, firstName, lastName, email, age, weight } = req.body;
+    const { userId } = req.body.user;
 
     const password = generatePassword();
 
@@ -40,7 +41,8 @@ export class CreatePatientByPhysioController implements Controller {
       firstName,
       lastName,
       password: hashPassword(password),
-      role: USER_ROLES.PATIENT
+      role: USER_ROLES.PATIENT,
+      createdBy: userId
     };
 
     let detail: ICreatePhysioDetail | {} = {};
