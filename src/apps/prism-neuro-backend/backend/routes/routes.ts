@@ -9,6 +9,7 @@ import { physioRoutesHandler } from './admin/doctor.routes';
 import { userRoutesHandler } from './admin/user.routes';
 import { doctorRoutesHandler } from './doctor/doctor.routes';
 import { modeSessionRoutesHandler } from './mode-session/mode-session.routes';
+import { modeTrialRoutesHandler } from './mode-trial/mode-trial.routes';
 import { PatientRoutesHandler } from './patient/patient.routes';
 
 export const masterRouter = (
@@ -29,6 +30,8 @@ export const masterRouter = (
   startModeSessionController: controllers.StartModeSessionController,
   endModeSessionController: controllers.EndModeSessionController,
   createPatientByPhysioController: controllers.CreatePatientByPhysioController,
+  endModeTrialController: controllers.EndModeTrialController,
+  startModeTrialController: controllers.StartModeTrialController,
   refreshAuthorizer: RefreshAuthorizer,
   userAuthorizer: JWTUserAuthorizer,
   physioAuthorizer: JWTDoctorAuthorizer
@@ -61,6 +64,7 @@ export const masterRouter = (
   );
 
   modeSessionRoutesHandler({ endModeSessionController, startModeSessionController }, physioAuthorizer, apiRouter);
+  modeTrialRoutesHandler({ endModeTrialController, startModeTrialController }, physioAuthorizer, apiRouter);
 
   return apiRouter;
 };

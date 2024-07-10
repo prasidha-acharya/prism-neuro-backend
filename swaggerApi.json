@@ -690,7 +690,7 @@
         ]
       }
     },
-    "mode/trial-start": {
+    "/mode/trial-start/{modeId}": {
       "post": {
         "tags": ["Mode Trial"],
         "summary": "",
@@ -726,8 +726,8 @@
                   "trialId": {
                     "type": "number"
                   },
-                  "endTime": {
-                    "type": "DateTime"
+                  "startTime": {
+                    "type": "date"
                   },
                   "results": {
                     "type": "json"
@@ -739,7 +739,7 @@
         }
       }
     },
-    "mode/trial-end": {
+    "/mode/trial-end/{modeId}/{modeTrialId}": {
       "put": {
         "tags": ["Mode Trial"],
         "summary": "",
@@ -747,6 +747,14 @@
         "parameters": [
           {
             "name": "modeId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "modeTrialId",
             "in": "path",
             "required": true,
             "schema": {
@@ -770,7 +778,7 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": ["trialId", "startTime"],
+                "required": ["trialId", "endTime"],
                 "properties": {
                   "trialId": {
                     "type": "number"

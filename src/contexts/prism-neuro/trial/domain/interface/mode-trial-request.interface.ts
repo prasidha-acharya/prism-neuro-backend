@@ -8,7 +8,7 @@ export interface IStartModeTrialRequest {
 
 export interface IEndModeTrialRequest {
   id: string;
-  trialId: number;
+  modeId: string;
   data: {
     results: any;
     endTime: string;

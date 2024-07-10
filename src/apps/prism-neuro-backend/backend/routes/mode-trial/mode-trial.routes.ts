@@ -7,7 +7,7 @@ interface IHandler {
   endModeTrialController: controllers.EndModeTrialController;
 }
 
-export const ModeTrialRoutesHandler = (
+export const modeTrialRoutesHandler = (
   controller: IHandler,
   physioAuthorizer: IAuthorizer<Request, Response, NextFunction>,
   router: Router
@@ -15,8 +15,9 @@ export const ModeTrialRoutesHandler = (
   const { startModeTrialController, endModeTrialController } = controller;
 
   router.post(
-    'mode/trial-start',
+    '/mode/trial-start/:modeId',
     physioAuthorizer.authorize,
+    startModeTrialController.validate,
     startModeTrialController.invoke.bind(startModeTrialController)
     /* 
      #swagger.security = [{
@@ -39,8 +40,8 @@ export const ModeTrialRoutesHandler = (
             required: ["trialId", "startTime","results"],
             properties: {
               trialId: { type: "number" },
-              endTime: { type:"DateTime"},
-               results: { type:"json"},
+              startTime: { type:"date"},
+              results: { type:"json"},
             }
           }
         }
@@ -50,7 +51,7 @@ export const ModeTrialRoutesHandler = (
   );
 
   router.put(
-    'mode/trial-end',
+    '/mode/trial-end/:modeId/:modeTrialId',
     physioAuthorizer.authorize,
     endModeTrialController.invoke.bind(endModeTrialController)
     /* 
@@ -65,13 +66,23 @@ export const ModeTrialRoutesHandler = (
     type:"string",
     required:"true"
     }
+       #swagger.parameters['modeId'] = {
+    in:"path",
+    type:"string",
+    required:"true"
+    }
+       #swagger.parameters['modeTrialId'] = {
+    in:"path",
+    type:"string",
+    required:"true"
+    }
       #swagger.requestBody = {
       required: true,
       content: {
         "application/json": {
           schema: {
             type: "object",
-            required: ["trialId", "startTime"],
+            required: ["trialId", "endTime"],
             properties: {
               trialId: { type: "number" },
               endTime: { type:"DateTime"},

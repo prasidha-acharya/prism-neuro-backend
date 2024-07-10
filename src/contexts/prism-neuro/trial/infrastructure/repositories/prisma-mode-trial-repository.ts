@@ -8,7 +8,13 @@ export class PrismaModeTrialRepository implements IModeTrialRepository {
   async startModeTrial(request: IStartModeTrialRequest): Promise<void> {
     await this.db.modeTrialSession.create({
       data: {
-        ...request
+        startTime: request.startTime,
+        trialId: request.trialId,
+        mode: {
+          connect: {
+            id: request.modeId
+          }
+        }
       }
     });
   }
@@ -17,7 +23,7 @@ export class PrismaModeTrialRepository implements IModeTrialRepository {
     await this.db.modeTrialSession.update({
       where: {
         id: request.id,
-        trialId: request.trialId
+        modeId: request.modeId
       },
       data: {
         ...request.data
