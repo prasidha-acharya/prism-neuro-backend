@@ -9,7 +9,7 @@ export class StartModeSessionController implements Controller {
 
   async invoke(req: Request, res: Response, next: NextFunction): Promise<void> {
     const physioId = req.query.physioId as string;
-    const patientId = req.query.physioId as string;
+    const patientId = req.query.patientId as string;
     try {
       this.startModeSessionService.invoke({ patientId, physioId, status: MODE_SESSION_STATUS.START });
       res.status(httpStatus.OK).send();

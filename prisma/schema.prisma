@@ -78,7 +78,7 @@ model LoginSession {
   deviceTokenId String?
   user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt     DateTime  @default(now()) @db.Timestamptz()
-  updatedAt     DateTime  @default(now()) @db.Timestamptz()
+  updatedAt     DateTime  @updatedAt
   deletedAt     DateTime? @db.Timestamptz()
 }
 
@@ -94,7 +94,7 @@ model ModeSession {
   modeId    String?
   status    MODE_SESSION_STATUS
   createdAt DateTime            @default(now()) @db.Timestamptz()
-  updatedAt DateTime            @default(now()) @db.Timestamptz()
+  updatedAt DateTime            @updatedAt
   deletedAt DateTime?           @db.Timestamptz()
 }
 
@@ -113,7 +113,7 @@ model Mode {
   trialDuration    Int?
   type             MODE_TYPE
   createdAt        DateTime           @default(now()) @db.Timestamptz()
-  updatedAt        DateTime           @default(now()) @db.Timestamptz()
+  updatedAt        DateTime           @updatedAt
   deletedAt        DateTime?          @db.Timestamptz()
   modeDetail       ModeDetail?
   ModeTrialSession ModeTrialSession[]
@@ -127,7 +127,7 @@ model ModeDetail {
   videoUrls    String[]
   instructions String[]
   createdAt    DateTime  @default(now()) @db.Timestamptz()
-  updatedAt    DateTime  @default(now()) @db.Timestamptz()
+  updatedAt    DateTime  @updatedAt
   deletedAt    DateTime? @db.Timestamptz()
   modeId       String    @unique
   mode         Mode      @relation(fields: [modeId], references: [id], onDelete: Cascade)
@@ -147,7 +147,7 @@ model ModeTrialSession {
   modeId    String
   results   Json?
   createdAt DateTime                   @default(now()) @db.Timestamptz()
-  updatedAt DateTime                   @default(now()) @db.Timestamptz()
+  updatedAt DateTime                   @updatedAt
   deletedAt DateTime?                  @db.Timestamptz()
 }
 
@@ -163,7 +163,7 @@ model Otp {
   type      OTP_TYPE
   otpCode   String
   createdAt DateTime  @default(now()) @db.Timestamptz()
-  updatedAt DateTime  @default(now()) @db.Timestamptz()
+  updatedAt DateTime  @updatedAt
   deletedAt DateTime? @db.Timestamptz()
   expiresAt DateTime
   sessionId String?

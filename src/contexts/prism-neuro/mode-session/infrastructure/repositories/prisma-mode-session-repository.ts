@@ -1,21 +1,24 @@
 import { PrismaClient } from '@prisma/client';
-import { IModeSessionRequest } from '../../domain/interface/mode-session-request.interface';
+import { ICreateModeSessionRequest, IUpdateModeSessionRequest } from '../../domain/interface/mode-session-request.interface';
 import { IModeSessionRepository } from '../../domain/repositories/mode-session-repository';
 
 export class PrismaModeSessionRepository implements IModeSessionRepository {
   constructor(private db: PrismaClient) {}
 
-  async setModeSession(request: IModeSessionRequest, sessionId?: string): Promise<void> {
-    await this.db.modeSession.upsert({
-      where: {
-        id: sessionId,
-        patientId: request.patientId,
-        physioId: request.physioId
-      },
-      create: {
+  async startModeSession(request: ICreateModeSessionRequest): Promise<void> {
+    await this.db.modeSession.create({
+      data: {
         ...request
-      },
-      update: { ...request }
+      }
+    });
+  }
+
+  async updateModeSession(request: IUpdateModeSessionRequest, sessionId: string): Promise<void> {
+    await this.db.modeSession.update({
+      where: { id: sessionId },
+      data: {
+        ...request
+      }
     });
   }
 }

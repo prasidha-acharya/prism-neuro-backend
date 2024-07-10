@@ -16,7 +16,22 @@ export const modeSessionRoutesHandler = (
     physioAuthorizer.authorize,
     startModeSessionController.invoke.bind(startModeSessionController)
     /* 
+     #swagger.security = [{
+            "bearerAuth": []
+    }] 
     #swagger.tags = ['Mode session']
+    #swagger.summary=""
+    #swagger.description=""
+    #swagger.parameters['physioId'] = {
+    in:"query",
+    type:"string",
+    required:"true"
+    }
+    #swagger.parameters['patientId'] = {
+    in:"query",
+    type:"string",
+    required:"true"
+    }
     */
   );
 
@@ -25,7 +40,27 @@ export const modeSessionRoutesHandler = (
     physioAuthorizer.authorize,
     endModeSessionController.invoke.bind(endModeSessionController)
     /* 
+     #swagger.security = [{
+            "bearerAuth": []
+    }] 
     #swagger.tags = ['Mode session']
+    #swagger.summary=""
+    #swagger.description=""
+    #swagger.parameters['physioId'] = {
+    in:"query",
+    type:"string",
+    required:"true"
+    }
+    #swagger.parameters['patientId'] = {
+    in:"query",
+    type:"string",
+    required:"true"
+    }
+    #swagger.parameters['sessionId'] = {
+    in:"query",
+    type:"string",
+    required:"true"
+    }
     */
   );
 

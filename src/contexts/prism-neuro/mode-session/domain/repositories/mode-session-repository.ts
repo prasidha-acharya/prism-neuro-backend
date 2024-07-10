@@ -1,5 +1,6 @@
-import { IModeSessionRequest } from '../interface/mode-session-request.interface';
+import { ICreateModeSessionRequest } from '../interface/mode-session-request.interface';
 
 export interface IModeSessionRepository {
-  setModeSession(request: IModeSessionRequest, sessionId: string): Promise<void>;
+  updateModeSession(request: ICreateModeSessionRequest, sessionId: string): Promise<void>;
+  startModeSession(request: ICreateModeSessionRequest): Promise<void>;
 }
