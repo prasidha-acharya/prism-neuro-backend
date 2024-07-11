@@ -1,6 +1,6 @@
 import { MODE_SESSION_STATUS, USER_ROLES } from '@prisma/client';
 import { NextFunction, Request, Response } from 'express';
-import { query } from 'express-validator';
+import { param } from 'express-validator';
 import httpStatus from 'http-status';
 import { GetModeSessionOfPhysioAndPatientService } from '../../../../../contexts/prism-neuro/mode-session/application/get-session.service';
 import { StartModeSessionService } from '../../../../../contexts/prism-neuro/mode-session/application/start-session.service';
@@ -18,37 +18,30 @@ export class StartModeSessionController implements Controller {
   ) {}
 
   public validate = [
-    query('physioId')
-      .exists()
-      .withMessage(MESSAGE_CODES.MODE.REQUIRED_PHYSIO_ID)
-      .custom(async value => {
-        const isPhysioAvailable = await this.getUserByRoleService.invoke({ userId: value, role: USER_ROLES.PHYSIO });
-        if (!isPhysioAvailable) {
-          throw new HTTP404Error(MESSAGE_CODES.USER.INVALID_PHYSIO_THERAPIST);
-        }
-        return true;
-      }),
-    query('patientId')
+    param('patientId')
       .exists()
       .withMessage(MESSAGE_CODES.MODE.REQUIRED_PATIENT_ID)
       .custom(async (value, { req }) => {
         const isPatientAvailable = await this.getUserByRoleService.invoke({ userId: value, role: USER_ROLES.PATIENT });
 
-        if (!req?.query?.physioId) {
-          throw new HTTP404Error(MESSAGE_CODES.USER.INVALID_PATIENT);
+        const physioId = req?.body?.user?.userId;
+
+        if (!physioId) {
+          throw new HTTP404Error(MESSAGE_CODES.USER.INVALID_PHYSIO_THERAPIST);
         }
 
         if (!isPatientAvailable) {
           throw new HTTP404Error(MESSAGE_CODES.USER.INVALID_PATIENT);
         }
 
-        const isModeSessionStarted = await this.getModeSessionOfPhysioAndPatientService.invoke({
+        // checking if any session is on.
+        const isModeSessionAlreadyStarted = await this.getModeSessionOfPhysioAndPatientService.invoke({
           patientId: value,
-          physioId: req.query.physioId,
+          physioId,
           status: MODE_SESSION_STATUS.START
         });
 
-        if (isModeSessionStarted) {
+        if (isModeSessionAlreadyStarted) {
           throw new HTTP405Error(MESSAGE_CODES.MODE.CANNOT_CREATE_MODE_SESSION);
         }
 
@@ -59,7 +52,7 @@ export class StartModeSessionController implements Controller {
 
   async invoke(req: Request, res: Response, next: NextFunction): Promise<void> {
     const physioId = req.query.physioId as string;
-    const patientId = req.query.patientId as string;
+    const patientId = req.params.patientId as string;
 
     try {
       const response = await this.startModeSessionService.invoke({ patientId, physioId, status: MODE_SESSION_STATUS.START });

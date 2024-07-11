@@ -612,23 +612,15 @@
         }
       }
     },
-    "/mode/session-start": {
+    "/mode/session-start/{patientId}": {
       "post": {
         "tags": ["Mode session"],
-        "summary": "",
-        "description": "",
+        "summary": "Physio can start session",
+        "description": "This end point creates session between physio therapist and patient.",
         "parameters": [
           {
-            "name": "physioId",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
             "name": "patientId",
-            "in": "query",
+            "in": "path",
             "required": true,
             "schema": {
               "type": "string"
@@ -647,23 +639,15 @@
         ]
       }
     },
-    "/mode/session-end": {
+    "/mode/session-end/{patientId}": {
       "put": {
         "tags": ["Mode session"],
-        "summary": "",
-        "description": "",
+        "summary": "Physio ends session",
+        "description": "This end point ends session between physio and patient.",
         "parameters": [
           {
-            "name": "physioId",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
             "name": "patientId",
-            "in": "query",
+            "in": "path",
             "required": true,
             "schema": {
               "type": "string"
@@ -690,21 +674,11 @@
         ]
       }
     },
-    "/mode/trial-start/{modeId}": {
+    "/mode/trial-start": {
       "post": {
         "tags": ["Mode Trial"],
-        "summary": "",
-        "description": "",
-        "parameters": [
-          {
-            "name": "modeId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
+        "summary": "Only Physio therapist can start trial",
+        "description": "Starts trial",
         "responses": {
           "default": {
             "description": ""
@@ -721,13 +695,19 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": ["trialId", "startTime"],
+                "required": ["trialId", "startTime", "sessionId", "modeId"],
                 "properties": {
                   "trialId": {
                     "type": "number"
                   },
                   "startTime": {
                     "type": "date"
+                  },
+                  "sessionId": {
+                    "type": "string"
+                  },
+                  "modeId": {
+                    "type": "string"
                   }
                 }
               }

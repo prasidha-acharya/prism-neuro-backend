@@ -12,7 +12,7 @@ export const modeSessionRoutesHandler = (
   router: Router
 ): Router => {
   router.post(
-    '/mode/session-start',
+    '/mode/session-start/:patientId',
     physioAuthorizer.authorize,
     startModeSessionController.validate,
     startModeSessionController.invoke.bind(startModeSessionController)
@@ -21,15 +21,10 @@ export const modeSessionRoutesHandler = (
             "bearerAuth": []
     }] 
     #swagger.tags = ['Mode session']
-    #swagger.summary=""
-    #swagger.description=""
-    #swagger.parameters['physioId'] = {
-    in:"query",
-    type:"string",
-    required:"true"
-    }
+    #swagger.summary="Physio can start session"
+    #swagger.description="This end point creates session between physio therapist and patient."
     #swagger.parameters['patientId'] = {
-    in:"query",
+    in:"path",
     type:"string",
     required:"true"
     }
@@ -37,7 +32,7 @@ export const modeSessionRoutesHandler = (
   );
 
   router.put(
-    '/mode/session-end',
+    '/mode/session-end/:patientId',
     physioAuthorizer.authorize,
     endModeSessionController.invoke.bind(endModeSessionController)
     /* 
@@ -45,15 +40,10 @@ export const modeSessionRoutesHandler = (
             "bearerAuth": []
     }] 
     #swagger.tags = ['Mode session']
-    #swagger.summary=""
-    #swagger.description=""
-    #swagger.parameters['physioId'] = {
-    in:"query",
-    type:"string",
-    required:"true"
-    }
+    #swagger.summary="Physio ends session"
+    #swagger.description="This end point ends session between physio and patient."
     #swagger.parameters['patientId'] = {
-    in:"query",
+    in:"path",
     type:"string",
     required:"true"
     }
