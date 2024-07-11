@@ -7,11 +7,11 @@ interface IHandler {
   deleteDoctorController: controllers.DeleteDoctorController;
   updateDoctorController: controllers.UpdateDoctorController;
   createPatientByPhysioController: controllers.CreatePatientByPhysioController;
-  getAllPatientListByPhysioIdController: controllers.GetAllPatientListByPhysioIdController;
+  getAllPatientListsWithSessionController: controllers.GetAllPatientListsWithSessionController;
 }
 
 export const physioRoutesHandler = (
-  { loginDoctorController, createPatientByPhysioController, getAllPatientListByPhysioIdController }: IHandler,
+  { loginDoctorController, createPatientByPhysioController, getAllPatientListsWithSessionController }: IHandler,
   physioAuthorizer: IAuthorizer<Request, Response, NextFunction>,
   router: Router
 ): Router => {
@@ -118,8 +118,9 @@ export const physioRoutesHandler = (
   // );
 
   router.get(
-    '/physio/patients/:physioId',
-    getAllPatientListByPhysioIdController.invoke.bind(getAllPatientListByPhysioIdController)
+    '/physio/patients',
+    physioAuthorizer.authorize,
+    getAllPatientListsWithSessionController.invoke.bind(getAllPatientListsWithSessionController)
 
     /*
   #swagger.security = [{
@@ -128,6 +129,10 @@ export const physioRoutesHandler = (
       #swagger.tags = ['Physio']
       #swagger.summary = 'Physio can fetch patient lists'
       #swagger.description = 'Endpoint for physio-therapist to fetch patient lists'
+      #swagger.parameters['search'] = {
+        in: 'query',
+        type: 'string'
+      }
       #swagger.responses[201]
     */
   );

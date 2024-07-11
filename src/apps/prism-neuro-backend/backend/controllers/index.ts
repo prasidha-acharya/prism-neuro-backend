@@ -17,3 +17,4 @@ export * from './mode-trial/get-mode-trial.controller';
 export * from './mode-trial/start-mode-trial.controller';
 export * from './patient/login-patient.controller';
 export * from './physio/create-patient-by-physio.controller';
+export * from './physio/get-patient-lists.controller';

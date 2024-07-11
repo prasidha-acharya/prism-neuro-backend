@@ -33,6 +33,7 @@ export const masterRouter = (
   endModeTrialController: controllers.EndModeTrialController,
   startModeTrialController: controllers.StartModeTrialController,
   getModeTrialBySessionController: controllers.GetModeTrialBySessionController,
+  getAllPatientListsWithSessionController: controllers.GetAllPatientListsWithSessionController,
   refreshAuthorizer: RefreshAuthorizer,
   userAuthorizer: JWTUserAuthorizer,
   physioAuthorizer: JWTDoctorAuthorizer
@@ -46,7 +47,13 @@ export const masterRouter = (
   );
   adminAuthRoutesHandler({ loginAdminController }, apiRouter);
   physioRoutesHandler(
-    { loginDoctorController, updateDoctorController, deleteDoctorController, getAllPatientListByPhysioIdController, createPatientByPhysioController },
+    {
+      loginDoctorController,
+      updateDoctorController,
+      deleteDoctorController,
+      getAllPatientListsWithSessionController,
+      createPatientByPhysioController
+    },
     physioAuthorizer,
     apiRouter
   );

@@ -43,6 +43,7 @@ import { ServerLogger } from '../../../contexts/shared/infrastructure/winston-lo
 import * as controller from './controllers';
 import { StartModeSessionController } from './controllers/mode-session/start-mode-session.controller';
 import { GetModeTrialBySessionController } from './controllers/mode-trial/get-mode-trial.controller';
+import { GetAllPatientListsWithSessionController } from './controllers/physio/get-patient-lists.controller';
 import { Router } from './router';
 import { masterRouter } from './routes/routes';
 import { Server } from './server';
@@ -157,7 +158,8 @@ export class Container {
         deleteDoctorController: asClass(DeleteDoctorController),
         updateDoctorController: asClass(UpdateDoctorController),
         createPatientByPhysioService: asClass(CreatePatientByPhysioService).singleton(),
-        createPatientByPhysioController: asClass(CreatePatientByPhysioController)
+        createPatientByPhysioController: asClass(CreatePatientByPhysioController),
+        getAllPatientListsWithSessionController: asClass(GetAllPatientListsWithSessionController).singleton()
       })
       // mode
       .register({

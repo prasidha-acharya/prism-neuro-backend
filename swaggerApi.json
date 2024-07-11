@@ -14,51 +14,6 @@
     }
   ],
   "paths": {
-    "/auth/login": {
-      "post": {
-        "tags": ["Admin Auth"],
-        "summary": "Login for Admin Controller",
-        "description": "Endpoint for administrators to log in, providing email, password, and optionally device info and device type",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/loginAdminReponse"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/loginAdminReponse"
-                }
-              }
-            }
-          }
-        },
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "required": ["email", "password"],
-                "properties": {
-                  "email": {
-                    "type": "string",
-                    "format": "email"
-                  },
-                  "password": {
-                    "type": "string",
-                    "minLength": 6
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/admin/create-physio": {
       "post": {
         "tags": ["Admin"],
@@ -315,6 +270,51 @@
             "bearerAuth": []
           }
         ]
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "tags": ["Admin Auth"],
+        "summary": "Login for Admin Controller",
+        "description": "Endpoint for administrators to log in, providing email, password, and optionally device info and device type",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/loginAdminReponse"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/loginAdminReponse"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["email", "password"],
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "format": "email"
+                  },
+                  "password": {
+                    "type": "string",
+                    "minLength": 6
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/refresh": {
@@ -612,16 +612,15 @@
         }
       }
     },
-    "/physio/patients/{physioId}": {
+    "/physio/patients": {
       "get": {
         "tags": ["Physio"],
         "summary": "Physio can fetch patient lists",
         "description": "Endpoint for physio-therapist to fetch patient lists",
         "parameters": [
           {
-            "name": "physioId",
-            "in": "path",
-            "required": true,
+            "name": "search",
+            "in": "query",
             "schema": {
               "type": "string"
             }
