@@ -4,10 +4,10 @@ import { JWTDoctorAuthorizer } from '../../../../contexts/shared/infrastructure/
 import { RefreshAuthorizer } from '../../../../contexts/shared/infrastructure/authorizer/refresh.authorizer';
 import { JWTUserAuthorizer } from '../../../../contexts/shared/infrastructure/authorizer/user.authorizer';
 import * as controllers from '../controllers';
+import { adminPhysioRoutesHandler } from './admin/admin-physio.routes';
 import { adminAuthRoutesHandler } from './admin/auth.routes';
-import { physioRoutesHandler } from './admin/doctor.routes';
 import { userRoutesHandler } from './admin/user.routes';
-import { doctorRoutesHandler } from './doctor/doctor.routes';
+import { physioRoutesHandler } from './doctor/doctor.routes';
 import { modeSessionRoutesHandler } from './mode-session/mode-session.routes';
 import { modeTrialRoutesHandler } from './mode-trial/mode-trial.routes';
 import { PatientRoutesHandler } from './patient/patient.routes';
@@ -39,13 +39,13 @@ export const masterRouter = (
 ): Router => {
   const apiRouter = Router();
 
-  physioRoutesHandler(
+  adminPhysioRoutesHandler(
     { createDoctorController, updateDoctorController, deleteDoctorController, getAllUsersController, getAllPatientListByPhysioIdController },
     adminAuthorizer,
     apiRouter
   );
   adminAuthRoutesHandler({ loginAdminController }, apiRouter);
-  doctorRoutesHandler(
+  physioRoutesHandler(
     { loginDoctorController, updateDoctorController, deleteDoctorController, getAllPatientListByPhysioIdController, createPatientByPhysioController },
     physioAuthorizer,
     apiRouter

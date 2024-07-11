@@ -10,7 +10,7 @@ interface IHandler {
   getAllPatientListByPhysioIdController: controllers.GetAllPatientListByPhysioIdController;
 }
 
-export const physioRoutesHandler = (
+export const adminPhysioRoutesHandler = (
   { createDoctorController, updateDoctorController, getAllUsersController, getAllPatientListByPhysioIdController }: IHandler,
   adminAuthorizer: IAuthorizer<Request, Response, NextFunction>,
   router: Router
