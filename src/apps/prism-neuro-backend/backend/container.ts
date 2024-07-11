@@ -1,9 +1,11 @@
 import { AwilixContainer, InjectionMode, asClass, asFunction, asValue, createContainer } from 'awilix';
 import { config } from '../../../../config';
 import { EndModeSessionService } from '../../../contexts/prism-neuro/mode-session/application/end-session.service';
+import { GetModeSessionOfPhysioAndPatientService } from '../../../contexts/prism-neuro/mode-session/application/get-session.service';
 import { StartModeSessionService } from '../../../contexts/prism-neuro/mode-session/application/start-session.service';
 import { UpdateModeSessionService } from '../../../contexts/prism-neuro/mode-session/application/update-session.service';
 import { PrismaModeSessionRepository } from '../../../contexts/prism-neuro/mode-session/infrastructure/repositories/prisma-mode-session-repository';
+import { GetModeByIdService } from '../../../contexts/prism-neuro/mode/application/get-mode-by-id.service';
 import { PrismaModeRepository } from '../../../contexts/prism-neuro/mode/infrastructure/repositories/prisma-mode-repository';
 import { CreateModeSeeder } from '../../../contexts/prism-neuro/mode/infrastructure/seeders/create-mode.seeder';
 import { EndModeTrialService } from '../../../contexts/prism-neuro/trial/application/end-mode-trial.service';
@@ -20,6 +22,7 @@ import { DeleteUserSessionService } from '../../../contexts/prism-neuro/users/ap
 import { ForgotPasswordService } from '../../../contexts/prism-neuro/users/application/forgot-password.service';
 import { GetAdminByEmailService } from '../../../contexts/prism-neuro/users/application/get-admin-email.service';
 import { GetOtpService } from '../../../contexts/prism-neuro/users/application/get-otp.service';
+import { GetUserByRoleService } from '../../../contexts/prism-neuro/users/application/get-user-by-role.service';
 import { GetUserSessionService } from '../../../contexts/prism-neuro/users/application/get-user-session.service';
 import { GetUsersService } from '../../../contexts/prism-neuro/users/application/get-users.service';
 import { ResetPasswordService } from '../../../contexts/prism-neuro/users/application/reset-password.service';
@@ -144,7 +147,8 @@ export class Container {
       })
       .register({
         getAllUsersController: asClass(controller.GetAllUsersController),
-        getAllPatientListByPhysioIdController: asClass(controller.GetAllPatientListByPhysioIdController)
+        getAllPatientListByPhysioIdController: asClass(controller.GetAllPatientListByPhysioIdController),
+        getUserByRoleService: asClass(GetUserByRoleService).singleton()
       })
       //doctor
       .register({
@@ -158,12 +162,14 @@ export class Container {
       // mode
       .register({
         prismaModeRepository: asClass(PrismaModeRepository),
+        getModeByIdService: asClass(GetModeByIdService).singleton(),
         prismaModeSessionRepository: asClass(PrismaModeSessionRepository),
         startModeSessionService: asClass(StartModeSessionService).singleton(),
         endModeSessionService: asClass(EndModeSessionService).singleton(),
         startModeSessionController: asClass(StartModeSessionController),
         updateModeSessionService: asClass(UpdateModeSessionService).singleton(),
-        endModeSessionController: asClass(controller.EndModeSessionController)
+        endModeSessionController: asClass(controller.EndModeSessionController),
+        getModeSessionOfPhysioAndPatientService: asClass(GetModeSessionOfPhysioAndPatientService).singleton()
       })
       //mode trial session
       .register({

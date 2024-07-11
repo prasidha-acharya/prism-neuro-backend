@@ -1,5 +1,5 @@
-import { CreateModeSeeder } from 'src/contexts/prism-neuro/mode/infrastructure/seeders/create-mode.seeder';
 import { Configuration } from '../../../../config';
+import { CreateModeSeeder } from '../../../contexts/prism-neuro/mode/infrastructure/seeders/create-mode.seeder';
 import { CreateAdminSeeder } from '../../../contexts/prism-neuro/users/infrastructure/seeders/create-admin.seeder';
 import { Container } from './container';
 import { Server } from './server';

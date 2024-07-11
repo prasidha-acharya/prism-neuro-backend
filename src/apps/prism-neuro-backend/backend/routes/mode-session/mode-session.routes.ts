@@ -14,6 +14,7 @@ export const modeSessionRoutesHandler = (
   router.post(
     '/mode/session-start',
     physioAuthorizer.authorize,
+    startModeSessionController.validate,
     startModeSessionController.invoke.bind(startModeSessionController)
     /* 
      #swagger.security = [{

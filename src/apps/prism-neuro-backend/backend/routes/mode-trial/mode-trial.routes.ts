@@ -38,11 +38,10 @@ export const modeTrialRoutesHandler = (
         "application/json": {
           schema: {
             type: "object",
-            required: ["trialId", "startTime","results"],
+            required: ["trialId", "startTime"],
             properties: {
               trialId: { type: "number" },
               startTime: { type:"date"},
-              results: { type:"json"},
             }
           }
         }

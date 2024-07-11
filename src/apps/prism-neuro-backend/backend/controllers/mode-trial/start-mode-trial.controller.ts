@@ -3,7 +3,6 @@ import { body, param } from 'express-validator';
 import httpStatus from 'http-status';
 import { UpdateModeSessionService } from '../../../../../contexts/prism-neuro/mode-session/application/update-session.service';
 import { StartModeTrialService } from '../../../../../contexts/prism-neuro/trial/application/start-mode-trial.service';
-import { HTTP422Error } from '../../../../../contexts/shared/domain/errors/http.exception';
 import { RequestValidator } from '../../../../../contexts/shared/infrastructure/middleware/request-validator';
 import { MESSAGE_CODES } from '../../../../../contexts/shared/infrastructure/utils/message-code';
 import { Controller } from '../controller';
@@ -30,14 +29,14 @@ export class StartModeTrialController implements Controller {
       .withMessage(MESSAGE_CODES.INVALID_DATE)
       .custom((value, { req }) => {
         console.log(req.body, value);
-        if (req?.body?.startTime) {
-          const today = new Date();
-          const to_date = new Date(value);
-          console.log('🚀 ~ StartModeTrialController ~ .custom ~ to_date:', to_date);
-          if (to_date >= today) {
-            throw new HTTP422Error(MESSAGE_CODES.DATE_SHOULD_BE_LESSER_THAN_TODAY);
-          }
-        }
+        // if (req?.body?.startTime) {
+        //   const today = new Date();
+        //   const to_date = new Date(value);
+        //   console.log('🚀 ~ StartModeTrialController ~ .custom ~ to_date:', to_date);
+        //   if (to_date >= today) {
+        //     throw new HTTP422Error(MESSAGE_CODES.DATE_SHOULD_BE_LESSER_THAN_TODAY);
+        //   }
+        // }
         return true;
       }),
     RequestValidator
@@ -48,11 +47,11 @@ export class StartModeTrialController implements Controller {
     const modeId = req.params.modeId as string;
 
     try {
-      // TODO: update modeId  in mode session
-
+      // update modeId  in mode session
       await this.updateModeSessionService.invoke({ modeId }, sessionId);
 
       await this.startModeTrialService.invoke({ trialId, startTime, modeId });
+
       res.status(httpStatus.CREATED).send('OK');
     } catch (error) {
       console.log('🚀 ~ StartModeTrialController ~ invoke ~ error:', error);
