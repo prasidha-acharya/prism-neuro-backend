@@ -7,6 +7,7 @@ import { PrismaModeSessionRepository } from '../../../contexts/prism-neuro/mode-
 import { PrismaModeRepository } from '../../../contexts/prism-neuro/mode/infrastructure/repositories/prisma-mode-repository';
 import { CreateModeSeeder } from '../../../contexts/prism-neuro/mode/infrastructure/seeders/create-mode.seeder';
 import { EndModeTrialService } from '../../../contexts/prism-neuro/trial/application/end-mode-trial.service';
+import { GetModeTrialBySessionService } from '../../../contexts/prism-neuro/trial/application/get-mode-trial.service';
 import { StartModeTrialService } from '../../../contexts/prism-neuro/trial/application/start-mode-trial.service';
 import { PrismaModeTrialRepository } from '../../../contexts/prism-neuro/trial/infrastructure/repositories/prisma-mode-trial-repository';
 import { ChangePasswordService } from '../../../contexts/prism-neuro/users/application/change-password.service';
@@ -38,6 +39,7 @@ import { RequestLogger } from '../../../contexts/shared/infrastructure/request-l
 import { ServerLogger } from '../../../contexts/shared/infrastructure/winston-logger/index';
 import * as controller from './controllers';
 import { StartModeSessionController } from './controllers/mode-session/start-mode-session.controller';
+import { GetModeTrialBySessionController } from './controllers/mode-trial/get-mode-trial.controller';
 import { Router } from './router';
 import { masterRouter } from './routes/routes';
 import { Server } from './server';
@@ -169,7 +171,9 @@ export class Container {
         startModeTrialService: asClass(StartModeTrialService).singleton(),
         endModeTrialService: asClass(EndModeTrialService).singleton(),
         startModeTrialController: asClass(StartModeTrialController),
-        endModeTrialController: asClass(EndModeTrialController)
+        endModeTrialController: asClass(EndModeTrialController),
+        getModeTrialBySessionService: asClass(GetModeTrialBySessionService),
+        getModeTrialBySessionController: asClass(GetModeTrialBySessionController)
       });
   }
 

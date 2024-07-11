@@ -1,9 +1,18 @@
 import { PrismaClient } from '@prisma/client';
-import { IEndModeTrialRequest, IStartModeTrialRequest } from '../../domain/interface/mode-trial-request.interface';
+import { IEndModeTrialRequest, IGetModeTrialRequest, IStartModeTrialRequest } from '../../domain/interface/mode-trial-request.interface';
 import { IModeTrialRepository } from '../../domain/repositories/mode-trial-repository';
 
 export class PrismaModeTrialRepository implements IModeTrialRepository {
   constructor(private db: PrismaClient) {}
+
+  getModeTrial(request: IGetModeTrialRequest): Promise<any> {
+    return this.db.modeTrialSession.findMany({
+      where: {
+        id: request.modeSessionId,
+        modeId: request.modeId
+      }
+    });
+  }
 
   async startModeTrial(request: IStartModeTrialRequest): Promise<void> {
     await this.db.modeTrialSession.create({

@@ -16,3 +16,8 @@ export interface IEndModeTrialRequest {
     status: MODE_TRIAL_SESSION_STATUS;
   };
 }
+
+export interface IGetModeTrialRequest {
+  modeId: string;
+  modeSessionId: string;
+}

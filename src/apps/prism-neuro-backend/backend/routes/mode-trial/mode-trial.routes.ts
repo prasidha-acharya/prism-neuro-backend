@@ -5,6 +5,7 @@ import * as controllers from '../../controllers/index';
 interface IHandler {
   startModeTrialController: controllers.StartModeTrialController;
   endModeTrialController: controllers.EndModeTrialController;
+  getModeTrialBySessionController: controllers.GetModeTrialBySessionController;
 }
 
 export const modeTrialRoutesHandler = (
@@ -12,7 +13,7 @@ export const modeTrialRoutesHandler = (
   physioAuthorizer: IAuthorizer<Request, Response, NextFunction>,
   router: Router
 ): Router => {
-  const { startModeTrialController, endModeTrialController } = controller;
+  const { startModeTrialController, endModeTrialController, getModeTrialBySessionController } = controller;
 
   router.post(
     '/mode/trial-start/:modeId',
@@ -93,6 +94,32 @@ export const modeTrialRoutesHandler = (
         }
       }
     }
+    */
+  );
+
+  router.get(
+    '/mode/trial/:modeId/:modeSessionId',
+    physioAuthorizer.authorize,
+    getModeTrialBySessionController.invoke.bind(getModeTrialBySessionController)
+    /* 
+     #swagger.security = [{
+            "bearerAuth": []
+    }] 
+    #swagger.tags = ['Mode Trial']
+    #swagger.summary="Physio therapist can access mode trial"
+    #swagger.description=""
+    #swagger.parameters['modeId'] = {
+    in:"path",
+    type:"string",
+    required:"true"
+    }
+       #swagger.parameters['modeSessionId'] = {
+    in:"path",
+    type:"string",
+    required:"true"
+    }
+      #swagger.response ['202'] = {}
+      
     */
   );
 

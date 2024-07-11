@@ -796,6 +796,41 @@
         }
       }
     },
+    "/mode/trial/{modeId}/{modeSessionId}": {
+      "get": {
+        "tags": ["Mode Trial"],
+        "summary": "Physio therapist can access mode trial",
+        "description": "",
+        "parameters": [
+          {
+            "name": "modeId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "modeSessionId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
     "/patient/login": {
       "post": {
         "tags": ["Patient"],

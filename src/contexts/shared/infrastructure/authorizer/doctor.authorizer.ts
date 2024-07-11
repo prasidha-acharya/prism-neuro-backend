@@ -21,6 +21,7 @@ export class JWTDoctorAuthorizer implements IAuthorizer<Request, Response, NextF
       const payload: Payload = jwt.verify(token, process.env.JWT_SECRET_TOKEN!) as Payload;
 
       const userSession = await this.getUserSessionService.invoke(payload.sessionId);
+      console.log(userSession?.userId, payload.userId);
 
       if (!userSession || userSession.userId !== payload.userId) {
         throw new HTTP401Error();

@@ -32,6 +32,7 @@ export const masterRouter = (
   createPatientByPhysioController: controllers.CreatePatientByPhysioController,
   endModeTrialController: controllers.EndModeTrialController,
   startModeTrialController: controllers.StartModeTrialController,
+  getModeTrialBySessionController: controllers.GetModeTrialBySessionController,
   refreshAuthorizer: RefreshAuthorizer,
   userAuthorizer: JWTUserAuthorizer,
   physioAuthorizer: JWTDoctorAuthorizer
@@ -64,7 +65,7 @@ export const masterRouter = (
   );
 
   modeSessionRoutesHandler({ endModeSessionController, startModeSessionController }, physioAuthorizer, apiRouter);
-  modeTrialRoutesHandler({ endModeTrialController, startModeTrialController }, physioAuthorizer, apiRouter);
+  modeTrialRoutesHandler({ endModeTrialController, startModeTrialController, getModeTrialBySessionController }, physioAuthorizer, apiRouter);
 
   return apiRouter;
 };
