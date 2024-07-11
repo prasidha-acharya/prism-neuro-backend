@@ -9,7 +9,7 @@ export class CreateModeSeeder {
     try {
       const response = modeTypes.map(async ({ type, name, instructions, trialCount, trialDuration }) => {
         if (type === MODE_TYPE.BALANCE_MODE) {
-          const isModeAvailable = await this.prismaModeRepository.getMode({ type });
+          const isModeAvailable = await this.prismaModeRepository.getModeByType({ type });
 
           if (!isModeAvailable) {
             this.prismaModeRepository.createBalanceMode(
@@ -23,7 +23,7 @@ export class CreateModeSeeder {
             );
           }
         } else if (type === MODE_TYPE.LEFT_RIGHT_MODE) {
-          const isModeAvailable = await this.prismaModeRepository.getMode({ type });
+          const isModeAvailable = await this.prismaModeRepository.getModeByType({ type });
 
           if (!isModeAvailable) {
             this.prismaModeRepository.createLeftRightMode(
@@ -36,7 +36,7 @@ export class CreateModeSeeder {
             );
           }
         } else if (type === MODE_TYPE.TARGET_MODE) {
-          const isModeAvailable = await this.prismaModeRepository.getMode({ type });
+          const isModeAvailable = await this.prismaModeRepository.getModeByType({ type });
 
           if (!isModeAvailable) {
             this.prismaModeRepository.createTargetMode(
@@ -50,7 +50,7 @@ export class CreateModeSeeder {
             );
           }
         } else {
-          const isModeAvailable = await this.prismaModeRepository.getMode({ type });
+          const isModeAvailable = await this.prismaModeRepository.getModeByType({ type });
 
           if (!isModeAvailable) {
             this.prismaModeRepository.createVisualBalanceMode(

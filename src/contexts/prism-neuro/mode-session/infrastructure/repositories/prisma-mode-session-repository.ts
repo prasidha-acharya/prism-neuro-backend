@@ -1,9 +1,19 @@
 import { ModeSession, PrismaClient } from '@prisma/client';
-import { ICreateModeSessionRequest, IUpdateModeSessionRequest } from '../../domain/interface/mode-session-request.interface';
+import { ICreateModeSessionRequest, IGetModeSessionRequest, IUpdateModeSessionRequest } from '../../domain/interface/mode-session-request.interface';
 import { IModeSessionRepository } from '../../domain/repositories/mode-session-repository';
 
 export class PrismaModeSessionRepository implements IModeSessionRepository {
   constructor(private db: PrismaClient) {}
+
+  getModeSessionOfPhysioAndPatient({ patientId, physioId, status }: IGetModeSessionRequest): Promise<ModeSession | null> {
+    return this.db.modeSession.findFirst({
+      where: {
+        patientId,
+        physioId,
+        status
+      }
+    });
+  }
 
   startModeSession(request: ICreateModeSessionRequest): Promise<ModeSession | null> {
     return this.db.modeSession.create({

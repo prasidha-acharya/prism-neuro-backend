@@ -7,6 +7,7 @@ import {
   IFetchOtpRequest,
   IFetchUsersRequest,
   IFogotPasswordRequest,
+  IGetUserByRoleRequest,
   IResetPassword,
   IUpdateDoctorRequest
 } from '../../domain/interface/user-request.interface';
@@ -16,6 +17,15 @@ import { IPrismaUserRepository } from '../../domain/repositories/users-repositor
 
 export class PrismaUserRepository implements IPrismaUserRepository {
   constructor(private db: PrismaClient) {}
+
+  getUserByRole({ userId, role }: IGetUserByRoleRequest): Promise<User | null> {
+    return this.db.user.findUnique({
+      where: {
+        id: userId,
+        role: role
+      }
+    });
+  }
 
   updatePatientByPhysio(request: IUpdateDoctorRequest): Promise<User | null> {
     console.log(request, 'request');

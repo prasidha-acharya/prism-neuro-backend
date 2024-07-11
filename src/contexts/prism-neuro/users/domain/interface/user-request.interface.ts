@@ -101,3 +101,8 @@ export interface IUpdatePatientRequest {
   data: Omit<ICreateUser, 'email' | 'password'>;
   detail: ICreatePhysioDetail;
 }
+
+export interface IGetUserByRoleRequest {
+  role: USER_ROLES;
+  userId: string;
+}

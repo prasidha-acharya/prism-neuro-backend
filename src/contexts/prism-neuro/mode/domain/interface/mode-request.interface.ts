@@ -17,6 +17,10 @@ export interface ICreateTargetModeRequest extends ICreateMode {
 export interface ICreateLeftRightMode extends ICreateMode {}
 
 export interface ICreateVisualBalanceModeRequest extends ICreateMode {}
-export interface IGetModeRequest {
+export interface IGetModeByTypeRequest {
   type: MODE_TYPE;
+}
+
+export interface IGetModeByIdRequest {
+  modeId: string;
 }

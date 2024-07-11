@@ -7,6 +7,7 @@ import {
   IFetchOtpRequest,
   IFetchUsersRequest,
   IFogotPasswordRequest,
+  IGetUserByRoleRequest,
   IResetPassword,
   IUpdateDoctorRequest
 } from '../../domain/interface/user-request.interface';
@@ -49,6 +50,8 @@ export interface IPrismaUserRepository {
   deleteAccount(userId: string): Promise<void>;
 
   getPaginatedUsers(request: IFetchUsersRequest): Promise<IPaginateResponse<User>>;
+
+  getUserByRole(request: IGetUserByRoleRequest): Promise<User | null>;
 
   // createPatientByPhysio(request: ICreateAdminRequest): Promise<void>;
 

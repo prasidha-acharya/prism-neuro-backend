@@ -1,9 +1,7 @@
 import * as bcrypt from 'bcrypt';
 
 export const hashPassword = (string: string): string => {
-  console.log(Number(process.env.SALT_ROUNDS), string);
   const hash = bcrypt.hashSync(string, Number(process.env.SALT_ROUNDS || '10'));
-  console.log(hash, 'haaaaaassssshhhhhhh');
   return hash;
 };
 
