@@ -53,3 +53,14 @@ export class HTTP403Error extends HTTPClientError {
     super(message);
   }
 }
+
+//The 405 Method Not Allowed status code means
+//that while the server knows the request method,
+// the method has been disabled and can not be used.
+export class HTTP405Error extends HTTPClientError {
+  readonly statusCode = httpStatus.METHOD_NOT_ALLOWED;
+
+  constructor(message: string | object = MESSAGE_CODES.PERMISSION_DENIED) {
+    super(message);
+  }
+}
