@@ -80,6 +80,14 @@ export class PrismaUserRepository implements IPrismaUserRepository {
     const [users, count] = await this.db.$transaction([
       this.db.user.findMany({
         where: args,
+        include: {
+          mode: true,
+          modeSession: {
+            include: {
+              modeTrialSession: true
+            }
+          }
+        },
         orderBy: {
           createdAt: 'desc'
         },

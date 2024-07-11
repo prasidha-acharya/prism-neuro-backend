@@ -7,10 +7,11 @@ interface IHandler {
   deleteDoctorController: controllers.DeleteDoctorController;
   updateDoctorController: controllers.UpdateDoctorController;
   createPatientByPhysioController: controllers.CreatePatientByPhysioController;
+  getAllPatientListByPhysioIdController: controllers.GetAllPatientListByPhysioIdController;
 }
 
 export const doctorRoutesHandler = (
-  { loginDoctorController, createPatientByPhysioController }: IHandler,
+  { loginDoctorController, createPatientByPhysioController, getAllPatientListByPhysioIdController }: IHandler,
   physioAuthorizer: IAuthorizer<Request, Response, NextFunction>,
   router: Router
 ): Router => {
@@ -115,6 +116,21 @@ export const doctorRoutesHandler = (
   //   }
   //   */
   // );
+
+  router.get(
+    '/physio/patients/:physioId',
+    getAllPatientListByPhysioIdController.invoke.bind(getAllPatientListByPhysioIdController)
+
+    /*
+  #swagger.security = [{
+            "bearerAuth": []
+    }] 
+      #swagger.tags = ['Physio']
+      #swagger.summary = 'Physio can fetch patient lists'
+      #swagger.description = 'Endpoint for physio-therapist to fetch patient lists'
+      #swagger.responses[201]
+    */
+  );
 
   return router;
 };

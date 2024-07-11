@@ -612,6 +612,33 @@
         }
       }
     },
+    "/physio/patients/{physioId}": {
+      "get": {
+        "tags": ["Physio"],
+        "summary": "Physio can fetch patient lists",
+        "description": "Endpoint for physio-therapist to fetch patient lists",
+        "parameters": [
+          {
+            "name": "physioId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
     "/mode/session-start/{patientId}": {
       "post": {
         "tags": ["Mode session"],

@@ -46,7 +46,7 @@ export const masterRouter = (
   );
   adminAuthRoutesHandler({ loginAdminController }, apiRouter);
   doctorRoutesHandler(
-    { loginDoctorController, updateDoctorController, deleteDoctorController, createPatientByPhysioController },
+    { loginDoctorController, updateDoctorController, deleteDoctorController, getAllPatientListByPhysioIdController, createPatientByPhysioController },
     physioAuthorizer,
     apiRouter
   );

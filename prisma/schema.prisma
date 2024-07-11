@@ -98,7 +98,7 @@ model ModeSession {
   createdAt        DateTime            @default(now()) @db.Timestamptz()
   updatedAt        DateTime            @updatedAt
   deletedAt        DateTime?           @db.Timestamptz()
-  ModeTrialSession ModeTrialSession[]
+  modeTrialSession ModeTrialSession[]
 }
 
 enum MODE_TYPE {
