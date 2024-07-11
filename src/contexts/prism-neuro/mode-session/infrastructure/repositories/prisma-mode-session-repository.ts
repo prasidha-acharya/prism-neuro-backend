@@ -5,12 +5,10 @@ import { IModeSessionRepository } from '../../domain/repositories/mode-session-r
 export class PrismaModeSessionRepository implements IModeSessionRepository {
   constructor(private db: PrismaClient) {}
 
-  getModeSessionOfPhysioAndPatient({ patientId, physioId, status }: IGetModeSessionRequest): Promise<ModeSession | null> {
+  getModeSessionOfPhysioAndPatient(request: IGetModeSessionRequest): Promise<ModeSession | null> {
     return this.db.modeSession.findFirst({
       where: {
-        patientId,
-        physioId,
-        status
+        ...request
       }
     });
   }

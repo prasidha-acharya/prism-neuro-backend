@@ -8,6 +8,7 @@ export interface ICreateModeSessionRequest {
 }
 
 export interface IGetModeSessionRequest {
+  id?: string; //modeSessionId
   patientId: string;
   physioId: string;
   status: MODE_SESSION_STATUS;

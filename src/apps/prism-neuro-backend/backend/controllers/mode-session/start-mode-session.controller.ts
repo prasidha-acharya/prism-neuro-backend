@@ -42,13 +42,13 @@ export class StartModeSessionController implements Controller {
           throw new HTTP404Error(MESSAGE_CODES.USER.INVALID_PATIENT);
         }
 
-        const isModeSessionAlreadyStarted = await this.getModeSessionOfPhysioAndPatientService.invoke({
+        const isModeSessionStarted = await this.getModeSessionOfPhysioAndPatientService.invoke({
           patientId: value,
           physioId: req.query.physioId,
           status: MODE_SESSION_STATUS.START
         });
 
-        if (isModeSessionAlreadyStarted) {
+        if (isModeSessionStarted) {
           throw new HTTP405Error(MESSAGE_CODES.MODE.CANNOT_CREATE_MODE_SESSION);
         }
 

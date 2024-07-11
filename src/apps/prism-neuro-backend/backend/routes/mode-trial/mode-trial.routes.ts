@@ -25,8 +25,8 @@ export const modeTrialRoutesHandler = (
             "bearerAuth": []
     }] 
     #swagger.tags = ['Mode Trial']
-    #swagger.summary=""
-    #swagger.description=""
+    #swagger.summary="Only Physio therapist can start trial"
+    #swagger.description="Starts trial"
     #swagger.parameters['modeId'] = {
     in:"path",
     type:"string",
