@@ -4,6 +4,7 @@ export interface IStartModeTrialRequest {
   modeId: string;
   trialId: number;
   startTime: string;
+  modeSessionId: string;
 }
 
 export interface IEndModeTrialRequest {

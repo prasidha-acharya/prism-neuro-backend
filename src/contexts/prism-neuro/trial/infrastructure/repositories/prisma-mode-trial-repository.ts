@@ -23,6 +23,11 @@ export class PrismaModeTrialRepository implements IModeTrialRepository {
           connect: {
             id: request.modeId
           }
+        },
+        modeSession: {
+          connect: {
+            id: request.modeSessionId
+          }
         }
       }
     });

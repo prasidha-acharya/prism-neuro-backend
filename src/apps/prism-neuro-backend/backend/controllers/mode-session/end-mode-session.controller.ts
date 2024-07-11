@@ -2,11 +2,11 @@ import { MODE_SESSION_STATUS } from '@prisma/client';
 import { NextFunction, Request, Response } from 'express';
 import { param, query } from 'express-validator';
 import httpStatus from 'http-status';
-import { GetModeSessionOfPhysioAndPatientService } from 'src/contexts/prism-neuro/mode-session/application/get-session.service';
-import { HTTP405Error } from 'src/contexts/shared/domain/errors/http.exception';
-import { RequestValidator } from 'src/contexts/shared/infrastructure/middleware/request-validator';
-import { MESSAGE_CODES } from 'src/contexts/shared/infrastructure/utils/message-code';
 import { EndModeSessionService } from '../../../../../contexts/prism-neuro/mode-session/application/end-session.service';
+import { GetModeSessionOfPhysioAndPatientService } from '../../../../../contexts/prism-neuro/mode-session/application/get-session.service';
+import { HTTP405Error } from '../../../../../contexts/shared/domain/errors/http.exception';
+import { RequestValidator } from '../../../../../contexts/shared/infrastructure/middleware/request-validator';
+import { MESSAGE_CODES } from '../../../../../contexts/shared/infrastructure/utils/message-code';
 import { Controller } from '../controller';
 
 export class EndModeSessionController implements Controller {

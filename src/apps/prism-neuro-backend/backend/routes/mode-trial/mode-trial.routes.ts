@@ -16,7 +16,7 @@ export const modeTrialRoutesHandler = (
   const { startModeTrialController, endModeTrialController, getModeTrialBySessionController } = controller;
 
   router.post(
-    '/mode/trial-start',
+    '/mode/trial-start/:modeId',
     physioAuthorizer.authorize,
     startModeTrialController.validate,
     startModeTrialController.invoke.bind(startModeTrialController)
@@ -27,18 +27,22 @@ export const modeTrialRoutesHandler = (
     #swagger.tags = ['Mode Trial']
     #swagger.summary="Only Physio therapist can start trial"
     #swagger.description="Starts trial"
+    #swagger.parameters['modeId'] = {
+    in:"path",
+    type:"string",
+    required:"true"
+    }
       #swagger.requestBody = {
       required: true,
       content: {
         "application/json": {
           schema: {
             type: "object",
-            required: ["trialId", "startTime","sessionId","modeId"],
+            required: ["trialId", "startTime","sessionId"],
             properties: {
               trialId: { type: "number" },
               startTime: { type: "date"},
-              sessionId: {type: "string"},
-              modeId: {type: "string"}
+              sessionId: {type: "string"}
             }
           }
         }
