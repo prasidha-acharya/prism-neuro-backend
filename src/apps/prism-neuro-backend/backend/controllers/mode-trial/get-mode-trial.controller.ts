@@ -8,7 +8,7 @@ export class GetModeTrialBySessionController implements Controller {
 
   async invoke(req: Request, res: Response, next: NextFunction): Promise<void> {
     const modeId = req.params.modeId as string;
-    const modeSessionId = req.params.modeId as string;
+    const modeSessionId = req.params.modeSessionId as string;
 
     try {
       const response = await this.getModeTrialsBySessionService.invoke({ modeId, modeSessionId });

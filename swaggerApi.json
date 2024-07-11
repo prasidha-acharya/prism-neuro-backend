@@ -762,9 +762,12 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": ["endTime", "results", "rawData"],
+                "required": ["endTime", "results", "rawData", "sessionId"],
                 "properties": {
                   "endTime": {
+                    "type": "DateTime"
+                  },
+                  "sessionId": {
                     "type": "DateTime"
                   },
                   "results": {
@@ -780,7 +783,7 @@
         }
       }
     },
-    "/mode/trial/{modeId}/{modeSessionId}": {
+    "/mode/trials/{modeId}/{modeSessionId}": {
       "get": {
         "tags": ["Mode Trial"],
         "summary": "Physio therapist can access mode trial",

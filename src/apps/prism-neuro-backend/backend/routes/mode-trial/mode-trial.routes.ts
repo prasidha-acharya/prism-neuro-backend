@@ -99,7 +99,7 @@ export const modeTrialRoutesHandler = (
   );
 
   router.get(
-    '/mode/trial/:modeId/:modeSessionId',
+    '/mode/trials/:modeId/:modeSessionId',
     physioAuthorizer.authorize,
     getModeTrialBySessionController.invoke.bind(getModeTrialBySessionController)
     /* 

@@ -8,8 +8,8 @@ export class PrismaModeTrialRepository implements IModeTrialRepository {
   getModeTrials(request: IGetModeTrialsRequest): Promise<ModeTrialSession[] | null> {
     return this.db.modeTrialSession.findMany({
       where: {
-        modeSession: { id: request.modeSessionId },
-        mode: { id: request.modeId }
+        modeId: request.modeId,
+        modeSesssionId: request.modeSessionId
       }
     });
   }
