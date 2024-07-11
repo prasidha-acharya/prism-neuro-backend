@@ -791,10 +791,10 @@
                 "required": ["endTime", "results", "rawData", "sessionId"],
                 "properties": {
                   "endTime": {
-                    "type": "DateTime"
+                    "type": "string"
                   },
                   "sessionId": {
-                    "type": "DateTime"
+                    "type": "string"
                   },
                   "results": {
                     "type": "object"
