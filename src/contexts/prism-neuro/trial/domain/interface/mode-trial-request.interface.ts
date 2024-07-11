@@ -18,7 +18,7 @@ export interface IEndModeTrialRequest {
   };
 }
 
-export interface IGetModeTrialRequest {
+export interface IGetModeTrialsRequest {
   modeId: string;
   modeSessionId: string;
 }

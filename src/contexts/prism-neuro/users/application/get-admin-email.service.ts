@@ -4,6 +4,6 @@ export class GetAdminByEmailService {
   constructor(private prismaUserRepository: PrismaUserRepository) {}
 
   invoke(email: string): Promise<User | null> {
-    return this.prismaUserRepository.getAdminByEmail(email);
+    return this.prismaUserRepository.getUserByEmail(email);
   }
 }

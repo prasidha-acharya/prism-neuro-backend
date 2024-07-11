@@ -9,7 +9,7 @@ import { GetModeByIdService } from '../../../contexts/prism-neuro/mode/applicati
 import { PrismaModeRepository } from '../../../contexts/prism-neuro/mode/infrastructure/repositories/prisma-mode-repository';
 import { CreateModeSeeder } from '../../../contexts/prism-neuro/mode/infrastructure/seeders/create-mode.seeder';
 import { EndModeTrialService } from '../../../contexts/prism-neuro/trial/application/end-mode-trial.service';
-import { GetModeTrialBySessionService } from '../../../contexts/prism-neuro/trial/application/get-mode-trial.service';
+import { GetModeTrialsBySessionService } from '../../../contexts/prism-neuro/trial/application/get-mode-trial.service';
 import { StartModeTrialService } from '../../../contexts/prism-neuro/trial/application/start-mode-trial.service';
 import { PrismaModeTrialRepository } from '../../../contexts/prism-neuro/trial/infrastructure/repositories/prisma-mode-trial-repository';
 import { ChangePasswordService } from '../../../contexts/prism-neuro/users/application/change-password.service';
@@ -178,7 +178,7 @@ export class Container {
         endModeTrialService: asClass(EndModeTrialService).singleton(),
         startModeTrialController: asClass(StartModeTrialController),
         endModeTrialController: asClass(EndModeTrialController),
-        getModeTrialBySessionService: asClass(GetModeTrialBySessionService),
+        getModeTrialsBySessionService: asClass(GetModeTrialsBySessionService),
         getModeTrialBySessionController: asClass(GetModeTrialBySessionController)
       });
   }

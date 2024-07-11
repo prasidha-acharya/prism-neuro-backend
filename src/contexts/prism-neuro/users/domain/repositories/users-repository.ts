@@ -17,7 +17,7 @@ import { IPaginateResponse } from '../interface/user.response.interface';
 export interface IPrismaUserRepository {
   createAdmin(request: ICreateAdminRequest): Promise<void>;
 
-  getAdminByEmail(email: string): Promise<User | null>;
+  getUserByEmail(email: string): Promise<User | null>;
 
   createDoctorByAdmin(request: ICreateDoctorRequest): Promise<void>;
 

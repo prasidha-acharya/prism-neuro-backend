@@ -84,9 +84,10 @@ export const modeTrialRoutesHandler = (
         "application/json": {
           schema: {
             type: "object",
-            required: ["endTime" ,"results" ,"rawData"],
+            required: ["endTime" ,"results" ,"rawData","sessionId"],
             properties: {
               endTime: { type:"DateTime"},
+              sessionId: { type:"DateTime"},
               results: { type: "object" },
               rawData: { type:"object"},
             }

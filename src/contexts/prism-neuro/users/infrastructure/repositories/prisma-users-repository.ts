@@ -1,4 +1,4 @@
-import { LoginSession, OTP_TYPE, Otp, Prisma, PrismaClient, User } from '@prisma/client';
+import { LoginSession, MODE_SESSION_STATUS, OTP_TYPE, Otp, Prisma, PrismaClient, User } from '@prisma/client';
 import {
   IChangePassword,
   ICreateAdminRequest,
@@ -250,10 +250,19 @@ export class PrismaUserRepository implements IPrismaUserRepository {
     });
   }
 
-  async getAdminByEmail(email: string): Promise<User | null> {
+  async getUserByEmail(email: string): Promise<User | null> {
     return this.db.user.findFirst({
       where: {
         email
+      },
+      include: {
+        modeSession: {
+          where: {
+            status: MODE_SESSION_STATUS.START
+          }
+        },
+        userAddress: true,
+        userDetail: true
       }
     });
   }

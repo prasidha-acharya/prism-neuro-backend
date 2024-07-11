@@ -51,7 +51,7 @@ export class StartModeSessionController implements Controller {
   ];
 
   async invoke(req: Request, res: Response, next: NextFunction): Promise<void> {
-    const physioId = req.query.physioId as string;
+    const physioId = req.body.user.userId as string;
     const patientId = req.params.patientId as string;
 
     try {

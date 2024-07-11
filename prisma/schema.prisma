@@ -50,6 +50,7 @@ model User {
   mode          Mode[]
   userAddress   UserAddress[]
   userDetail    UserDetail?
+  modeSession   ModeSession[]
 }
 
 model UserDetail {
@@ -90,6 +91,7 @@ enum MODE_SESSION_STATUS {
 model ModeSession {
   id               String              @id @default(uuid())
   patientId        String
+  user             User?               @relation(fields: [physioId], references: [id])
   physioId         String
   modeId           String?
   status           MODE_SESSION_STATUS
