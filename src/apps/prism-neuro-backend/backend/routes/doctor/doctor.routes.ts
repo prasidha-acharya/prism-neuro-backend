@@ -61,22 +61,30 @@ export const physioRoutesHandler = (
       #swagger.summary = 'Physio can create patient'
       #swagger.description = 'Endpoint for physio-therapist to create patient'
       #swagger.requestBody = {
-      requir  ed: true,
+      required: true,
       content: {
         "multipart/form-data": {
           schema: {
             type: "object",
-            required: ["file","email", "firstName" ,"lastName"],
+            required: ["file","patient"],
             properties: {
              file: { type: "string", format: "binary" },
-              email: { type: "string", format: "email" },
+             patient:{
+             type:"object",
+             required:["email", "firstName" ,"lastName"],
+               properties :{
+               email: { type: "string", format: "email" },
               firstName: { type: "string", minLength: 6 },
               address:{type:"string",required:"true"},
               lastName: { type: "string",required:"true" },
               phoneCode: { type: "string" },
               phoneNumber:{type:"string"},
               age:{type:"number"},
-              weight:{type:"number"}
+              weight:{type:"number"},
+               }
+
+             }
+              
             }
           }
         }

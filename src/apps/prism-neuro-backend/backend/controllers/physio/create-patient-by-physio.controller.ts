@@ -22,27 +22,29 @@ export class CreatePatientByPhysioController implements Controller {
   public upload = imageUpload.single('file');
 
   public validate = [
-    body('email').exists().withMessage(MESSAGE_CODES.USER.REQUIRED_EMAIL).isEmail().withMessage(MESSAGE_CODES.USER.INVALID_EMAIL),
-    body('firstName').exists().withMessage(MESSAGE_CODES.USER.REQUIRED_FIRST_NAME).isString().withMessage(MESSAGE_CODES.USER.INVALID_FIRST_NAME),
-    body('lastName').exists().withMessage(MESSAGE_CODES.USER.REQUIRED_LAST_NAME).isString().withMessage(MESSAGE_CODES.USER.INVALID_LAST_NAME),
-    body('address').optional().isString().withMessage(MESSAGE_CODES.USER.INVALID_ADDRESS),
-    body('phoneCode').optional(),
-    body('phoneNumber').optional(),
-    body('age').optional().isNumeric().withMessage(MESSAGE_CODES.USER.AGE_SHOULD_BE_NUMBER),
-    body('weight').optional().isNumeric().withMessage(MESSAGE_CODES.USER.WEIGHT_SHOULD_BE_NUMBER),
+    body('patient.email').exists().withMessage(MESSAGE_CODES.USER.REQUIRED_EMAIL).isEmail().withMessage(MESSAGE_CODES.USER.INVALID_EMAIL),
+    body('patient.firstName')
+      .exists()
+      .withMessage(MESSAGE_CODES.USER.REQUIRED_FIRST_NAME)
+      .isString()
+      .withMessage(MESSAGE_CODES.USER.INVALID_FIRST_NAME),
+    body('patient.lastName').exists().withMessage(MESSAGE_CODES.USER.REQUIRED_LAST_NAME).isString().withMessage(MESSAGE_CODES.USER.INVALID_LAST_NAME),
+    body('patient.address').optional().isString().withMessage(MESSAGE_CODES.USER.INVALID_ADDRESS),
+    body('patient.phoneCode').optional(),
+    body('patient.phoneNumber').optional(),
+    body('patient.age').optional().isNumeric().withMessage(MESSAGE_CODES.USER.AGE_SHOULD_BE_NUMBER),
+    body('patient.weight').optional().isNumeric().withMessage(MESSAGE_CODES.USER.WEIGHT_SHOULD_BE_NUMBER),
     RequestValidator
   ];
 
   async invoke(req: Request, res: Response, next: NextFunction): Promise<void> {
-    const { address, firstName, lastName, email, age, weight } = req.body;
+    const { address, firstName, lastName, email, age, weight, phoneCode, phoneNumber } = req.body.patient;
 
     const { userId } = req.body.user;
 
     // image upload service
 
     const password = generatePassword();
-
-    console.log('🚀 ~ CreatePatientByPhysioController ~ invoke ~ password:', password);
 
     const data: ICreateUser = {
       email,
@@ -61,6 +63,14 @@ export class CreatePatientByPhysioController implements Controller {
 
     if (weight) {
       detail = { ...detail, weight };
+    }
+
+    if (phoneCode) {
+      detail = { ...detail, phoneCode };
+    }
+
+    if (phoneNumber) {
+      detail = { ...detail, phoneNumber };
     }
 
     try {

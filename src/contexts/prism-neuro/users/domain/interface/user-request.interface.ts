@@ -1,5 +1,9 @@
 import { OTP_TYPE, USER_ROLES } from '@prisma/client';
 
+export interface IGetUserRequest {
+  email: string;
+  role?: USER_ROLES;
+}
 export interface ICreateAdmin {
   email: string;
   password: string;

@@ -1,4 +1,4 @@
-import { LoginSession, MODE_SESSION_STATUS, OTP_TYPE, Otp, Prisma, PrismaClient, User } from '@prisma/client';
+import { LoginSession, MODE_SESSION_STATUS, OTP_TYPE, Otp, Prisma, PrismaClient, USER_ROLES, User } from '@prisma/client';
 import {
   IChangePassword,
   ICreateAdminRequest,
@@ -8,6 +8,7 @@ import {
   IFetchUsersRequest,
   IFogotPasswordRequest,
   IGetUserByRoleRequest,
+  IGetUserRequest,
   IResetPassword,
   IUpdateDoctorRequest
 } from '../../domain/interface/user-request.interface';
@@ -258,22 +259,30 @@ export class PrismaUserRepository implements IPrismaUserRepository {
     });
   }
 
-  async getUserByEmail(email: string): Promise<User | null> {
+  async getUserByEmail({ email, role }: IGetUserRequest): Promise<User | null> {
     return this.db.user.findFirst({
       where: {
-        email
+        email,
+        role,
+        deletedAt: null
       },
       include: {
-        patient: {
-          where: {
-            status: MODE_SESSION_STATUS.START
-          }
-        },
-        physio: {
-          where: {
-            status: MODE_SESSION_STATUS.START
-          }
-        },
+        patient:
+          role === USER_ROLES.PATIENT
+            ? {
+                where: {
+                  status: MODE_SESSION_STATUS.START
+                }
+              }
+            : false,
+        physio:
+          role === USER_ROLES.PHYSIO
+            ? {
+                where: {
+                  status: MODE_SESSION_STATUS.START
+                }
+              }
+            : false,
         userAddress: true,
         userDetail: true
       }

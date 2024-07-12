@@ -25,7 +25,6 @@ export class EndModeTrialController implements Controller {
       .toDate()
       .withMessage(MESSAGE_CODES.INVALID_DATE)
       .custom((value, { req }) => {
-        console.log(req.body, value);
         if (req?.body?.endTime) {
           const today = new Date();
           const to_date = new Date(value);

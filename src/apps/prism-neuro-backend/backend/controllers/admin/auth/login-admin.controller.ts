@@ -1,3 +1,4 @@
+import { USER_ROLES } from '@prisma/client';
 import { plainToClass } from 'class-transformer';
 import { Configuration } from 'config';
 import { NextFunction, Request, Response } from 'express';
@@ -6,6 +7,7 @@ import { body } from 'express-validator';
 import httpStatus from 'http-status';
 import { ParsedQs } from 'qs';
 import { AddUserSessionService } from 'src/contexts/prism-neuro/users/application/create-user-session.service';
+import { IClientLoginRequest } from 'src/contexts/prism-neuro/users/domain/interface/user-client-request.interface';
 import { GetAdminByEmailService } from '../../../../../../contexts/prism-neuro/users/application/get-admin-email.service';
 import { Payload, TokenScope } from '../../../../../../contexts/shared/domain/interface/payload';
 import { JWTSign } from '../../../../../../contexts/shared/infrastructure/authorizer/jwt-token';
@@ -38,9 +40,9 @@ export class LoginAdminController implements Controller {
     next: NextFunction
   ): Promise<void> {
     try {
-      const { email, password } = req.body;
+      const { email, password }: IClientLoginRequest = req.body;
 
-      const user = await this.getAdminByEmailService.invoke(email);
+      const user = await this.getAdminByEmailService.invoke({ email, role: USER_ROLES.ADMIN });
 
       if (!user || (user && !comparePassword(password, user.password!))) {
         res.status(httpStatus.UNPROCESSABLE_ENTITY).send({ message: MESSAGE_CODES.USER.INVALID_CREDENTIALS });
