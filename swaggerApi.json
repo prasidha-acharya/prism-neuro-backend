@@ -572,11 +572,15 @@
         "requestBody": {
           "required": true,
           "content": {
-            "application/json": {
+            "multipart/form-data": {
               "schema": {
                 "type": "object",
-                "required": ["email", "firstName", "lastName", "age", "weight", "phoneCode", "phoneNumber"],
+                "required": ["file", "email", "firstName", "lastName", "age", "weight", "phoneCode", "phoneNumber"],
                 "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  },
                   "email": {
                     "type": "string",
                     "format": "email"

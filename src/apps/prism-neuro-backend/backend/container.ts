@@ -25,6 +25,7 @@ import { GetOtpService } from '../../../contexts/prism-neuro/users/application/g
 import { GetUserByRoleService } from '../../../contexts/prism-neuro/users/application/get-user-by-role.service';
 import { GetUserSessionService } from '../../../contexts/prism-neuro/users/application/get-user-session.service';
 import { GetUsersService } from '../../../contexts/prism-neuro/users/application/get-users.service';
+import { ImageUploadService } from '../../../contexts/prism-neuro/users/application/image-upload.service';
 import { ResetPasswordService } from '../../../contexts/prism-neuro/users/application/reset-password.service';
 import { UpdateDoctorService } from '../../../contexts/prism-neuro/users/application/update-doctor-by-admin.service';
 import { PrismaUserRepository } from '../../../contexts/prism-neuro/users/infrastructure/repositories/prisma-users-repository';
@@ -182,6 +183,10 @@ export class Container {
         endModeTrialController: asClass(EndModeTrialController),
         getModeTrialsBySessionService: asClass(GetModeTrialsBySessionService),
         getModeTrialBySessionController: asClass(GetModeTrialBySessionController)
+      })
+      //image upload
+      .register({
+        imageUploadService: asClass(ImageUploadService).singleton()
       });
   }
 

@@ -2,6 +2,7 @@ import { USER_ROLES } from '@prisma/client';
 import { NextFunction, Request, Response } from 'express';
 import { body } from 'express-validator';
 import httpStatus from 'http-status';
+import multer from 'multer';
 import { CreatePatientByPhysioService } from '../../../../../contexts/prism-neuro/users/application/create-patient-by-physio.service';
 import { ICreatePhysioDetail, ICreateUser } from '../../../../../contexts/prism-neuro/users/domain/interface/user-request.interface';
 import { generatePassword, hashPassword } from '../../../../../contexts/shared/infrastructure/encryptor/encryptor';
@@ -10,11 +11,15 @@ import { RequestValidator } from '../../../../../contexts/shared/infrastructure/
 import { MESSAGE_CODES } from '../../../../../contexts/shared/infrastructure/utils/message-code';
 import { Controller } from '../controller';
 
+const imageUpload = multer({});
+
 export class CreatePatientByPhysioController implements Controller {
   constructor(
     private createPatientByPhysioService: CreatePatientByPhysioService,
     private sendPasswordToUserService: SendPasswordToUserService
   ) {}
+
+  public upload = imageUpload.single('file');
 
   public validate = [
     body('email').exists().withMessage(MESSAGE_CODES.USER.REQUIRED_EMAIL).isEmail().withMessage(MESSAGE_CODES.USER.INVALID_EMAIL),
@@ -30,7 +35,10 @@ export class CreatePatientByPhysioController implements Controller {
 
   async invoke(req: Request, res: Response, next: NextFunction): Promise<void> {
     const { address, firstName, lastName, email, age, weight } = req.body;
+
     const { userId } = req.body.user;
+
+    // image upload service
 
     const password = generatePassword();
 

@@ -81,8 +81,8 @@ export class PrismaUserRepository implements IPrismaUserRepository {
       this.db.user.findMany({
         where: args,
         include: {
-          mode: true,
-          modeSession: {
+          // mode: true,
+          patient: {
             include: {
               modeTrialSession: true
             }
@@ -264,7 +264,12 @@ export class PrismaUserRepository implements IPrismaUserRepository {
         email
       },
       include: {
-        modeSession: {
+        patient: {
+          where: {
+            status: MODE_SESSION_STATUS.START
+          }
+        },
+        physio: {
           where: {
             status: MODE_SESSION_STATUS.START
           }
