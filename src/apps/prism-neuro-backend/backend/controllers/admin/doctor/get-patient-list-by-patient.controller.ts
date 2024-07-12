@@ -1,4 +1,4 @@
-import { UserRoles } from '@prisma/client';
+import { USER_ROLES } from '@prisma/client';
 import { NextFunction, Request, Response } from 'express';
 import { ParamsDictionary } from 'express-serve-static-core';
 import httpStatus from 'http-status';
@@ -18,7 +18,7 @@ export class GetAllPatientListByPhysioIdController implements Controller {
       const params = req.query;
       const physioId = req.params.physioId as string;
 
-      const response = await this.getUsersService.invoke({ ...params, role: UserRoles.PATIENT, createdBy: physioId });
+      const response = await this.getUsersService.invoke({ ...params, role: USER_ROLES.PATIENT, createdBy: physioId });
 
       res.status(httpStatus.ACCEPTED).send({ data: response });
     } catch (error) {

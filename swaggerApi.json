@@ -14,54 +14,9 @@
     }
   ],
   "paths": {
-    "/auth/login": {
-      "post": {
-        "tags": ["Admin Auth"],
-        "summary": "Login for Admin Controller",
-        "description": "Endpoint for administrators to log in, providing email, password, and optionally device info and device type",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/loginAdminReponse"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/loginAdminReponse"
-                }
-              }
-            }
-          }
-        },
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "required": ["email", "password"],
-                "properties": {
-                  "email": {
-                    "type": "string",
-                    "format": "email"
-                  },
-                  "password": {
-                    "type": "string",
-                    "minLength": 6
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/admin/create-physio": {
       "post": {
-        "tags": ["Admin Physio"],
+        "tags": ["Admin"],
         "summary": "Admin creates physio",
         "description": "",
         "responses": {
@@ -88,7 +43,7 @@
     },
     "/admin/physio/{physioId}": {
       "get": {
-        "tags": ["Admin Physio"],
+        "tags": ["Admin"],
         "summary": "Fetch physio data by id",
         "description": "Endpoint to fetch physio data by id",
         "parameters": [
@@ -148,7 +103,7 @@
     },
     "/admin/physio": {
       "get": {
-        "tags": ["Admin Physio"],
+        "tags": ["Admin"],
         "summary": "Fetch all physio",
         "description": "Admin can access to all physio",
         "responses": {
@@ -177,7 +132,7 @@
     },
     "/admin/update-physio/{physioId}": {
       "put": {
-        "tags": ["Admin Physio"],
+        "tags": ["Admin"],
         "summary": "Admin update physio",
         "description": "Admin can update physio",
         "parameters": [
@@ -233,33 +188,6 @@
             }
           }
         }
-      }
-    },
-    "/admin/delete-physio/{physioId}": {
-      "delete": {
-        "tags": ["Admin Physio"],
-        "summary": "Delete physio data",
-        "description": "End point to delete physio",
-        "parameters": [
-          {
-            "name": "physioId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        },
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ]
       }
     },
     "/admin/users": {
@@ -342,6 +270,51 @@
             "bearerAuth": []
           }
         ]
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "tags": ["Admin Auth"],
+        "summary": "Login for Admin Controller",
+        "description": "Endpoint for administrators to log in, providing email, password, and optionally device info and device type",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/loginAdminReponse"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/loginAdminReponse"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["email", "password"],
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "format": "email"
+                  },
+                  "password": {
+                    "type": "string",
+                    "minLength": 6
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/refresh": {
@@ -520,7 +493,7 @@
       }
     },
     "/delete-account": {
-      "post": {
+      "put": {
         "tags": ["User"],
         "summary": "Change password",
         "description": "End point to change password for all users ",
@@ -581,6 +554,296 @@
         }
       }
     },
+    "/physio/create-patient": {
+      "post": {
+        "tags": ["Physio"],
+        "summary": "Physio can create patient",
+        "description": "Endpoint for physio-therapist to create patient",
+        "responses": {
+          "201": {
+            "description": "Created"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["email", "firstName", "lastName", "age", "weight", "phoneCode", "phoneNumber"],
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "format": "email"
+                  },
+                  "firstName": {
+                    "type": "string",
+                    "minLength": 6
+                  },
+                  "address": {
+                    "type": "string",
+                    "required": "true"
+                  },
+                  "lastName": {
+                    "type": "string",
+                    "required": "true"
+                  },
+                  "phoneCode": {
+                    "type": "string"
+                  },
+                  "phoneNumber": {
+                    "type": "string"
+                  },
+                  "age": {
+                    "type": "number"
+                  },
+                  "weight": {
+                    "type": "number"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/physio/patients": {
+      "get": {
+        "tags": ["Physio"],
+        "summary": "Physio can fetch patient lists",
+        "description": "Endpoint for physio-therapist to fetch patient lists",
+        "parameters": [
+          {
+            "name": "search",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/mode/session-start/{patientId}": {
+      "post": {
+        "tags": ["Mode session"],
+        "summary": "Physio can start session",
+        "description": "This end point creates session between physio therapist and patient.",
+        "parameters": [
+          {
+            "name": "patientId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/mode/session-end/{patientId}": {
+      "put": {
+        "tags": ["Mode session"],
+        "summary": "Physio ends session",
+        "description": "This end point ends session between physio and patient.",
+        "parameters": [
+          {
+            "name": "patientId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sessionId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/mode/trial-start/{modeId}": {
+      "post": {
+        "tags": ["Mode Trial"],
+        "summary": "Only Physio therapist can start trial",
+        "description": "Starts trial",
+        "parameters": [
+          {
+            "name": "modeId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["trialId", "startTime", "sessionId"],
+                "properties": {
+                  "trialId": {
+                    "type": "number"
+                  },
+                  "startTime": {
+                    "type": "date"
+                  },
+                  "sessionId": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/mode/trial-end/{modeId}/{modeTrialId}": {
+      "put": {
+        "tags": ["Mode Trial"],
+        "summary": "",
+        "description": "",
+        "parameters": [
+          {
+            "name": "modeId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "modeTrialId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["endTime", "results", "rawData", "sessionId"],
+                "properties": {
+                  "endTime": {
+                    "type": "string"
+                  },
+                  "sessionId": {
+                    "type": "string"
+                  },
+                  "results": {
+                    "type": "object"
+                  },
+                  "rawData": {
+                    "type": "object"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/mode/trials/{modeId}/{modeSessionId}": {
+      "get": {
+        "tags": ["Mode Trial"],
+        "summary": "Physio therapist can access mode trial",
+        "description": "",
+        "parameters": [
+          {
+            "name": "modeId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "modeSessionId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
     "/patient/login": {
       "post": {
         "tags": ["Patient"],
@@ -638,10 +901,6 @@
       "createDoctorRequest": {
         "type": "object",
         "properties": {
-          "userName": {
-            "type": "string",
-            "example": "Dr.John"
-          },
           "firstName": {
             "type": "string",
             "example": "John"
@@ -654,9 +913,13 @@
             "type": "string",
             "example": "user@gmail.com"
           },
-          "password": {
+          "phoneCode": {
             "type": "string",
-            "example": "12345678"
+            "example": "+977"
+          },
+          "phoneNumber": {
+            "type": "string",
+            "example": "9807865432"
           },
           "address": {
             "type": "string",

@@ -24,11 +24,6 @@ export class LoginDoctorController implements Controller {
 
   public validate = [
     body('email').exists().withMessage(MESSAGE_CODES.USER.REQUIRED_EMAIL).isEmail().withMessage(MESSAGE_CODES.USER.INVALID_EMAIL),
-    body('password')
-      .exists()
-      .withMessage(MESSAGE_CODES.USER.REQUIRED_PASSWORD)
-      .isLength({ min: 6 })
-      .withMessage(MESSAGE_CODES.USER.PASSWORD_MIN_LENGTH),
     RequestValidator
   ];
 

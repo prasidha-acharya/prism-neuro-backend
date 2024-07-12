@@ -1,5 +1,5 @@
-import { type Configuration } from '../';
 import * as dotenv from 'dotenv';
+import { type Configuration } from '../';
 
 dotenv.config();
 
@@ -13,7 +13,14 @@ const DEV: Configuration = {
   APP_NAME: process.env.APP_NAME || 'Dev Prism Neuro',
   DATABASE_URL: process.env.DATABASE_URL || 'postgresql://webandapp:webandapp@127.0.0.1/capital_remit',
   APP_LOG_LEVEL: process.env.APP_LOG_LEVEL || 'debug',
-  BASE_URL: process.env.BASE_URL || 'localhost:8000'
+  BASE_URL: process.env.BASE_URL || 'localhost:8000',
+  MAIL: {
+    AUTH_PASS: process.env.MAIL_AUTH_PASS || '',
+    AUTH_USER: process.env.MAIL_AUTH_USER || '',
+    HOST: process.env.MAIL_HOST || '',
+    PORT: Number(process.env.MAIL_PORT) || 587,
+    SENDER_ADDRESS: process.env.MAIL_SENDER_ADDRESS || ''
+  }
 };
 
 export default DEV;

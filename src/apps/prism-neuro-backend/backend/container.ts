@@ -1,7 +1,20 @@
 import { AwilixContainer, InjectionMode, asClass, asFunction, asValue, createContainer } from 'awilix';
 import { config } from '../../../../config';
+import { EndModeSessionService } from '../../../contexts/prism-neuro/mode-session/application/end-session.service';
+import { GetModeSessionOfPhysioAndPatientService } from '../../../contexts/prism-neuro/mode-session/application/get-session.service';
+import { StartModeSessionService } from '../../../contexts/prism-neuro/mode-session/application/start-session.service';
+import { UpdateModeSessionService } from '../../../contexts/prism-neuro/mode-session/application/update-session.service';
+import { PrismaModeSessionRepository } from '../../../contexts/prism-neuro/mode-session/infrastructure/repositories/prisma-mode-session-repository';
+import { GetModeByIdService } from '../../../contexts/prism-neuro/mode/application/get-mode-by-id.service';
+import { PrismaModeRepository } from '../../../contexts/prism-neuro/mode/infrastructure/repositories/prisma-mode-repository';
+import { CreateModeSeeder } from '../../../contexts/prism-neuro/mode/infrastructure/seeders/create-mode.seeder';
+import { EndModeTrialService } from '../../../contexts/prism-neuro/trial/application/end-mode-trial.service';
+import { GetModeTrialsBySessionService } from '../../../contexts/prism-neuro/trial/application/get-mode-trial.service';
+import { StartModeTrialService } from '../../../contexts/prism-neuro/trial/application/start-mode-trial.service';
+import { PrismaModeTrialRepository } from '../../../contexts/prism-neuro/trial/infrastructure/repositories/prisma-mode-trial-repository';
 import { ChangePasswordService } from '../../../contexts/prism-neuro/users/application/change-password.service';
 import { CreateDoctorByAdminService } from '../../../contexts/prism-neuro/users/application/create-doctor-by-admin.service';
+import { CreatePatientByPhysioService } from '../../../contexts/prism-neuro/users/application/create-patient-by-physio.service';
 import { AddUserSessionService } from '../../../contexts/prism-neuro/users/application/create-user-session.service';
 import { DeleteDoctorService } from '../../../contexts/prism-neuro/users/application/delete-doctor-by-admin.service';
 import { DeleteOTPService } from '../../../contexts/prism-neuro/users/application/delete-otp.service';
@@ -9,6 +22,7 @@ import { DeleteUserSessionService } from '../../../contexts/prism-neuro/users/ap
 import { ForgotPasswordService } from '../../../contexts/prism-neuro/users/application/forgot-password.service';
 import { GetAdminByEmailService } from '../../../contexts/prism-neuro/users/application/get-admin-email.service';
 import { GetOtpService } from '../../../contexts/prism-neuro/users/application/get-otp.service';
+import { GetUserByRoleService } from '../../../contexts/prism-neuro/users/application/get-user-by-role.service';
 import { GetUserSessionService } from '../../../contexts/prism-neuro/users/application/get-user-session.service';
 import { GetUsersService } from '../../../contexts/prism-neuro/users/application/get-users.service';
 import { ResetPasswordService } from '../../../contexts/prism-neuro/users/application/reset-password.service';
@@ -19,11 +33,17 @@ import { JWTAdminAuthorizer } from '../../../contexts/shared/infrastructure/auth
 import { JWTDoctorAuthorizer } from '../../../contexts/shared/infrastructure/authorizer/doctor.authorizer';
 import { RefreshAuthorizer } from '../../../contexts/shared/infrastructure/authorizer/refresh.authorizer';
 import { JWTUserAuthorizer } from '../../../contexts/shared/infrastructure/authorizer/user.authorizer';
+import { SendPasswordToUserService } from '../../../contexts/shared/infrastructure/mail/application/send-password.service';
+import { SendResetOtpService } from '../../../contexts/shared/infrastructure/mail/application/send-reset-otp.service';
+import { PrismaMailerRepository } from '../../../contexts/shared/infrastructure/mail/infrastructure/repositories/prisma-mail-repostory';
 import { ErrorMiddleware } from '../../../contexts/shared/infrastructure/middleware/error-middleware';
 import { createPrismaClient } from '../../../contexts/shared/infrastructure/persistence/prisma';
 import { RequestLogger } from '../../../contexts/shared/infrastructure/request-logs/request-logger';
 import { ServerLogger } from '../../../contexts/shared/infrastructure/winston-logger/index';
 import * as controller from './controllers';
+import { StartModeSessionController } from './controllers/mode-session/start-mode-session.controller';
+import { GetModeTrialBySessionController } from './controllers/mode-trial/get-mode-trial.controller';
+import { GetAllPatientListsWithSessionController } from './controllers/physio/get-patient-lists.controller';
 import { Router } from './router';
 import { masterRouter } from './routes/routes';
 import { Server } from './server';
@@ -39,7 +59,10 @@ const {
   UpdateDoctorController,
   UserLogoutController,
   ChangePasswordController,
-  ResetPasswordController
+  ResetPasswordController,
+  CreatePatientByPhysioController,
+  EndModeTrialController,
+  StartModeTrialController
 } = controller;
 export class Container {
   private readonly container: AwilixContainer;
@@ -61,6 +84,12 @@ export class Container {
         requestLogger: asClass(RequestLogger).singleton(),
         db: asFunction(createPrismaClient).singleton(),
         logger: asClass(ServerLogger).singleton()
+      })
+      //mail
+      .register({
+        prismaMailerRepository: asClass(PrismaMailerRepository).singleton(),
+        sendResetOtpService: asClass(SendResetOtpService).singleton(),
+        sendPasswordToUserService: asClass(SendPasswordToUserService).singleton()
       })
       .register({
         errorMiddleware: asClass(ErrorMiddleware).singleton(),
@@ -86,7 +115,7 @@ export class Container {
       .register({
         adminAuthorizer: asClass(JWTAdminAuthorizer).singleton(),
         userAuthorizer: asClass(JWTUserAuthorizer).singleton(),
-        doctorAuthorizer: asClass(JWTDoctorAuthorizer).singleton(),
+        physioAuthorizer: asClass(JWTDoctorAuthorizer).singleton(),
         generateAccessTokenController: asClass(GenerateAccessTokenController).singleton()
       })
       // user session
@@ -101,7 +130,10 @@ export class Container {
         loginDoctorController: asClass(LoginDoctorController)
       })
       //seeder
-      .register({ adminSeeder: asClass(CreateAdminSeeder).singleton() })
+      .register({
+        adminSeeder: asClass(CreateAdminSeeder).singleton(),
+        modeSeeder: asClass(CreateModeSeeder).singleton()
+      })
       //user logout
       .register({
         userLogoutController: asClass(UserLogoutController),
@@ -116,14 +148,40 @@ export class Container {
       })
       .register({
         getAllUsersController: asClass(controller.GetAllUsersController),
-        getAllPatientListByPhysioIdController: asClass(controller.GetAllPatientListByPhysioIdController)
+        getAllPatientListByPhysioIdController: asClass(controller.GetAllPatientListByPhysioIdController),
+        getUserByRoleService: asClass(GetUserByRoleService).singleton()
       })
       //doctor
       .register({
         deleteDoctorService: asClass(DeleteDoctorService).singleton(),
         updateDoctorService: asClass(UpdateDoctorService).singleton(),
         deleteDoctorController: asClass(DeleteDoctorController),
-        updateDoctorController: asClass(UpdateDoctorController)
+        updateDoctorController: asClass(UpdateDoctorController),
+        createPatientByPhysioService: asClass(CreatePatientByPhysioService).singleton(),
+        createPatientByPhysioController: asClass(CreatePatientByPhysioController),
+        getAllPatientListsWithSessionController: asClass(GetAllPatientListsWithSessionController).singleton()
+      })
+      // mode
+      .register({
+        prismaModeRepository: asClass(PrismaModeRepository),
+        getModeByIdService: asClass(GetModeByIdService).singleton(),
+        prismaModeSessionRepository: asClass(PrismaModeSessionRepository),
+        startModeSessionService: asClass(StartModeSessionService).singleton(),
+        endModeSessionService: asClass(EndModeSessionService).singleton(),
+        startModeSessionController: asClass(StartModeSessionController),
+        updateModeSessionService: asClass(UpdateModeSessionService).singleton(),
+        endModeSessionController: asClass(controller.EndModeSessionController),
+        getModeSessionOfPhysioAndPatientService: asClass(GetModeSessionOfPhysioAndPatientService).singleton()
+      })
+      //mode trial session
+      .register({
+        prismaModeTrialRepository: asClass(PrismaModeTrialRepository),
+        startModeTrialService: asClass(StartModeTrialService).singleton(),
+        endModeTrialService: asClass(EndModeTrialService).singleton(),
+        startModeTrialController: asClass(StartModeTrialController),
+        endModeTrialController: asClass(EndModeTrialController),
+        getModeTrialsBySessionService: asClass(GetModeTrialsBySessionService),
+        getModeTrialBySessionController: asClass(GetModeTrialBySessionController)
       });
   }
 

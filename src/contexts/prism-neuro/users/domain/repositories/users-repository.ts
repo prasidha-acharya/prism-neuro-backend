@@ -3,10 +3,11 @@ import {
   IChangePassword,
   ICreateAdminRequest,
   ICreateDoctorRequest,
-  ICreatePatientRequest,
+  ICreatePatientByPhysioRequest,
   IFetchOtpRequest,
   IFetchUsersRequest,
   IFogotPasswordRequest,
+  IGetUserByRoleRequest,
   IResetPassword,
   IUpdateDoctorRequest
 } from '../../domain/interface/user-request.interface';
@@ -16,7 +17,7 @@ import { IPaginateResponse } from '../interface/user.response.interface';
 export interface IPrismaUserRepository {
   createAdmin(request: ICreateAdminRequest): Promise<void>;
 
-  getAdminByEmail(email: string): Promise<User | null>;
+  getUserByEmail(email: string): Promise<User | null>;
 
   createDoctorByAdmin(request: ICreateDoctorRequest): Promise<void>;
 
@@ -24,9 +25,9 @@ export interface IPrismaUserRepository {
 
   deleteDoctorByAdmin(userId: string): Promise<void>;
 
-  createPatientByDoctor(request: ICreatePatientRequest): Promise<void>;
+  createPatientByPhysio(request: ICreatePatientByPhysioRequest): Promise<void>;
 
-  updatePatientByDoctor(request: IUpdateDoctorRequest): Promise<User | null>;
+  updatePatientByPhysio(request: IUpdateDoctorRequest): Promise<User | null>;
 
   deletePatientByDoctor(userId: string): Promise<void>;
 
@@ -49,4 +50,10 @@ export interface IPrismaUserRepository {
   deleteAccount(userId: string): Promise<void>;
 
   getPaginatedUsers(request: IFetchUsersRequest): Promise<IPaginateResponse<User>>;
+
+  getUserByRole(request: IGetUserByRoleRequest): Promise<User | null>;
+
+  // createPatientByPhysio(request: ICreateAdminRequest): Promise<void>;
+
+  // updatePatientByDoctor(request: IUpdateDoctorRequest): Promise<User | null>;
 }

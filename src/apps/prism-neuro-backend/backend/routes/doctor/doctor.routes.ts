@@ -6,11 +6,13 @@ interface IHandler {
   loginDoctorController: controllers.LoginDoctorController;
   deleteDoctorController: controllers.DeleteDoctorController;
   updateDoctorController: controllers.UpdateDoctorController;
+  createPatientByPhysioController: controllers.CreatePatientByPhysioController;
+  getAllPatientListsWithSessionController: controllers.GetAllPatientListsWithSessionController;
 }
 
-export const doctorRoutesHandler = (
-  { loginDoctorController }: IHandler,
-  adminAuthorizer: IAuthorizer<Request, Response, NextFunction>,
+export const physioRoutesHandler = (
+  { loginDoctorController, createPatientByPhysioController, getAllPatientListsWithSessionController }: IHandler,
+  physioAuthorizer: IAuthorizer<Request, Response, NextFunction>,
   router: Router
 ): Router => {
   router.post(
@@ -18,6 +20,7 @@ export const doctorRoutesHandler = (
     loginDoctorController.validate,
     loginDoctorController.invoke.bind(loginDoctorController)
     /*
+
       #swagger.tags = ['Physio']
       #swagger.summary = 'Login for physio'
       #swagger.description = 'Endpoint for physio-therapist to log in, providing email, password, and optionally device info and device type'
@@ -41,6 +44,43 @@ export const doctorRoutesHandler = (
         $ref: "#/components/schemas/loginAdminReponse"
       }
     }
+    */
+  );
+
+  router.post(
+    '/physio/create-patient',
+    physioAuthorizer.authorize,
+    createPatientByPhysioController.validate,
+    createPatientByPhysioController.invoke.bind(createPatientByPhysioController)
+    /*
+  #swagger.security = [{
+            "bearerAuth": []
+    }] 
+      #swagger.tags = ['Physio']
+      #swagger.summary = 'Physio can create patient'
+      #swagger.description = 'Endpoint for physio-therapist to create patient'
+      #swagger.requestBody = {
+      required: true,
+      content: {
+        "application/json": {
+          schema: {
+            type: "object",
+            required: ["email", "firstName" ,"lastName" ,"age" ,"weight" ,"phoneCode" ,"phoneNumber" ],
+            properties: {
+              email: { type: "string", format: "email" },
+              firstName: { type: "string", minLength: 6 },
+              address:{type:"string",required:"true"},
+              lastName: { type: "string",required:"true" },
+              phoneCode: { type: "string" },
+              phoneNumber:{type:"string"},
+              age:{type:"number"},
+              weight:{type:"number"}
+            }
+          }
+        }
+      }
+    }
+      #swagger.responses[201]
     */
   );
 
@@ -76,6 +116,26 @@ export const doctorRoutesHandler = (
   //   }
   //   */
   // );
+
+  router.get(
+    '/physio/patients',
+    physioAuthorizer.authorize,
+    getAllPatientListsWithSessionController.invoke.bind(getAllPatientListsWithSessionController)
+
+    /*
+  #swagger.security = [{
+            "bearerAuth": []
+    }] 
+      #swagger.tags = ['Physio']
+      #swagger.summary = 'Physio can fetch patient lists'
+      #swagger.description = 'Endpoint for physio-therapist to fetch patient lists'
+      #swagger.parameters['search'] = {
+        in: 'query',
+        type: 'string'
+      }
+      #swagger.responses[201]
+    */
+  );
 
   return router;
 };

@@ -1,15 +1,18 @@
 import { RequestHandler as Middleware, NextFunction, Request, Response } from 'express';
 
-import { HTTP401Error } from '../../domain/errors/http.exception';
-import { IAuthorizer } from '../../domain/model/authentication/authorizer';
-// var jwt = require('jsonwebtoken');
-import { UserRoles } from '@prisma/client';
+import { USER_ROLES } from '@prisma/client';
+import { Configuration } from 'config';
 import jwt from 'jsonwebtoken';
 import { GetUserSessionService } from '../../../../contexts/prism-neuro/users/application/get-user-session.service';
+import { HTTP401Error } from '../../domain/errors/http.exception';
 import { Payload, TokenScope } from '../../domain/interface/payload';
+import { IAuthorizer } from '../../domain/model/authentication/authorizer';
 
 export class JWTAdminAuthorizer implements IAuthorizer<Request, Response, NextFunction> {
-  constructor(private getUserSessionService: GetUserSessionService) {}
+  constructor(
+    private getUserSessionService: GetUserSessionService,
+    private config: Configuration
+  ) {}
 
   public authorize: Middleware = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     const { authorization } = req.headers;
@@ -18,7 +21,7 @@ export class JWTAdminAuthorizer implements IAuthorizer<Request, Response, NextFu
     const token = tokenArray[1];
 
     try {
-      const payload: Payload = jwt.verify(token, process.env.JWT_SECRET_TOKEN!) as Payload;
+      const payload: Payload = jwt.verify(token, this.config.JWT_SECRET!) as Payload;
 
       const userSession = await this.getUserSessionService.invoke(payload.sessionId);
 
@@ -26,7 +29,7 @@ export class JWTAdminAuthorizer implements IAuthorizer<Request, Response, NextFu
         throw new HTTP401Error();
       }
 
-      if (payload.role === UserRoles.ADMIN && payload.scopes.includes(TokenScope.ADMIN_ACCESS)) {
+      if (payload.role === USER_ROLES.ADMIN && payload.scopes.includes(TokenScope.ADMIN_ACCESS)) {
         req.body.user = payload;
         return next();
       } else {

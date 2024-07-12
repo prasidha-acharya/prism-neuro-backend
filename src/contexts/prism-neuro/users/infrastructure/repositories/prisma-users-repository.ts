@@ -1,12 +1,13 @@
-import { LoginSession, OTP_TYPE, Otp, Prisma, PrismaClient, User } from '@prisma/client';
+import { LoginSession, MODE_SESSION_STATUS, OTP_TYPE, Otp, Prisma, PrismaClient, User } from '@prisma/client';
 import {
   IChangePassword,
   ICreateAdminRequest,
   ICreateDoctorRequest,
-  ICreatePatientRequest,
+  ICreatePatientByPhysioRequest,
   IFetchOtpRequest,
   IFetchUsersRequest,
   IFogotPasswordRequest,
+  IGetUserByRoleRequest,
   IResetPassword,
   IUpdateDoctorRequest
 } from '../../domain/interface/user-request.interface';
@@ -16,6 +17,20 @@ import { IPrismaUserRepository } from '../../domain/repositories/users-repositor
 
 export class PrismaUserRepository implements IPrismaUserRepository {
   constructor(private db: PrismaClient) {}
+
+  getUserByRole({ userId, role }: IGetUserByRoleRequest): Promise<User | null> {
+    return this.db.user.findUnique({
+      where: {
+        id: userId,
+        role: role
+      }
+    });
+  }
+
+  updatePatientByPhysio(request: IUpdateDoctorRequest): Promise<User | null> {
+    console.log(request, 'request');
+    throw new Error('Method not implemented.');
+  }
 
   arguments(request: IFetchUsersRequest): Prisma.UserFindManyArgs['where'] {
     const { startDate, endDate, search, createdBy, role } = request;
@@ -65,6 +80,14 @@ export class PrismaUserRepository implements IPrismaUserRepository {
     const [users, count] = await this.db.$transaction([
       this.db.user.findMany({
         where: args,
+        include: {
+          mode: true,
+          modeSession: {
+            include: {
+              modeTrialSession: true
+            }
+          }
+        },
         orderBy: {
           createdAt: 'desc'
         },
@@ -180,14 +203,16 @@ export class PrismaUserRepository implements IPrismaUserRepository {
     });
   }
 
-  async createPatientByDoctor(request: ICreatePatientRequest): Promise<void> {
+  async createPatientByPhysio(request: ICreatePatientByPhysioRequest): Promise<void> {
     await this.db.user.create({
       data: {
-        email: request.email,
-        role: request.role,
-        password: request.password,
-        userName: request.userName,
-        userDetails: {
+        ...request.data,
+        userDetail: {
+          create: {
+            ...request.detail
+          }
+        },
+        userAddress: {
           create: {
             address: request.address
           }
@@ -196,7 +221,7 @@ export class PrismaUserRepository implements IPrismaUserRepository {
     });
   }
 
-  updatePatientByDoctor(request: IUpdateDoctorRequest): Promise<User | null> {
+  updatePatientByPatient(request: IUpdateDoctorRequest): Promise<User | null> {
     return this.db.user.update({
       where: {
         id: request.id,
@@ -224,8 +249,7 @@ export class PrismaUserRepository implements IPrismaUserRepository {
         email: request.email,
         role: request.role,
         password: request.password,
-        userName: request.userName,
-        userDetails: {
+        userAddress: {
           create: {
             address: request.address
           }
@@ -234,10 +258,19 @@ export class PrismaUserRepository implements IPrismaUserRepository {
     });
   }
 
-  async getAdminByEmail(email: string): Promise<User | null> {
+  async getUserByEmail(email: string): Promise<User | null> {
     return this.db.user.findFirst({
       where: {
         email
+      },
+      include: {
+        modeSession: {
+          where: {
+            status: MODE_SESSION_STATUS.START
+          }
+        },
+        userAddress: true,
+        userDetail: true
       }
     });
   }
@@ -247,7 +280,7 @@ export class PrismaUserRepository implements IPrismaUserRepository {
     await this.db.user.create({
       data: {
         ...remainigRequest,
-        userDetails: {
+        userAddress: {
           create: {
             address
           }

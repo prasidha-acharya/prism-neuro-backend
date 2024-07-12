@@ -1,12 +1,15 @@
 import { NextFunction, Request, Response, Router } from 'express';
-import { RefreshAuthorizer } from 'src/contexts/shared/infrastructure/authorizer/refresh.authorizer';
-import { JWTUserAuthorizer } from 'src/contexts/shared/infrastructure/authorizer/user.authorizer';
 import { IAuthorizer } from '../../../../contexts/shared/domain/model/authentication/authorizer';
+import { JWTDoctorAuthorizer } from '../../../../contexts/shared/infrastructure/authorizer/doctor.authorizer';
+import { RefreshAuthorizer } from '../../../../contexts/shared/infrastructure/authorizer/refresh.authorizer';
+import { JWTUserAuthorizer } from '../../../../contexts/shared/infrastructure/authorizer/user.authorizer';
 import * as controllers from '../controllers';
+import { adminPhysioRoutesHandler } from './admin/admin-physio.routes';
 import { adminAuthRoutesHandler } from './admin/auth.routes';
-import { physioRoutesHandler } from './admin/doctor.routes';
 import { userRoutesHandler } from './admin/user.routes';
-import { doctorRoutesHandler } from './doctor/doctor.routes';
+import { physioRoutesHandler } from './doctor/doctor.routes';
+import { modeSessionRoutesHandler } from './mode-session/mode-session.routes';
+import { modeTrialRoutesHandler } from './mode-trial/mode-trial.routes';
 import { PatientRoutesHandler } from './patient/patient.routes';
 
 export const masterRouter = (
@@ -24,18 +27,36 @@ export const masterRouter = (
   resetPasswordController: controllers.ResetPasswordController,
   getAllUsersController: controllers.GetAllUsersController,
   getAllPatientListByPhysioIdController: controllers.GetAllPatientListByPhysioIdController,
+  startModeSessionController: controllers.StartModeSessionController,
+  endModeSessionController: controllers.EndModeSessionController,
+  createPatientByPhysioController: controllers.CreatePatientByPhysioController,
+  endModeTrialController: controllers.EndModeTrialController,
+  startModeTrialController: controllers.StartModeTrialController,
+  getModeTrialBySessionController: controllers.GetModeTrialBySessionController,
+  getAllPatientListsWithSessionController: controllers.GetAllPatientListsWithSessionController,
   refreshAuthorizer: RefreshAuthorizer,
-  userAuthorizer: JWTUserAuthorizer
+  userAuthorizer: JWTUserAuthorizer,
+  physioAuthorizer: JWTDoctorAuthorizer
 ): Router => {
   const apiRouter = Router();
 
-  physioRoutesHandler(
+  adminPhysioRoutesHandler(
     { createDoctorController, updateDoctorController, deleteDoctorController, getAllUsersController, getAllPatientListByPhysioIdController },
     adminAuthorizer,
     apiRouter
   );
   adminAuthRoutesHandler({ loginAdminController }, apiRouter);
-  doctorRoutesHandler({ loginDoctorController, updateDoctorController, deleteDoctorController }, adminAuthorizer, apiRouter);
+  physioRoutesHandler(
+    {
+      loginDoctorController,
+      updateDoctorController,
+      deleteDoctorController,
+      getAllPatientListsWithSessionController,
+      createPatientByPhysioController
+    },
+    physioAuthorizer,
+    apiRouter
+  );
   PatientRoutesHandler({ loginPatientController }, apiRouter);
   userRoutesHandler(
     {
@@ -49,6 +70,9 @@ export const masterRouter = (
     refreshAuthorizer,
     apiRouter
   );
+
+  modeSessionRoutesHandler({ endModeSessionController, startModeSessionController }, physioAuthorizer, apiRouter);
+  modeTrialRoutesHandler({ endModeTrialController, startModeTrialController, getModeTrialBySessionController }, physioAuthorizer, apiRouter);
 
   return apiRouter;
 };
