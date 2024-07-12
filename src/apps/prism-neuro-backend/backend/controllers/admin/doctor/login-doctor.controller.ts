@@ -7,6 +7,7 @@ import httpStatus from 'http-status';
 import { ParsedQs } from 'qs';
 import { AddUserSessionService } from 'src/contexts/prism-neuro/users/application/create-user-session.service';
 import { IClientLoginRequest } from 'src/contexts/prism-neuro/users/domain/interface/user-client-request.interface';
+import { UserTransformer } from 'src/contexts/prism-neuro/users/domain/transformer/user-transformer';
 import { GetAdminByEmailService } from '../../../../../../contexts/prism-neuro/users/application/get-admin-email.service';
 import { Payload, TokenScope } from '../../../../../../contexts/shared/domain/interface/payload';
 import { JWTSign } from '../../../../../../contexts/shared/infrastructure/authorizer/jwt-token';
@@ -19,7 +20,8 @@ export class LoginDoctorController implements Controller {
   constructor(
     private getAdminByEmailService: GetAdminByEmailService,
     private config: Configuration,
-    private addUserSessionService: AddUserSessionService
+    private addUserSessionService: AddUserSessionService,
+    private userTransformer: UserTransformer
   ) {}
 
   public validate = [
@@ -67,10 +69,15 @@ export class LoginDoctorController implements Controller {
         }
       );
 
+      const userDetail = this.userTransformer.loginLists(user);
+
       res.status(httpStatus.OK).send({
         data: {
-          token: jwtToken,
-          user_detail: user
+          token: {
+            accessToken: jwtToken.access_token,
+            refreshToken: jwtToken.refresh_token
+          },
+          userDetail
         }
       });
     } catch (error) {

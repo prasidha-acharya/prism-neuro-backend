@@ -1,27 +1,27 @@
 import { USER_ROLES } from '@prisma/client';
-import { plainToClass } from 'class-transformer';
 import { Configuration } from 'config';
 import { NextFunction, Request, Response } from 'express';
 import { ParamsDictionary } from 'express-serve-static-core';
 import { body } from 'express-validator';
 import httpStatus from 'http-status';
 import { ParsedQs } from 'qs';
-import { AddUserSessionService } from 'src/contexts/prism-neuro/users/application/create-user-session.service';
-import { IClientLoginRequest } from 'src/contexts/prism-neuro/users/domain/interface/user-client-request.interface';
+import { AddUserSessionService } from '../../../../../../contexts/prism-neuro/users/application/create-user-session.service';
 import { GetAdminByEmailService } from '../../../../../../contexts/prism-neuro/users/application/get-admin-email.service';
+import { IClientLoginRequest } from '../../../../../../contexts/prism-neuro/users/domain/interface/user-client-request.interface';
+import { UserTransformer } from '../../../../../../contexts/prism-neuro/users/domain/transformer/user-transformer';
 import { Payload, TokenScope } from '../../../../../../contexts/shared/domain/interface/payload';
 import { JWTSign } from '../../../../../../contexts/shared/infrastructure/authorizer/jwt-token';
 import { comparePassword } from '../../../../../../contexts/shared/infrastructure/encryptor/encryptor';
 import { RequestValidator } from '../../../../../../contexts/shared/infrastructure/middleware/request-validator';
 import { MESSAGE_CODES } from '../../../../../../contexts/shared/infrastructure/utils/message-code';
-import { UserDTO } from '../../../dto/userDto';
 import { Controller } from '../../controller';
 
 export class LoginAdminController implements Controller {
   constructor(
     private getAdminByEmailService: GetAdminByEmailService,
     private config: Configuration,
-    private addUserSessionService: AddUserSessionService
+    private addUserSessionService: AddUserSessionService,
+    private userTransformer: UserTransformer
   ) {}
 
   public validate = [
@@ -73,12 +73,16 @@ export class LoginAdminController implements Controller {
           expiresIn: this.config.JWT_REFRESH_EXPIRY
         }
       );
-      const userdto = plainToClass(UserDTO, user, { excludeExtraneousValues: true });
+
+      const userDetail = this.userTransformer.loginLists(user);
 
       res.status(httpStatus.OK).send({
         data: {
-          token: jwtToken,
-          userDetail: userdto
+          token: {
+            accessToken: jwtToken.access_token,
+            refreshToken: jwtToken.refresh_token
+          },
+          userDetail
         }
       });
     } catch (error) {

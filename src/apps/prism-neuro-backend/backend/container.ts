@@ -28,6 +28,7 @@ import { GetUsersService } from '../../../contexts/prism-neuro/users/application
 import { ImageUploadService } from '../../../contexts/prism-neuro/users/application/image-upload.service';
 import { ResetPasswordService } from '../../../contexts/prism-neuro/users/application/reset-password.service';
 import { UpdateDoctorService } from '../../../contexts/prism-neuro/users/application/update-doctor-by-admin.service';
+import { UserTransformer } from '../../../contexts/prism-neuro/users/domain/transformer/user-transformer';
 import { PrismaUserRepository } from '../../../contexts/prism-neuro/users/infrastructure/repositories/prisma-users-repository';
 import { CreateAdminSeeder } from '../../../contexts/prism-neuro/users/infrastructure/seeders/create-admin.seeder';
 import { JWTAdminAuthorizer } from '../../../contexts/shared/infrastructure/authorizer/admin.authorizer';
@@ -187,6 +188,9 @@ export class Container {
       //image upload
       .register({
         imageUploadService: asClass(ImageUploadService).singleton()
+      })
+      .register({
+        userTransformer: asClass(UserTransformer)
       });
   }
 

@@ -83,6 +83,8 @@ export class PrismaUserRepository implements IPrismaUserRepository {
         where: args,
         include: {
           // mode: true,
+          userDetail: true,
+          userAddress: true,
           patient: {
             include: {
               modeTrialSession: true
