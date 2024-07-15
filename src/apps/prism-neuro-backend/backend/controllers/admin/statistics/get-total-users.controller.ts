@@ -9,8 +9,8 @@ export class GetTotalUsersController implements Controller {
   async invoke(req: Request, res: Response, next: NextFunction): Promise<void> {
     const filter = req.query.filter as string;
 
-    const startDate = (req.query.startDate as Date | undefined) ?? new Date();
-    const endDate = (req.query.endDate as Date | undefined) ?? new Date();
+    const startDate = new Date();
+    const endDate = new Date();
 
     if (filter === 'monthly') {
       // end day of today
