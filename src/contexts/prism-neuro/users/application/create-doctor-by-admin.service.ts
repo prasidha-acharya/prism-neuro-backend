@@ -5,6 +5,6 @@ export class CreateDoctorByAdminService {
   constructor(private prismaUserRepository: PrismaUserRepository) {}
 
   public async invoke(request: ICreateDoctorRequest): Promise<void> {
-    await this.prismaUserRepository.createDoctorByAdmin(request);
+    await this.prismaUserRepository.createPhysioByAdmin(request);
   }
 }

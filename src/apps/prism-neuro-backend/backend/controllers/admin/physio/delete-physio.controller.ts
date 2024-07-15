@@ -8,7 +8,7 @@ import { RequestValidator } from '../../../../../../contexts/shared/infrastructu
 import { MESSAGE_CODES } from '../../../../../../contexts/shared/infrastructure/utils/message-code';
 import { Controller } from '../../controller';
 
-export class DeleteDoctorController implements Controller {
+export class DeletePhysioController implements Controller {
   constructor(private deleteDoctorService: DeleteDoctorService) {}
 
   public validate = [

@@ -3,15 +3,15 @@ import { IAuthorizer } from 'src/contexts/shared/domain/model/authentication/aut
 import * as controllers from '../../controllers/index';
 
 interface IHandler {
-  loginDoctorController: controllers.LoginDoctorController;
-  deleteDoctorController: controllers.DeleteDoctorController;
-  updateDoctorController: controllers.UpdateDoctorController;
+  loginPhysioController: controllers.LoginDoctorController;
+  deletePhysioController: controllers.DeletePhysioController;
+  updatePhysioController: controllers.UpdatePhysioController;
   createPatientByPhysioController: controllers.CreatePatientByPhysioController;
   getAllPatientListsWithSessionController: controllers.GetAllPatientListsWithSessionController;
 }
 
 export const physioRoutesHandler = (
-  { loginDoctorController, createPatientByPhysioController, getAllPatientListsWithSessionController }: IHandler,
+  { loginPhysioController: loginDoctorController, createPatientByPhysioController, getAllPatientListsWithSessionController }: IHandler,
   physioAuthorizer: IAuthorizer<Request, Response, NextFunction>,
   router: Router
 ): Router => {

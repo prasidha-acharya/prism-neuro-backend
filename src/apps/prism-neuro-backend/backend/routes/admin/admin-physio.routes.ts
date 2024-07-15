@@ -3,23 +3,23 @@ import { IAuthorizer } from 'src/contexts/shared/domain/model/authentication/aut
 import * as controllers from '../../controllers/index';
 
 interface IHandler {
-  createDoctorController: controllers.CreateDoctorController;
-  deleteDoctorController: controllers.DeleteDoctorController;
-  updateDoctorController: controllers.UpdateDoctorController;
+  createPhysioController: controllers.CreatePhysioController;
+  deletePhysioController: controllers.DeletePhysioController;
+  updatePhysioController: controllers.UpdatePhysioController;
   getAllUsersController: controllers.GetAllUsersController;
   getAllPatientListByPhysioIdController: controllers.GetAllPatientListByPhysioIdController;
 }
 
 export const adminPhysioRoutesHandler = (
-  { createDoctorController, updateDoctorController, getAllUsersController, getAllPatientListByPhysioIdController }: IHandler,
+  { createPhysioController, updatePhysioController, getAllUsersController, getAllPatientListByPhysioIdController }: IHandler,
   adminAuthorizer: IAuthorizer<Request, Response, NextFunction>,
   router: Router
 ): Router => {
   router.post(
     '/admin/create-physio',
     adminAuthorizer.authorize,
-    createDoctorController.validate,
-    createDoctorController.invoke.bind(createDoctorController)
+    createPhysioController.validate,
+    createPhysioController.invoke.bind(createPhysioController)
     /* 
     #swagger.security = [{
             "bearerAuth": []
@@ -94,7 +94,7 @@ export const adminPhysioRoutesHandler = (
   router.put(
     '/admin/update-physio/:physioId',
     adminAuthorizer.authorize,
-    updateDoctorController.invoke.bind(updateDoctorController)
+    updatePhysioController.invoke.bind(updatePhysioController)
     /*
       #swagger.security = [{
             "bearerAuth": []

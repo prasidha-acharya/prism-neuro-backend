@@ -13,15 +13,15 @@ import { modeTrialRoutesHandler } from './mode-trial/mode-trial.routes';
 import { PatientRoutesHandler } from './patient/patient.routes';
 
 export const masterRouter = (
-  createDoctorController: controllers.CreateDoctorController,
+  createPhysioController: controllers.CreatePhysioController,
   loginAdminController: controllers.LoginAdminController,
   loginPatientController: controllers.LoginPatientController,
   adminAuthorizer: IAuthorizer<Request, Response, NextFunction>,
   userLogoutController: controllers.UserLogoutController,
   generateAccessTokenController: controllers.GenerateAccessTokenController,
-  loginDoctorController: controllers.LoginDoctorController,
-  deleteDoctorController: controllers.DeleteDoctorController,
-  updateDoctorController: controllers.UpdateDoctorController,
+  loginPhysioController: controllers.LoginDoctorController,
+  deletePhysioController: controllers.DeletePhysioController,
+  updatePhysioController: controllers.UpdatePhysioController,
   forgotPasswordController: controllers.ForgotPasswordController,
   changePasswordController: controllers.ChangePasswordController,
   resetPasswordController: controllers.ResetPasswordController,
@@ -41,16 +41,22 @@ export const masterRouter = (
   const apiRouter = Router();
 
   adminPhysioRoutesHandler(
-    { createDoctorController, updateDoctorController, deleteDoctorController, getAllUsersController, getAllPatientListByPhysioIdController },
+    {
+      createPhysioController,
+      updatePhysioController,
+      deletePhysioController,
+      getAllUsersController,
+      getAllPatientListByPhysioIdController
+    },
     adminAuthorizer,
     apiRouter
   );
   adminAuthRoutesHandler({ loginAdminController }, apiRouter);
   physioRoutesHandler(
     {
-      loginDoctorController,
-      updateDoctorController,
-      deleteDoctorController,
+      loginPhysioController,
+      updatePhysioController,
+      deletePhysioController,
       getAllPatientListsWithSessionController,
       createPatientByPhysioController
     },

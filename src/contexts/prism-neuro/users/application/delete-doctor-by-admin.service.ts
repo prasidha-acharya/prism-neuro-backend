@@ -4,6 +4,6 @@ export class DeleteDoctorService {
   constructor(private prismaUserRepository: PrismaUserRepository) {}
 
   public async invoke(doctorId: string): Promise<void> {
-    this.prismaUserRepository.deleteDoctorByAdmin(doctorId);
+    this.prismaUserRepository.deletePhysioByAdmin(doctorId);
   }
 }

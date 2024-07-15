@@ -20,11 +20,11 @@ export interface IPrismaUserRepository {
 
   getUserByEmail(request: IGetUserRequest): Promise<User | null>;
 
-  createDoctorByAdmin(request: ICreateDoctorRequest): Promise<void>;
+  createPhysioByAdmin(request: ICreateDoctorRequest): Promise<void>;
 
-  updateDoctorByAdmin(request: IUpdateDoctorRequest): Promise<User | null>;
+  updatePhysioByAdmin(request: IUpdateDoctorRequest): Promise<User | null>;
 
-  deleteDoctorByAdmin(userId: string): Promise<void>;
+  deletePhysioByAdmin(userId: string): Promise<void>;
 
   createPatientByPhysio(request: ICreatePatientByPhysioRequest): Promise<void>;
 

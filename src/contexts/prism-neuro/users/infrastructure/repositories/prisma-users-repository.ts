@@ -291,7 +291,7 @@ export class PrismaUserRepository implements IPrismaUserRepository {
     });
   }
 
-  async createDoctorByAdmin(request: ICreateDoctorRequest): Promise<void> {
+  async createPhysioByAdmin(request: ICreateDoctorRequest): Promise<void> {
     const { address, ...remainigRequest } = request;
     await this.db.user.create({
       data: {
@@ -305,7 +305,7 @@ export class PrismaUserRepository implements IPrismaUserRepository {
     });
   }
 
-  updateDoctorByAdmin(request: IUpdateDoctorRequest): Promise<User | null> {
+  updatePhysioByAdmin(request: IUpdateDoctorRequest): Promise<User | null> {
     return this.db.user.update({
       where: {
         id: request.id,
@@ -319,7 +319,7 @@ export class PrismaUserRepository implements IPrismaUserRepository {
     });
   }
 
-  async deleteDoctorByAdmin(userId: string): Promise<void> {
+  async deletePhysioByAdmin(userId: string): Promise<void> {
     await this.db.user.update({
       where: {
         id: userId
