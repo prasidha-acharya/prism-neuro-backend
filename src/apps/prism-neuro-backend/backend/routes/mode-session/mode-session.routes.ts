@@ -5,10 +5,12 @@ import * as controllers from '../../controllers/index';
 interface IHandler {
   startModeSessionController: controllers.StartModeSessionController;
   endModeSessionController: controllers.EndModeSessionController;
+  getModeSessionOfPatientController: controllers.GetModeSessionOfPatientController;
 }
 export const modeSessionRoutesHandler = (
-  { startModeSessionController, endModeSessionController }: IHandler,
+  { startModeSessionController, endModeSessionController, getModeSessionOfPatientController }: IHandler,
   physioAuthorizer: IAuthorizer<Request, Response, NextFunction>,
+  adminAuthorizer: IAuthorizer<Request, Response, NextFunction>,
   router: Router
 ): Router => {
   router.post(
@@ -52,6 +54,48 @@ export const modeSessionRoutesHandler = (
     type:"string",
     required:"true"
     }
+    */
+  );
+
+  router.get(
+    '/mode/session/:modeId/:patientId',
+    adminAuthorizer.authorize,
+    getModeSessionOfPatientController.validate,
+    getModeSessionOfPatientController.invoke.bind(getModeSessionOfPatientController)
+    /* 
+     #swagger.security = [{
+            "bearerAuth": []
+    }] 
+    #swagger.tags = ['Mode session']
+    #swagger.summary="Admin can fetch session"
+    #swagger.description=""
+    #swagger.parameters['modeId'] = {
+    in:"path",
+    type:"string",
+    required:"true"
+    }
+       #swagger.parameters['patientId'] = {
+    in:"path",
+    type:"string",
+    required:"true"
+    }
+
+    #swagger.parameters['search'] = {
+    in:"query",
+    type:"string",
+    }
+      #swagger.parameters['startDate'] = {
+    in:"query",
+    type:"string",
+    }
+
+    #swagger.parameters['endDate'] = {
+    in:"query",
+    type:"string",
+    }
+   
+      #swagger.response ['202'] = {}
+      
     */
   );
 

@@ -710,6 +710,62 @@
         ]
       }
     },
+    "/mode/session/{modeId}/{patientId}": {
+      "get": {
+        "tags": ["Mode session"],
+        "summary": "Admin can fetch session",
+        "description": "",
+        "parameters": [
+          {
+            "name": "modeId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "patientId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "startDate",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "endDate",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
     "/mode/trial-start/{modeId}": {
       "post": {
         "tags": ["Mode Trial"],

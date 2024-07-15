@@ -1,6 +1,7 @@
 import { AwilixContainer, InjectionMode, asClass, asFunction, asValue, createContainer } from 'awilix';
 import { config } from '../../../../config';
 import { EndModeSessionService } from '../../../contexts/prism-neuro/mode-session/application/end-session.service';
+import { GetSessionOfPateintService } from '../../../contexts/prism-neuro/mode-session/application/get-session-of-patient.service';
 import { GetModeSessionOfPhysioAndPatientService } from '../../../contexts/prism-neuro/mode-session/application/get-session.service';
 import { StartModeSessionService } from '../../../contexts/prism-neuro/mode-session/application/start-session.service';
 import { UpdateModeSessionService } from '../../../contexts/prism-neuro/mode-session/application/update-session.service';
@@ -65,7 +66,8 @@ const {
   ResetPasswordController,
   CreatePatientByPhysioController,
   EndModeTrialController,
-  StartModeTrialController
+  StartModeTrialController,
+  GetModeSessionOfPatientController
 } = controller;
 export class Container {
   private readonly container: AwilixContainer;
@@ -174,7 +176,9 @@ export class Container {
         startModeSessionController: asClass(StartModeSessionController),
         updateModeSessionService: asClass(UpdateModeSessionService).singleton(),
         endModeSessionController: asClass(controller.EndModeSessionController),
-        getModeSessionOfPhysioAndPatientService: asClass(GetModeSessionOfPhysioAndPatientService).singleton()
+        getModeSessionOfPhysioAndPatientService: asClass(GetModeSessionOfPhysioAndPatientService).singleton(),
+        getSessionOfPateintService: asClass(GetSessionOfPateintService).singleton(),
+        getModeSessionOfPatientController: asClass(GetModeSessionOfPatientController)
       })
       //mode trial session
       .register({

@@ -11,6 +11,7 @@ export * from './general/forgot-password.controller';
 export * from './general/logout.controller';
 export * from './general/reset-password.controller';
 export * from './mode-session/end-mode-session.controller';
+export * from './mode-session/get-mode-session.controller';
 export * from './mode-session/start-mode-session.controller';
 export * from './mode-trial/end-mode-trial.controller';
 export * from './mode-trial/get-mode-trial.controller';

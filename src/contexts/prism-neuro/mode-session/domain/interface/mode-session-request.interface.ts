@@ -20,3 +20,11 @@ export interface IUpdateModeSessionRequest {
   physioId?: string;
   status?: MODE_SESSION_STATUS;
 }
+
+export interface IGetModeTrialsOfPatientRequest {
+  modeId: string;
+  patientId: string;
+  search?: string;
+  startDate?: Date;
+  endDate?: Date;
+}
