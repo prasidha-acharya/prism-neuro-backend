@@ -7,6 +7,7 @@ import {
   IFetchOtpRequest,
   IFetchUsersRequest,
   IFogotPasswordRequest,
+  IGetTotalUsersRequest,
   IGetUserByRoleRequest,
   IGetUserRequest,
   IResetPassword,
@@ -18,6 +19,19 @@ import { IPrismaUserRepository } from '../../domain/repositories/users-repositor
 
 export class PrismaUserRepository implements IPrismaUserRepository {
   constructor(private db: PrismaClient) {}
+
+  getTotalUsers({ role, startDate, endDate }: IGetTotalUsersRequest): Promise<number> {
+    return this.db.user.count({
+      where: {
+        deletedAt: null,
+        AND: { role, NOT: { role: 'ADMIN' } },
+        createdAt: {
+          gte: startDate,
+          lte: endDate
+        }
+      }
+    });
+  }
 
   getUserByRole({ userId, role }: IGetUserByRoleRequest): Promise<User | null> {
     return this.db.user.findUnique({

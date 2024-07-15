@@ -7,6 +7,7 @@ import {
   IFetchOtpRequest,
   IFetchUsersRequest,
   IFogotPasswordRequest,
+  IGetTotalUsersRequest,
   IGetUserByRoleRequest,
   IGetUserRequest,
   IResetPassword,
@@ -53,6 +54,8 @@ export interface IPrismaUserRepository {
   getPaginatedUsers(request: IFetchUsersRequest): Promise<IPaginateResponse<User>>;
 
   getUserByRole(request: IGetUserByRoleRequest): Promise<User | null>;
+
+  getTotalUsers(request: IGetTotalUsersRequest): Promise<number>;
 
   // createPatientByPhysio(request: ICreateAdminRequest): Promise<void>;
 

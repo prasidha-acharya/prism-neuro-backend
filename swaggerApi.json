@@ -357,6 +357,34 @@
         }
       }
     },
+    "/admin/statistics/users": {
+      "get": {
+        "tags": ["Admin"],
+        "summary": "",
+        "description": "",
+        "parameters": [
+          {
+            "name": "filter",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": ["monthly", "weekly", "daily"]
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
     "/refresh": {
       "get": {
         "tags": ["User"],

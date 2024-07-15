@@ -23,6 +23,7 @@ import { DeleteUserSessionService } from '../../../contexts/prism-neuro/users/ap
 import { ForgotPasswordService } from '../../../contexts/prism-neuro/users/application/forgot-password.service';
 import { GetAdminByEmailService } from '../../../contexts/prism-neuro/users/application/get-admin-email.service';
 import { GetOtpService } from '../../../contexts/prism-neuro/users/application/get-otp.service';
+import { GetTotalUsersService } from '../../../contexts/prism-neuro/users/application/get-total-users.service';
 import { GetUserByRoleService } from '../../../contexts/prism-neuro/users/application/get-user-by-role.service';
 import { GetUserSessionService } from '../../../contexts/prism-neuro/users/application/get-user-session.service';
 import { GetUsersService } from '../../../contexts/prism-neuro/users/application/get-users.service';
@@ -68,7 +69,8 @@ const {
   CreatePatientByPhysioController,
   EndModeTrialController,
   StartModeTrialController,
-  GetModeSessionOfPatientController
+  GetModeSessionOfPatientController,
+  GetTotalUsersController
 } = controller;
 export class Container {
   private readonly container: AwilixContainer;
@@ -156,7 +158,9 @@ export class Container {
         getAllUsersController: asClass(controller.GetAllUsersController),
         getAllPatientListByPhysioIdController: asClass(GetAllPatientListByPhysioIdController),
         getUserByRoleService: asClass(GetUserByRoleService).singleton(),
-        getAllPatientActivityController: asClass(GetAllPatientActivityController)
+        getAllPatientActivityController: asClass(GetAllPatientActivityController),
+        getTotalUsersService: asClass(GetTotalUsersService).singleton(),
+        getTotalUsersController: asClass(GetTotalUsersController)
       })
       //doctor
       .register({

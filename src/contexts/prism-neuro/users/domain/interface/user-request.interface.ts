@@ -110,3 +110,9 @@ export interface IGetUserByRoleRequest {
   role: USER_ROLES;
   userId: string;
 }
+
+export interface IGetTotalUsersRequest {
+  role?: USER_ROLES;
+  startDate: Date;
+  endDate: Date;
+}

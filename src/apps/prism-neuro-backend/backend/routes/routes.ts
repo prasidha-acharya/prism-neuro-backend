@@ -7,6 +7,7 @@ import * as controllers from '../controllers';
 import { activityRoutesHandler } from './admin/activity.routes';
 import { adminPhysioRoutesHandler } from './admin/admin-physio.routes';
 import { adminAuthRoutesHandler } from './admin/auth.routes';
+import { statisticsRoutesHandler } from './admin/statistics.routes';
 import { userRoutesHandler } from './admin/user.routes';
 import { physioRoutesHandler } from './doctor/doctor.routes';
 import { modeSessionRoutesHandler } from './mode-session/mode-session.routes';
@@ -37,6 +38,7 @@ export const masterRouter = (
   getAllPatientListsWithSessionController: controllers.GetAllPatientListsWithSessionController,
   getModeSessionOfPatientController: controllers.GetModeSessionOfPatientController,
   getAllPatientActivityController: controllers.GetAllPatientActivityController,
+  getTotalUsersController: controllers.GetTotalUsersController,
   refreshAuthorizer: RefreshAuthorizer,
   userAuthorizer: JWTUserAuthorizer,
   physioAuthorizer: JWTDoctorAuthorizer
@@ -56,6 +58,8 @@ export const masterRouter = (
   );
 
   activityRoutesHandler({ getAllPatientActivityController }, adminAuthorizer, apiRouter);
+
+  statisticsRoutesHandler({ getTotalUsersController }, adminAuthorizer, apiRouter);
 
   adminAuthRoutesHandler({ loginAdminController }, apiRouter);
   physioRoutesHandler(

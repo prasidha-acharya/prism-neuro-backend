@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response, Router } from 'express';
-import { IAuthorizer } from 'src/contexts/shared/domain/model/authentication/authorizer';
+import { IAuthorizer } from '../../../../../contexts/shared/domain/model/authentication/authorizer';
 import * as controllers from '../../controllers/index';
 
 interface IHandler {
