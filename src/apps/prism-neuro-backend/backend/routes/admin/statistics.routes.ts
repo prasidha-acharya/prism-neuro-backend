@@ -31,5 +31,35 @@ export const statisticsRoutesHandler = (
     }
     */
   );
+
+  router.get(
+    '/admin/statistics/mode-analytics',
+    adminAuthorizer.authorize,
+    getTotalUsersController.invoke.bind(getTotalUsersController)
+    /*
+    #swagger.security = [{
+            "bearerAuth": []
+    }] 
+    #swagger.tags =['Admin']
+    #swagger.summary = ""
+    #swagger.description = ""
+    #swagger.parameters['filter'] = {
+    in:'query',
+    required:false,
+      schema: {
+                '@enum': ['monthly','weekly',"daily"]
+            }
+    }
+
+      #swagger.parameters['startDate'] = {
+    in:'query',
+    required:true,
+    }
+      #swagger.parameters['endDate'] = {
+    in:'query',
+    required:true,
+    }
+    */
+  );
   return router;
 };

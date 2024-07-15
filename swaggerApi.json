@@ -385,6 +385,50 @@
         ]
       }
     },
+    "/admin/statistics/mode-analytics": {
+      "get": {
+        "tags": ["Admin"],
+        "summary": "",
+        "description": "",
+        "parameters": [
+          {
+            "name": "filter",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": ["monthly", "weekly", "daily"]
+            }
+          },
+          {
+            "name": "startDate",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "endDate",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
     "/refresh": {
       "get": {
         "tags": ["User"],

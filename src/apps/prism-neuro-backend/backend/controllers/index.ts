@@ -6,6 +6,7 @@ export * from './admin/physio/delete-physio.controller';
 export * from './admin/physio/get-patient-list-by-physio.controller';
 export * from './admin/physio/login-physio.controller';
 export * from './admin/physio/update-physio.controller';
+export * from './admin/statistics/get-mode-analytics.controller';
 export * from './admin/statistics/get-total-users.controller';
 export * from './general/access-token.controller';
 export * from './general/change-password.controller';
