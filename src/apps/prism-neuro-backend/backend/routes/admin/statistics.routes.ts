@@ -55,11 +55,11 @@ export const statisticsRoutesHandler = (
 
       #swagger.parameters['startDate'] = {
     in:'query',
-    required:true,
+    required:false,
     }
       #swagger.parameters['endDate'] = {
     in:'query',
-    required:true,
+    required:false,
     }
     */
   );

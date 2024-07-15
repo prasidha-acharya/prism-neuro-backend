@@ -4,6 +4,12 @@ import httpStatus from 'http-status';
 import { GetAllModesService } from '../../../../../../contexts/prism-neuro/mode/application/get-all-mode.service';
 import { HTTP400Error, HTTP422Error } from '../../../../../../contexts/shared/domain/errors/http.exception';
 import { RequestValidator } from '../../../../../../contexts/shared/infrastructure/middleware/request-validator';
+import {
+  getDateBeforeOneMonth,
+  getDateBeforeWeek,
+  getEndDayOfDate,
+  getStartDayOfDate
+} from '../../../../../../contexts/shared/infrastructure/utils/date';
 import { MESSAGE_CODES } from '../../../../../../contexts/shared/infrastructure/utils/message-code';
 import { Controller } from '../../controller';
 
@@ -51,13 +57,42 @@ export class GetModeAnalyticsController implements Controller {
 
         return true;
       }),
-    query('filter').optional(),
+    query('filter')
+      .optional()
+      .custom((val, { req }) => {
+        if (!req?.query?.startDate && !val) {
+          throw new HTTP400Error(MESSAGE_CODES.MODE.REQUIRED_FILTER_OR_DATE_RANGE);
+        }
+        return true;
+      }),
     RequestValidator
   ];
 
   async invoke(req: Request, res: Response, next: NextFunction): Promise<void> {
-    const startDate = req.query.startDate as Date | undefined;
-    const endDate = req.query.endDate as Date | undefined;
+    let startDate: any | undefined;
+    let endDate: any | undefined;
+
+    const filter = req?.query?.filter as string;
+
+    const currentDate = new Date();
+
+    endDate = getEndDayOfDate(currentDate);
+
+    if (req?.query?.startDate) {
+      startDate = getStartDayOfDate(req.query.startDate as unknown as Date);
+    }
+
+    if (req?.query?.endDate) {
+      endDate = getEndDayOfDate(req.query.endDate as unknown as Date);
+    }
+
+    if (filter === 'monthly') {
+      startDate = getDateBeforeOneMonth();
+    } else if (filter === 'weekly') {
+      startDate = getDateBeforeWeek();
+    } else {
+      startDate = getStartDayOfDate(currentDate);
+    }
 
     try {
       if (!startDate || !endDate) {

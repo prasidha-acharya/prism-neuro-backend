@@ -1,20 +1,23 @@
-export const getStartDayOfDate = (date: Date): any => {
-  let currentDate = new Date(date);
+import dayjs from 'dayjs';
 
-  // Set the time to 00:00:00
-  return currentDate.setHours(0, 0, 0, 0);
+export const getStartDayOfDate = (date: Date): dayjs.Dayjs => {
+  const currentDate = dayjs(date);
+  return currentDate.startOf('day');
 };
 
-export const getStartDayOfWeek = (): any => {
-  let currentDate = new Date();
-
-  // Calculate the date 7 days ago
-  currentDate.setDate(currentDate.getDate() - 7);
+export const getEndDayOfDate = (date: Date): dayjs.Dayjs => {
+  const currentDate = dayjs(date);
+  return currentDate.endOf('day');
 };
 
-export const getStartDayOfMonth = (): any => {
-  let currentDate = new Date();
+export const getDateBeforeWeek = (): dayjs.Dayjs => {
+  let currentDate = dayjs();
 
-  // Calculate the date 7 days ago
-  currentDate.setDate(currentDate.getDate() - 7);
+  // Subtract 7 days from the current date
+  return currentDate.subtract(7, 'day').startOf('day');
+};
+
+export const getDateBeforeOneMonth = (): dayjs.Dayjs => {
+  let currentDate = dayjs();
+  return currentDate.subtract(1, 'month').startOf('day');
 };

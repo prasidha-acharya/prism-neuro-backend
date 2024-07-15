@@ -403,7 +403,7 @@
           {
             "name": "startDate",
             "in": "query",
-            "required": true,
+            "required": false,
             "schema": {
               "type": "string"
             }
@@ -411,7 +411,7 @@
           {
             "name": "endDate",
             "in": "query",
-            "required": true,
+            "required": false,
             "schema": {
               "type": "string"
             }
