@@ -8,6 +8,7 @@ import {
   IFetchUsersRequest,
   IFogotPasswordRequest,
   IGetUserByRoleRequest,
+  IGetUserRequest,
   IResetPassword,
   IUpdateDoctorRequest
 } from '../../domain/interface/user-request.interface';
@@ -17,13 +18,13 @@ import { IPaginateResponse } from '../interface/user.response.interface';
 export interface IPrismaUserRepository {
   createAdmin(request: ICreateAdminRequest): Promise<void>;
 
-  getUserByEmail(email: string): Promise<User | null>;
+  getUserByEmail(request: IGetUserRequest): Promise<User | null>;
 
-  createDoctorByAdmin(request: ICreateDoctorRequest): Promise<void>;
+  createPhysioByAdmin(request: ICreateDoctorRequest): Promise<void>;
 
-  updateDoctorByAdmin(request: IUpdateDoctorRequest): Promise<User | null>;
+  updatePhysioByAdmin(request: IUpdateDoctorRequest): Promise<User | null>;
 
-  deleteDoctorByAdmin(userId: string): Promise<void>;
+  deletePhysioByAdmin(userId: string): Promise<void>;
 
   createPatientByPhysio(request: ICreatePatientByPhysioRequest): Promise<void>;
 

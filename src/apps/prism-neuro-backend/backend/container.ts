@@ -25,8 +25,10 @@ import { GetOtpService } from '../../../contexts/prism-neuro/users/application/g
 import { GetUserByRoleService } from '../../../contexts/prism-neuro/users/application/get-user-by-role.service';
 import { GetUserSessionService } from '../../../contexts/prism-neuro/users/application/get-user-session.service';
 import { GetUsersService } from '../../../contexts/prism-neuro/users/application/get-users.service';
+import { ImageUploadService } from '../../../contexts/prism-neuro/users/application/image-upload.service';
 import { ResetPasswordService } from '../../../contexts/prism-neuro/users/application/reset-password.service';
-import { UpdateDoctorService } from '../../../contexts/prism-neuro/users/application/update-doctor-by-admin.service';
+import { UpdatePhysioService } from '../../../contexts/prism-neuro/users/application/update-doctor-by-admin.service';
+import { UserTransformer } from '../../../contexts/prism-neuro/users/domain/transformer/user-transformer';
 import { PrismaUserRepository } from '../../../contexts/prism-neuro/users/infrastructure/repositories/prisma-users-repository';
 import { CreateAdminSeeder } from '../../../contexts/prism-neuro/users/infrastructure/seeders/create-admin.seeder';
 import { JWTAdminAuthorizer } from '../../../contexts/shared/infrastructure/authorizer/admin.authorizer';
@@ -49,14 +51,15 @@ import { masterRouter } from './routes/routes';
 import { Server } from './server';
 
 const {
-  CreateDoctorController,
-  DeleteDoctorController,
+  CreatePhysioController,
+  DeletePhysioController,
   ForgotPasswordController,
   GenerateAccessTokenController,
   LoginAdminController,
   LoginDoctorController,
   LoginPatientController,
-  UpdateDoctorController,
+  UpdatePhysioController,
+  GetAllPatientListByPhysioIdController,
   UserLogoutController,
   ChangePasswordController,
   ResetPasswordController,
@@ -99,7 +102,7 @@ export class Container {
       .register({
         prismaUserRepository: asClass(PrismaUserRepository),
         createDoctorByAdminService: asClass(CreateDoctorByAdminService).singleton(),
-        createDoctorController: asClass(CreateDoctorController),
+        createPhysioController: asClass(CreatePhysioController),
         getAdminByEmailService: asClass(GetAdminByEmailService).singleton(),
         getUsersService: asClass(GetUsersService).singleton()
       })
@@ -127,7 +130,7 @@ export class Container {
       // patient login
       .register({
         loginPatientController: asClass(LoginPatientController),
-        loginDoctorController: asClass(LoginDoctorController)
+        loginPhysioController: asClass(LoginDoctorController)
       })
       //seeder
       .register({
@@ -148,15 +151,15 @@ export class Container {
       })
       .register({
         getAllUsersController: asClass(controller.GetAllUsersController),
-        getAllPatientListByPhysioIdController: asClass(controller.GetAllPatientListByPhysioIdController),
+        getAllPatientListByPhysioIdController: asClass(GetAllPatientListByPhysioIdController),
         getUserByRoleService: asClass(GetUserByRoleService).singleton()
       })
       //doctor
       .register({
         deleteDoctorService: asClass(DeleteDoctorService).singleton(),
-        updateDoctorService: asClass(UpdateDoctorService).singleton(),
-        deleteDoctorController: asClass(DeleteDoctorController),
-        updateDoctorController: asClass(UpdateDoctorController),
+        updatePhysioService: asClass(UpdatePhysioService).singleton(),
+        deletePhysioController: asClass(DeletePhysioController),
+        updatePhysioController: asClass(UpdatePhysioController),
         createPatientByPhysioService: asClass(CreatePatientByPhysioService).singleton(),
         createPatientByPhysioController: asClass(CreatePatientByPhysioController),
         getAllPatientListsWithSessionController: asClass(GetAllPatientListsWithSessionController).singleton()
@@ -182,6 +185,13 @@ export class Container {
         endModeTrialController: asClass(EndModeTrialController),
         getModeTrialsBySessionService: asClass(GetModeTrialsBySessionService),
         getModeTrialBySessionController: asClass(GetModeTrialBySessionController)
+      })
+      //image upload
+      .register({
+        imageUploadService: asClass(ImageUploadService).singleton()
+      })
+      .register({
+        userTransformer: asClass(UserTransformer)
       });
   }
 

@@ -50,9 +50,9 @@ export class ForgotPasswordController implements Controller {
   ): Promise<void> {
     try {
       //create otp
-      const { email } = req.body;
+      const { email } = req.body as { email: string };
 
-      const user = await this.getAdminByEmailService.invoke(email);
+      const user = await this.getAdminByEmailService.invoke({ email });
 
       if (!user) {
         throw new HTTP404Error(MESSAGE_CODES.USER.USER_NOT_FOUND);

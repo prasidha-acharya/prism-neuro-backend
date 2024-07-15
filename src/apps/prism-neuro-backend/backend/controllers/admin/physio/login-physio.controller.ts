@@ -5,10 +5,10 @@ import { ParamsDictionary } from 'express-serve-static-core';
 import { body } from 'express-validator';
 import httpStatus from 'http-status';
 import { ParsedQs } from 'qs';
-import { AddUserSessionService } from '../../../../../../contexts/prism-neuro/users/application/create-user-session.service';
+import { AddUserSessionService } from 'src/contexts/prism-neuro/users/application/create-user-session.service';
+import { IClientLoginRequest } from 'src/contexts/prism-neuro/users/domain/interface/user-client-request.interface';
+import { UserTransformer } from 'src/contexts/prism-neuro/users/domain/transformer/user-transformer';
 import { GetAdminByEmailService } from '../../../../../../contexts/prism-neuro/users/application/get-admin-email.service';
-import { IClientLoginRequest } from '../../../../../../contexts/prism-neuro/users/domain/interface/user-client-request.interface';
-import { UserTransformer } from '../../../../../../contexts/prism-neuro/users/domain/transformer/user-transformer';
 import { Payload, TokenScope } from '../../../../../../contexts/shared/domain/interface/payload';
 import { JWTSign } from '../../../../../../contexts/shared/infrastructure/authorizer/jwt-token';
 import { comparePassword } from '../../../../../../contexts/shared/infrastructure/encryptor/encryptor';
@@ -16,7 +16,7 @@ import { RequestValidator } from '../../../../../../contexts/shared/infrastructu
 import { MESSAGE_CODES } from '../../../../../../contexts/shared/infrastructure/utils/message-code';
 import { Controller } from '../../controller';
 
-export class LoginAdminController implements Controller {
+export class LoginDoctorController implements Controller {
   constructor(
     private getAdminByEmailService: GetAdminByEmailService,
     private config: Configuration,
@@ -26,11 +26,6 @@ export class LoginAdminController implements Controller {
 
   public validate = [
     body('email').exists().withMessage(MESSAGE_CODES.USER.REQUIRED_EMAIL).isEmail().withMessage(MESSAGE_CODES.USER.INVALID_EMAIL),
-    body('password')
-      .exists()
-      .withMessage(MESSAGE_CODES.USER.REQUIRED_PASSWORD)
-      .isLength({ min: 6 })
-      .withMessage(MESSAGE_CODES.USER.PASSWORD_MIN_LENGTH),
     RequestValidator
   ];
 
@@ -42,7 +37,7 @@ export class LoginAdminController implements Controller {
     try {
       const { email, password }: IClientLoginRequest = req.body;
 
-      const user = await this.getAdminByEmailService.invoke({ email, role: USER_ROLES.ADMIN });
+      const user = await this.getAdminByEmailService.invoke({ email, role: USER_ROLES.PHYSIO });
 
       if (!user || (user && !comparePassword(password, user.password!))) {
         res.status(httpStatus.UNPROCESSABLE_ENTITY).send({ message: MESSAGE_CODES.USER.INVALID_CREDENTIALS });
@@ -56,11 +51,11 @@ export class LoginAdminController implements Controller {
       }
 
       const payload: Payload = {
-        userId: user.id,
-        email: user.email,
+        userId: user.id!,
+        email: user.email!,
         sessionId: sessionResponse.id,
         role: user.role,
-        scopes: [TokenScope.ADMIN_ACCESS]
+        scopes: [TokenScope.PHYSIO_ACCESS]
       };
 
       const jwtToken = JWTSign(

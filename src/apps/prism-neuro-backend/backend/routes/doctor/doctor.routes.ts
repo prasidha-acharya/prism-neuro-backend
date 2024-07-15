@@ -3,15 +3,15 @@ import { IAuthorizer } from 'src/contexts/shared/domain/model/authentication/aut
 import * as controllers from '../../controllers/index';
 
 interface IHandler {
-  loginDoctorController: controllers.LoginDoctorController;
-  deleteDoctorController: controllers.DeleteDoctorController;
-  updateDoctorController: controllers.UpdateDoctorController;
+  loginPhysioController: controllers.LoginDoctorController;
+  deletePhysioController: controllers.DeletePhysioController;
+  updatePhysioController: controllers.UpdatePhysioController;
   createPatientByPhysioController: controllers.CreatePatientByPhysioController;
   getAllPatientListsWithSessionController: controllers.GetAllPatientListsWithSessionController;
 }
 
 export const physioRoutesHandler = (
-  { loginDoctorController, createPatientByPhysioController, getAllPatientListsWithSessionController }: IHandler,
+  { loginPhysioController: loginDoctorController, createPatientByPhysioController, getAllPatientListsWithSessionController }: IHandler,
   physioAuthorizer: IAuthorizer<Request, Response, NextFunction>,
   router: Router
 ): Router => {
@@ -49,6 +49,7 @@ export const physioRoutesHandler = (
 
   router.post(
     '/physio/create-patient',
+    createPatientByPhysioController.upload,
     physioAuthorizer.authorize,
     createPatientByPhysioController.validate,
     createPatientByPhysioController.invoke.bind(createPatientByPhysioController)
@@ -62,19 +63,28 @@ export const physioRoutesHandler = (
       #swagger.requestBody = {
       required: true,
       content: {
-        "application/json": {
+        "multipart/form-data": {
           schema: {
             type: "object",
-            required: ["email", "firstName" ,"lastName" ,"age" ,"weight" ,"phoneCode" ,"phoneNumber" ],
+            required: ["file","patient"],
             properties: {
-              email: { type: "string", format: "email" },
+             file: { type: "string", format: "binary" },
+             patient:{
+             type:"object",
+             required:["email", "firstName" ,"lastName"],
+               properties :{
+               email: { type: "string", format: "email" },
               firstName: { type: "string", minLength: 6 },
               address:{type:"string",required:"true"},
               lastName: { type: "string",required:"true" },
               phoneCode: { type: "string" },
               phoneNumber:{type:"string"},
               age:{type:"number"},
-              weight:{type:"number"}
+              weight:{type:"number"},
+               }
+
+             }
+              
             }
           }
         }

@@ -29,7 +29,7 @@ export class ResetPasswordController implements Controller {
       .isEmail()
       .withMessage(MESSAGE_CODES.USER.INVALID_EMAIL)
       .custom(async (email: string) => {
-        const isUserExist = await this.getAdminByEmailService.invoke(email);
+        const isUserExist = await this.getAdminByEmailService.invoke({ email });
         if (isUserExist) return true;
         throw new HTTP404Error(MESSAGE_CODES.USER.INVALID_EMAIL);
       }),
@@ -60,7 +60,7 @@ export class ResetPasswordController implements Controller {
     try {
       const { email, newPassword, otp } = req.body;
 
-      const user = await this.getAdminByEmailService.invoke(email);
+      const user = await this.getAdminByEmailService.invoke({ email });
 
       if (!user) {
         throw new HTTP404Error(MESSAGE_CODES.USER.USER_NOT_FOUND);

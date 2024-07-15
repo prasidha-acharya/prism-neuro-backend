@@ -1,4 +1,4 @@
-import { plainToClass } from 'class-transformer';
+import { USER_ROLES } from '@prisma/client';
 import { Configuration } from 'config';
 import { NextFunction, Request, Response } from 'express';
 import { ParamsDictionary } from 'express-serve-static-core';
@@ -7,19 +7,21 @@ import httpStatus from 'http-status';
 import { ParsedQs } from 'qs';
 import { AddUserSessionService } from '../../../../../contexts/prism-neuro/users/application/create-user-session.service';
 import { GetAdminByEmailService } from '../../../../../contexts/prism-neuro/users/application/get-admin-email.service';
+import { IClientLoginRequest } from '../../../../../contexts/prism-neuro/users/domain/interface/user-client-request.interface';
+import { UserTransformer } from '../../../../../contexts/prism-neuro/users/domain/transformer/user-transformer';
 import { Payload, TokenScope } from '../../../../../contexts/shared/domain/interface/payload';
 import { JWTSign } from '../../../../../contexts/shared/infrastructure/authorizer/jwt-token';
 import { comparePassword } from '../../../../../contexts/shared/infrastructure/encryptor/encryptor';
 import { RequestValidator } from '../../../../../contexts/shared/infrastructure/middleware/request-validator';
 import { MESSAGE_CODES } from '../../../../../contexts/shared/infrastructure/utils/message-code';
-import { UserDTO } from '../../dto/userDto';
 import { Controller } from '../controller';
 
 export class LoginPatientController implements Controller {
   constructor(
     private getAdminByEmailService: GetAdminByEmailService,
     private config: Configuration,
-    private addUserSessionService: AddUserSessionService
+    private addUserSessionService: AddUserSessionService,
+    private userTransformer: UserTransformer
   ) {}
 
   public validate = [
@@ -38,9 +40,9 @@ export class LoginPatientController implements Controller {
     next: NextFunction
   ): Promise<void> {
     try {
-      const { email, password } = req.body;
+      const { email, password }: IClientLoginRequest = req.body;
 
-      const user = await this.getAdminByEmailService.invoke(email);
+      const user = await this.getAdminByEmailService.invoke({ email, role: USER_ROLES.PATIENT });
 
       if (!user || (user && !comparePassword(password, user.password!))) {
         res.status(httpStatus.UNPROCESSABLE_ENTITY).send({ message: MESSAGE_CODES.USER.INVALID_CREDENTIALS });
@@ -72,12 +74,11 @@ export class LoginPatientController implements Controller {
         }
       );
 
-      const userdto = plainToClass(UserDTO, user, { excludeExtraneousValues: true });
-
+      const userDetail = this.userTransformer.loginLists(user);
       res.status(httpStatus.OK).send({
         data: {
           token: jwtToken,
-          user_detail: userdto
+          userDetail
         }
       });
     } catch (error) {

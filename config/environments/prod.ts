@@ -20,6 +20,12 @@ const PROD: Configuration = {
     HOST: process.env.MAIL_HOST || '',
     PORT: Number(process.env.MAIL_PORT) || 587,
     SENDER_ADDRESS: process.env.MAIL_SENDER_ADDRESS || ''
+  },
+  AWS: {
+    ACCESS_KEY_ID: process.env.ACCESS_KEY_ID || '',
+    BUCKET_NAME: process.env.BUCKET_NAME || '',
+    REGION: process.env.REGION || '',
+    SECRET_ACCESS_KEY: process.env.SECRET_ACCESS_KEY || ''
   }
 };
 

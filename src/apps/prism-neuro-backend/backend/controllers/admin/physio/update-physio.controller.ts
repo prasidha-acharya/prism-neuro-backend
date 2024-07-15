@@ -3,13 +3,13 @@ import { ParamsDictionary } from 'express-serve-static-core';
 import { body } from 'express-validator';
 import httpStatus from 'http-status';
 import { ParsedQs } from 'qs';
-import { UpdateDoctorService } from 'src/contexts/prism-neuro/users/application/update-doctor-by-admin.service';
+import { UpdatePhysioService } from '../../../../../../contexts/prism-neuro/users/application/update-doctor-by-admin.service';
 import { RequestValidator } from '../../../../../../contexts/shared/infrastructure/middleware/request-validator';
 import { MESSAGE_CODES } from '../../../../../../contexts/shared/infrastructure/utils/message-code';
 import { Controller } from '../../controller';
 
-export class UpdateDoctorController implements Controller {
-  constructor(private updateDoctorService: UpdateDoctorService) {}
+export class UpdatePhysioController implements Controller {
+  constructor(private updatePhysioService: UpdatePhysioService) {}
 
   public validate = [
     body('email').optional().isEmail().withMessage(MESSAGE_CODES.USER.INVALID_EMAIL),
@@ -28,7 +28,7 @@ export class UpdateDoctorController implements Controller {
   ): Promise<void> {
     try {
       const request = req.body;
-      const doctor = await this.updateDoctorService.invoke({ ...request });
+      const doctor = await this.updatePhysioService.invoke({ ...request });
       res.status(httpStatus.OK).send({
         data: {
           doctor
