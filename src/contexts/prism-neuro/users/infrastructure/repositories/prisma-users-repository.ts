@@ -85,7 +85,7 @@ export class PrismaUserRepository implements IPrismaUserRepository {
           // mode: true,
           userDetail: true,
           userAddress: true,
-          patient: {
+          patientModeSession: {
             include: {
               modeTrialSession: true
             }
@@ -269,7 +269,7 @@ export class PrismaUserRepository implements IPrismaUserRepository {
         deletedAt: null
       },
       include: {
-        patient:
+        patientModeSession:
           role === USER_ROLES.PATIENT
             ? {
                 where: {
@@ -277,7 +277,7 @@ export class PrismaUserRepository implements IPrismaUserRepository {
                 }
               }
             : false,
-        physio:
+        physioModeSession:
           role === USER_ROLES.PHYSIO
             ? {
                 where: {
