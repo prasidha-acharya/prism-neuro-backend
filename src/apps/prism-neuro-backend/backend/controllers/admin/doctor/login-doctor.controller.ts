@@ -73,10 +73,7 @@ export class LoginDoctorController implements Controller {
 
       res.status(httpStatus.OK).send({
         data: {
-          token: {
-            accessToken: jwtToken.access_token,
-            refreshToken: jwtToken.refresh_token
-          },
+          token: jwtToken,
           userDetail
         }
       });
