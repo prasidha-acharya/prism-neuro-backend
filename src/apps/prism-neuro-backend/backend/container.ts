@@ -44,6 +44,7 @@ import { createPrismaClient } from '../../../contexts/shared/infrastructure/pers
 import { RequestLogger } from '../../../contexts/shared/infrastructure/request-logs/request-logger';
 import { ServerLogger } from '../../../contexts/shared/infrastructure/winston-logger/index';
 import * as controller from './controllers';
+import { GetAllPatientActivityController } from './controllers/admin/activity/get-user.activity.controller';
 import { StartModeSessionController } from './controllers/mode-session/start-mode-session.controller';
 import { GetModeTrialBySessionController } from './controllers/mode-trial/get-mode-trial.controller';
 import { GetAllPatientListsWithSessionController } from './controllers/physio/get-patient-lists.controller';
@@ -154,7 +155,8 @@ export class Container {
       .register({
         getAllUsersController: asClass(controller.GetAllUsersController),
         getAllPatientListByPhysioIdController: asClass(GetAllPatientListByPhysioIdController),
-        getUserByRoleService: asClass(GetUserByRoleService).singleton()
+        getUserByRoleService: asClass(GetUserByRoleService).singleton(),
+        getAllPatientActivityController: asClass(GetAllPatientActivityController)
       })
       //doctor
       .register({

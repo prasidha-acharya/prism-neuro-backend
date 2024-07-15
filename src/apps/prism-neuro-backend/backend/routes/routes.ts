@@ -4,6 +4,7 @@ import { JWTDoctorAuthorizer } from '../../../../contexts/shared/infrastructure/
 import { RefreshAuthorizer } from '../../../../contexts/shared/infrastructure/authorizer/refresh.authorizer';
 import { JWTUserAuthorizer } from '../../../../contexts/shared/infrastructure/authorizer/user.authorizer';
 import * as controllers from '../controllers';
+import { activityRoutesHandler } from './admin/activity.routes';
 import { adminPhysioRoutesHandler } from './admin/admin-physio.routes';
 import { adminAuthRoutesHandler } from './admin/auth.routes';
 import { userRoutesHandler } from './admin/user.routes';
@@ -35,6 +36,7 @@ export const masterRouter = (
   getModeTrialBySessionController: controllers.GetModeTrialBySessionController,
   getAllPatientListsWithSessionController: controllers.GetAllPatientListsWithSessionController,
   getModeSessionOfPatientController: controllers.GetModeSessionOfPatientController,
+  getAllPatientActivityController: controllers.GetAllPatientActivityController,
   refreshAuthorizer: RefreshAuthorizer,
   userAuthorizer: JWTUserAuthorizer,
   physioAuthorizer: JWTDoctorAuthorizer
@@ -52,6 +54,9 @@ export const masterRouter = (
     adminAuthorizer,
     apiRouter
   );
+
+  activityRoutesHandler({ getAllPatientActivityController }, adminAuthorizer, apiRouter);
+
   adminAuthRoutesHandler({ loginAdminController }, apiRouter);
   physioRoutesHandler(
     {
