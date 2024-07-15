@@ -122,7 +122,7 @@ model Mode {
   updatedAt        DateTime           @updatedAt
   deletedAt        DateTime?          @db.Timestamptz()
   modeDetail       ModeDetail?
-  ModeTrialSession ModeTrialSession[]
+  modeTrialSession ModeTrialSession[]
   // user             User?              @relation(fields: [userId], references: [id])
   // userId           String?
 }

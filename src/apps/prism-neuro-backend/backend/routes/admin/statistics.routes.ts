@@ -4,10 +4,11 @@ import * as controllers from '../../controllers/index';
 
 interface IHandler {
   getTotalUsersController: controllers.GetTotalUsersController;
+  getModeAnalyticsController: controllers.GetModeAnalyticsController;
 }
 
 export const statisticsRoutesHandler = (
-  { getTotalUsersController }: IHandler,
+  { getTotalUsersController, getModeAnalyticsController }: IHandler,
   adminAuthorizer: IAuthorizer<Request, Response, NextFunction>,
   router: Router
 ): Router => {
@@ -35,7 +36,8 @@ export const statisticsRoutesHandler = (
   router.get(
     '/admin/statistics/mode-analytics',
     adminAuthorizer.authorize,
-    getTotalUsersController.invoke.bind(getTotalUsersController)
+    getModeAnalyticsController.validate,
+    getModeAnalyticsController.invoke.bind(getModeAnalyticsController)
     /*
     #swagger.security = [{
             "bearerAuth": []

@@ -6,6 +6,7 @@ import { GetModeSessionOfPhysioAndPatientService } from '../../../contexts/prism
 import { StartModeSessionService } from '../../../contexts/prism-neuro/mode-session/application/start-session.service';
 import { UpdateModeSessionService } from '../../../contexts/prism-neuro/mode-session/application/update-session.service';
 import { PrismaModeSessionRepository } from '../../../contexts/prism-neuro/mode-session/infrastructure/repositories/prisma-mode-session-repository';
+import { GetAllModesService } from '../../../contexts/prism-neuro/mode/application/get-all-mode.service';
 import { GetModeByIdService } from '../../../contexts/prism-neuro/mode/application/get-mode-by-id.service';
 import { PrismaModeRepository } from '../../../contexts/prism-neuro/mode/infrastructure/repositories/prisma-mode-repository';
 import { CreateModeSeeder } from '../../../contexts/prism-neuro/mode/infrastructure/seeders/create-mode.seeder';
@@ -70,7 +71,8 @@ const {
   EndModeTrialController,
   StartModeTrialController,
   GetModeSessionOfPatientController,
-  GetTotalUsersController
+  GetTotalUsersController,
+  GetModeAnalyticsController
 } = controller;
 export class Container {
   private readonly container: AwilixContainer;
@@ -175,6 +177,8 @@ export class Container {
       // mode
       .register({
         prismaModeRepository: asClass(PrismaModeRepository),
+        getAllModesService: asClass(GetAllModesService),
+        getModeAnalyticsController: asClass(GetModeAnalyticsController),
         getModeByIdService: asClass(GetModeByIdService).singleton(),
         prismaModeSessionRepository: asClass(PrismaModeSessionRepository),
         startModeSessionService: asClass(StartModeSessionService).singleton(),

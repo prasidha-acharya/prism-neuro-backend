@@ -39,6 +39,7 @@ export const masterRouter = (
   getModeSessionOfPatientController: controllers.GetModeSessionOfPatientController,
   getAllPatientActivityController: controllers.GetAllPatientActivityController,
   getTotalUsersController: controllers.GetTotalUsersController,
+  getModeAnalyticsController: controllers.GetModeAnalyticsController,
   refreshAuthorizer: RefreshAuthorizer,
   userAuthorizer: JWTUserAuthorizer,
   physioAuthorizer: JWTDoctorAuthorizer
@@ -59,7 +60,7 @@ export const masterRouter = (
 
   activityRoutesHandler({ getAllPatientActivityController }, adminAuthorizer, apiRouter);
 
-  statisticsRoutesHandler({ getTotalUsersController }, adminAuthorizer, apiRouter);
+  statisticsRoutesHandler({ getTotalUsersController, getModeAnalyticsController }, adminAuthorizer, apiRouter);
 
   adminAuthRoutesHandler({ loginAdminController }, apiRouter);
   physioRoutesHandler(
