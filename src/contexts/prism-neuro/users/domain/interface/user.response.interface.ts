@@ -9,3 +9,8 @@ export interface IPaginateResponse<T> {
   };
   data: T;
 }
+
+export interface IGetTotalUsersResponse {
+  totalUsers: number;
+  user: number;
+}

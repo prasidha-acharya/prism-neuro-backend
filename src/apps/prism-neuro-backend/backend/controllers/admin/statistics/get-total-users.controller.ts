@@ -37,14 +37,14 @@ export class GetTotalUsersController implements Controller {
         throw new HTTP400Error(MESSAGE_CODES.INVALID_DATE);
       }
 
-      const [users, patients, physio] = await Promise.all([
+      const [users, patients, physiotherapists] = await Promise.all([
         this.getTotalUsersService.invoke({ startDate, endDate }),
         this.getTotalUsersService.invoke({ role: 'PATIENT', startDate, endDate }),
         this.getTotalUsersService.invoke({ role: 'PHYSIO', startDate, endDate })
       ]);
 
       res.status(httpStatus.ACCEPTED).send({
-        data: { users, patients, physio }
+        data: { users, patients, physiotherapists }
       });
     } catch (error) {
       next(error);

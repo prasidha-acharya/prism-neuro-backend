@@ -14,23 +14,39 @@ import {
   IUpdateDoctorRequest
 } from '../../domain/interface/user-request.interface';
 import { CreateSession } from '../../domain/interface/user-session.interface';
-import { IPaginateResponse } from '../../domain/interface/user.response.interface';
+import { IGetTotalUsersResponse, IPaginateResponse } from '../../domain/interface/user.response.interface';
 import { IPrismaUserRepository } from '../../domain/repositories/users-repository';
 
 export class PrismaUserRepository implements IPrismaUserRepository {
   constructor(private db: PrismaClient) {}
 
-  getTotalUsers({ role, startDate, endDate }: IGetTotalUsersRequest): Promise<number> {
-    return this.db.user.count({
-      where: {
-        deletedAt: null,
-        AND: { role, NOT: { role: 'ADMIN' } },
-        createdAt: {
-          gte: startDate,
-          lte: endDate
+  async getTotalUsers({ role, startDate, endDate }: IGetTotalUsersRequest): Promise<IGetTotalUsersResponse> {
+    const [totalUsers, deletedUser] = await this.db.$transaction([
+      this.db.user.count({
+        where: {
+          deletedAt: null,
+          AND: { role, NOT: { role: 'ADMIN' } },
+          createdAt: {
+            gte: startDate,
+            lte: endDate
+          }
         }
-      }
-    });
+      }),
+      this.db.user.count({
+        where: {
+          AND: { role, NOT: { role: 'ADMIN' } },
+          createdAt: {
+            gte: startDate,
+            lte: endDate
+          }
+        }
+      })
+    ]);
+
+    return {
+      totalUsers,
+      user: totalUsers - deletedUser
+    };
   }
 
   getUserByRole({ userId, role }: IGetUserByRoleRequest): Promise<User | null> {
