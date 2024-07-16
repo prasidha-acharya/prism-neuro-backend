@@ -20,8 +20,18 @@ export class GetModeSessionOfPatientController implements Controller {
   ];
 
   async invoke(req: Request, res: Response, next: NextFunction): Promise<void> {
+    const { limit, page, endDate, search, startDate } = req?.query as unknown as {
+      limit?: number;
+      page?: number;
+      search?: string;
+      endDate?: Date;
+      startDate?: Date;
+    };
+
+    const { modeId, patientId }: { modeId: string; patientId: string } = req.body;
+
     try {
-      const response = await this.getSessionOfPateintService.invoke({ modeId: req.body.modeId, patientId: req.body.patientId });
+      const response = await this.getSessionOfPateintService.invoke({ modeId, patientId, search, startDate, endDate, limit, page });
 
       const data = response.data === null ? [] : this.modeTransformer.modeSessionOfPatients(response.data);
       res.status(httpStatus.ACCEPTED).send({

@@ -93,6 +93,16 @@ export const modeSessionRoutesHandler = (
     in:"query",
     type:"string",
     }
+
+    #swagger.parameters['limit'] = {
+    in:"query",
+    type:"number",
+    }
+    
+    #swagger.parameters['page'] = {
+    in:"query",
+    type:"number",
+    }
    
       #swagger.response ['202'] = {}
       

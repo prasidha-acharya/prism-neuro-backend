@@ -110,13 +110,12 @@ export const modeTrialRoutesHandler = (
     type:"string",
     required:"true"
     }
-       #swagger.parameters['modeSessionId'] = {
+    #swagger.parameters['modeSessionId'] = {
     in:"path",
     type:"string",
     required:"true"
     }
-      #swagger.response ['202'] = {}
-      
+    #swagger.response ['202'] = {}
     */
   );
 
