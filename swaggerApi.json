@@ -72,7 +72,7 @@
         "requestBody": {
           "required": true,
           "content": {
-            "application/json": {
+            "multipart/form-data": {
               "schema": {
                 "$ref": "#/components/schemas/createDoctorRequest"
               }
@@ -388,8 +388,8 @@
     "/admin/statistics/mode-analytics": {
       "get": {
         "tags": ["Admin"],
-        "summary": "",
-        "description": "",
+        "summary": "Admin Statistics",
+        "description": "Admin can view the statistics",
         "parameters": [
           {
             "name": "filter",
@@ -1079,29 +1079,34 @@
       "createDoctorRequest": {
         "type": "object",
         "properties": {
-          "firstName": {
-            "type": "string",
-            "example": "John"
-          },
-          "lastName": {
-            "type": "string",
-            "example": "Doe"
-          },
-          "email": {
-            "type": "string",
-            "example": "user@gmail.com"
-          },
-          "phoneCode": {
-            "type": "string",
-            "example": "+977"
-          },
-          "phoneNumber": {
-            "type": "string",
-            "example": "9807865432"
-          },
-          "address": {
-            "type": "string",
-            "example": "Kapan"
+          "physioTherapist": {
+            "type": "object",
+            "properties": {
+              "firstName": {
+                "type": "string",
+                "example": "John"
+              },
+              "lastName": {
+                "type": "string",
+                "example": "Doe"
+              },
+              "email": {
+                "type": "string",
+                "example": "user@gmail.com"
+              },
+              "phoneCode": {
+                "type": "string",
+                "example": "+977"
+              },
+              "phoneNumber": {
+                "type": "string",
+                "example": "9807865432"
+              },
+              "address": {
+                "type": "string",
+                "example": "Kapan"
+              }
+            }
           }
         },
         "xml": {

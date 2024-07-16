@@ -1,10 +1,12 @@
 const createDoctorRequest = {
-  firstName: 'John',
-  lastName: 'Doe',
-  email: 'user@gmail.com',
-  phoneCode: '+977',
-  phoneNumber: '9807865432',
-  address: 'Kapan'
+  physioTherapist: {
+    firstName: 'John',
+    lastName: 'Doe',
+    email: 'user@gmail.com',
+    phoneCode: '+977',
+    phoneNumber: '9807865432',
+    address: 'Kapan'
+  }
 };
 
 export const loginAdminReponse = {
