@@ -14,7 +14,6 @@ interface ICommonUserInterface {
   address: string;
   phoneNumber?: string;
   phoneCode?: string;
-  createdBy: string;
 }
 
 export interface IClientCreatePhysioRequest extends ICommonUserInterface {}
@@ -22,4 +21,5 @@ export interface IClientCreatePhysioRequest extends ICommonUserInterface {}
 export interface IClientCreatePatientRequest extends ICommonUserInterface {
   age: number;
   weight: number;
+  createdBy: string;
 }

@@ -7,8 +7,9 @@ export interface IGetUserRequest {
 export interface ICreateAdmin {
   email: string;
   password: string;
-  // userName: string;
   address: string;
+  phoneNumber?: string;
+  phoneCode?: string;
 }
 
 export interface ICreateAdminRequest extends ICreateAdmin {
@@ -19,7 +20,11 @@ export interface ICreateDoctorRequest extends ICreateAdmin {
   role: USER_ROLES;
   firstName: string;
   lastName: string;
-  createdBy: string;
+  userDetail: {
+    phoneNumber?: string;
+    phoneCode?: string;
+    profileURL?: string;
+  };
 }
 
 export interface ICreatePatientRequest extends ICreateAdmin {

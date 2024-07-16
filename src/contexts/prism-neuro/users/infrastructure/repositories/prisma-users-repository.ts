@@ -322,7 +322,8 @@ export class PrismaUserRepository implements IPrismaUserRepository {
   }
 
   async createPhysioByAdmin(request: ICreateDoctorRequest): Promise<void> {
-    const { address, ...remainigRequest } = request;
+    const { address, userDetail, ...remainigRequest } = request;
+
     await this.db.user.create({
       data: {
         ...remainigRequest,
@@ -330,6 +331,9 @@ export class PrismaUserRepository implements IPrismaUserRepository {
           create: {
             address
           }
+        },
+        userDetail: {
+          create: { ...userDetail }
         }
       }
     });

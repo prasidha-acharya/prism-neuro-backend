@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response, Router } from 'express';
+import multer from 'multer';
 import { IAuthorizer } from '../../../../../contexts/shared/domain/model/authentication/authorizer';
 import * as controllers from '../../controllers/index';
 
@@ -9,6 +10,7 @@ interface IHandler {
   getAllUsersController: controllers.GetAllUsersController;
   getAllPatientListByPhysioIdController: controllers.GetAllPatientListByPhysioIdController;
 }
+const imageUpload = multer({});
 
 export const adminPhysioRoutesHandler = (
   { createPhysioController, updatePhysioController, getAllUsersController, getAllPatientListByPhysioIdController }: IHandler,
@@ -17,6 +19,7 @@ export const adminPhysioRoutesHandler = (
 ): Router => {
   router.post(
     '/admin/create-physio',
+    imageUpload.single('file'),
     adminAuthorizer.authorize,
     createPhysioController.validate,
     createPhysioController.invoke.bind(createPhysioController)

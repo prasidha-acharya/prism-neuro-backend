@@ -6,6 +6,7 @@ import httpStatus from 'http-status';
 import { ParsedQs } from 'qs';
 import { CreateDoctorByAdminService } from '../../../../../../contexts/prism-neuro/users/application/create-doctor-by-admin.service';
 import { IClientCreatePhysioRequest } from '../../../../../../contexts/prism-neuro/users/domain/interface/user-client-request.interface';
+import { ICreateDoctorRequest } from '../../../../../../contexts/prism-neuro/users/domain/interface/user-request.interface';
 import { HTTP400Error } from '../../../../../../contexts/shared/domain/errors/http.exception';
 import { generatePassword, hashPassword } from '../../../../../../contexts/shared/infrastructure/encryptor/encryptor';
 import { SendPasswordToUserService } from '../../../../../../contexts/shared/infrastructure/mail/application/send-password.service';
@@ -52,24 +53,22 @@ export class CreatePhysioController implements Controller {
     res: Response<any, Record<string, any>>,
     next: NextFunction
   ): Promise<void> {
-    const { firstName, lastName, email, address, phoneCode, phoneNumber }: IClientCreatePhysioRequest = req.body.physioTherapist;
-
-    const { userId } = req.body.user;
+    const { firstName, lastName, email, address, phoneCode, phoneNumber }: IClientCreatePhysioRequest = JSON.parse(req.body.physioTherapist);
 
     const password = generatePassword();
 
-    let physioData: IClientCreatePhysioRequest = {
+    let physioData: ICreateDoctorRequest = {
       firstName,
       lastName,
       email: email.toLowerCase(),
       password: hashPassword(password),
       address,
       role: USER_ROLES.PHYSIO,
-      createdBy: userId
+      userDetail: {}
     };
 
     if (phoneCode && phoneNumber) {
-      physioData = { ...physioData, phoneNumber, phoneCode };
+      physioData.userDetail = { phoneNumber, phoneCode };
     }
 
     try {
