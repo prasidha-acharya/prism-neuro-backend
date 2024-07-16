@@ -30,6 +30,7 @@ export const statisticsRoutesHandler = (
                 '@enum': ['monthly','weekly',"daily"]
             }
     }
+            #swagger.responses[200] ={}
     */
   );
 
@@ -60,6 +61,9 @@ export const statisticsRoutesHandler = (
       #swagger.parameters['endDate'] = {
     in:'query',
     required:false,
+    }
+    #swagger.response[200] ={
+    
     }
     */
   );

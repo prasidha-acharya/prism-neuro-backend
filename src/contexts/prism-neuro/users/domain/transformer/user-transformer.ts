@@ -42,18 +42,24 @@ export class UserTransformer {
 
       // firstName and lastName is null for admin only
 
-      return {
+      let userList: IGetUserListByAdminResponse = {
         id,
         isVerified: !firstLogin,
         firstName: firstName!,
         lastName: lastName!,
         email,
+        profileURL: userDetail?.profileURL ?? null,
         userAddress,
         age: userDetail?.age ?? null,
         weight: userDetail?.weight ?? null,
-        contactNumber,
-        patients: role === USER_ROLES.PHYSIO ? patients?.length ?? 0 : null
+        contactNumber
       };
+
+      if (role === USER_ROLES.PHYSIO) {
+        userList.patients = patients?.length ?? 0;
+      }
+
+      return userList;
     });
   }
 }

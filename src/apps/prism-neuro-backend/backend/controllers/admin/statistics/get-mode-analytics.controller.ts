@@ -107,7 +107,7 @@ export class GetModeAnalyticsController implements Controller {
 
       const data = response === null ? [] : this.statisticsTransformer.modeAnalyticsTransformer(response);
 
-      res.status(httpStatus.ACCEPTED).json({ data });
+      res.status(httpStatus.OK).json({ data, status: 'SUCCESS' });
     } catch (error) {
       next(error);
     }

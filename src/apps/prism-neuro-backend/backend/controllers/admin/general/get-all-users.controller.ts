@@ -73,11 +73,12 @@ export class GetAllUsersController implements Controller {
 
       const data = response.data === null ? [] : this.userTransformer.userListsByAdmin(response.data);
 
-      res.status(httpStatus.ACCEPTED).send({
+      res.status(httpStatus.ACCEPTED).json({
         data: {
           ...response,
           data
-        }
+        },
+        status: 'SUCCESS'
       });
     } catch (error) {
       next(error);

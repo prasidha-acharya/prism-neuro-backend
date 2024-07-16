@@ -43,8 +43,9 @@ export class GetTotalUsersController implements Controller {
         this.getTotalUsersService.invoke({ role: 'PHYSIO', startDate, endDate })
       ]);
 
-      res.status(httpStatus.ACCEPTED).send({
-        data: { users, patients, physiotherapists }
+      res.status(httpStatus.ACCEPTED).json({
+        data: { users, patients, physiotherapists },
+        status: 'SUCCESS'
       });
     } catch (error) {
       next(error);
