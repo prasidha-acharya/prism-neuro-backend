@@ -76,7 +76,9 @@ export class CreatePhysioController implements Controller {
 
       await this.sendPasswordToUserService.invoke({ email, password });
 
-      res.status(httpStatus.CREATED).send();
+      res.status(httpStatus.CREATED).send({
+        status: 'SUCESS'
+      });
     } catch (error) {
       next(error);
     }
