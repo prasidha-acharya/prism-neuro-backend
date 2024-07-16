@@ -1,4 +1,5 @@
 import { MODE_SESSION_STATUS, MODE_TRIAL_SESSION_STATUS, ModeTrialSession, USER_ROLES } from '@prisma/client';
+import { IGetUserListByAdminResponse, IPrismaUserResponse } from '../interface/user.response.interface';
 
 // TODO: remove any
 export class UserTransformer {
@@ -29,6 +30,29 @@ export class UserTransformer {
           }
           return total;
         }, 0)
+      };
+    });
+  }
+
+  public userListsByAdmin(users: IPrismaUserResponse[]): IGetUserListByAdminResponse[] {
+    return users.map(({ id, firstLogin, email, firstName, lastName, userDetail, userAddress, role, patients }) => {
+      const { phoneNumber, phoneCode } = userDetail ?? {};
+
+      let contactNumber = phoneNumber && phoneCode ? `${phoneCode}-${phoneNumber}` : null;
+
+      // firstName and lastName is null for admin only
+
+      return {
+        id,
+        isVerified: !firstLogin,
+        firstName: firstName!,
+        lastName: lastName!,
+        email,
+        userAddress,
+        age: userDetail?.age ?? null,
+        weight: userDetail?.weight ?? null,
+        contactNumber,
+        patients: role === USER_ROLES.PHYSIO ? patients?.length ?? 0 : null
       };
     });
   }
