@@ -1,4 +1,4 @@
-import { ModeSession, Otp, User, UserAddress, UserDetail } from '@prisma/client';
+import { ModeSession, ModeTrialSession, Otp, User, UserAddress, UserDetail } from '@prisma/client';
 
 export interface IPaginateResponse<T> {
   pagination: {
@@ -17,11 +17,14 @@ export interface IGetTotalUsersResponse {
   user: number;
 }
 
+interface IPrismaModeSessionResponse extends ModeSession {
+  modeTrialSession: ModeTrialSession[];
+}
 export interface IPrismaUserResponse extends User {
   userAddress: UserAddress[];
-  userDetail?: UserDetail;
-  physioModeSession: ModeSession[];
-  patientModeSession: ModeSession[];
+  userDetail?: UserDetail | null;
+  physioModeSession: IPrismaModeSessionResponse[];
+  patientModeSession: IPrismaModeSessionResponse[];
   otp: Otp;
   patients: User[];
   physioTherapist: User;

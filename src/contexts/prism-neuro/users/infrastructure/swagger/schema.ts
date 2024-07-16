@@ -9,6 +9,10 @@ const createDoctorRequest = {
   }
 };
 
+const successReponse = {
+  status: 'SUCCESS'
+};
+
 export const loginAdminReponse = {
   data: {
     token: {
@@ -28,7 +32,8 @@ export const loginAdminReponse = {
       deletedAt: null,
       role: 'ADMIN'
     }
-  }
+  },
+  ...successReponse
 };
 
-export const AdminSchema = { createDoctorRequest, loginAdminReponse };
+export const AdminSchema = { createDoctorRequest, loginAdminReponse, successReponse };

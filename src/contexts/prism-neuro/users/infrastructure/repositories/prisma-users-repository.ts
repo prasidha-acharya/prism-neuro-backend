@@ -115,6 +115,7 @@ export class PrismaUserRepository implements IPrismaUserRepository {
           // mode: true,
           userDetail: true,
           userAddress: true,
+          physioTherapist: true,
           patientModeSession: {
             include: {
               modeTrialSession: true

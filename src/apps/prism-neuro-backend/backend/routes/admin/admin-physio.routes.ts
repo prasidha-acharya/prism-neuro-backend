@@ -40,59 +40,64 @@ export const adminPhysioRoutesHandler = (
                 }
             }
         } 
-   #swagger.responses[201]
+  #swagger.responses[201]  = {
+      schema: {
+        $ref: "#/components/schemas/successReponse"
+      }
+    }
   */
   );
-  router.get(
-    '/admin/physio/:physioId',
-    adminAuthorizer.authorize
-    /*
-      #swagger.security = [{
-            "bearerAuth": []
-    }] 
-      #swagger.tags = ['Admin']
-      #swagger.summary = 'Fetch physio data by id'
-      #swagger.description = 'Endpoint to fetch physio data by id'
-      #swagger.requestBody = {
-      required: true,
-      content: {
-        "application/json": {
-          schema: {
-            type: "object",
-            required: ["email", "password"],
-            properties: {
-              email: { type: "string", format: "email" },
-              password: { type: "string", minLength: 6 },
-            }
-          }
-        }
-      }
-    }
-      #swagger.responses[200]  = {
-      schema: {
-        $ref: "#/components/schemas/loginAdminReponse"
-      }
-    }
-    */
-  );
 
-  router.get(
-    '/admin/physio',
-    adminAuthorizer.authorize
-    /*
-      #swagger.security = [{
-            "bearerAuth": []
-    }] 
-      #swagger.tags = ['Admin']
-      #swagger.summary = 'Fetch all physio'
-      #swagger.description = 'Admin can access to all physio'
-      #swagger.responses[200]  = {
-      schema: {
-        $ref: "#/components/schemas/loginAdminReponse"
-      }
-    }
-    */
-  );
+  // router.get(
+  //   '/admin/physio/:physioId',
+  //   adminAuthorizer.authorize
+  //   /*
+  //     #swagger.security = [{
+  //           "bearerAuth": []
+  //   }]
+  //     #swagger.tags = ['Admin']
+  //     #swagger.summary = 'Fetch physio data by id'
+  //     #swagger.description = 'Endpoint to fetch physio data by id'
+  //     #swagger.requestBody = {
+  //     required: true,
+  //     content: {
+  //       "application/json": {
+  //         schema: {
+  //           type: "object",
+  //           required: ["email", "password"],
+  //           properties: {
+  //             email: { type: "string", format: "email" },
+  //             password: { type: "string", minLength: 6 },
+  //           }
+  //         }
+  //       }
+  //     }
+  //   }
+  //     #swagger.responses[200]  = {
+  //     schema: {
+  //       $ref: "#/components/schemas/loginAdminReponse"
+  //     }
+  //   }
+  //   */
+  // );
+
+  // router.get(
+  //   '/admin/physio',
+  //   adminAuthorizer.authorize
+  //   /*
+  //     #swagger.security = [{
+  //           "bearerAuth": []
+  //   }]
+  //     #swagger.tags = ['Admin']
+  //     #swagger.summary = 'Fetch all physio'
+  //     #swagger.description = 'Admin can access to all physio'
+  //     #swagger.responses[200]  = {
+  //     schema: {
+  //       $ref: "#/components/schemas/loginAdminReponse"
+  //     }
+  //   }
+  //   */
+  // );
 
   router.put(
     '/admin/update-physio/:physioId',

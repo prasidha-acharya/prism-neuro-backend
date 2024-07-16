@@ -61,7 +61,19 @@
         "description": "",
         "responses": {
           "201": {
-            "description": "Created"
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/successReponse"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/successReponse"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -79,95 +91,6 @@
             }
           }
         }
-      }
-    },
-    "/admin/physio/{physioId}": {
-      "get": {
-        "tags": ["Admin"],
-        "summary": "Fetch physio data by id",
-        "description": "Endpoint to fetch physio data by id",
-        "parameters": [
-          {
-            "name": "physioId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/loginAdminReponse"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/loginAdminReponse"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "required": ["email", "password"],
-                "properties": {
-                  "email": {
-                    "type": "string",
-                    "format": "email"
-                  },
-                  "password": {
-                    "type": "string",
-                    "minLength": 6
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/admin/physio": {
-      "get": {
-        "tags": ["Admin"],
-        "summary": "Fetch all physio",
-        "description": "Admin can access to all physio",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/loginAdminReponse"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/loginAdminReponse"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ]
       }
     },
     "/admin/update-physio/{physioId}": {
@@ -1179,10 +1102,26 @@
                 }
               }
             }
+          },
+          "status": {
+            "type": "string",
+            "example": "SUCCESS"
           }
         },
         "xml": {
           "name": "loginAdminReponse"
+        }
+      },
+      "successReponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "SUCCESS"
+          }
+        },
+        "xml": {
+          "name": "successReponse"
         }
       }
     },

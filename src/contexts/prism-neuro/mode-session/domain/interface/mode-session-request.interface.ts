@@ -1,4 +1,5 @@
 import { MODE_SESSION_STATUS, ModeSession, ModeTrialSession } from '@prisma/client';
+import { IPrismaUserResponse } from 'src/contexts/prism-neuro/users/domain/interface/user.response.interface';
 
 export interface ICreateModeSessionRequest {
   modeId?: string;
@@ -22,8 +23,8 @@ export interface IUpdateModeSessionRequest {
 }
 
 export interface IGetModeTrialsOfPatientRequest {
-  modeId: string;
-  patientId: string;
+  modeId?: string;
+  patientId?: string;
   search?: string;
   startDate?: Date;
   endDate?: Date;
@@ -33,4 +34,6 @@ export interface IGetModeTrialsOfPatientRequest {
 
 export interface IPrismaModeSessionRequest extends ModeSession {
   modeTrialSession: ModeTrialSession[];
+  physio: IPrismaUserResponse;
+  patient: IPrismaUserResponse;
 }

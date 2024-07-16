@@ -4,7 +4,6 @@ import {
   ICreateModeSessionRequest,
   IGetModeSessionRequest,
   IGetModeTrialsOfPatientRequest,
-  IPrismaModeSessionRequest,
   IUpdateModeSessionRequest
 } from '../../domain/interface/mode-session-request.interface';
 import { IModeSessionRepository } from '../../domain/repositories/mode-session-repository';
@@ -20,7 +19,7 @@ export class PrismaModeSessionRepository implements IModeSessionRepository {
     patientId,
     page = 1,
     limit = 10
-  }: IGetModeTrialsOfPatientRequest): Promise<IPaginateResponse<IPrismaModeSessionRequest[] | null>> {
+  }: IGetModeTrialsOfPatientRequest): Promise<IPaginateResponse<any[] | null>> {
     let args: Prisma.ModeSessionFindManyArgs['where'] = {
       deletedAt: null,
       modeId,
@@ -56,6 +55,8 @@ export class PrismaModeSessionRepository implements IModeSessionRepository {
           ...args
         },
         include: {
+          patient: { include: { userDetail: true } },
+          physio: { include: { userDetail: true } },
           modeTrialSession: {
             include: { mode: true }
           }

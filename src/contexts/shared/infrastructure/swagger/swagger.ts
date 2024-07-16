@@ -19,7 +19,8 @@ const doc = {
     },
     schemas: {
       createDoctorRequest: AdminSchema.createDoctorRequest,
-      loginAdminReponse: AdminSchema.loginAdminReponse
+      loginAdminReponse: AdminSchema.loginAdminReponse,
+      successReponse: AdminSchema.successReponse
     },
     parameters: {}
   }

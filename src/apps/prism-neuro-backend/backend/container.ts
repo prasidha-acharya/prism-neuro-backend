@@ -44,6 +44,7 @@ import { PrismaMailerRepository } from '../../../contexts/shared/infrastructure/
 import { ErrorMiddleware } from '../../../contexts/shared/infrastructure/middleware/error-middleware';
 import { createPrismaClient } from '../../../contexts/shared/infrastructure/persistence/prisma';
 import { RequestLogger } from '../../../contexts/shared/infrastructure/request-logs/request-logger';
+import { ActivityTransformer } from '../../../contexts/shared/infrastructure/transformer/activity-transformer';
 import { ModeTransformer } from '../../../contexts/shared/infrastructure/transformer/mode-transformer';
 import { StatisticsTransformer } from '../../../contexts/shared/infrastructure/transformer/statistics-transformer';
 import { ServerLogger } from '../../../contexts/shared/infrastructure/winston-logger/index';
@@ -209,7 +210,8 @@ export class Container {
       .register({
         userTransformer: asClass(UserTransformer),
         statisticsTransformer: asClass(StatisticsTransformer),
-        modeTransformer: asClass(ModeTransformer)
+        modeTransformer: asClass(ModeTransformer),
+        activityTransformer: asClass(ActivityTransformer)
       });
   }
 

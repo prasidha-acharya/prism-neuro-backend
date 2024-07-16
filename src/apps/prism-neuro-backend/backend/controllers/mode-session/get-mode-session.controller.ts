@@ -34,7 +34,7 @@ export class GetModeSessionOfPatientController implements Controller {
       const response = await this.getSessionOfPateintService.invoke({ modeId, patientId, search, startDate, endDate, limit, page });
 
       const data = response.data === null ? [] : this.modeTransformer.modeSessionOfPatients(response.data);
-      res.status(httpStatus.ACCEPTED).send({
+      res.status(httpStatus.OK).json({
         data: {
           ...response,
           data
