@@ -1,4 +1,4 @@
-import { MODE_SESSION_STATUS } from '@prisma/client';
+import { MODE_SESSION_STATUS, ModeSession, ModeTrialSession } from '@prisma/client';
 
 export interface ICreateModeSessionRequest {
   modeId?: string;
@@ -27,4 +27,10 @@ export interface IGetModeTrialsOfPatientRequest {
   search?: string;
   startDate?: Date;
   endDate?: Date;
+  limit?: number;
+  page?: number;
+}
+
+export interface IPrismaModeSessionRequest extends ModeSession {
+  modeTrialSession: ModeTrialSession[];
 }

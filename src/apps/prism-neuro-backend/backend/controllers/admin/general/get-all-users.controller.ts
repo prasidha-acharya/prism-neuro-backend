@@ -4,13 +4,17 @@ import { query } from 'express-validator';
 import httpStatus from 'http-status';
 import { ParsedQs } from 'qs';
 import { GetUsersService } from '../../../../../../contexts/prism-neuro/users/application/get-users.service';
+import { UserTransformer } from '../../../../../../contexts/prism-neuro/users/domain/transformer/user-transformer';
 import { HTTP422Error } from '../../../../../../contexts/shared/domain/errors/http.exception';
 import { RequestValidator } from '../../../../../../contexts/shared/infrastructure/middleware/request-validator';
 import { MESSAGE_CODES } from '../../../../../../contexts/shared/infrastructure/utils/message-code';
 import { Controller } from '../../controller';
 
 export class GetAllUsersController implements Controller {
-  constructor(private getUsersService: GetUsersService) {}
+  constructor(
+    private getUsersService: GetUsersService,
+    private userTransformer: UserTransformer
+  ) {}
 
   public validate = [
     query('startDate')
@@ -67,7 +71,14 @@ export class GetAllUsersController implements Controller {
 
       const response = await this.getUsersService.invoke(params);
 
-      res.status(httpStatus.ACCEPTED).send({ data: response });
+      const data = response.data === null ? [] : this.userTransformer.userListsByAdmin(response.data);
+
+      res.status(httpStatus.ACCEPTED).send({
+        data: {
+          ...response,
+          data
+        }
+      });
     } catch (error) {
       next(error);
     }
