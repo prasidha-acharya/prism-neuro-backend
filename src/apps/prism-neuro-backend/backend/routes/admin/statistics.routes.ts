@@ -43,8 +43,8 @@ export const statisticsRoutesHandler = (
             "bearerAuth": []
     }] 
     #swagger.tags =['Admin']
-    #swagger.summary = ""
-    #swagger.description = ""
+    #swagger.summary = "Admin Statistics"
+    #swagger.description = "Admin can view the statistics"
     #swagger.parameters['filter'] = {
     in:'query',
     required:false,

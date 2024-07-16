@@ -4,6 +4,7 @@ import httpStatus from 'http-status';
 import { GetAllModesService } from '../../../../../../contexts/prism-neuro/mode/application/get-all-mode.service';
 import { HTTP400Error, HTTP422Error } from '../../../../../../contexts/shared/domain/errors/http.exception';
 import { RequestValidator } from '../../../../../../contexts/shared/infrastructure/middleware/request-validator';
+import { StatisticsTransformer } from '../../../../../../contexts/shared/infrastructure/transformer/statistics-transformer';
 import {
   getDateBeforeOneMonth,
   getDateBeforeWeek,
@@ -14,7 +15,10 @@ import { MESSAGE_CODES } from '../../../../../../contexts/shared/infrastructure/
 import { Controller } from '../../controller';
 
 export class GetModeAnalyticsController implements Controller {
-  constructor(private getAllModesService: GetAllModesService) {}
+  constructor(
+    private getAllModesService: GetAllModesService,
+    private statisticsTransformer: StatisticsTransformer
+  ) {}
 
   public validate = [
     query('startDate')
@@ -101,7 +105,9 @@ export class GetModeAnalyticsController implements Controller {
 
       const response = await this.getAllModesService.invoke({ startDate, endDate });
 
-      res.status(httpStatus.ACCEPTED).json({ data: response });
+      const data = response === null ? [] : this.statisticsTransformer.modeAnalyticsTransformer(response);
+
+      res.status(httpStatus.ACCEPTED).json({ data });
     } catch (error) {
       next(error);
     }
