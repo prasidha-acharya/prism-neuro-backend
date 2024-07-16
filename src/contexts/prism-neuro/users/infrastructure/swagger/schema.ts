@@ -1,5 +1,16 @@
 const createDoctorRequest = {
   physioTherapist: {
+    $firstName: 'John',
+    $lastName: 'Doe',
+    $email: 'user@gmail.com',
+    phoneCode: '+977',
+    phoneNumber: '9807865432',
+    $address: 'Kapan'
+  }
+};
+
+const updatePhysioRequest = {
+  physioTherapist: {
     firstName: 'John',
     lastName: 'Doe',
     email: 'user@gmail.com',
@@ -36,4 +47,4 @@ export const loginAdminReponse = {
   ...successReponse
 };
 
-export const AdminSchema = { createDoctorRequest, loginAdminReponse, successReponse };
+export const AdminSchema = { createDoctorRequest, loginAdminReponse, successReponse, updatePhysioRequest };

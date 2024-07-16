@@ -10,7 +10,7 @@ interface IHandler {
   getAllUsersController: controllers.GetAllUsersController;
   getAllPatientListByPhysioIdController: controllers.GetAllPatientListByPhysioIdController;
 }
-const imageUpload = multer({});
+export const imageUpload = multer({});
 
 export const adminPhysioRoutesHandler = (
   { createPhysioController, updatePhysioController, getAllUsersController, getAllPatientListByPhysioIdController }: IHandler,
@@ -100,8 +100,10 @@ export const adminPhysioRoutesHandler = (
   // );
 
   router.put(
-    '/admin/update-physio/:physioId',
+    '/admin/update-physio',
+    imageUpload.single('file'),
     adminAuthorizer.authorize,
+    updatePhysioController.validate,
     updatePhysioController.invoke.bind(updatePhysioController)
     /*
       #swagger.security = [{
@@ -110,26 +112,21 @@ export const adminPhysioRoutesHandler = (
       #swagger.tags = ['Admin']
       #swagger.summary = 'Admin update physio'
       #swagger.description = 'Admin can update physio'
-      #swagger.requestBody = {
-      required: true,
-      content: {
-        "application/json": {
-          schema: {
-            type: "object",
-            required: ["email", "password"],
-            properties: {
-              email: { type: "string", format: "email" },
-              password: { type: "string", minLength: 6 },
+   #swagger.parameters['physioId'] = {
+        in: 'path',
+        type: 'string'
+      }
+    #swagger.requestBody = {
+            required: true,
+            content: {
+                "multipart/form-data": {
+                    schema: {
+                        $ref: "#/components/schemas/createDoctorRequest"
+                    }  
+                }
             }
-          }
-        }
-      }
-    }
-      #swagger.responses[200]  = {
-      schema: {
-        $ref: "#/components/schemas/loginAdminReponse"
-      }
-    }
+        } 
+      #swagger.responses[200]
     */
   );
 

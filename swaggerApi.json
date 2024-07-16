@@ -93,7 +93,7 @@
         }
       }
     },
-    "/admin/update-physio/{physioId}": {
+    "/admin/update-physio": {
       "put": {
         "tags": ["Admin"],
         "summary": "Admin update physio",
@@ -110,19 +110,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/loginAdminReponse"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/loginAdminReponse"
-                }
-              }
-            }
+            "description": "OK"
           }
         },
         "security": [
@@ -133,20 +121,9 @@
         "requestBody": {
           "required": true,
           "content": {
-            "application/json": {
+            "multipart/form-data": {
               "schema": {
-                "type": "object",
-                "required": ["email", "password"],
-                "properties": {
-                  "email": {
-                    "type": "string",
-                    "format": "email"
-                  },
-                  "password": {
-                    "type": "string",
-                    "minLength": 6
-                  }
-                }
+                "$ref": "#/components/schemas/createDoctorRequest"
               }
             }
           }
@@ -267,7 +244,8 @@
                 "properties": {
                   "email": {
                     "type": "string",
-                    "format": "email"
+                    "format": "email",
+                    "default": "admin@gmail.com"
                   },
                   "password": {
                     "type": "string",
@@ -297,8 +275,8 @@
           }
         ],
         "responses": {
-          "default": {
-            "description": ""
+          "200": {
+            "description": "OK"
           }
         },
         "security": [
@@ -1043,7 +1021,8 @@
                 "type": "string",
                 "example": "Kapan"
               }
-            }
+            },
+            "required": ["firstName", "lastName", "email", "address"]
           }
         },
         "xml": {
@@ -1122,6 +1101,43 @@
         },
         "xml": {
           "name": "successReponse"
+        }
+      },
+      "updatePhysioRequest": {
+        "type": "object",
+        "properties": {
+          "physioTherapist": {
+            "type": "object",
+            "properties": {
+              "firstName": {
+                "type": "string",
+                "example": "John"
+              },
+              "lastName": {
+                "type": "string",
+                "example": "Doe"
+              },
+              "email": {
+                "type": "string",
+                "example": "user@gmail.com"
+              },
+              "phoneCode": {
+                "type": "string",
+                "example": "+977"
+              },
+              "phoneNumber": {
+                "type": "string",
+                "example": "9807865432"
+              },
+              "address": {
+                "type": "string",
+                "example": "Kapan"
+              }
+            }
+          }
+        },
+        "xml": {
+          "name": "updatePhysioRequest"
         }
       }
     },

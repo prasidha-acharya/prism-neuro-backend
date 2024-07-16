@@ -16,15 +16,16 @@ export interface ICreateAdminRequest extends ICreateAdmin {
   role: USER_ROLES;
 }
 
+interface IUserDetail {
+  phoneNumber?: string;
+  phoneCode?: string;
+  profileURL?: string;
+}
 export interface ICreateDoctorRequest extends ICreateAdmin {
   role: USER_ROLES;
   firstName: string;
   lastName: string;
-  userDetail: {
-    phoneNumber?: string;
-    phoneCode?: string;
-    profileURL?: string;
-  };
+  userDetail: IUserDetail;
 }
 
 export interface ICreatePatientRequest extends ICreateAdmin {
@@ -35,10 +36,12 @@ export interface ICreatePatientRequest extends ICreateAdmin {
 
 export interface IUpdateDoctorRequest {
   id: string;
-  data: {
-    firstName: string;
-    lastName: string;
+  data?: {
+    firstName?: string;
+    lastName?: string;
   };
+  address?: string;
+  userDetail?: IUserDetail;
 }
 
 export interface IFogotPasswordRequest {

@@ -349,7 +349,12 @@ export class PrismaUserRepository implements IPrismaUserRepository {
         }
       },
       data: {
-        ...request.data
+        ...request.data,
+        userDetail: {
+          update: {
+            ...request.userDetail
+          }
+        }
       }
     });
   }

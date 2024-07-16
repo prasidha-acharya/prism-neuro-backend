@@ -18,6 +18,10 @@ interface ICommonUserInterface {
 
 export interface IClientCreatePhysioRequest extends ICommonUserInterface {}
 
+export interface IClientUpdatePhysioRequest extends Omit<ICommonUserInterface, 'email' | 'role' | 'password'> {
+  physioId: string;
+}
+
 export interface IClientCreatePatientRequest extends ICommonUserInterface {
   age: number;
   weight: number;

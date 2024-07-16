@@ -20,7 +20,8 @@ const doc = {
     schemas: {
       createDoctorRequest: AdminSchema.createDoctorRequest,
       loginAdminReponse: AdminSchema.loginAdminReponse,
-      successReponse: AdminSchema.successReponse
+      successReponse: AdminSchema.successReponse,
+      updatePhysioRequest: AdminSchema.updatePhysioRequest
     },
     parameters: {}
   }
