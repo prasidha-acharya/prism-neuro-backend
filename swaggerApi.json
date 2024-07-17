@@ -511,8 +511,20 @@
         "summary": "Change password",
         "description": "End point to change password for all users ",
         "responses": {
-          "200": {
-            "description": "OK"
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/successReponse"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/successReponse"
+                }
+              }
+            }
           }
         },
         "security": [
