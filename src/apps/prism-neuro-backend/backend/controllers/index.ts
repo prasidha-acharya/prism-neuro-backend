@@ -10,6 +10,7 @@ export * from './admin/statistics/get-mode-analytics.controller';
 export * from './admin/statistics/get-total-users.controller';
 export * from './general/access-token.controller';
 export * from './general/change-password.controller';
+export * from './general/delete-account.controller';
 export * from './general/forgot-password.controller';
 export * from './general/logout.controller';
 export * from './general/reset-password.controller';

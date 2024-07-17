@@ -44,6 +44,7 @@ export const masterRouter = (
   getModeAnalyticsController: controllers.GetModeAnalyticsController,
   getModesController: controllers.GetModesController,
   getModeSessionActivityOfPatientController: controllers.GetModeSessionActivityOfPatientController,
+  deleteAccountController: controllers.DeleteAccountController,
   refreshAuthorizer: RefreshAuthorizer,
   userAuthorizer: JWTUserAuthorizer,
   physioAuthorizer: JWTPhysioTherapistAuthorizer,
@@ -86,7 +87,8 @@ export const masterRouter = (
       generateAccessTokenController,
       forgotPasswordController,
       changePasswordController,
-      resetPasswordController
+      resetPasswordController,
+      deleteAccountController
     },
     userAuthorizer,
     refreshAuthorizer,

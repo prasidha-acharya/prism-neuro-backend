@@ -19,6 +19,7 @@ import { ChangePasswordService } from '../../../contexts/prism-neuro/users/appli
 import { CreateDoctorByAdminService } from '../../../contexts/prism-neuro/users/application/create-doctor-by-admin.service';
 import { CreatePatientByPhysioService } from '../../../contexts/prism-neuro/users/application/create-patient-by-physio.service';
 import { AddUserSessionService } from '../../../contexts/prism-neuro/users/application/create-user-session.service';
+import { DeleteAccountService } from '../../../contexts/prism-neuro/users/application/delete-account.service';
 import { DeleteDoctorService } from '../../../contexts/prism-neuro/users/application/delete-doctor-by-admin.service';
 import { DeleteOTPService } from '../../../contexts/prism-neuro/users/application/delete-otp.service';
 import { DeleteUserSessionService } from '../../../contexts/prism-neuro/users/application/delete-user-session.service';
@@ -79,7 +80,8 @@ const {
   StartModeSessionController,
   GetAllPatientActivityController,
   GetAllPatientListsWithSessionController,
-  GetModeSessionActivityOfPatientController
+  GetModeSessionActivityOfPatientController,
+  DeleteAccountController
 } = controller;
 export class Container {
   private readonly container: AwilixContainer;
@@ -122,7 +124,9 @@ export class Container {
       })
       //admin auth
       .register({
-        loginAdminController: asClass(LoginAdminController)
+        loginAdminController: asClass(LoginAdminController),
+        deleteAccountService: asClass(DeleteAccountService).singleton(),
+        deleteAccountController: asClass(DeleteAccountController)
       })
       // general auth
       .register({
