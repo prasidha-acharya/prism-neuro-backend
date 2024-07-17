@@ -21,7 +21,8 @@ const doc = {
       createDoctorRequest: AdminSchema.createDoctorRequest,
       loginAdminReponse: AdminSchema.loginAdminReponse,
       successReponse: AdminSchema.successReponse,
-      updatePhysioRequest: AdminSchema.updatePhysioRequest
+      updatePhysioRequest: AdminSchema.updatePhysioRequest,
+      getModeSessionOfPatientResponse: AdminSchema.getModeSessionOfPatientResponse
     },
     parameters: {}
   }

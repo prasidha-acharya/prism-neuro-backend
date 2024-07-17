@@ -782,8 +782,20 @@
           }
         ],
         "responses": {
-          "default": {
-            "description": ""
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/getModeSessionOfPatientResponse"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/getModeSessionOfPatientResponse"
+                }
+              }
+            }
           }
         },
         "security": [
@@ -998,6 +1010,80 @@
           }
         }
       }
+    },
+    "/patient/activity/{modeId}": {
+      "get": {
+        "tags": ["Patient"],
+        "summary": "Patient Activity / History",
+        "description": "Patient can view their activity",
+        "parameters": [
+          {
+            "name": "modeId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "startDate",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "endDate",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/getModeSessionOfPatientResponse"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/getModeSessionOfPatientResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
     }
   },
   "components": {
@@ -1155,6 +1241,82 @@
         },
         "xml": {
           "name": "updatePhysioRequest"
+        }
+      },
+      "getModeSessionOfPatientResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "object",
+            "properties": {
+              "data": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "example": "string"
+                  },
+                  "createdAt": {
+                    "type": "string",
+                    "example": "Date"
+                  },
+                  "trials": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "example": "string"
+                      },
+                      "trialId": {
+                        "type": "string",
+                        "example": "number"
+                      },
+                      "result": {
+                        "type": "string",
+                        "example": "number | null"
+                      }
+                    }
+                  }
+                }
+              },
+              "pagination": {
+                "type": "object",
+                "properties": {
+                  "limit": {
+                    "type": "number",
+                    "example": 10
+                  },
+                  "total": {
+                    "type": "number",
+                    "example": 13
+                  },
+                  "totalPages": {
+                    "type": "number",
+                    "example": 2
+                  },
+                  "currentPage": {
+                    "type": "number",
+                    "example": 1
+                  },
+                  "isFirstPage": {
+                    "type": "boolean",
+                    "example": true
+                  },
+                  "isLastPage": {
+                    "type": "boolean",
+                    "example": false
+                  }
+                }
+              }
+            }
+          },
+          "status": {
+            "type": "string",
+            "example": "SUCCESS"
+          }
+        },
+        "xml": {
+          "name": "getModeSessionOfPatientResponse"
         }
       }
     },

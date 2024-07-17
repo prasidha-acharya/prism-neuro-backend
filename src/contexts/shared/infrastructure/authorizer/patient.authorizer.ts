@@ -8,7 +8,7 @@ import { HTTP401Error } from '../../domain/errors/http.exception';
 import { Payload, TokenScope } from '../../domain/interface/payload';
 import { IAuthorizer } from '../../domain/model/authentication/authorizer';
 
-export class JWTDoctorAuthorizer implements IAuthorizer<Request, Response, NextFunction> {
+export class JWTPatientAuthorizer implements IAuthorizer<Request, Response, NextFunction> {
   constructor(
     private getUserSessionService: GetUserSessionService,
     private config: Configuration
@@ -23,13 +23,12 @@ export class JWTDoctorAuthorizer implements IAuthorizer<Request, Response, NextF
       const payload: Payload = jwt.verify(token, this.config.JWT_SECRET!) as Payload;
 
       const userSession = await this.getUserSessionService.invoke(payload.sessionId);
-      console.log(userSession?.userId, payload.userId);
 
       if (!userSession || userSession.userId !== payload.userId) {
         throw new HTTP401Error();
       }
 
-      if (payload.role === USER_ROLES.PHYSIO && payload.scopes.includes(TokenScope.PHYSIO_ACCESS)) {
+      if (payload.role === USER_ROLES.PATIENT && payload.scopes.includes(TokenScope.PATIENT_ACCESS)) {
         req.body.user = payload;
         return next();
       } else {

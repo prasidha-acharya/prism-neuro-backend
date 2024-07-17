@@ -36,7 +36,8 @@ import { UserTransformer } from '../../../contexts/prism-neuro/users/domain/tran
 import { PrismaUserRepository } from '../../../contexts/prism-neuro/users/infrastructure/repositories/prisma-users-repository';
 import { CreateAdminSeeder } from '../../../contexts/prism-neuro/users/infrastructure/seeders/create-admin.seeder';
 import { JWTAdminAuthorizer } from '../../../contexts/shared/infrastructure/authorizer/admin.authorizer';
-import { JWTDoctorAuthorizer } from '../../../contexts/shared/infrastructure/authorizer/doctor.authorizer';
+import { JWTPatientAuthorizer } from '../../../contexts/shared/infrastructure/authorizer/patient.authorizer';
+import { JWTPhysioTherapistAuthorizer } from '../../../contexts/shared/infrastructure/authorizer/physio.authorizer';
 import { RefreshAuthorizer } from '../../../contexts/shared/infrastructure/authorizer/refresh.authorizer';
 import { JWTUserAuthorizer } from '../../../contexts/shared/infrastructure/authorizer/user.authorizer';
 import { SendPasswordToUserService } from '../../../contexts/shared/infrastructure/mail/application/send-password.service';
@@ -50,11 +51,6 @@ import { ModeTransformer } from '../../../contexts/shared/infrastructure/transfo
 import { StatisticsTransformer } from '../../../contexts/shared/infrastructure/transformer/statistics-transformer';
 import { ServerLogger } from '../../../contexts/shared/infrastructure/winston-logger/index';
 import * as controller from './controllers';
-import { GetAllPatientActivityController } from './controllers/admin/activity/get-user.activity.controller';
-import { StartModeSessionController } from './controllers/mode-session/start-mode-session.controller';
-import { GetModeTrialBySessionController } from './controllers/mode-trial/get-mode-trial.controller';
-import { GetModesController } from './controllers/mode/get-modes.controller';
-import { GetAllPatientListsWithSessionController } from './controllers/physio/get-patient-lists.controller';
 import { Router } from './router';
 import { masterRouter } from './routes/routes';
 import { Server } from './server';
@@ -77,7 +73,13 @@ const {
   StartModeTrialController,
   GetModeSessionOfPatientController,
   GetTotalUsersController,
-  GetModeAnalyticsController
+  GetModeAnalyticsController,
+  GetModesController,
+  GetModeTrialBySessionController,
+  StartModeSessionController,
+  GetAllPatientActivityController,
+  GetAllPatientListsWithSessionController,
+  GetModeSessionActivityOfPatientController
 } = controller;
 export class Container {
   private readonly container: AwilixContainer;
@@ -130,8 +132,9 @@ export class Container {
       .register({
         adminAuthorizer: asClass(JWTAdminAuthorizer).singleton(),
         userAuthorizer: asClass(JWTUserAuthorizer).singleton(),
-        physioAuthorizer: asClass(JWTDoctorAuthorizer).singleton(),
-        generateAccessTokenController: asClass(GenerateAccessTokenController).singleton()
+        physioAuthorizer: asClass(JWTPhysioTherapistAuthorizer).singleton(),
+        generateAccessTokenController: asClass(GenerateAccessTokenController).singleton(),
+        patientAuthorizer: asClass(JWTPatientAuthorizer).singleton()
       })
       // user session
       .register({
@@ -195,7 +198,8 @@ export class Container {
         getSessionOfPateintService: asClass(GetSessionOfPateintService).singleton(),
         getModeSessionOfPatientController: asClass(GetModeSessionOfPatientController),
         getModesService: asClass(GetModesService).singleton(),
-        getModesController: asClass(GetModesController)
+        getModesController: asClass(GetModesController),
+        getModeSessionActivityOfPatientController: asClass(GetModeSessionActivityOfPatientController)
       })
       //mode trial session
       .register({

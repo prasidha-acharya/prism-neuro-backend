@@ -1,10 +1,16 @@
 import { Router } from 'express';
+import { JWTPatientAuthorizer } from 'src/contexts/shared/infrastructure/authorizer/patient.authorizer';
 import * as controllers from '../../controllers/index';
 
 interface IHandler {
   loginPatientController: controllers.LoginPatientController;
+  getModeSessionActivityOfPatientController: controllers.GetModeSessionActivityOfPatientController;
 }
-export const PatientRoutesHandler = ({ loginPatientController }: IHandler, router: Router): Router => {
+export const PatientRoutesHandler = (
+  { loginPatientController, getModeSessionActivityOfPatientController }: IHandler,
+  patientAuthorizer: JWTPatientAuthorizer,
+  router: Router
+): Router => {
   router.post(
     '/patient/login',
     loginPatientController.invoke.bind(loginPatientController)
@@ -33,6 +39,51 @@ export const PatientRoutesHandler = ({ loginPatientController }: IHandler, route
       }
     }
     */
+  );
+
+  router.get(
+    '/patient/activity/:modeId',
+    patientAuthorizer.authorize,
+    getModeSessionActivityOfPatientController.invoke.bind(getModeSessionActivityOfPatientController)
+    /*
+    #swagger.security =[{
+    "bearerAuth":[]
+    }]
+    #swagger.tags =['Patient']
+    #swagger.summary = 'Patient Activity / History'
+    #swagger.description = 'Patient can view their activity'
+
+      #swagger.parameters['search'] = {
+    in:"query",
+    type:"number",
+    }
+
+      #swagger.parameters['startDate'] = {
+    in:"query",
+    type:"string",
+    }
+
+    #swagger.parameters['endDate'] = {
+    in:"query",
+    type:"string",
+    }
+
+    #swagger.parameters['limit'] = {
+    in:"query",
+    type:"number",
+    }
+    
+    #swagger.parameters['page'] = {
+    in:"query",
+    type:"number",
+    }
+
+     #swagger.responses[200]  = {
+      schema: {
+        $ref: "#/components/schemas/getModeSessionOfPatientResponse"
+      }
+    }
+     */
   );
   return router;
 };
