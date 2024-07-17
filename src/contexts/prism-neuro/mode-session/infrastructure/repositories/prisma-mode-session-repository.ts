@@ -4,6 +4,7 @@ import {
   ICreateModeSessionRequest,
   IGetModeSessionRequest,
   IGetModeTrialsOfPatientRequest,
+  IPrismaModeSessionOfPhysioAndPatientReponse,
   IUpdateModeSessionRequest
 } from '../../domain/interface/mode-session-request.interface';
 import { IModeSessionRepository } from '../../domain/repositories/mode-session-repository';
@@ -89,11 +90,12 @@ export class PrismaModeSessionRepository implements IModeSessionRepository {
     };
   }
 
-  getModeSessionOfPhysioAndPatient(request: IGetModeSessionRequest): Promise<ModeSession | null> {
+  getModeSessionOfPhysioAndPatient(request: IGetModeSessionRequest): Promise<IPrismaModeSessionOfPhysioAndPatientReponse | null> {
     return this.db.modeSession.findFirst({
       where: {
         ...request
-      }
+      },
+      include: { modeTrialSession: true }
     });
   }
 

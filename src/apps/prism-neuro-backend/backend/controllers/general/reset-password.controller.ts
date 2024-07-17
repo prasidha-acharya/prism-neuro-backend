@@ -58,7 +58,7 @@ export class ResetPasswordController implements Controller {
     next: NextFunction
   ): Promise<void> {
     try {
-      const { email, newPassword, otp } = req.body;
+      const { email, password, otp } = req.body;
 
       const user = await this.getAdminByEmailService.invoke({ email });
 
@@ -70,11 +70,11 @@ export class ResetPasswordController implements Controller {
 
       if (!otpReponse) throw new HTTP404Error(MESSAGE_CODES.USER.INVALID_OTP);
 
-      await this.resetPasswordService.invoke({ email, data: { password: hashPassword(newPassword) } });
+      await this.resetPasswordService.invoke({ email, data: { password: hashPassword(password) } });
 
       await this.deleteOTPService.invoke(otpReponse.id!, otpReponse.type!);
 
-      res.status(httpStatus.OK).send();
+      res.status(httpStatus.OK).json({ status: 'SUCCESS' });
     } catch (error) {
       next(error);
     }

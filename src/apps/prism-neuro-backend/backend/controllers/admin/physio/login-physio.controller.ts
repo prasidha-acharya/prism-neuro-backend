@@ -40,7 +40,7 @@ export class LoginDoctorController implements Controller {
       const user = await this.getAdminByEmailService.invoke({ email, role: USER_ROLES.PHYSIO });
 
       if (!user || (user && !comparePassword(password, user.password!))) {
-        res.status(httpStatus.UNPROCESSABLE_ENTITY).send({ message: MESSAGE_CODES.USER.INVALID_CREDENTIALS });
+        res.status(httpStatus.UNPROCESSABLE_ENTITY).json({ message: MESSAGE_CODES.USER.INVALID_CREDENTIALS, status: 'ERROR' });
         return;
       }
 
@@ -71,11 +71,12 @@ export class LoginDoctorController implements Controller {
 
       const userDetail = this.userTransformer.loginLists(user);
 
-      res.status(httpStatus.OK).send({
+      res.status(httpStatus.OK).json({
         data: {
           token: jwtToken,
           userDetail
-        }
+        },
+        status: 'SUCCESS'
       });
     } catch (error) {
       next(error);

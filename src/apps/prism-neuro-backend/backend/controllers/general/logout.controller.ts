@@ -28,7 +28,7 @@ export class UserLogoutController implements Controller {
 
       await this.deleteUserSessionService.invoke(sessionId);
 
-      res.status(httpStatus.OK).send();
+      res.status(httpStatus.OK).json({ status: 'SUCCESS' });
     } catch (error) {
       next(error);
     }

@@ -18,7 +18,7 @@ export class ChangePasswordController implements Controller {
       const { newPassword } = req.body;
       const { userId } = req.body.user;
       await this.changePasswordService.invoke({ data: { password: hashPassword(newPassword) }, userId });
-      res.status(httpStatus.OK).send();
+      res.status(httpStatus.OK).json({ status: 'SUCCESS' });
     } catch (error) {
       next(error);
     }

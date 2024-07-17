@@ -13,6 +13,10 @@ import { IModeRepository } from '../../domain/repositories/mode-repository';
 export class PrismaModeRepository implements IModeRepository {
   constructor(private db: PrismaClient) {}
 
+  getModes(): Promise<Mode[] | null> {
+    return this.db.mode.findMany();
+  }
+
   getAllModes({ startDate, endDate, patientId, physioId }: IGetAllModesRequest): Promise<Mode[] | null> {
     return this.db.mode.findMany({
       where: {

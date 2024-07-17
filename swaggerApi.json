@@ -937,6 +937,23 @@
         ]
       }
     },
+    "/modes": {
+      "get": {
+        "tags": ["Mode"],
+        "summary": "Fetch modes",
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
     "/patient/login": {
       "post": {
         "tags": ["Patient"],

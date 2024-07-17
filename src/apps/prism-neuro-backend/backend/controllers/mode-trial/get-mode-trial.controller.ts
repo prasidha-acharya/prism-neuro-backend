@@ -13,8 +13,9 @@ export class GetModeTrialBySessionController implements Controller {
     try {
       const response = await this.getModeTrialsBySessionService.invoke({ modeId, modeSessionId });
 
-      res.status(httpStatus.ACCEPTED).send({
-        data: response
+      res.status(httpStatus.OK).json({
+        data: response,
+        status: 'SUCCESS'
       });
     } catch (error) {
       next(error);

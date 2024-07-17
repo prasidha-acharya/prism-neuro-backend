@@ -24,7 +24,7 @@ export class GetAllPatientListsWithSessionController implements Controller {
 
       const response = await this.getUsersService.invoke({ ...params, role: USER_ROLES.PATIENT, createdBy: physioId });
 
-      res.status(httpStatus.ACCEPTED).send({ data: this.userTransformer.patientListsByPhysio(response) });
+      res.status(httpStatus.ACCEPTED).json({ data: this.userTransformer.patientListsByPhysio(response), status: 'SUCCESS' });
     } catch (error) {
       next(error);
     }

@@ -15,7 +15,7 @@ export class ErrorMiddleware {
   public clientErrorHandler = (err: Error, req: Request, res: Response, next: NextFunction): void => {
     if (err instanceof HTTPClientError) {
       this.logger.error(`${req.method.toUpperCase()}: ${req.path}  client errror ${err.message}`);
-      res.status(err.statusCode).send({ message: err.message });
+      res.status(err.statusCode).json({ message: err.message, status: 'ERROR' });
     } else {
       next(err);
     }
@@ -23,6 +23,6 @@ export class ErrorMiddleware {
 
   public InternalServerError = (err: Error, _req: Request, res: Response, _next: NextFunction): Response => {
     this.logger.error(err.message);
-    return res.status(httpStatus.INTERNAL_SERVER_ERROR).send({ message: MESSAGE_CODES.INTERNAL_SERVER_ERROR });
+    return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({ message: MESSAGE_CODES.INTERNAL_SERVER_ERROR, status: 'ERROR' });
   };
 }

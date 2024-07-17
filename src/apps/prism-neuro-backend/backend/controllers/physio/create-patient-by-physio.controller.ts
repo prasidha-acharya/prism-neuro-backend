@@ -38,7 +38,7 @@ export class CreatePatientByPhysioController implements Controller {
   ];
 
   async invoke(req: Request, res: Response, next: NextFunction): Promise<void> {
-    const { address, firstName, lastName, email, age, weight, phoneCode, phoneNumber } = req.body.patient;
+    const { address, firstName, lastName, email, age, weight, phoneCode, phoneNumber } = JSON.parse(req.body.patient);
 
     const { userId } = req.body.user;
 
@@ -77,7 +77,7 @@ export class CreatePatientByPhysioController implements Controller {
       await this.createPatientByPhysioService.invoke({ data, address, detail });
       //send password  to the patient
       await this.sendPasswordToUserService.invoke({ email, password });
-      res.status(httpStatus.CREATED).send();
+      res.status(httpStatus.CREATED).json({ status: 'SUCCESS' });
     } catch (error) {
       next(error);
     }

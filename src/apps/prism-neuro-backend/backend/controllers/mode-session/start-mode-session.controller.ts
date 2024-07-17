@@ -57,8 +57,9 @@ export class StartModeSessionController implements Controller {
     try {
       const response = await this.startModeSessionService.invoke({ patientId, physioId, status: MODE_SESSION_STATUS.START });
 
-      res.status(httpStatus.OK).send({
-        data: response
+      res.status(httpStatus.OK).json({
+        data: response,
+        status: 'SUCCESS'
       });
     } catch (error) {
       next(error);

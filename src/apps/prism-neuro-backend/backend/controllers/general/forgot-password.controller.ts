@@ -65,7 +65,7 @@ export class ForgotPasswordController implements Controller {
       await this.forgotPasswordService.invoke({ otpCode, expiresAt, type: OTP_TYPE.RESET_PASSWORD }, user.id);
 
       //send otp to user
-      res.status(httpStatus.OK).send();
+      res.status(httpStatus.OK).json({ status: 'SUCCESS' });
     } catch (error) {
       next(error);
     }

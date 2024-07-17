@@ -64,7 +64,7 @@ export class EndModeTrialController implements Controller {
         id: modeTrialId,
         modeId
       });
-      res.status(httpStatus.OK).send();
+      res.status(httpStatus.OK).json({ status: 'SUCCESS' });
     } catch (error) {
       next(error);
     }

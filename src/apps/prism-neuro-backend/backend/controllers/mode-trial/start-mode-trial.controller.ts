@@ -37,7 +37,6 @@ export class StartModeTrialController implements Controller {
         if (!modeResponse) {
           throw new HTTP404Error(MESSAGE_CODES.MODE.MODE_SESSION_NOT_FOUND);
         }
-        console.log(modeResponse, value, '====', value >= 1 && value <= modeResponse.trialCount);
 
         if (!(value >= 1 && value <= modeResponse.trialCount)) {
           throw new HTTP400Error(MESSAGE_CODES.MODE.INVALID_TRIAL_NUMBER);
@@ -49,12 +48,28 @@ export class StartModeTrialController implements Controller {
     body('sessionId')
       .exists()
       .withMessage(MESSAGE_CODES.MODE.REQUIRED_SESSION_ID)
-      .custom(async value => {
-        const modeSesion = await this.getModeSessionOfPhysioAndPatientService.invoke({ id: value, status: MODE_SESSION_STATUS.START });
+      .custom(async (value, { req }) => {
+        const modeSesion = await this.getModeSessionOfPhysioAndPatientService.invoke({
+          id: value,
+          status: MODE_SESSION_STATUS.START
+        });
+
+        const trial_id = req?.body?.trialId;
+
+        const checkIfTrialAlreadyExists =
+          trial_id &&
+          modeSesion?.modeTrialSession.find(({ trialId }) => {
+            trialId === trial_id;
+          });
 
         if (!modeSesion) {
           throw new HTTP400Error(MESSAGE_CODES.MODE.SESSION_IS_NOT_STARTED);
         }
+
+        if (checkIfTrialAlreadyExists) {
+          throw new HTTP400Error(MESSAGE_CODES.MODE.TRIAL_IS_NOT_COMPLETED);
+        }
+
         return true;
       }),
     RequestValidator
@@ -64,15 +79,13 @@ export class StartModeTrialController implements Controller {
     const { trialId, startTime, sessionId } = req.body;
     const modeId = req.params.modeId as string;
 
-    console.log({ trialId, startTime, sessionId, modeId });
-
     try {
       // update modeId  in mode session
       await this.updateModeSessionService.invoke({ modeId }, sessionId);
 
       await this.startModeTrialService.invoke({ trialId, startTime, modeId, modeSessionId: sessionId });
 
-      res.status(httpStatus.CREATED).send();
+      res.status(httpStatus.CREATED).json({ status: 'SUCCESS' });
     } catch (error) {
       next(error);
     }
