@@ -37,3 +37,7 @@ export interface IPrismaModeSessionRequest extends ModeSession {
   physio: IPrismaUserResponse;
   patient: IPrismaUserResponse;
 }
+
+export interface IPrismaModeSessionOfPhysioAndPatientReponse extends ModeSession {
+  modeTrialSession: ModeTrialSession[];
+}

@@ -36,6 +36,7 @@ export const modeSessionRoutesHandler = (
   router.put(
     '/mode/session-end/:patientId',
     physioAuthorizer.authorize,
+    endModeSessionController.validate,
     endModeSessionController.invoke.bind(endModeSessionController)
     /* 
      #swagger.security = [{
