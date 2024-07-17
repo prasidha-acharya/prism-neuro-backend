@@ -12,6 +12,7 @@ import { userRoutesHandler } from './admin/user.routes';
 import { physioRoutesHandler } from './doctor/doctor.routes';
 import { modeSessionRoutesHandler } from './mode-session/mode-session.routes';
 import { modeTrialRoutesHandler } from './mode-trial/mode-trial.routes';
+import { modeRoutesHandler } from './mode/mode.routes';
 import { PatientRoutesHandler } from './patient/patient.routes';
 
 export const masterRouter = (
@@ -40,6 +41,7 @@ export const masterRouter = (
   getAllPatientActivityController: controllers.GetAllPatientActivityController,
   getTotalUsersController: controllers.GetTotalUsersController,
   getModeAnalyticsController: controllers.GetModeAnalyticsController,
+  getModesController: controllers.GetModesController,
   refreshAuthorizer: RefreshAuthorizer,
   userAuthorizer: JWTUserAuthorizer,
   physioAuthorizer: JWTDoctorAuthorizer
@@ -104,6 +106,8 @@ export const masterRouter = (
     adminAuthorizer,
     apiRouter
   );
+
+  modeRoutesHandler({ getModesController }, userAuthorizer, apiRouter);
 
   return apiRouter;
 };
