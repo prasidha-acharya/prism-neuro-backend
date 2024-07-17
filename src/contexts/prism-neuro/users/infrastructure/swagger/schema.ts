@@ -19,9 +19,28 @@ const updatePhysioRequest = {
     address: 'Kapan'
   }
 };
+const trials = {
+  id: 'string',
+  trialId: 'number',
+  result: 'number | null'
+};
+
+const pagination = {
+  limit: 10,
+  total: 13,
+  totalPages: 2,
+  currentPage: 1,
+  isFirstPage: true,
+  isLastPage: false
+};
 
 const successReponse = {
   status: 'SUCCESS'
+};
+
+const getModeSessionOfPatientResponse = {
+  data: { data: { id: 'string', createdAt: 'Date', trials }, pagination },
+  ...successReponse
 };
 
 export const loginAdminReponse = {
@@ -47,4 +66,10 @@ export const loginAdminReponse = {
   ...successReponse
 };
 
-export const AdminSchema = { createDoctorRequest, loginAdminReponse, successReponse, updatePhysioRequest };
+export const AdminSchema = {
+  createDoctorRequest,
+  loginAdminReponse,
+  successReponse,
+  updatePhysioRequest,
+  getModeSessionOfPatientResponse
+};

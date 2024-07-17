@@ -78,7 +78,11 @@ export const PatientRoutesHandler = (
     type:"number",
     }
 
-    #swagger.reponses [200] 
+     #swagger.responses[200]  = {
+      schema: {
+        $ref: "#/components/schemas/getModeSessionOfPatientResponse"
+      }
+    }
      */
   );
   return router;

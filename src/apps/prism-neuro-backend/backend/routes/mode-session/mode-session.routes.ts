@@ -105,8 +105,11 @@ export const modeSessionRoutesHandler = (
     type:"number",
     }
    
-      #swagger.response ['202'] = {}
-      
+     #swagger.responses[200]  = {
+      schema: {
+        $ref: "#/components/schemas/getModeSessionOfPatientResponse"
+      }
+    }
     */
   );
 
