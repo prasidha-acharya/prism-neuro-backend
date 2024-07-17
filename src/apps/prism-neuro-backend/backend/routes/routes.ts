@@ -4,8 +4,10 @@ import { JWTDoctorAuthorizer } from '../../../../contexts/shared/infrastructure/
 import { RefreshAuthorizer } from '../../../../contexts/shared/infrastructure/authorizer/refresh.authorizer';
 import { JWTUserAuthorizer } from '../../../../contexts/shared/infrastructure/authorizer/user.authorizer';
 import * as controllers from '../controllers';
+import { activityRoutesHandler } from './admin/activity.routes';
 import { adminPhysioRoutesHandler } from './admin/admin-physio.routes';
 import { adminAuthRoutesHandler } from './admin/auth.routes';
+import { statisticsRoutesHandler } from './admin/statistics.routes';
 import { userRoutesHandler } from './admin/user.routes';
 import { physioRoutesHandler } from './doctor/doctor.routes';
 import { modeSessionRoutesHandler } from './mode-session/mode-session.routes';
@@ -34,6 +36,10 @@ export const masterRouter = (
   startModeTrialController: controllers.StartModeTrialController,
   getModeTrialBySessionController: controllers.GetModeTrialBySessionController,
   getAllPatientListsWithSessionController: controllers.GetAllPatientListsWithSessionController,
+  getModeSessionOfPatientController: controllers.GetModeSessionOfPatientController,
+  getAllPatientActivityController: controllers.GetAllPatientActivityController,
+  getTotalUsersController: controllers.GetTotalUsersController,
+  getModeAnalyticsController: controllers.GetModeAnalyticsController,
   refreshAuthorizer: RefreshAuthorizer,
   userAuthorizer: JWTUserAuthorizer,
   physioAuthorizer: JWTDoctorAuthorizer
@@ -51,6 +57,11 @@ export const masterRouter = (
     adminAuthorizer,
     apiRouter
   );
+
+  activityRoutesHandler({ getAllPatientActivityController }, adminAuthorizer, apiRouter);
+
+  statisticsRoutesHandler({ getTotalUsersController, getModeAnalyticsController }, adminAuthorizer, apiRouter);
+
   adminAuthRoutesHandler({ loginAdminController }, apiRouter);
   physioRoutesHandler(
     {
@@ -77,8 +88,22 @@ export const masterRouter = (
     apiRouter
   );
 
-  modeSessionRoutesHandler({ endModeSessionController, startModeSessionController }, physioAuthorizer, apiRouter);
-  modeTrialRoutesHandler({ endModeTrialController, startModeTrialController, getModeTrialBySessionController }, physioAuthorizer, apiRouter);
+  modeSessionRoutesHandler(
+    { endModeSessionController, startModeSessionController, getModeSessionOfPatientController },
+    physioAuthorizer,
+    adminAuthorizer,
+    apiRouter
+  );
+  modeTrialRoutesHandler(
+    {
+      endModeTrialController,
+      startModeTrialController,
+      getModeTrialBySessionController
+    },
+    physioAuthorizer,
+    adminAuthorizer,
+    apiRouter
+  );
 
   return apiRouter;
 };

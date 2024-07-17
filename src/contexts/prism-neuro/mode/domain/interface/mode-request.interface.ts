@@ -24,3 +24,10 @@ export interface IGetModeByTypeRequest {
 export interface IGetModeByIdRequest {
   modeId: string;
 }
+
+export interface IGetAllModesRequest {
+  startDate: Date;
+  endDate: Date;
+  physioId?: string;
+  patientId?: string;
+}

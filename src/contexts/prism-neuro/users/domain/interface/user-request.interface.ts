@@ -7,19 +7,25 @@ export interface IGetUserRequest {
 export interface ICreateAdmin {
   email: string;
   password: string;
-  // userName: string;
   address: string;
+  phoneNumber?: string;
+  phoneCode?: string;
 }
 
 export interface ICreateAdminRequest extends ICreateAdmin {
   role: USER_ROLES;
 }
 
+interface IUserDetail {
+  phoneNumber?: string;
+  phoneCode?: string;
+  profileURL?: string;
+}
 export interface ICreateDoctorRequest extends ICreateAdmin {
   role: USER_ROLES;
   firstName: string;
   lastName: string;
-  createdBy: string;
+  userDetail: IUserDetail;
 }
 
 export interface ICreatePatientRequest extends ICreateAdmin {
@@ -30,10 +36,12 @@ export interface ICreatePatientRequest extends ICreateAdmin {
 
 export interface IUpdateDoctorRequest {
   id: string;
-  data: {
-    firstName: string;
-    lastName: string;
+  data?: {
+    firstName?: string;
+    lastName?: string;
   };
+  address?: string;
+  userDetail?: IUserDetail;
 }
 
 export interface IFogotPasswordRequest {
@@ -109,4 +117,10 @@ export interface IUpdatePatientRequest {
 export interface IGetUserByRoleRequest {
   role: USER_ROLES;
   userId: string;
+}
+
+export interface IGetTotalUsersRequest {
+  role?: USER_ROLES;
+  startDate: Date;
+  endDate: Date;
 }

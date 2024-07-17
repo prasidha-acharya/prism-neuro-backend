@@ -4,6 +4,7 @@ import {
   ICreateLeftRightMode,
   ICreateTargetModeRequest,
   ICreateVisualBalanceModeRequest,
+  IGetAllModesRequest,
   IGetModeByIdRequest,
   IGetModeByTypeRequest
 } from '../interface/mode-request.interface';
@@ -15,4 +16,5 @@ export interface IModeRepository {
   createVisualBalanceMode(request: ICreateVisualBalanceModeRequest, instructions: string[]): Promise<void>;
   getModeByType(request: IGetModeByTypeRequest): Promise<Mode | null>;
   getModeById(request: IGetModeByIdRequest): Promise<Mode | null>;
+  getAllModes(request: IGetAllModesRequest): Promise<Mode[] | null>;
 }

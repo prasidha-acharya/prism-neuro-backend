@@ -33,25 +33,29 @@ enum USER_ROLES {
 }
 
 model User {
-  id            String         @id @default(uuid())
-  email         String         @unique
-  userName      String?
-  firstName     String?
-  lastName      String?
-  password      String
-  createdAt     DateTime       @default(now())
-  updatedAt     DateTime       @updatedAt
-  deletedAt     DateTime?
-  firstLogin    Boolean        @default(true)
-  role          USER_ROLES
-  loginSessions LoginSession[]
-  createdBy     String?
-  otp           Otp?
+  id                 String         @id @default(uuid())
+  email              String         @unique
+  userName           String?
+  firstName          String?
+  lastName           String?
+  password           String
+  createdAt          DateTime       @default(now())
+  updatedAt          DateTime       @updatedAt
+  deletedAt          DateTime?
+  firstLogin         Boolean        @default(true)
+  role               USER_ROLES
+  loginSessions      LoginSession[]
+  createdBy          String?
+  otp                Otp?
   // mode          Mode[]
-  userAddress   UserAddress[]
-  userDetail    UserDetail?
-  physio        ModeSession[]  @relation("physio")
-  patient       ModeSession[]  @relation("patient")
+  userAddress        UserAddress[]
+  userDetail         UserDetail?
+  physioModeSession  ModeSession[]  @relation("physioModeSession")
+  patientModeSession ModeSession[]  @relation("patientModeSession")
+
+  // 
+  physioTherapist User?  @relation("PhysioPatients", fields: [createdBy], references: [id])
+  patients        User[] @relation("PhysioPatients")
 }
 
 model UserDetail {
@@ -93,8 +97,8 @@ enum MODE_SESSION_STATUS {
 model ModeSession {
   id               String              @id @default(uuid())
   patientId        String
-  physio           User                @relation(fields: [physioId], name: "physio", references: [id])
-  patient          User                @relation(fields: [patientId], name: "patient", references: [id])
+  physio           User                @relation(fields: [physioId], name: "physioModeSession", references: [id])
+  patient          User                @relation(fields: [patientId], name: "patientModeSession", references: [id])
   physioId         String
   modeId           String?
   status           MODE_SESSION_STATUS
@@ -122,7 +126,7 @@ model Mode {
   updatedAt        DateTime           @updatedAt
   deletedAt        DateTime?          @db.Timestamptz()
   modeDetail       ModeDetail?
-  ModeTrialSession ModeTrialSession[]
+  modeTrialSession ModeTrialSession[]
   // user             User?              @relation(fields: [userId], references: [id])
   // userId           String?
 }

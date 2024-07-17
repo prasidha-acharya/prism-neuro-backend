@@ -4,6 +4,7 @@ import {
   ICreateLeftRightMode,
   ICreateTargetModeRequest,
   ICreateVisualBalanceModeRequest,
+  IGetAllModesRequest,
   IGetModeByIdRequest,
   IGetModeByTypeRequest
 } from '../../domain/interface/mode-request.interface';
@@ -11,6 +12,31 @@ import { IModeRepository } from '../../domain/repositories/mode-repository';
 
 export class PrismaModeRepository implements IModeRepository {
   constructor(private db: PrismaClient) {}
+
+  getAllModes({ startDate, endDate, patientId, physioId }: IGetAllModesRequest): Promise<Mode[] | null> {
+    return this.db.mode.findMany({
+      where: {
+        createdAt: {
+          gte: startDate,
+          lte: endDate
+        },
+        modeTrialSession: {
+          some: {
+            modeSession: {
+              patientId,
+              physioId
+            }
+          }
+        }
+      },
+      include: {
+        modeTrialSession: true
+      },
+      orderBy: {
+        createdAt: 'desc'
+      }
+    });
+  }
 
   getModeById({ modeId }: IGetModeByIdRequest): Promise<Mode | null> {
     return this.db.mode.findFirst({ where: { id: modeId } });

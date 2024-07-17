@@ -1,10 +1,12 @@
 import { AwilixContainer, InjectionMode, asClass, asFunction, asValue, createContainer } from 'awilix';
 import { config } from '../../../../config';
 import { EndModeSessionService } from '../../../contexts/prism-neuro/mode-session/application/end-session.service';
+import { GetSessionOfPateintService } from '../../../contexts/prism-neuro/mode-session/application/get-session-of-patient.service';
 import { GetModeSessionOfPhysioAndPatientService } from '../../../contexts/prism-neuro/mode-session/application/get-session.service';
 import { StartModeSessionService } from '../../../contexts/prism-neuro/mode-session/application/start-session.service';
 import { UpdateModeSessionService } from '../../../contexts/prism-neuro/mode-session/application/update-session.service';
 import { PrismaModeSessionRepository } from '../../../contexts/prism-neuro/mode-session/infrastructure/repositories/prisma-mode-session-repository';
+import { GetAllModesService } from '../../../contexts/prism-neuro/mode/application/get-all-mode.service';
 import { GetModeByIdService } from '../../../contexts/prism-neuro/mode/application/get-mode-by-id.service';
 import { PrismaModeRepository } from '../../../contexts/prism-neuro/mode/infrastructure/repositories/prisma-mode-repository';
 import { CreateModeSeeder } from '../../../contexts/prism-neuro/mode/infrastructure/seeders/create-mode.seeder';
@@ -22,6 +24,7 @@ import { DeleteUserSessionService } from '../../../contexts/prism-neuro/users/ap
 import { ForgotPasswordService } from '../../../contexts/prism-neuro/users/application/forgot-password.service';
 import { GetAdminByEmailService } from '../../../contexts/prism-neuro/users/application/get-admin-email.service';
 import { GetOtpService } from '../../../contexts/prism-neuro/users/application/get-otp.service';
+import { GetTotalUsersService } from '../../../contexts/prism-neuro/users/application/get-total-users.service';
 import { GetUserByRoleService } from '../../../contexts/prism-neuro/users/application/get-user-by-role.service';
 import { GetUserSessionService } from '../../../contexts/prism-neuro/users/application/get-user-session.service';
 import { GetUsersService } from '../../../contexts/prism-neuro/users/application/get-users.service';
@@ -41,8 +44,12 @@ import { PrismaMailerRepository } from '../../../contexts/shared/infrastructure/
 import { ErrorMiddleware } from '../../../contexts/shared/infrastructure/middleware/error-middleware';
 import { createPrismaClient } from '../../../contexts/shared/infrastructure/persistence/prisma';
 import { RequestLogger } from '../../../contexts/shared/infrastructure/request-logs/request-logger';
+import { ActivityTransformer } from '../../../contexts/shared/infrastructure/transformer/activity-transformer';
+import { ModeTransformer } from '../../../contexts/shared/infrastructure/transformer/mode-transformer';
+import { StatisticsTransformer } from '../../../contexts/shared/infrastructure/transformer/statistics-transformer';
 import { ServerLogger } from '../../../contexts/shared/infrastructure/winston-logger/index';
 import * as controller from './controllers';
+import { GetAllPatientActivityController } from './controllers/admin/activity/get-user.activity.controller';
 import { StartModeSessionController } from './controllers/mode-session/start-mode-session.controller';
 import { GetModeTrialBySessionController } from './controllers/mode-trial/get-mode-trial.controller';
 import { GetAllPatientListsWithSessionController } from './controllers/physio/get-patient-lists.controller';
@@ -65,7 +72,10 @@ const {
   ResetPasswordController,
   CreatePatientByPhysioController,
   EndModeTrialController,
-  StartModeTrialController
+  StartModeTrialController,
+  GetModeSessionOfPatientController,
+  GetTotalUsersController,
+  GetModeAnalyticsController
 } = controller;
 export class Container {
   private readonly container: AwilixContainer;
@@ -152,7 +162,10 @@ export class Container {
       .register({
         getAllUsersController: asClass(controller.GetAllUsersController),
         getAllPatientListByPhysioIdController: asClass(GetAllPatientListByPhysioIdController),
-        getUserByRoleService: asClass(GetUserByRoleService).singleton()
+        getUserByRoleService: asClass(GetUserByRoleService).singleton(),
+        getAllPatientActivityController: asClass(GetAllPatientActivityController),
+        getTotalUsersService: asClass(GetTotalUsersService).singleton(),
+        getTotalUsersController: asClass(GetTotalUsersController)
       })
       //doctor
       .register({
@@ -167,6 +180,8 @@ export class Container {
       // mode
       .register({
         prismaModeRepository: asClass(PrismaModeRepository),
+        getAllModesService: asClass(GetAllModesService),
+        getModeAnalyticsController: asClass(GetModeAnalyticsController),
         getModeByIdService: asClass(GetModeByIdService).singleton(),
         prismaModeSessionRepository: asClass(PrismaModeSessionRepository),
         startModeSessionService: asClass(StartModeSessionService).singleton(),
@@ -174,7 +189,9 @@ export class Container {
         startModeSessionController: asClass(StartModeSessionController),
         updateModeSessionService: asClass(UpdateModeSessionService).singleton(),
         endModeSessionController: asClass(controller.EndModeSessionController),
-        getModeSessionOfPhysioAndPatientService: asClass(GetModeSessionOfPhysioAndPatientService).singleton()
+        getModeSessionOfPhysioAndPatientService: asClass(GetModeSessionOfPhysioAndPatientService).singleton(),
+        getSessionOfPateintService: asClass(GetSessionOfPateintService).singleton(),
+        getModeSessionOfPatientController: asClass(GetModeSessionOfPatientController)
       })
       //mode trial session
       .register({
@@ -191,7 +208,10 @@ export class Container {
         imageUploadService: asClass(ImageUploadService).singleton()
       })
       .register({
-        userTransformer: asClass(UserTransformer)
+        userTransformer: asClass(UserTransformer),
+        statisticsTransformer: asClass(StatisticsTransformer),
+        modeTransformer: asClass(ModeTransformer),
+        activityTransformer: asClass(ActivityTransformer)
       });
   }
 

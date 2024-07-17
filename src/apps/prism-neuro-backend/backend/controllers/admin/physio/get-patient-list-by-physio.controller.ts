@@ -4,10 +4,14 @@ import { ParamsDictionary } from 'express-serve-static-core';
 import httpStatus from 'http-status';
 import { ParsedQs } from 'qs';
 import { GetUsersService } from '../../../../../../contexts/prism-neuro/users/application/get-users.service';
+import { UserTransformer } from '../../../../../../contexts/prism-neuro/users/domain/transformer/user-transformer';
 import { Controller } from '../../controller';
 
 export class GetAllPatientListByPhysioIdController implements Controller {
-  constructor(private getUsersService: GetUsersService) {}
+  constructor(
+    private getUsersService: GetUsersService,
+    private userTransformer: UserTransformer
+  ) {}
 
   async invoke(
     req: Request<ParamsDictionary, any, any, ParsedQs, Record<string, any>>,
@@ -19,8 +23,8 @@ export class GetAllPatientListByPhysioIdController implements Controller {
       const physioId = req.params.physioId as string;
 
       const response = await this.getUsersService.invoke({ ...params, role: USER_ROLES.PATIENT, createdBy: physioId });
-
-      res.status(httpStatus.ACCEPTED).send({ data: response });
+      const data = this.userTransformer.userListsByAdmin(response.data);
+      res.status(httpStatus.OK).json({ data: { ...response, data }, status: 'SUCCESS' });
     } catch (error) {
       next(error);
     }

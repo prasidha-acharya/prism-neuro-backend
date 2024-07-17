@@ -11,6 +11,7 @@ interface IHandler {
 export const modeTrialRoutesHandler = (
   controller: IHandler,
   physioAuthorizer: IAuthorizer<Request, Response, NextFunction>,
+  adminAuthorizer: IAuthorizer<Request, Response, NextFunction>,
   router: Router
 ): Router => {
   const { startModeTrialController, endModeTrialController, getModeTrialBySessionController } = controller;
@@ -68,11 +69,6 @@ export const modeTrialRoutesHandler = (
     type:"string",
     required:"true"
     }
-       #swagger.parameters['modeId'] = {
-    in:"path",
-    type:"string",
-    required:"true"
-    }
        #swagger.parameters['modeTrialId'] = {
     in:"path",
     type:"string",
@@ -114,13 +110,12 @@ export const modeTrialRoutesHandler = (
     type:"string",
     required:"true"
     }
-       #swagger.parameters['modeSessionId'] = {
+    #swagger.parameters['modeSessionId'] = {
     in:"path",
     type:"string",
     required:"true"
     }
-      #swagger.response ['202'] = {}
-      
+    #swagger.response ['202'] = {}
     */
   );
 

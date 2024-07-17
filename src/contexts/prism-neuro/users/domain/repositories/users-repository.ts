@@ -7,13 +7,14 @@ import {
   IFetchOtpRequest,
   IFetchUsersRequest,
   IFogotPasswordRequest,
+  IGetTotalUsersRequest,
   IGetUserByRoleRequest,
   IGetUserRequest,
   IResetPassword,
   IUpdateDoctorRequest
 } from '../../domain/interface/user-request.interface';
 import { CreateSession } from '../interface/user-session.interface';
-import { IPaginateResponse } from '../interface/user.response.interface';
+import { IGetTotalUsersResponse, IPaginateResponse } from '../interface/user.response.interface';
 
 export interface IPrismaUserRepository {
   createAdmin(request: ICreateAdminRequest): Promise<void>;
@@ -53,6 +54,8 @@ export interface IPrismaUserRepository {
   getPaginatedUsers(request: IFetchUsersRequest): Promise<IPaginateResponse<User>>;
 
   getUserByRole(request: IGetUserByRoleRequest): Promise<User | null>;
+
+  getTotalUsers(request: IGetTotalUsersRequest): Promise<IGetTotalUsersResponse>;
 
   // createPatientByPhysio(request: ICreateAdminRequest): Promise<void>;
 

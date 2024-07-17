@@ -14,113 +14,37 @@
     }
   ],
   "paths": {
-    "/admin/create-physio": {
-      "post": {
-        "tags": ["Admin"],
-        "summary": "Admin creates physio",
-        "description": "",
-        "responses": {
-          "201": {
-            "description": "Created"
-          }
-        },
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/createDoctorRequest"
-              }
-            }
-          }
-        }
-      }
-    },
-    "/admin/physio/{physioId}": {
-      "get": {
-        "tags": ["Admin"],
-        "summary": "Fetch physio data by id",
-        "description": "Endpoint to fetch physio data by id",
-        "parameters": [
-          {
-            "name": "physioId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/loginAdminReponse"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/loginAdminReponse"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "required": ["email", "password"],
-                "properties": {
-                  "email": {
-                    "type": "string",
-                    "format": "email"
-                  },
-                  "password": {
-                    "type": "string",
-                    "minLength": 6
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/admin/physio": {
+    "/admin/activity": {
       "get": {
         "tags": ["Admin"],
         "summary": "Fetch all physio",
-        "description": "Admin can access to all physio",
+        "description": "Admin can access to all physio and patient",
+        "parameters": [
+          {
+            "name": "search",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "startDate",
+            "in": "query",
+            "schema": {
+              "type": "Date"
+            }
+          },
+          {
+            "name": "endDate",
+            "in": "query",
+            "schema": {
+              "type": "Date"
+            }
+          }
+        ],
         "responses": {
           "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/loginAdminReponse"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/loginAdminReponse"
-                }
-              }
-            }
+            "description": "OK"
           }
         },
         "security": [
@@ -130,7 +54,46 @@
         ]
       }
     },
-    "/admin/update-physio/{physioId}": {
+    "/admin/create-physio": {
+      "post": {
+        "tags": ["Admin"],
+        "summary": "Admin creates physio",
+        "description": "",
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/successReponse"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/successReponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/createDoctorRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin/update-physio": {
       "put": {
         "tags": ["Admin"],
         "summary": "Admin update physio",
@@ -147,19 +110,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/loginAdminReponse"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/loginAdminReponse"
-                }
-              }
-            }
+            "description": "OK"
           }
         },
         "security": [
@@ -170,20 +121,9 @@
         "requestBody": {
           "required": true,
           "content": {
-            "application/json": {
+            "multipart/form-data": {
               "schema": {
-                "type": "object",
-                "required": ["email", "password"],
-                "properties": {
-                  "email": {
-                    "type": "string",
-                    "format": "email"
-                  },
-                  "password": {
-                    "type": "string",
-                    "minLength": 6
-                  }
-                }
+                "$ref": "#/components/schemas/createDoctorRequest"
               }
             }
           }
@@ -304,7 +244,8 @@
                 "properties": {
                   "email": {
                     "type": "string",
-                    "format": "email"
+                    "format": "email",
+                    "default": "admin@gmail.com"
                   },
                   "password": {
                     "type": "string",
@@ -315,6 +256,78 @@
             }
           }
         }
+      }
+    },
+    "/admin/statistics/users": {
+      "get": {
+        "tags": ["Admin"],
+        "summary": "",
+        "description": "",
+        "parameters": [
+          {
+            "name": "filter",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": ["monthly", "weekly", "daily"]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/admin/statistics/mode-analytics": {
+      "get": {
+        "tags": ["Admin"],
+        "summary": "Admin Statistics",
+        "description": "Admin can view the statistics",
+        "parameters": [
+          {
+            "name": "filter",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": ["monthly", "weekly", "daily"]
+            }
+          },
+          {
+            "name": "startDate",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "endDate",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
       }
     },
     "/refresh": {
@@ -710,6 +723,76 @@
         ]
       }
     },
+    "/mode/session/{modeId}/{patientId}": {
+      "get": {
+        "tags": ["Mode session"],
+        "summary": "Admin can fetch session",
+        "description": "",
+        "parameters": [
+          {
+            "name": "modeId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "patientId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "startDate",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "endDate",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
     "/mode/trial-start/{modeId}": {
       "post": {
         "tags": ["Mode Trial"],
@@ -911,29 +994,35 @@
       "createDoctorRequest": {
         "type": "object",
         "properties": {
-          "firstName": {
-            "type": "string",
-            "example": "John"
-          },
-          "lastName": {
-            "type": "string",
-            "example": "Doe"
-          },
-          "email": {
-            "type": "string",
-            "example": "user@gmail.com"
-          },
-          "phoneCode": {
-            "type": "string",
-            "example": "+977"
-          },
-          "phoneNumber": {
-            "type": "string",
-            "example": "9807865432"
-          },
-          "address": {
-            "type": "string",
-            "example": "Kapan"
+          "physioTherapist": {
+            "type": "object",
+            "properties": {
+              "firstName": {
+                "type": "string",
+                "example": "John"
+              },
+              "lastName": {
+                "type": "string",
+                "example": "Doe"
+              },
+              "email": {
+                "type": "string",
+                "example": "user@gmail.com"
+              },
+              "phoneCode": {
+                "type": "string",
+                "example": "+977"
+              },
+              "phoneNumber": {
+                "type": "string",
+                "example": "9807865432"
+              },
+              "address": {
+                "type": "string",
+                "example": "Kapan"
+              }
+            },
+            "required": ["firstName", "lastName", "email", "address"]
           }
         },
         "xml": {
@@ -949,17 +1038,17 @@
               "token": {
                 "type": "object",
                 "properties": {
-                  "access_token": {
+                  "accessToken": {
                     "type": "string",
                     "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMzRiZTkxNDctMjRlMi00ZTRlLTkwM2QtM2Y0NDY5MTVhYjM0IiwiZW1haWwiOiJhZG1pbkBnbWFpbC5jb20iLCJyb2xlIjoiQURNSU4iLCJzY29wZSI6WyJhZG1pbjphY2Nlc3MiXSwiaWF0IjoxNzIwMDYyMDA2LCJleHAiOjE3MjAwNjU2MDZ9.pZRkhIGahX8FVaJ5pCBxuBSfoOzDEV3sXGEzcauLMHw"
                   },
-                  "refresh_token": {
+                  "refreshToken": {
                     "type": "string",
                     "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMzRiZTkxNDctMjRlMi00ZTRlLTkwM2QtM2Y0NDY5MTVhYjM0IiwiZW1haWwiOiJhZG1pbkBnbWFpbC5jb20iLCJyb2xlIjoiQURNSU4iLCJzY29wZSI6WyJyZWZyZXNoIl0sImlhdCI6MTcyMDA2MjAwNiwiZXhwIjoxNzIwMDY1ODA2fQ.mN9FoLY5rdXSphhz5RI6URJ691unibI7iUi4h1NiLLc"
                   }
                 }
               },
-              "user_detail": {
+              "userDetail": {
                 "type": "object",
                 "properties": {
                   "id": {
@@ -992,10 +1081,63 @@
                 }
               }
             }
+          },
+          "status": {
+            "type": "string",
+            "example": "SUCCESS"
           }
         },
         "xml": {
           "name": "loginAdminReponse"
+        }
+      },
+      "successReponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "SUCCESS"
+          }
+        },
+        "xml": {
+          "name": "successReponse"
+        }
+      },
+      "updatePhysioRequest": {
+        "type": "object",
+        "properties": {
+          "physioTherapist": {
+            "type": "object",
+            "properties": {
+              "firstName": {
+                "type": "string",
+                "example": "John"
+              },
+              "lastName": {
+                "type": "string",
+                "example": "Doe"
+              },
+              "email": {
+                "type": "string",
+                "example": "user@gmail.com"
+              },
+              "phoneCode": {
+                "type": "string",
+                "example": "+977"
+              },
+              "phoneNumber": {
+                "type": "string",
+                "example": "9807865432"
+              },
+              "address": {
+                "type": "string",
+                "example": "Kapan"
+              }
+            }
+          }
+        },
+        "xml": {
+          "name": "updatePhysioRequest"
         }
       }
     },
