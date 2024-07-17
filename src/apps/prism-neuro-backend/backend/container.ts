@@ -13,6 +13,7 @@ import { PrismaModeRepository } from '../../../contexts/prism-neuro/mode/infrast
 import { CreateModeSeeder } from '../../../contexts/prism-neuro/mode/infrastructure/seeders/create-mode.seeder';
 import { EndModeTrialService } from '../../../contexts/prism-neuro/trial/application/end-mode-trial.service';
 import { GetModeTrialsBySessionService } from '../../../contexts/prism-neuro/trial/application/get-mode-trial.service';
+import { GetModeTrialsOfPatientService } from '../../../contexts/prism-neuro/trial/application/get-mode-trials-of-patient.service';
 import { StartModeTrialService } from '../../../contexts/prism-neuro/trial/application/start-mode-trial.service';
 import { PrismaModeTrialRepository } from '../../../contexts/prism-neuro/trial/infrastructure/repositories/prisma-mode-trial-repository';
 import { ChangePasswordService } from '../../../contexts/prism-neuro/users/application/change-password.service';
@@ -81,7 +82,8 @@ const {
   GetAllPatientActivityController,
   GetAllPatientListsWithSessionController,
   GetModeSessionActivityOfPatientController,
-  DeleteAccountController
+  DeleteAccountController,
+  GetPerformanceSummaryOfPatientController
 } = controller;
 export class Container {
   private readonly container: AwilixContainer;
@@ -203,7 +205,9 @@ export class Container {
         getModeSessionOfPatientController: asClass(GetModeSessionOfPatientController),
         getModesService: asClass(GetModesService).singleton(),
         getModesController: asClass(GetModesController),
-        getModeSessionActivityOfPatientController: asClass(GetModeSessionActivityOfPatientController)
+        getModeSessionActivityOfPatientController: asClass(GetModeSessionActivityOfPatientController),
+        getModeTrialsOfPatientService: asClass(GetModeTrialsOfPatientService).singleton(),
+        getPerformanceSummaryOfPatientController: asClass(GetPerformanceSummaryOfPatientController)
       })
       //mode trial session
       .register({

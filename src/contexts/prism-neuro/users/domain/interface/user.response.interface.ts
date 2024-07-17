@@ -43,3 +43,8 @@ export interface IGetUserListByAdminResponse {
   contactNumber: string | null;
   patients?: number;
 }
+
+export interface IGetPatientPerformance {
+  bestScores: number;
+  averageScores: number;
+}

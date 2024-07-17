@@ -22,7 +22,8 @@ const doc = {
       loginAdminReponse: AdminSchema.loginAdminReponse,
       successReponse: AdminSchema.successReponse,
       updatePhysioRequest: AdminSchema.updatePhysioRequest,
-      getModeSessionOfPatientResponse: AdminSchema.getModeSessionOfPatientResponse
+      getModeSessionOfPatientResponse: AdminSchema.getModeSessionOfPatientResponse,
+      getPerformanceSummary: AdminSchema.getPerformanceSummary
     },
     parameters: {}
   }

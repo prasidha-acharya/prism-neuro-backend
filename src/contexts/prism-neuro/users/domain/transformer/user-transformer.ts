@@ -1,5 +1,5 @@
-import { MODE_SESSION_STATUS, MODE_TRIAL_SESSION_STATUS, ModeTrialSession, USER_ROLES } from '@prisma/client';
-import { IGetUserListByAdminResponse, IPrismaUserResponse } from '../interface/user.response.interface';
+import { MODE_SESSION_STATUS, MODE_TRIAL_SESSION_STATUS, ModeTrialSession, Prisma, USER_ROLES } from '@prisma/client';
+import { IGetPatientPerformance, IGetUserListByAdminResponse, IPrismaUserResponse } from '../interface/user.response.interface';
 
 // TODO: remove any
 export class UserTransformer {
@@ -62,5 +62,26 @@ export class UserTransformer {
 
       return userList;
     });
+  }
+
+  public getPerformanceSummary(trials: ModeTrialSession[]): IGetPatientPerformance {
+    const response = trials.reduce(
+      (scores, trial) => {
+        if (trial?.results && typeof trial.results === 'object') {
+          const result = trial.results as Prisma.JsonObject;
+          const data = Number(result.data);
+
+          scores.bestScores = data > scores.bestScores ? data : scores.bestScores;
+          scores.totalScores += data;
+        }
+        return scores;
+      },
+      { bestScores: 0, totalScores: 0 }
+    );
+
+    return {
+      bestScores: response.bestScores,
+      averageScores: response.totalScores / trials.length
+    };
   }
 }

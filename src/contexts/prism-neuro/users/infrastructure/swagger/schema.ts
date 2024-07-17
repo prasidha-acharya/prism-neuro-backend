@@ -43,6 +43,14 @@ const getModeSessionOfPatientResponse = {
   ...successReponse
 };
 
+const getPerformanceSummary = {
+  data: {
+    bestScores: 34,
+    averageScores: 30
+  },
+  ...successReponse
+};
+
 export const loginAdminReponse = {
   data: {
     token: {
@@ -71,5 +79,6 @@ export const AdminSchema = {
   loginAdminReponse,
   successReponse,
   updatePhysioRequest,
-  getModeSessionOfPatientResponse
+  getModeSessionOfPatientResponse,
+  getPerformanceSummary
 };
