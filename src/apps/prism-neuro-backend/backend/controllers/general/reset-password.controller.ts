@@ -74,7 +74,7 @@ export class ResetPasswordController implements Controller {
 
       await this.deleteOTPService.invoke(otpReponse.id!, otpReponse.type!);
 
-      res.status(httpStatus.OK).send();
+      res.status(httpStatus.OK).json({ status: 'SUCCESS' });
     } catch (error) {
       next(error);
     }

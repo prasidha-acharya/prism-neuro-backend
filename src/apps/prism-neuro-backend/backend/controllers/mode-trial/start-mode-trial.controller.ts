@@ -64,15 +64,13 @@ export class StartModeTrialController implements Controller {
     const { trialId, startTime, sessionId } = req.body;
     const modeId = req.params.modeId as string;
 
-    console.log({ trialId, startTime, sessionId, modeId });
-
     try {
       // update modeId  in mode session
       await this.updateModeSessionService.invoke({ modeId }, sessionId);
 
       await this.startModeTrialService.invoke({ trialId, startTime, modeId, modeSessionId: sessionId });
 
-      res.status(httpStatus.CREATED).send();
+      res.status(httpStatus.CREATED).json({ status: 'SUCCESS' });
     } catch (error) {
       next(error);
     }

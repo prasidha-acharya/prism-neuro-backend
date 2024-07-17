@@ -37,10 +37,11 @@ export class GenerateAccessTokenController implements Controller {
           expiresIn: this.config.JWT_REFRESH_EXPIRY
         }
       );
-      res.status(httpStatus.OK).send({
+      res.status(httpStatus.OK).json({
         data: {
           token: jwtToken
-        }
+        },
+        status: 'SUCCESS'
       });
     } catch (error) {
       next(error);
