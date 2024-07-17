@@ -8,10 +8,18 @@ interface IHandler {
   forgotPasswordController: controllers.ForgotPasswordController;
   changePasswordController: controllers.ChangePasswordController;
   resetPasswordController: controllers.ResetPasswordController;
+  deleteAccountController: controllers.DeleteAccountController;
 }
 
 export const userRoutesHandler = (
-  { userLogoutController, generateAccessTokenController, forgotPasswordController, changePasswordController, resetPasswordController }: IHandler,
+  {
+    userLogoutController,
+    generateAccessTokenController,
+    deleteAccountController,
+    forgotPasswordController,
+    changePasswordController,
+    resetPasswordController
+  }: IHandler,
   userAuthorizer: IAuthorizer<Request, Response, NextFunction>,
   refreshAuthorizer: IAuthorizer<Request, Response, NextFunction>,
   router: Router
@@ -140,7 +148,7 @@ export const userRoutesHandler = (
   router.put(
     '/delete-account',
     userAuthorizer.authorize,
-    changePasswordController.invoke.bind(changePasswordController)
+    deleteAccountController.invoke.bind(deleteAccountController)
     /*
         #swagger.tags = ['User']
         #swagger.summary = "Change password"
@@ -148,7 +156,22 @@ export const userRoutesHandler = (
         #swagger.security = [{
               "bearerAuth": []
             }]
-        #swagger.responses[200]
+
+           #swagger.requestBody = {
+      required: true,
+      content: {
+        "application/json": {
+          schema: {
+            type: "object",
+            required: ["password"],
+            properties: {
+              password: { type: "string", minLength: 6 },
+            }
+          }
+        }
+      }
+    }
+        #swagger.responses[200] = 
         */
   );
 
