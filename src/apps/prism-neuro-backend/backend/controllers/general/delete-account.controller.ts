@@ -30,6 +30,7 @@ export class DeleteAccountController implements Controller {
         throw new HTTP422Error(MESSAGE_CODES.PERMISSION_DENIED);
       }
       await this.deleteAccountService.invoke(userId);
+      res.status(httpStatus.OK).json({ status: 'SUCCESS' });
     } catch (error) {
       next(error);
     }
