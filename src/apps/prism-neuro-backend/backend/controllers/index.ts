@@ -19,6 +19,7 @@ export * from './mode-session/get-mode-session.controller';
 export * from './mode-session/start-mode-session.controller';
 export * from './mode-trial/end-mode-trial.controller';
 export * from './mode-trial/get-mode-trial.controller';
+export * from './mode-trial/get-performance-summary-of-patient.controller';
 export * from './mode-trial/start-mode-trial.controller';
 export * from './mode/get-modes.controller';
 export * from './patient/login-patient.controller';

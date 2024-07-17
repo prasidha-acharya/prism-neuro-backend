@@ -5,9 +5,10 @@ import * as controllers from '../../controllers/index';
 interface IHandler {
   loginPatientController: controllers.LoginPatientController;
   getModeSessionActivityOfPatientController: controllers.GetModeSessionActivityOfPatientController;
+  getPerformanceSummaryOfPatientController: controllers.GetPerformanceSummaryOfPatientController;
 }
 export const PatientRoutesHandler = (
-  { loginPatientController, getModeSessionActivityOfPatientController }: IHandler,
+  { loginPatientController, getModeSessionActivityOfPatientController, getPerformanceSummaryOfPatientController }: IHandler,
   patientAuthorizer: JWTPatientAuthorizer,
   router: Router
 ): Router => {
@@ -84,6 +85,25 @@ export const PatientRoutesHandler = (
       }
     }
      */
+  );
+
+  router.get(
+    '/patient/statistics/mode-analytics',
+    patientAuthorizer.authorize,
+    getPerformanceSummaryOfPatientController.invoke.bind(getPerformanceSummaryOfPatientController)
+
+    /*
+    #swagger.security = [{
+    "bearerAuth":[]
+    }]
+    #swagger.tags = ['Patient']
+    #swagger.summary = 'Patient Mode Analytics'
+    #swagger.responses[200] = {
+      schema: {
+        $ref: "#/components/schemas/getPerformanceSummary"
+      }
+    }
+    */
   );
   return router;
 };

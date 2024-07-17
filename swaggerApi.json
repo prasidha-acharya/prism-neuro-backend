@@ -1113,6 +1113,35 @@
           }
         ]
       }
+    },
+    "/patient/statistics/mode-analytics": {
+      "get": {
+        "tags": ["Patient"],
+        "summary": "Patient Mode Analytics",
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/getPerformanceSummary"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/getPerformanceSummary"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
     }
   },
   "components": {
@@ -1346,6 +1375,31 @@
         },
         "xml": {
           "name": "getModeSessionOfPatientResponse"
+        }
+      },
+      "getPerformanceSummary": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "object",
+            "properties": {
+              "bestScores": {
+                "type": "number",
+                "example": 34
+              },
+              "averageScores": {
+                "type": "number",
+                "example": 30
+              }
+            }
+          },
+          "status": {
+            "type": "string",
+            "example": "SUCCESS"
+          }
+        },
+        "xml": {
+          "name": "getPerformanceSummary"
         }
       }
     },
