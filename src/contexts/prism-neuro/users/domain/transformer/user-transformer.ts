@@ -5,9 +5,10 @@ import { IGetUserListByAdminResponse, IPrismaUserResponse } from '../interface/u
 export class UserTransformer {
   public loginLists(data: any): any {
     // eslint-disable-next-line no-unused-vars
-    const { password, physio, patient, ...remainigData } = data;
+    const { password, physioModeSession, patientModeSession, ...remainigData } = data;
 
-    const modeSession = remainigData.role === USER_ROLES.ADMIN ? null : remainigData.role === USER_ROLES.PHYSIO ? physio[0] : patient[0];
+    const modeSession =
+      remainigData.role === USER_ROLES.ADMIN ? null : remainigData.role === USER_ROLES.PHYSIO ? physioModeSession[0] : patientModeSession[0];
     return {
       ...remainigData,
       modeSession
@@ -20,7 +21,7 @@ export class UserTransformer {
         email: user.email,
         age: user.userDetail.age ?? null,
         fullName: `${user.firstName} ${user.lastName}`,
-        totalSession: user.patient.reduce((total: number, modeSesson: any) => {
+        totalSession: user.patientModeSession.reduce((total: number, modeSesson: any) => {
           const isTrialCompleted =
             modeSesson.modeTrialSession.length > 0 &&
             modeSesson.modeTrialSession.every((trialSession: ModeTrialSession) => trialSession.status === MODE_TRIAL_SESSION_STATUS.COMPLETED);
