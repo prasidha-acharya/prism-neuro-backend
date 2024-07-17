@@ -8,6 +8,7 @@ import { UpdateModeSessionService } from '../../../contexts/prism-neuro/mode-ses
 import { PrismaModeSessionRepository } from '../../../contexts/prism-neuro/mode-session/infrastructure/repositories/prisma-mode-session-repository';
 import { GetAllModesService } from '../../../contexts/prism-neuro/mode/application/get-all-mode.service';
 import { GetModeByIdService } from '../../../contexts/prism-neuro/mode/application/get-mode-by-id.service';
+import { GetModesService } from '../../../contexts/prism-neuro/mode/application/get-modes.service';
 import { PrismaModeRepository } from '../../../contexts/prism-neuro/mode/infrastructure/repositories/prisma-mode-repository';
 import { CreateModeSeeder } from '../../../contexts/prism-neuro/mode/infrastructure/seeders/create-mode.seeder';
 import { EndModeTrialService } from '../../../contexts/prism-neuro/trial/application/end-mode-trial.service';
@@ -52,6 +53,7 @@ import * as controller from './controllers';
 import { GetAllPatientActivityController } from './controllers/admin/activity/get-user.activity.controller';
 import { StartModeSessionController } from './controllers/mode-session/start-mode-session.controller';
 import { GetModeTrialBySessionController } from './controllers/mode-trial/get-mode-trial.controller';
+import { GetModesController } from './controllers/mode/get-modes.controller';
 import { GetAllPatientListsWithSessionController } from './controllers/physio/get-patient-lists.controller';
 import { Router } from './router';
 import { masterRouter } from './routes/routes';
@@ -191,7 +193,9 @@ export class Container {
         endModeSessionController: asClass(controller.EndModeSessionController),
         getModeSessionOfPhysioAndPatientService: asClass(GetModeSessionOfPhysioAndPatientService).singleton(),
         getSessionOfPateintService: asClass(GetSessionOfPateintService).singleton(),
-        getModeSessionOfPatientController: asClass(GetModeSessionOfPatientController)
+        getModeSessionOfPatientController: asClass(GetModeSessionOfPatientController),
+        getModesService: asClass(GetModesService).singleton(),
+        getModesController: asClass(GetModesController)
       })
       //mode trial session
       .register({
