@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response, Router } from 'express';
 import { JWTPatientAuthorizer } from 'src/contexts/shared/infrastructure/authorizer/patient.authorizer';
 import { IAuthorizer } from '../../../../contexts/shared/domain/model/authentication/authorizer';
-import { JWTDoctorAuthorizer } from '../../../../contexts/shared/infrastructure/authorizer/doctor.authorizer';
+import { JWTPhysioTherapistAuthorizer } from '../../../../contexts/shared/infrastructure/authorizer/physio.authorizer';
 import { RefreshAuthorizer } from '../../../../contexts/shared/infrastructure/authorizer/refresh.authorizer';
 import { JWTUserAuthorizer } from '../../../../contexts/shared/infrastructure/authorizer/user.authorizer';
 import * as controllers from '../controllers';
@@ -46,7 +46,7 @@ export const masterRouter = (
   getModeSessionActivityOfPatientController: controllers.GetModeSessionActivityOfPatientController,
   refreshAuthorizer: RefreshAuthorizer,
   userAuthorizer: JWTUserAuthorizer,
-  physioAuthorizer: JWTDoctorAuthorizer,
+  physioAuthorizer: JWTPhysioTherapistAuthorizer,
   patientAuthorizer: JWTPatientAuthorizer
 ): Router => {
   const apiRouter = Router();

@@ -8,7 +8,7 @@ import { HTTP401Error } from '../../domain/errors/http.exception';
 import { Payload, TokenScope } from '../../domain/interface/payload';
 import { IAuthorizer } from '../../domain/model/authentication/authorizer';
 
-export class JWTDoctorAuthorizer implements IAuthorizer<Request, Response, NextFunction> {
+export class JWTPhysioTherapistAuthorizer implements IAuthorizer<Request, Response, NextFunction> {
   constructor(
     private getUserSessionService: GetUserSessionService,
     private config: Configuration
