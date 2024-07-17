@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response, Router } from 'express';
+import { JWTPatientAuthorizer } from 'src/contexts/shared/infrastructure/authorizer/patient.authorizer';
 import { IAuthorizer } from '../../../../contexts/shared/domain/model/authentication/authorizer';
 import { JWTDoctorAuthorizer } from '../../../../contexts/shared/infrastructure/authorizer/doctor.authorizer';
 import { RefreshAuthorizer } from '../../../../contexts/shared/infrastructure/authorizer/refresh.authorizer';
@@ -42,9 +43,11 @@ export const masterRouter = (
   getTotalUsersController: controllers.GetTotalUsersController,
   getModeAnalyticsController: controllers.GetModeAnalyticsController,
   getModesController: controllers.GetModesController,
+  getModeSessionActivityOfPatientController: controllers.GetModeSessionActivityOfPatientController,
   refreshAuthorizer: RefreshAuthorizer,
   userAuthorizer: JWTUserAuthorizer,
-  physioAuthorizer: JWTDoctorAuthorizer
+  physioAuthorizer: JWTDoctorAuthorizer,
+  patientAuthorizer: JWTPatientAuthorizer
 ): Router => {
   const apiRouter = Router();
 
@@ -76,7 +79,7 @@ export const masterRouter = (
     physioAuthorizer,
     apiRouter
   );
-  PatientRoutesHandler({ loginPatientController }, apiRouter);
+  PatientRoutesHandler({ loginPatientController, getModeSessionActivityOfPatientController }, patientAuthorizer, apiRouter);
   userRoutesHandler(
     {
       userLogoutController,
