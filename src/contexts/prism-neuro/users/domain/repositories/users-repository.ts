@@ -57,6 +57,8 @@ export interface IPrismaUserRepository {
 
   getTotalUsers(request: IGetTotalUsersRequest): Promise<IGetTotalUsersResponse>;
 
+  getTotalPatients(physioId: string): Promise<number>;
+
   // createPatientByPhysio(request: ICreateAdminRequest): Promise<void>;
 
   // updatePatientByDoctor(request: IUpdateDoctorRequest): Promise<User | null>;

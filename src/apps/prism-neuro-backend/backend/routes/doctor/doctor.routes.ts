@@ -8,10 +8,18 @@ interface IHandler {
   updatePhysioController: controllers.UpdatePhysioController;
   createPatientByPhysioController: controllers.CreatePatientByPhysioController;
   getAllPatientListsWithSessionController: controllers.GetAllPatientListsWithSessionController;
+  getPhysioModeAnalyticsController: controllers.GetPhysioModeAnalyticsController;
+  getPerformanceSummaryOfPhysioController: controllers.GetPerformanceSummaryOfPhysioController;
 }
 
 export const physioRoutesHandler = (
-  { loginPhysioController: loginDoctorController, createPatientByPhysioController, getAllPatientListsWithSessionController }: IHandler,
+  {
+    loginPhysioController: loginDoctorController,
+    createPatientByPhysioController,
+    getAllPatientListsWithSessionController,
+    getPhysioModeAnalyticsController,
+    getPerformanceSummaryOfPhysioController
+  }: IHandler,
   physioAuthorizer: IAuthorizer<Request, Response, NextFunction>,
   router: Router
 ): Router => {
@@ -144,6 +152,51 @@ export const physioRoutesHandler = (
         type: 'string'
       }
       #swagger.responses[201]
+    */
+  );
+
+  router.get(
+    '/physio/statistics/mode-analytics',
+    physioAuthorizer.authorize,
+    getPhysioModeAnalyticsController.invoke.bind(getPhysioModeAnalyticsController)
+
+    /*
+  #swagger.security = [{
+            "bearerAuth": []
+    }] 
+      #swagger.tags = ['Physio']
+      #swagger.summary = 'Physio can view patient mode'
+      #swagger.description = ''
+      #swagger.parameters['filter'] = {
+        in: 'query',
+        type: 'string'
+      }
+      #swagger.parameters['startDate'] = {
+        in: 'query',
+        type: 'string'
+      }
+      #swagger.parameters['endDate'] = {
+        in: 'query',
+        type: 'string'
+      }
+      #swagger.responses[200] = {
+      schema:{
+       $ref: "#/components/schemas/statisticsMode"}
+      }
+    */
+  );
+
+  router.get(
+    '/physio/statistics/mode-summary',
+    physioAuthorizer.authorize,
+    getPerformanceSummaryOfPhysioController.invoke.bind(getPerformanceSummaryOfPhysioController)
+    /*
+      #swagger.security = [{
+            "bearerAuth": []
+    }] 
+      #swagger.tags = ['Physio']
+      #swagger.summary = 'Performance of patient'
+      #swagger.description = ''
     */
   );
 

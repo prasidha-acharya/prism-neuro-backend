@@ -21,6 +21,15 @@ import { IPrismaUserRepository } from '../../domain/repositories/users-repositor
 export class PrismaUserRepository implements IPrismaUserRepository {
   constructor(private db: PrismaClient) {}
 
+  getTotalPatients(physioId: string): Promise<number> {
+    return this.db.user.count({
+      where: {
+        createdBy: physioId,
+        deletedAt: null
+      }
+    });
+  }
+
   updatePatient({ id, data, userDetail, addresses }: IUpdatePatientReq): Promise<User | null> {
     return this.db.user.update({
       where: {

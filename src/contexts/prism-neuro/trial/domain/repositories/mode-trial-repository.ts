@@ -6,4 +6,5 @@ export interface IModeTrialRepository {
   endModeTrial(request: IEndModeTrialRequest): Promise<void>;
   getModeTrials(request: IGetModeTrialsRequest): Promise<ModeTrialSession[] | null>;
   getModeTrialOfPatient(patientId: string): Promise<ModeTrialSession[]>;
+  getModeTrialOfPhysio(physioId: string): Promise<ModeTrialSession[]>;
 }
