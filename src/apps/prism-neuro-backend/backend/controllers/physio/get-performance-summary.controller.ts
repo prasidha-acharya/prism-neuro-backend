@@ -24,8 +24,6 @@ export class GetPerformanceSummaryOfPhysioController implements Controller {
 
       const totalPatients = await this.getTotalPatientsService.invoke(physioId);
 
-      console.log('🚀 ~ GetPerformanceSummaryOfPhysioController ~ invoke ~ totalPatients:', totalPatients);
-
       const data = trials == null ? {} : this.userTransformer.getPerformanceSummary(trials);
 
       res.status(httpStatus.OK).json({
