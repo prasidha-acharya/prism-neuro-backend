@@ -51,7 +51,7 @@ export class UpdatePatientProfileController implements Controller {
         ...request,
         userDetail: {
           ...(request.userDetail ?? {}),
-          phoneCode
+          phoneNumber
         }
       };
     }

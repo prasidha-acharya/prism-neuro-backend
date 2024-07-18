@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { JWTPatientAuthorizer } from 'src/contexts/shared/infrastructure/authorizer/patient.authorizer';
 import * as controllers from '../../controllers/index';
+import { imageUpload } from '../admin/admin-physio.routes';
 
 interface IHandler {
   loginPatientController: controllers.LoginPatientController;
@@ -54,9 +55,13 @@ export const patientRoutesHandler = (
 
   router.put(
     '/patient/update-profile',
+    imageUpload.single('file'),
     patientAuthorizer.authorize,
     updatePatientProfileController.invoke.bind(updatePatientProfileController)
     /*
+    #swagger.security =[{
+    'bearerAuth':[]
+    }]
     #swagger.tags = ['Patient']
     #swagger.summary = 'Update Profile'
     #swagger.description = 'Patient can update their profile'
@@ -65,7 +70,7 @@ export const patientRoutesHandler = (
             content: {
                 "multipart/form-data": {
                     schema: {
-                        $ref: "#/components/schemas/createDoctorRequest"
+                        $ref: "#/components/schemas/updatePatientRequest"
                     }  
                 }
             }

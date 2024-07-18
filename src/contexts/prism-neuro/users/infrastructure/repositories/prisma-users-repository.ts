@@ -29,8 +29,14 @@ export class PrismaUserRepository implements IPrismaUserRepository {
       data: {
         ...data,
         userDetail: userDetail && {
-          update: {
-            data: {
+          upsert: {
+            where: {
+              userId: id
+            },
+            create: {
+              ...userDetail
+            },
+            update: {
               ...userDetail
             }
           }
