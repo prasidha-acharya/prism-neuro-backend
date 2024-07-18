@@ -1114,7 +1114,7 @@
         ]
       }
     },
-    "/patient/statistics/mode-analytics": {
+    "/patient/statistics/mode-summary": {
       "get": {
         "tags": ["Patient"],
         "summary": "Patient Mode Analytics",
@@ -1154,12 +1154,52 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/getPerformanceSummary"
+                  "$ref": "#/components/schemas/statisticsMode"
                 }
               },
               "application/xml": {
                 "schema": {
-                  "$ref": "#/components/schemas/getPerformanceSummary"
+                  "$ref": "#/components/schemas/statisticsMode"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/patient/statistics/mode-analytics": {
+      "get": {
+        "tags": ["Patient"],
+        "summary": "Patient Mode Analytics filtered by date",
+        "description": "",
+        "parameters": [
+          {
+            "name": "filter",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": ["monthly", "weekly", "daily"]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/statisticsMode"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/statisticsMode"
                 }
               }
             }
@@ -1429,6 +1469,42 @@
         },
         "xml": {
           "name": "getPerformanceSummary"
+        }
+      },
+      "statisticsMode": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "example": "e09e201d-2e3e-48ce-9f2d-901d05af1c91"
+                },
+                "type": {
+                  "type": "string",
+                  "example": "BALANCE_MODE"
+                },
+                "data": {
+                  "type": "number",
+                  "example": 25
+                },
+                "createdAt": {
+                  "type": "string",
+                  "example": "2024-07-09T08:15:45.523Z"
+                }
+              }
+            }
+          },
+          "status": {
+            "type": "string",
+            "example": "SUCCESS"
+          }
+        },
+        "xml": {
+          "name": "statisticsMode"
         }
       }
     },

@@ -14,7 +14,7 @@ import { physioRoutesHandler } from './doctor/doctor.routes';
 import { modeSessionRoutesHandler } from './mode-session/mode-session.routes';
 import { modeTrialRoutesHandler } from './mode-trial/mode-trial.routes';
 import { modeRoutesHandler } from './mode/mode.routes';
-import { PatientRoutesHandler } from './patient/patient.routes';
+import { patientRoutesHandler } from './patient/patient.routes';
 
 export const masterRouter = (
   createPhysioController: controllers.CreatePhysioController,
@@ -47,6 +47,7 @@ export const masterRouter = (
   deleteAccountController: controllers.DeleteAccountController,
   getPerformanceSummaryOfPatientController: controllers.GetPerformanceSummaryOfPatientController,
   getModeComparisionController: controllers.GetModeComparisionController,
+  getPatientModeAnalyticsController: controllers.GetPatientModeAnalyticsController,
   refreshAuthorizer: RefreshAuthorizer,
   userAuthorizer: JWTUserAuthorizer,
   physioAuthorizer: JWTPhysioTherapistAuthorizer,
@@ -82,8 +83,15 @@ export const masterRouter = (
     physioAuthorizer,
     apiRouter
   );
-  PatientRoutesHandler(
-    { loginPatientController, getModeSessionActivityOfPatientController, getPerformanceSummaryOfPatientController, getModeComparisionController },
+
+  patientRoutesHandler(
+    {
+      loginPatientController,
+      getModeSessionActivityOfPatientController,
+      getPerformanceSummaryOfPatientController,
+      getModeComparisionController,
+      getPatientModeAnalyticsController
+    },
     patientAuthorizer,
     apiRouter
   );
