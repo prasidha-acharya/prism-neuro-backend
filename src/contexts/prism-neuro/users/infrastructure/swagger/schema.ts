@@ -74,11 +74,24 @@ export const loginAdminReponse = {
   ...successReponse
 };
 
+const statisticsMode = {
+  data: [
+    {
+      id: 'e09e201d-2e3e-48ce-9f2d-901d05af1c91',
+      type: 'BALANCE_MODE',
+      data: 25,
+      createdAt: '2024-07-09T08:15:45.523Z'
+    }
+  ],
+  ...successReponse
+};
+
 export const AdminSchema = {
   createDoctorRequest,
   loginAdminReponse,
   successReponse,
   updatePhysioRequest,
   getModeSessionOfPatientResponse,
-  getPerformanceSummary
+  getPerformanceSummary,
+  statisticsMode
 };

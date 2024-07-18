@@ -23,7 +23,8 @@ const doc = {
       successReponse: AdminSchema.successReponse,
       updatePhysioRequest: AdminSchema.updatePhysioRequest,
       getModeSessionOfPatientResponse: AdminSchema.getModeSessionOfPatientResponse,
-      getPerformanceSummary: AdminSchema.getPerformanceSummary
+      getPerformanceSummary: AdminSchema.getPerformanceSummary,
+      statisticsMode: AdminSchema.statisticsMode
     },
     parameters: {}
   }

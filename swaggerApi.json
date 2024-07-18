@@ -1114,7 +1114,7 @@
         ]
       }
     },
-    "/patient/statistics/mode-analytics": {
+    "/patient/statistics/mode-summary": {
       "get": {
         "tags": ["Patient"],
         "summary": "Patient Mode Analytics",
@@ -1148,6 +1148,46 @@
         "tags": ["Patient"],
         "summary": "Patient Mode Comparision",
         "description": "",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/getPerformanceSummary"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/getPerformanceSummary"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/patient/statistics/mode-analytics": {
+      "get": {
+        "tags": ["Patient"],
+        "summary": "Patient Mode Analytics filtered by date",
+        "description": "",
+        "parameters": [
+          {
+            "name": "filter",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": ["monthly", "weekly", "daily"]
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK",

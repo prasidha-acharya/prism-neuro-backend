@@ -7,13 +7,15 @@ interface IHandler {
   getModeSessionActivityOfPatientController: controllers.GetModeSessionActivityOfPatientController;
   getPerformanceSummaryOfPatientController: controllers.GetPerformanceSummaryOfPatientController;
   getModeComparisionController: controllers.GetModeComparisionController;
+  getPatientModeAnalyticsController: controllers.GetPatientModeAnalyticsController;
 }
-export const PatientRoutesHandler = (
+export const patientRoutesHandler = (
   {
     loginPatientController,
     getModeSessionActivityOfPatientController,
     getPerformanceSummaryOfPatientController,
-    getModeComparisionController
+    getModeComparisionController,
+    getPatientModeAnalyticsController
   }: IHandler,
   patientAuthorizer: JWTPatientAuthorizer,
   router: Router
@@ -94,7 +96,7 @@ export const PatientRoutesHandler = (
   );
 
   router.get(
-    '/patient/statistics/mode-analytics',
+    '/patient/statistics/mode-summary',
     patientAuthorizer.authorize,
     getPerformanceSummaryOfPatientController.invoke.bind(getPerformanceSummaryOfPatientController)
 
@@ -124,7 +126,32 @@ export const PatientRoutesHandler = (
     #swagger.summary = 'Patient Mode Comparision'
     #swagger.responses[200] = {
       schema: {
-        $ref: "#/components/schemas/getPerformanceSummary"
+        $ref: "#/components/schemas/statisticsMode"
+      }
+    }
+    */
+  );
+
+  router.get(
+    '/patient/statistics/mode-analytics',
+    patientAuthorizer.authorize,
+    getPatientModeAnalyticsController.invoke.bind(getPatientModeAnalyticsController)
+    /*
+    #swagger.security = [{
+    "bearerAuth":[]
+    }]
+    #swagger.tags = ['Patient']
+    #swagger.summary = 'Patient Mode Analytics filtered by date'
+     #swagger.parameters['filter'] = {
+    in:'query',
+    required:true,
+      schema: {
+                '@enum': ['monthly','weekly',"daily"]
+            }
+    }
+    #swagger.responses[200] = {
+      schema: {
+        $ref: "#/components/schemas/statisticsMode"
       }
     }
     */
