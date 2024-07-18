@@ -26,8 +26,8 @@ export interface IGetModeByIdRequest {
 }
 
 export interface IGetAllModesRequest {
-  startDate: Date;
-  endDate: Date;
+  startDate?: Date;
+  endDate?: Date;
   physioId?: string;
   patientId?: string;
 }

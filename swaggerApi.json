@@ -1142,6 +1142,35 @@
           }
         ]
       }
+    },
+    "/patient/statistics/mode-comparision": {
+      "get": {
+        "tags": ["Patient"],
+        "summary": "Patient Mode Comparision",
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/getPerformanceSummary"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/getPerformanceSummary"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
     }
   },
   "components": {

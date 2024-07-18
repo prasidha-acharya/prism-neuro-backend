@@ -22,6 +22,7 @@ export * from './mode-trial/get-mode-trial.controller';
 export * from './mode-trial/get-performance-summary-of-patient.controller';
 export * from './mode-trial/start-mode-trial.controller';
 export * from './mode/get-modes.controller';
+export * from './patient/get-mode-comparision.controller';
 export * from './patient/login-patient.controller';
 export * from './patient/patient-session.controller';
 export * from './physio/create-patient-by-physio.controller';
