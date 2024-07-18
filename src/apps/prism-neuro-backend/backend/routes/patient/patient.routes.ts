@@ -6,9 +6,15 @@ interface IHandler {
   loginPatientController: controllers.LoginPatientController;
   getModeSessionActivityOfPatientController: controllers.GetModeSessionActivityOfPatientController;
   getPerformanceSummaryOfPatientController: controllers.GetPerformanceSummaryOfPatientController;
+  getModeComparisionController: controllers.GetModeComparisionController;
 }
 export const PatientRoutesHandler = (
-  { loginPatientController, getModeSessionActivityOfPatientController, getPerformanceSummaryOfPatientController }: IHandler,
+  {
+    loginPatientController,
+    getModeSessionActivityOfPatientController,
+    getPerformanceSummaryOfPatientController,
+    getModeComparisionController
+  }: IHandler,
   patientAuthorizer: JWTPatientAuthorizer,
   router: Router
 ): Router => {
@@ -98,6 +104,24 @@ export const PatientRoutesHandler = (
     }]
     #swagger.tags = ['Patient']
     #swagger.summary = 'Patient Mode Analytics'
+    #swagger.responses[200] = {
+      schema: {
+        $ref: "#/components/schemas/getPerformanceSummary"
+      }
+    }
+    */
+  );
+
+  router.get(
+    '/patient/statistics/mode-comparision',
+    patientAuthorizer.authorize,
+    getModeComparisionController.invoke.bind(getModeComparisionController)
+    /*
+    #swagger.security = [{
+    "bearerAuth":[]
+    }]
+    #swagger.tags = ['Patient']
+    #swagger.summary = 'Patient Mode Comparision'
     #swagger.responses[200] = {
       schema: {
         $ref: "#/components/schemas/getPerformanceSummary"
