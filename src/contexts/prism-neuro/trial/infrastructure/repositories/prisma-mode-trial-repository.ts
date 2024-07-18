@@ -20,6 +20,21 @@ export class PrismaModeTrialRepository implements IModeTrialRepository {
     });
   }
 
+  getModeTrialOfPhysio(physioId: string): Promise<ModeTrialSession[]> {
+    return this.db.modeTrialSession.findMany({
+      where: {
+        status: MODE_TRIAL_SESSION_STATUS.COMPLETED,
+        deletedAt: null,
+        modeSession: {
+          physioId,
+          modeId: { not: null },
+          status: MODE_SESSION_STATUS.STOP,
+          deletedAt: null
+        }
+      }
+    });
+  }
+
   getModeTrials(request: IGetModeTrialsRequest): Promise<ModeTrialSession[] | null> {
     return this.db.modeTrialSession.findMany({
       where: {

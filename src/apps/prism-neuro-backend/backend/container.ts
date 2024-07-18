@@ -14,6 +14,7 @@ import { CreateModeSeeder } from '../../../contexts/prism-neuro/mode/infrastruct
 import { EndModeTrialService } from '../../../contexts/prism-neuro/trial/application/end-mode-trial.service';
 import { GetModeTrialsBySessionService } from '../../../contexts/prism-neuro/trial/application/get-mode-trial.service';
 import { GetModeTrialsOfPatientService } from '../../../contexts/prism-neuro/trial/application/get-mode-trials-of-patient.service';
+import { GetModeTrialsOfPhysioService } from '../../../contexts/prism-neuro/trial/application/get-mode-trials-of-physio.service';
 import { StartModeTrialService } from '../../../contexts/prism-neuro/trial/application/start-mode-trial.service';
 import { PrismaModeTrialRepository } from '../../../contexts/prism-neuro/trial/infrastructure/repositories/prisma-mode-trial-repository';
 import { ChangePasswordService } from '../../../contexts/prism-neuro/users/application/change-password.service';
@@ -27,6 +28,7 @@ import { DeleteUserSessionService } from '../../../contexts/prism-neuro/users/ap
 import { ForgotPasswordService } from '../../../contexts/prism-neuro/users/application/forgot-password.service';
 import { GetAdminByEmailService } from '../../../contexts/prism-neuro/users/application/get-admin-email.service';
 import { GetOtpService } from '../../../contexts/prism-neuro/users/application/get-otp.service';
+import { GetTotalPatientsService } from '../../../contexts/prism-neuro/users/application/get-total-patients.service';
 import { GetTotalUsersService } from '../../../contexts/prism-neuro/users/application/get-total-users.service';
 import { GetUserByRoleService } from '../../../contexts/prism-neuro/users/application/get-user-by-role.service';
 import { GetUserSessionService } from '../../../contexts/prism-neuro/users/application/get-user-session.service';
@@ -88,7 +90,8 @@ const {
   GetModeComparisionController,
   GetPatientModeAnalyticsController,
   UpdatePatientProfileController,
-  GetPhysioModeAnalyticsController
+  GetPhysioModeAnalyticsController,
+  GetPerformanceSummaryOfPhysioController
 } = controller;
 export class Container {
   private readonly container: AwilixContainer;
@@ -217,7 +220,10 @@ export class Container {
         getPerformanceSummaryOfPatientController: asClass(GetPerformanceSummaryOfPatientController),
         getModeComparisionController: asClass(GetModeComparisionController),
         getPatientModeAnalyticsController: asClass(GetPatientModeAnalyticsController),
-        getPhysioModeAnalyticsController: asClass(GetPhysioModeAnalyticsController)
+        getPhysioModeAnalyticsController: asClass(GetPhysioModeAnalyticsController),
+        getModeTrialsOfPhysioService: asClass(GetModeTrialsOfPhysioService).singleton(),
+        getPerformanceSummaryOfPhysioController: asClass(GetPerformanceSummaryOfPhysioController),
+        getTotalPatientsService: asClass(GetTotalPatientsService).singleton()
       })
       //mode trial session
       .register({

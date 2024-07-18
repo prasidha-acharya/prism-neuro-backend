@@ -742,6 +742,23 @@
         ]
       }
     },
+    "/physio/statistics/mode-summary": {
+      "get": {
+        "tags": ["Physio"],
+        "summary": "Performance of patient",
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
     "/mode/session-start/{patientId}": {
       "post": {
         "tags": ["Mode session"],
