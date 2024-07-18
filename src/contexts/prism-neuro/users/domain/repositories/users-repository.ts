@@ -25,13 +25,13 @@ export interface IPrismaUserRepository {
 
   updatePhysioByAdmin(request: IUpdateDoctorRequest): Promise<User | null>;
 
-  deletePhysioByAdmin(userId: string): Promise<void>;
+  deleteUserByAdmin(userId: string): Promise<void>;
+
+  deletePatientByDoctor(patientId: string, physioId: string): Promise<void>;
 
   createPatientByPhysio(request: ICreatePatientByPhysioRequest): Promise<void>;
 
   updatePatient(request: IUpdateDoctorRequest): Promise<User | null>;
-
-  deletePatientByDoctor(userId: string): Promise<void>;
 
   createSession(request: CreateSession): Promise<LoginSession | null>;
 

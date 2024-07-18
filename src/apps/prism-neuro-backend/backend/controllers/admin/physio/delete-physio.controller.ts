@@ -3,13 +3,13 @@ import { ParamsDictionary } from 'express-serve-static-core';
 import { param } from 'express-validator';
 import httpStatus from 'http-status';
 import { ParsedQs } from 'qs';
-import { DeleteDoctorService } from 'src/contexts/prism-neuro/users/application/delete-doctor-by-admin.service';
+import { DeleteUserService } from 'src/contexts/prism-neuro/users/application/delete-doctor-by-admin.service';
 import { RequestValidator } from '../../../../../../contexts/shared/infrastructure/middleware/request-validator';
 import { MESSAGE_CODES } from '../../../../../../contexts/shared/infrastructure/utils/message-code';
 import { Controller } from '../../controller';
 
 export class DeletePhysioController implements Controller {
-  constructor(private deleteDoctorService: DeleteDoctorService) {}
+  constructor(private deleteUserService: DeleteUserService) {}
 
   public validate = [
     param('physioId').exists().withMessage(MESSAGE_CODES.USER.REQUIRED_EMAIL).isEmail().withMessage(MESSAGE_CODES.USER.INVALID_EMAIL),
@@ -23,7 +23,7 @@ export class DeletePhysioController implements Controller {
   ): Promise<void> {
     try {
       const { physioId } = req.params;
-      await this.deleteDoctorService.invoke(physioId);
+      await this.deleteUserService.invoke(physioId);
       res.status(httpStatus.OK).json({ status: 'SUCCESS' });
     } catch (error) {
       next(error);

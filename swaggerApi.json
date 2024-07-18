@@ -130,6 +130,33 @@
         }
       }
     },
+    "/admin/delete-user/{id}": {
+      "delete": {
+        "tags": ["Admin"],
+        "summary": "Delete physio data",
+        "description": "End point to delete physio",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
     "/admin/users": {
       "get": {
         "tags": ["Admin"],

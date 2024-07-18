@@ -21,6 +21,16 @@ import { IPrismaUserRepository } from '../../domain/repositories/users-repositor
 export class PrismaUserRepository implements IPrismaUserRepository {
   constructor(private db: PrismaClient) {}
 
+  async deletePatientByDoctor(patientId: string, physioId: string): Promise<void> {
+    await this.db.user.update({
+      where: {
+        id: patientId,
+        createdBy: physioId
+      },
+      data: { deletedAt: new Date() }
+    });
+  }
+
   getTotalPatients(physioId: string): Promise<number> {
     return this.db.user.count({
       where: {
@@ -308,14 +318,6 @@ export class PrismaUserRepository implements IPrismaUserRepository {
   //   });
   // }
 
-  async deletePatientByDoctor(userId: string): Promise<void> {
-    await this.db.user.delete({
-      where: {
-        id: userId
-      }
-    });
-  }
-
   async createAdmin(request: ICreateAdminRequest): Promise<void> {
     await this.db.user.create({
       data: {
@@ -398,7 +400,7 @@ export class PrismaUserRepository implements IPrismaUserRepository {
     });
   }
 
-  async deletePhysioByAdmin(userId: string): Promise<void> {
+  async deleteUserByAdmin(userId: string): Promise<void> {
     await this.db.user.update({
       where: {
         id: userId
