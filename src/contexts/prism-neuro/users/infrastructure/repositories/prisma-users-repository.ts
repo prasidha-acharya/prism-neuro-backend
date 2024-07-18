@@ -265,7 +265,7 @@ export class PrismaUserRepository implements IPrismaUserRepository {
     await this.db.user.create({
       data: {
         ...request.data,
-        userDetail: {
+        userDetail: request.detail && {
           create: {
             ...request.detail
           }

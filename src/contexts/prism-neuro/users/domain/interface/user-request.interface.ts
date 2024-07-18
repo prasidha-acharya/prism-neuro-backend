@@ -101,10 +101,11 @@ export interface ICreatePhysioDetail {
   weight?: number;
   phoneCode?: string;
   phoneNumber?: string;
+  profileURL?: string;
 }
 export interface ICreatePatientByPhysioRequest {
   data: ICreateUser;
-  detail: ICreatePhysioDetail;
+  detail?: ICreatePhysioDetail;
   address: string;
 }
 
