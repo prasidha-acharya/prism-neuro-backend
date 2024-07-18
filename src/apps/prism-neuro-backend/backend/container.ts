@@ -87,7 +87,8 @@ const {
   GetPerformanceSummaryOfPatientController,
   GetModeComparisionController,
   GetPatientModeAnalyticsController,
-  UpdatePatientProfileController
+  UpdatePatientProfileController,
+  GetPhysioModeAnalyticsController
 } = controller;
 export class Container {
   private readonly container: AwilixContainer;
@@ -215,7 +216,8 @@ export class Container {
         getModeTrialsOfPatientService: asClass(GetModeTrialsOfPatientService).singleton(),
         getPerformanceSummaryOfPatientController: asClass(GetPerformanceSummaryOfPatientController),
         getModeComparisionController: asClass(GetModeComparisionController),
-        getPatientModeAnalyticsController: asClass(GetPatientModeAnalyticsController)
+        getPatientModeAnalyticsController: asClass(GetPatientModeAnalyticsController),
+        getPhysioModeAnalyticsController: asClass(GetPhysioModeAnalyticsController)
       })
       //mode trial session
       .register({
