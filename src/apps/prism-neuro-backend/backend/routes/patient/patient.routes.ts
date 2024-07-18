@@ -57,6 +57,8 @@ export const patientRoutesHandler = (
     '/patient/update-profile',
     imageUpload.single('file'),
     patientAuthorizer.authorize,
+    updatePatientProfileController.parse,
+    updatePatientProfileController.validate,
     updatePatientProfileController.invoke.bind(updatePatientProfileController)
     /*
     #swagger.security =[{
