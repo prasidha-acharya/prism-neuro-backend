@@ -11,7 +11,8 @@ import {
   IGetUserByRoleRequest,
   IGetUserRequest,
   IResetPassword,
-  IUpdateDoctorRequest
+  IUpdateDoctorRequest,
+  IUpdatePatientReq
 } from '../../domain/interface/user-request.interface';
 import { CreateSession } from '../../domain/interface/user-session.interface';
 import { IGetTotalUsersResponse, IPaginateResponse } from '../../domain/interface/user.response.interface';
@@ -19,6 +20,34 @@ import { IPrismaUserRepository } from '../../domain/repositories/users-repositor
 
 export class PrismaUserRepository implements IPrismaUserRepository {
   constructor(private db: PrismaClient) {}
+
+  updatePatient({ id, data, userDetail, addresses }: IUpdatePatientReq): Promise<User | null> {
+    return this.db.user.update({
+      where: {
+        id
+      },
+      data: {
+        ...data,
+        userDetail: userDetail && {
+          update: {
+            data: {
+              ...userDetail
+            }
+          }
+        },
+        userAddress: addresses && {
+          updateMany: addresses?.map(address => {
+            return {
+              where: { id: address.id },
+              data: {
+                ...address
+              }
+            };
+          })
+        }
+      }
+    });
+  }
 
   async getTotalUsers({ role, startDate, endDate }: IGetTotalUsersRequest): Promise<IGetTotalUsersResponse> {
     const [totalUsers, deletedUser] = await this.db.$transaction([
@@ -56,11 +85,6 @@ export class PrismaUserRepository implements IPrismaUserRepository {
         role: role
       }
     });
-  }
-
-  updatePatientByPhysio(request: IUpdateDoctorRequest): Promise<User | null> {
-    console.log(request, 'request');
-    throw new Error('Method not implemented.');
   }
 
   arguments(request: IFetchUsersRequest): Prisma.UserFindManyArgs['where'] {
@@ -255,19 +279,19 @@ export class PrismaUserRepository implements IPrismaUserRepository {
     });
   }
 
-  updatePatientByPatient(request: IUpdateDoctorRequest): Promise<User | null> {
-    return this.db.user.update({
-      where: {
-        id: request.id,
-        deletedAt: {
-          not: null
-        }
-      },
-      data: {
-        ...request.data
-      }
-    });
-  }
+  // updatePatientByPatient(request: IUpdateDoctorRequest): Promise<User | null> {
+  //   return this.db.user.update({
+  //     where: {
+  //       id: request.id,
+  //       deletedAt: {
+  //         not: null
+  //       }
+  //     },
+  //     data: {
+  //       ...request.data
+  //     }
+  //   });
+  // }
 
   async deletePatientByDoctor(userId: string): Promise<void> {
     await this.db.user.delete({

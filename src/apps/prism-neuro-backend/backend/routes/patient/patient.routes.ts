@@ -8,6 +8,7 @@ interface IHandler {
   getPerformanceSummaryOfPatientController: controllers.GetPerformanceSummaryOfPatientController;
   getModeComparisionController: controllers.GetModeComparisionController;
   getPatientModeAnalyticsController: controllers.GetPatientModeAnalyticsController;
+  updatePatientProfileController: controllers.UpdatePatientProfileController;
 }
 export const patientRoutesHandler = (
   {
@@ -15,7 +16,8 @@ export const patientRoutesHandler = (
     getModeSessionActivityOfPatientController,
     getPerformanceSummaryOfPatientController,
     getModeComparisionController,
-    getPatientModeAnalyticsController
+    getPatientModeAnalyticsController,
+    updatePatientProfileController
   }: IHandler,
   patientAuthorizer: JWTPatientAuthorizer,
   router: Router
@@ -48,6 +50,35 @@ export const patientRoutesHandler = (
       }
     }
     */
+  );
+
+  router.put(
+    '/patient/update-profile',
+    patientAuthorizer.authorize,
+    updatePatientProfileController.invoke.bind(updatePatientProfileController)
+    /*
+    #swagger.tags = ['Patient']
+    #swagger.summary = 'Update Profile'
+    #swagger.description = 'Patient can update their profile'
+      #swagger.requestBody = {
+            required: true,
+            content: {
+                "multipart/form-data": {
+                    schema: {
+                        $ref: "#/components/schemas/createDoctorRequest"
+                    }  
+                }
+            }
+        } 
+  #swagger.responses[201]  = {
+      schema: {
+        $ref: "#/components/schemas/successReponse"
+      }
+    }
+    
+    
+
+ */
   );
 
   router.get(

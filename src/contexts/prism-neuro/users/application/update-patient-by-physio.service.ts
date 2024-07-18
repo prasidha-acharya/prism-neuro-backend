@@ -1,10 +1,10 @@
-import { IUpdatePatientRequest } from '../domain/interface/user-request.interface';
+import { IUpdatePatientReq } from '../domain/interface/user-request.interface';
 import { PrismaUserRepository } from '../infrastructure/repositories/prisma-users-repository';
 
-export class UpdatePhysioService {
+export class UpdatePatientService {
   constructor(private prismaUserRepository: PrismaUserRepository) {}
 
-  public async invoke(request: IUpdatePatientRequest): Promise<void> {
-    this.prismaUserRepository.updatePatientByPhysio(request);
+  public async invoke(request: IUpdatePatientReq): Promise<void> {
+    await this.prismaUserRepository.updatePatient(request);
   }
 }

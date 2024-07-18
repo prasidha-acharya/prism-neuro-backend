@@ -124,3 +124,21 @@ export interface IGetTotalUsersRequest {
   startDate: Date;
   endDate: Date;
 }
+
+// update patient  [] >>>>>>>>>>>>>
+
+export interface IUpdatePatientReq {
+  id: string;
+  data?: {
+    firstName?: string;
+    lastName?: string;
+  };
+  addresses?: [{ id: string; name: string }];
+  userDetail?: {
+    phoneCode?: string;
+    phoneNumber?: string;
+    age?: number;
+    weight?: number;
+    profileURL?: string;
+  };
+}

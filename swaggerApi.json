@@ -1040,6 +1040,40 @@
         }
       }
     },
+    "/patient/update-profile": {
+      "put": {
+        "tags": ["Patient"],
+        "summary": "Update Profile",
+        "description": "Patient can update their profile",
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/successReponse"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/successReponse"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/createDoctorRequest"
+              }
+            }
+          }
+        }
+      }
+    },
     "/patient/activity/{modeId}": {
       "get": {
         "tags": ["Patient"],
@@ -1505,6 +1539,39 @@
         },
         "xml": {
           "name": "statisticsMode"
+        }
+      },
+      "updatePatientRequest": {
+        "type": "object",
+        "properties": {
+          "patient": {
+            "type": "object",
+            "properties": {
+              "firstName": {
+                "type": "string",
+                "example": "John"
+              },
+              "lastName": {
+                "type": "string",
+                "example": "Doe"
+              },
+              "email": {
+                "type": "string",
+                "example": "user@gmail.com"
+              },
+              "phoneCode": {
+                "type": "string",
+                "example": "+977"
+              },
+              "phoneNumber": {
+                "type": "string",
+                "example": "9807865432"
+              }
+            }
+          }
+        },
+        "xml": {
+          "name": "updatePatientRequest"
         }
       }
     },

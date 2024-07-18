@@ -26,5 +26,6 @@ export * from './patient/get-mode-analytics.controller';
 export * from './patient/get-mode-comparision.controller';
 export * from './patient/login-patient.controller';
 export * from './patient/patient-session.controller';
+export * from './patient/update-patient.controller';
 export * from './physio/create-patient-by-physio.controller';
 export * from './physio/get-patient-lists.controller';

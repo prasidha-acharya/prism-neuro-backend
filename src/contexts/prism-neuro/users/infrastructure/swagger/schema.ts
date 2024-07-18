@@ -19,6 +19,17 @@ const updatePhysioRequest = {
     address: 'Kapan'
   }
 };
+
+const updatePatientRequest = {
+  patient: {
+    firstName: 'John',
+    lastName: 'Doe',
+    email: 'user@gmail.com',
+    phoneCode: '+977',
+    phoneNumber: '9807865432'
+  }
+};
+
 const trials = {
   id: 'string',
   trialId: 'number',
@@ -93,5 +104,6 @@ export const AdminSchema = {
   updatePhysioRequest,
   getModeSessionOfPatientResponse,
   getPerformanceSummary,
-  statisticsMode
+  statisticsMode,
+  updatePatientRequest
 };
