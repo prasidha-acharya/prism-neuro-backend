@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { JWTPatientAuthorizer } from 'src/contexts/shared/infrastructure/authorizer/patient.authorizer';
 import * as controllers from '../../controllers/index';
+import { imageUpload } from '../admin/admin-physio.routes';
 
 interface IHandler {
   loginPatientController: controllers.LoginPatientController;
@@ -8,6 +9,7 @@ interface IHandler {
   getPerformanceSummaryOfPatientController: controllers.GetPerformanceSummaryOfPatientController;
   getModeComparisionController: controllers.GetModeComparisionController;
   getPatientModeAnalyticsController: controllers.GetPatientModeAnalyticsController;
+  updatePatientProfileController: controllers.UpdatePatientProfileController;
 }
 export const patientRoutesHandler = (
   {
@@ -15,7 +17,8 @@ export const patientRoutesHandler = (
     getModeSessionActivityOfPatientController,
     getPerformanceSummaryOfPatientController,
     getModeComparisionController,
-    getPatientModeAnalyticsController
+    getPatientModeAnalyticsController,
+    updatePatientProfileController
   }: IHandler,
   patientAuthorizer: JWTPatientAuthorizer,
   router: Router
@@ -48,6 +51,41 @@ export const patientRoutesHandler = (
       }
     }
     */
+  );
+
+  router.put(
+    '/patient/update-profile',
+    imageUpload.single('file'),
+    patientAuthorizer.authorize,
+    updatePatientProfileController.parse,
+    updatePatientProfileController.validate,
+    updatePatientProfileController.invoke.bind(updatePatientProfileController)
+    /*
+    #swagger.security =[{
+    'bearerAuth':[]
+    }]
+    #swagger.tags = ['Patient']
+    #swagger.summary = 'Update Profile'
+    #swagger.description = 'Patient can update their profile'
+      #swagger.requestBody = {
+            required: true,
+            content: {
+                "multipart/form-data": {
+                    schema: {
+                        $ref: "#/components/schemas/updatePatientRequest"
+                    }  
+                }
+            }
+        } 
+  #swagger.responses[201]  = {
+      schema: {
+        $ref: "#/components/schemas/successReponse"
+      }
+    }
+    
+    
+
+ */
   );
 
   router.get(

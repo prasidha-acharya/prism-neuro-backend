@@ -34,6 +34,7 @@ import { GetUsersService } from '../../../contexts/prism-neuro/users/application
 import { ImageUploadService } from '../../../contexts/prism-neuro/users/application/image-upload.service';
 import { ResetPasswordService } from '../../../contexts/prism-neuro/users/application/reset-password.service';
 import { UpdatePhysioService } from '../../../contexts/prism-neuro/users/application/update-doctor-by-admin.service';
+import { UpdatePatientService } from '../../../contexts/prism-neuro/users/application/update-patient-by-physio.service';
 import { UserTransformer } from '../../../contexts/prism-neuro/users/domain/transformer/user-transformer';
 import { PrismaUserRepository } from '../../../contexts/prism-neuro/users/infrastructure/repositories/prisma-users-repository';
 import { CreateAdminSeeder } from '../../../contexts/prism-neuro/users/infrastructure/seeders/create-admin.seeder';
@@ -85,7 +86,8 @@ const {
   DeleteAccountController,
   GetPerformanceSummaryOfPatientController,
   GetModeComparisionController,
-  GetPatientModeAnalyticsController
+  GetPatientModeAnalyticsController,
+  UpdatePatientProfileController
 } = controller;
 export class Container {
   private readonly container: AwilixContainer;
@@ -178,7 +180,9 @@ export class Container {
         getUserByRoleService: asClass(GetUserByRoleService).singleton(),
         getAllPatientActivityController: asClass(GetAllPatientActivityController),
         getTotalUsersService: asClass(GetTotalUsersService).singleton(),
-        getTotalUsersController: asClass(GetTotalUsersController)
+        getTotalUsersController: asClass(GetTotalUsersController),
+        updatePatientService: asClass(UpdatePatientService).singleton(),
+        updatePatientProfileController: asClass(UpdatePatientProfileController)
       })
       //doctor
       .register({

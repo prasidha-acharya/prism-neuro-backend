@@ -103,7 +103,7 @@ export const userRoutesHandler = (
                 properties: {
                   email: { type: "string", format: "email" },
                   otp: { type: "string", minLength: 5, description: "OTP must be at least 5 characters long." },
-                  newPassword: { type: "string", minLength: 6, description: "Password must be at least 6 characters long." },
+                  password: { type: "string", minLength: 6, description: "Password must be at least 6 characters long." },
                   confirmPassword: { type: "string", minLength: 6, description: "Must match the password." }
                 }
               }

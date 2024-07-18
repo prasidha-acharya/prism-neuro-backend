@@ -29,7 +29,7 @@ export interface IPrismaUserRepository {
 
   createPatientByPhysio(request: ICreatePatientByPhysioRequest): Promise<void>;
 
-  updatePatientByPhysio(request: IUpdateDoctorRequest): Promise<User | null>;
+  updatePatient(request: IUpdateDoctorRequest): Promise<User | null>;
 
   deletePatientByDoctor(userId: string): Promise<void>;
 

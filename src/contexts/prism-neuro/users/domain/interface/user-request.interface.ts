@@ -101,10 +101,11 @@ export interface ICreatePhysioDetail {
   weight?: number;
   phoneCode?: string;
   phoneNumber?: string;
+  profileURL?: string;
 }
 export interface ICreatePatientByPhysioRequest {
   data: ICreateUser;
-  detail: ICreatePhysioDetail;
+  detail?: ICreatePhysioDetail;
   address: string;
 }
 
@@ -123,4 +124,22 @@ export interface IGetTotalUsersRequest {
   role?: USER_ROLES;
   startDate: Date;
   endDate: Date;
+}
+
+// update patient  [] >>>>>>>>>>>>>
+
+export interface IUpdatePatientReq {
+  id: string;
+  data?: {
+    firstName?: string;
+    lastName?: string;
+  };
+  addresses?: [{ id: string; name: string }];
+  userDetail?: {
+    phoneCode?: string;
+    phoneNumber?: string;
+    age?: number;
+    weight?: number;
+    profileURL?: string;
+  };
 }

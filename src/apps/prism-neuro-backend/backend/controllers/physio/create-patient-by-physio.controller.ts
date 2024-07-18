@@ -55,22 +55,28 @@ export class CreatePatientByPhysioController implements Controller {
       createdBy: userId
     };
 
-    let detail: ICreatePhysioDetail | {} = {};
+    let profileURL: string | undefined;
+
+    let detail: ICreatePhysioDetail | undefined;
 
     if (age) {
-      detail = { ...detail, age };
+      detail = { ...(detail ?? {}), age };
     }
 
     if (weight) {
-      detail = { ...detail, weight };
+      detail = { ...(detail ?? {}), weight };
     }
 
     if (phoneCode) {
-      detail = { ...detail, phoneCode };
+      detail = { ...(detail ?? {}), phoneCode };
     }
 
     if (phoneNumber) {
-      detail = { ...detail, phoneNumber };
+      detail = { ...(detail ?? {}), phoneNumber };
+    }
+
+    if (profileURL) {
+      detail = { ...(detail ?? {}), profileURL };
     }
 
     try {
