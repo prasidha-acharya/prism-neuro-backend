@@ -1,6 +1,7 @@
 export * from './admin/activity/get-user.activity.controller';
 export * from './admin/auth/login-admin.controller';
 export * from './admin/general/get-all-users.controller';
+export * from './admin/patient/delete-patient-by-admin.controller';
 export * from './admin/physio/create-physio.controller';
 export * from './admin/physio/delete-physio.controller';
 export * from './admin/physio/get-patient-list-by-physio.controller';
@@ -28,6 +29,7 @@ export * from './patient/login-patient.controller';
 export * from './patient/patient-session.controller';
 export * from './patient/update-patient.controller';
 export * from './physio/create-patient-by-physio.controller';
+export * from './physio/delete-patient-by-physio.controller';
 export * from './physio/get-patient-lists.controller';
 export * from './physio/get-performance-summary.controller';
 export * from './physio/get-physio-mode-analytics.controller';

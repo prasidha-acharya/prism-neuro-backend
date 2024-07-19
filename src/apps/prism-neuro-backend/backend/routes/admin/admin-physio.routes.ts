@@ -13,7 +13,7 @@ interface IHandler {
 export const imageUpload = multer({});
 
 export const adminPhysioRoutesHandler = (
-  { createPhysioController, updatePhysioController, getAllUsersController, getAllPatientListByPhysioIdController }: IHandler,
+  { createPhysioController, updatePhysioController, getAllUsersController, getAllPatientListByPhysioIdController, deletePhysioController }: IHandler,
   adminAuthorizer: IAuthorizer<Request, Response, NextFunction>,
   router: Router
 ): Router => {
@@ -130,25 +130,20 @@ export const adminPhysioRoutesHandler = (
     */
   );
 
-  // router.delete(
-  //   '/admin/delete-physio/:physioId',
-  //   adminAuthorizer.authorize,
-  //   deleteDoctorController.invoke.bind(deleteDoctorController)
-  //   /*
-  //     #swagger.security = [{
-  //           "bearerAuth": []
-  //   }]
-  //     #swagger.tags = ['Admin']
-  //     #swagger.summary = 'Delete physio data'
-  //     #swagger.description = 'End point to delete physio'
-  //        #swagger.parameters['physioId'] = {
-  //       in: 'path',
-  //       type: 'string',
-  //       required: true,
-  //     }
-  //     #swagger.responses[200]
-  //   */
-  // );
+  router.delete(
+    '/admin/delete-physio/:physioId',
+    adminAuthorizer.authorize,
+    deletePhysioController.invoke.bind(deletePhysioController)
+    /*
+      #swagger.security = [{
+            "bearerAuth": []
+    }]
+      #swagger.tags = ['Admin']
+      #swagger.summary = 'Delete user'
+      #swagger.description = 'End point to delete user'
+      #swagger.responses[200]
+    */
+  );
 
   router.get(
     '/admin/users',

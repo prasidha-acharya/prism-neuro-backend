@@ -21,6 +21,17 @@ import { IPrismaUserRepository } from '../../domain/repositories/users-repositor
 export class PrismaUserRepository implements IPrismaUserRepository {
   constructor(private db: PrismaClient) {}
 
+  async deletePatientByDoctor(patientId: string, physioId: string): Promise<void> {
+    await this.db.user.update({
+      where: {
+        id: patientId,
+        createdBy: physioId,
+        role: USER_ROLES.PATIENT
+      },
+      data: { deletedAt: new Date() }
+    });
+  }
+
   getTotalPatients(physioId: string): Promise<number> {
     return this.db.user.count({
       where: {
@@ -97,7 +108,8 @@ export class PrismaUserRepository implements IPrismaUserRepository {
     return this.db.user.findUnique({
       where: {
         id: userId,
-        role: role
+        role: role,
+        deletedAt: null
       }
     });
   }
@@ -294,28 +306,6 @@ export class PrismaUserRepository implements IPrismaUserRepository {
     });
   }
 
-  // updatePatientByPatient(request: IUpdateDoctorRequest): Promise<User | null> {
-  //   return this.db.user.update({
-  //     where: {
-  //       id: request.id,
-  //       deletedAt: {
-  //         not: null
-  //       }
-  //     },
-  //     data: {
-  //       ...request.data
-  //     }
-  //   });
-  // }
-
-  async deletePatientByDoctor(userId: string): Promise<void> {
-    await this.db.user.delete({
-      where: {
-        id: userId
-      }
-    });
-  }
-
   async createAdmin(request: ICreateAdminRequest): Promise<void> {
     await this.db.user.create({
       data: {
@@ -383,9 +373,7 @@ export class PrismaUserRepository implements IPrismaUserRepository {
     return this.db.user.update({
       where: {
         id: request.id,
-        deletedAt: {
-          not: null
-        }
+        deletedAt: null
       },
       data: {
         ...request.data,
@@ -398,10 +386,12 @@ export class PrismaUserRepository implements IPrismaUserRepository {
     });
   }
 
-  async deletePhysioByAdmin(userId: string): Promise<void> {
+  async deleteUserByAdmin(userId: string, role: USER_ROLES): Promise<void> {
     await this.db.user.update({
       where: {
-        id: userId
+        id: userId,
+        role,
+        deletedAt: null
       },
       data: {
         deletedAt: new Date()

@@ -130,6 +130,33 @@
         }
       }
     },
+    "/admin/delete-physio/{physioId}": {
+      "delete": {
+        "tags": ["Admin"],
+        "summary": "Delete user",
+        "description": "End point to delete user",
+        "parameters": [
+          {
+            "name": "physioId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
     "/admin/users": {
       "get": {
         "tags": ["Admin"],
@@ -256,6 +283,33 @@
             }
           }
         }
+      }
+    },
+    "/admin/delete-patient/{patientId}": {
+      "delete": {
+        "tags": ["Admin"],
+        "summary": "Delete user",
+        "description": "End point to delete user",
+        "parameters": [
+          {
+            "name": "patientId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
       }
     },
     "/admin/statistics/users": {
@@ -747,6 +801,33 @@
         "tags": ["Physio"],
         "summary": "Performance of patient",
         "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/physio/delele-patient/{patientId}": {
+      "delete": {
+        "tags": ["Physio"],
+        "summary": "Physio therapists delete their patients. ",
+        "description": "",
+        "parameters": [
+          {
+            "name": "patientId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
           "default": {
             "description": ""

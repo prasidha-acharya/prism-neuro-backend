@@ -22,8 +22,9 @@ import { CreateDoctorByAdminService } from '../../../contexts/prism-neuro/users/
 import { CreatePatientByPhysioService } from '../../../contexts/prism-neuro/users/application/create-patient-by-physio.service';
 import { AddUserSessionService } from '../../../contexts/prism-neuro/users/application/create-user-session.service';
 import { DeleteAccountService } from '../../../contexts/prism-neuro/users/application/delete-account.service';
-import { DeleteDoctorService } from '../../../contexts/prism-neuro/users/application/delete-doctor-by-admin.service';
+import { DeleteUserService } from '../../../contexts/prism-neuro/users/application/delete-doctor-by-admin.service';
 import { DeleteOTPService } from '../../../contexts/prism-neuro/users/application/delete-otp.service';
+import { DeletePatientByAdminService } from '../../../contexts/prism-neuro/users/application/delete-patient-by-physio.service';
 import { DeleteUserSessionService } from '../../../contexts/prism-neuro/users/application/delete-user-session.service';
 import { ForgotPasswordService } from '../../../contexts/prism-neuro/users/application/forgot-password.service';
 import { GetAdminByEmailService } from '../../../contexts/prism-neuro/users/application/get-admin-email.service';
@@ -91,7 +92,8 @@ const {
   GetPatientModeAnalyticsController,
   UpdatePatientProfileController,
   GetPhysioModeAnalyticsController,
-  GetPerformanceSummaryOfPhysioController
+  GetPerformanceSummaryOfPhysioController,
+  DeletePatientByAdminController
 } = controller;
 export class Container {
   private readonly container: AwilixContainer;
@@ -186,11 +188,13 @@ export class Container {
         getTotalUsersService: asClass(GetTotalUsersService).singleton(),
         getTotalUsersController: asClass(GetTotalUsersController),
         updatePatientService: asClass(UpdatePatientService).singleton(),
-        updatePatientProfileController: asClass(UpdatePatientProfileController)
+        updatePatientProfileController: asClass(UpdatePatientProfileController),
+        deletePatientByAdminService: asClass(DeletePatientByAdminService).singleton(),
+        deletePatientByAdminController: asClass(DeletePatientByAdminController)
       })
       //doctor
       .register({
-        deleteDoctorService: asClass(DeleteDoctorService).singleton(),
+        deleteUserService: asClass(DeleteUserService).singleton(),
         updatePhysioService: asClass(UpdatePhysioService).singleton(),
         deletePhysioController: asClass(DeletePhysioController),
         updatePhysioController: asClass(UpdatePhysioController),
