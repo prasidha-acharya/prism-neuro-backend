@@ -35,7 +35,7 @@ export const adminPhysioRoutesHandler = (
             content: {
                 "multipart/form-data": {
                     schema: {
-                        $ref: "#/components/schemas/createDoctorRequest"
+                        $ref: "#/components/schemas/createPhysioRequest"
                     }  
                 }
             }
@@ -121,7 +121,7 @@ export const adminPhysioRoutesHandler = (
             content: {
                 "multipart/form-data": {
                     schema: {
-                        $ref: "#/components/schemas/createDoctorRequest"
+                        $ref: "#/components/schemas/createPhysioRequest"
                     }  
                 }
             }

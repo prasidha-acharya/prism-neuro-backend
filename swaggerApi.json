@@ -86,7 +86,7 @@
           "content": {
             "multipart/form-data": {
               "schema": {
-                "$ref": "#/components/schemas/createDoctorRequest"
+                "$ref": "#/components/schemas/createPhysioRequest"
               }
             }
           }
@@ -123,7 +123,7 @@
           "content": {
             "multipart/form-data": {
               "schema": {
-                "$ref": "#/components/schemas/createDoctorRequest"
+                "$ref": "#/components/schemas/createPhysioRequest"
               }
             }
           }
@@ -1410,7 +1410,7 @@
       }
     },
     "schemas": {
-      "createDoctorRequest": {
+      "createPhysioRequest": {
         "type": "object",
         "properties": {
           "physioTherapist": {
@@ -1445,7 +1445,7 @@
           }
         },
         "xml": {
-          "name": "createDoctorRequest"
+          "name": "createPhysioRequest"
         }
       },
       "loginAdminReponse": {

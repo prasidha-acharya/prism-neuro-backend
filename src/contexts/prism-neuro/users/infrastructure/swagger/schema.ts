@@ -1,4 +1,4 @@
-const createDoctorRequest = {
+const createPhysioRequest = {
   physioTherapist: {
     $firstName: 'John',
     $lastName: 'Doe',
@@ -98,7 +98,7 @@ const statisticsMode = {
 };
 
 export const AdminSchema = {
-  createDoctorRequest,
+  createPhysioRequest,
   loginAdminReponse,
   successReponse,
   updatePhysioRequest,

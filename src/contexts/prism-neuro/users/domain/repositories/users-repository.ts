@@ -27,7 +27,7 @@ export interface IPrismaUserRepository {
 
   deleteUserByAdmin(userId: string, role: USER_ROLES): Promise<void>;
 
-  deletePatientByDoctor(patientId: string, physioId: string): Promise<void>;
+  deletePatientByPhysio(patientId: string, physioId: string): Promise<void>;
 
   createPatientByPhysio(request: ICreatePatientByPhysioRequest): Promise<void>;
 
@@ -58,8 +58,4 @@ export interface IPrismaUserRepository {
   getTotalUsers(request: IGetTotalUsersRequest): Promise<IGetTotalUsersResponse>;
 
   getTotalPatients(physioId: string): Promise<number>;
-
-  // createPatientByPhysio(request: ICreateAdminRequest): Promise<void>;
-
-  // updatePatientByDoctor(request: IUpdateDoctorRequest): Promise<User | null>;
 }

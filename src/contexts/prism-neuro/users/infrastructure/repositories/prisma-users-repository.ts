@@ -21,7 +21,7 @@ import { IPrismaUserRepository } from '../../domain/repositories/users-repositor
 export class PrismaUserRepository implements IPrismaUserRepository {
   constructor(private db: PrismaClient) {}
 
-  async deletePatientByDoctor(patientId: string, physioId: string): Promise<void> {
+  async deletePatientByPhysio(patientId: string, physioId: string): Promise<void> {
     await this.db.user.update({
       where: {
         id: patientId,
