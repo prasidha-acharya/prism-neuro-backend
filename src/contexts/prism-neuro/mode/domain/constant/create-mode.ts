@@ -19,7 +19,7 @@ export const modeTypes = [
       'Move towards each target displayed on the screen.',
       'Complete the task by accurately targeting as many points as possible within 30 seconds.'
     ],
-    name: 'Left and Right Mode',
+    name: 'Target Mode',
     trialCount: 3,
     trialDuration: 30
   },

@@ -246,7 +246,7 @@ export class PrismaUserRepository implements IPrismaUserRepository {
       where: {
         id: userId
       },
-      data
+      data: { ...data, isVerified: true }
     });
   }
 

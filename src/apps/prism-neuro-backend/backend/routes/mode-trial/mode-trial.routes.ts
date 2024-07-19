@@ -14,46 +14,10 @@ export const modeTrialRoutesHandler = (
   adminAuthorizer: IAuthorizer<Request, Response, NextFunction>,
   router: Router
 ): Router => {
-  const { startModeTrialController, endModeTrialController, getModeTrialBySessionController } = controller;
+  const { endModeTrialController, getModeTrialBySessionController } = controller;
 
   router.post(
-    '/mode/trial-start/:modeId',
-    physioAuthorizer.authorize,
-    startModeTrialController.validate,
-    startModeTrialController.invoke.bind(startModeTrialController)
-    /* 
-     #swagger.security = [{
-            "bearerAuth": []
-    }] 
-    #swagger.tags = ['Mode Trial']
-    #swagger.summary="Only Physio therapist can start trial"
-    #swagger.description="Starts trial"
-    #swagger.parameters['modeId'] = {
-    in:"path",
-    type:"string",
-    required:"true"
-    }
-      #swagger.requestBody = {
-      required: true,
-      content: {
-        "application/json": {
-          schema: {
-            type: "object",
-            required: ["trialId", "startTime","sessionId"],
-            properties: {
-              trialId: { type: "number" },
-              startTime: { type: "date"},
-              sessionId: {type: "string"}
-            }
-          }
-        }
-      }
-    }
-    */
-  );
-
-  router.put(
-    '/mode/trial-end/:modeId/:modeTrialId',
+    '/mode/trial-end/:modeId',
     physioAuthorizer.authorize,
     endModeTrialController.validate,
     endModeTrialController.invoke.bind(endModeTrialController)
@@ -69,21 +33,18 @@ export const modeTrialRoutesHandler = (
     type:"string",
     required:"true"
     }
-       #swagger.parameters['modeTrialId'] = {
-    in:"path",
-    type:"string",
-    required:"true"
-    }
       #swagger.requestBody = {
       required: true,
       content: {
         "application/json": {
           schema: {
             type: "object",
-            required: ["endTime" ,"results" ,"rawData","sessionId"],
+            required: ['startTime","endTime" ,"trialId","results" ,"rawData","sessionId"],
             properties: {
-              endTime: { type:"string"},
+              startTime:{type:'date'},
+              endTime: { type:'date'},
               sessionId: { type:"string"},
+              trialId:{type:"number"},
               results: { type: "object" },
               rawData: { type:"object"},
             }

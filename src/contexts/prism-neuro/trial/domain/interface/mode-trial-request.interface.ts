@@ -1,4 +1,4 @@
-import { MODE_TRIAL_SESSION_STATUS } from '@prisma/client';
+import { MODE_TRIAL_SESSION_STATUS, Prisma } from '@prisma/client';
 
 export interface IStartModeTrialRequest {
   modeId: string;
@@ -8,14 +8,14 @@ export interface IStartModeTrialRequest {
 }
 
 export interface IEndModeTrialRequest {
-  id: string;
+  results: Prisma.JsonObject;
+  rawData: Prisma.JsonObject;
+  status: MODE_TRIAL_SESSION_STATUS;
   modeId: string;
-  data: {
-    results: any;
-    rawData: any;
-    endTime: string;
-    status: MODE_TRIAL_SESSION_STATUS;
-  };
+  trialId: number;
+  startTime: string;
+  endTime: string;
+  modeSesssionId: string;
 }
 
 export interface IGetModeTrialsRequest {

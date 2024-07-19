@@ -23,7 +23,6 @@ export class JWTPhysioTherapistAuthorizer implements IAuthorizer<Request, Respon
       const payload: Payload = jwt.verify(token, this.config.JWT_SECRET!) as Payload;
 
       const userSession = await this.getUserSessionService.invoke(payload.sessionId);
-      console.log(userSession?.userId, payload.userId);
 
       if (!userSession || userSession.userId !== payload.userId) {
         throw new HTTP401Error();
