@@ -10,7 +10,7 @@ export const comparePassword = (string: string, hash: string): boolean => {
 };
 
 export const generatePassword = (): string => {
-  const length = 6;
+  const length = 8;
   const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_-+=<>?';
 
   let password = '';
