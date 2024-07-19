@@ -30,7 +30,7 @@ export class StartModeSessionController implements Controller {
           throw new HTTP404Error(MESSAGE_CODES.USER.INVALID_PHYSIO_THERAPIST);
         }
 
-        if (!isPatientAvailable) {
+        if (!isPatientAvailable || physioId !== isPatientAvailable.createdBy) {
           throw new HTTP404Error(MESSAGE_CODES.USER.INVALID_PATIENT);
         }
 
