@@ -2,8 +2,8 @@ import { LoginSession, OTP_TYPE, Otp, USER_ROLES, User } from '@prisma/client';
 import {
   IChangePassword,
   ICreateAdminRequest,
-  ICreateDoctorRequest,
   ICreatePatientByPhysioRequest,
+  ICreatePhysioTherapistRequest,
   IFetchOtpRequest,
   IFetchUsersRequest,
   IFogotPasswordRequest,
@@ -11,7 +11,7 @@ import {
   IGetUserByRoleRequest,
   IGetUserRequest,
   IResetPassword,
-  IUpdateDoctorRequest
+  IUpdatePhysioTherapistRequest
 } from '../../domain/interface/user-request.interface';
 import { CreateSession } from '../interface/user-session.interface';
 import { IGetTotalUsersResponse, IPaginateResponse } from '../interface/user.response.interface';
@@ -21,9 +21,9 @@ export interface IPrismaUserRepository {
 
   getUserByEmail(request: IGetUserRequest): Promise<User | null>;
 
-  createPhysioByAdmin(request: ICreateDoctorRequest): Promise<void>;
+  createPhysioByAdmin(request: ICreatePhysioTherapistRequest): Promise<void>;
 
-  updatePhysioByAdmin(request: IUpdateDoctorRequest): Promise<User | null>;
+  updatePhysioByAdmin(request: IUpdatePhysioTherapistRequest): Promise<User | null>;
 
   deleteUserByAdmin(userId: string, role: USER_ROLES): Promise<void>;
 
@@ -31,7 +31,7 @@ export interface IPrismaUserRepository {
 
   createPatientByPhysio(request: ICreatePatientByPhysioRequest): Promise<void>;
 
-  updatePatient(request: IUpdateDoctorRequest): Promise<User | null>;
+  updatePatient(request: IUpdatePhysioTherapistRequest): Promise<User | null>;
 
   createSession(request: CreateSession): Promise<LoginSession | null>;
 

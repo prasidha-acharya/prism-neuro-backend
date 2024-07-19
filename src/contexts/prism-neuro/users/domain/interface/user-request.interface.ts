@@ -21,7 +21,7 @@ interface IUserDetail {
   phoneCode?: string;
   profileURL?: string;
 }
-export interface ICreateDoctorRequest extends ICreateAdmin {
+export interface ICreatePhysioTherapistRequest extends ICreateAdmin {
   role: USER_ROLES;
   firstName: string;
   lastName: string;
@@ -34,7 +34,7 @@ export interface ICreatePatientRequest extends ICreateAdmin {
   lastName: string;
 }
 
-export interface IUpdateDoctorRequest {
+export interface IUpdatePhysioTherapistRequest {
   id: string;
   data?: {
     firstName?: string;

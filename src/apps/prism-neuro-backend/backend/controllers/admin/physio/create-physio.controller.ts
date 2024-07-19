@@ -6,7 +6,7 @@ import httpStatus from 'http-status';
 import { ParsedQs } from 'qs';
 import { CreateDoctorByAdminService } from '../../../../../../contexts/prism-neuro/users/application/create-doctor-by-admin.service';
 import { IClientCreatePhysioRequest } from '../../../../../../contexts/prism-neuro/users/domain/interface/user-client-request.interface';
-import { ICreateDoctorRequest } from '../../../../../../contexts/prism-neuro/users/domain/interface/user-request.interface';
+import { ICreatePhysioTherapistRequest } from '../../../../../../contexts/prism-neuro/users/domain/interface/user-request.interface';
 import { HTTP400Error } from '../../../../../../contexts/shared/domain/errors/http.exception';
 import { generatePassword, hashPassword } from '../../../../../../contexts/shared/infrastructure/encryptor/encryptor';
 import { SendPasswordToUserService } from '../../../../../../contexts/shared/infrastructure/mail/application/send-password.service';
@@ -57,7 +57,7 @@ export class CreatePhysioController implements Controller {
 
     const password = generatePassword();
 
-    let physioData: ICreateDoctorRequest = {
+    let physioData: ICreatePhysioTherapistRequest = {
       firstName,
       lastName,
       email: email.toLowerCase(),
