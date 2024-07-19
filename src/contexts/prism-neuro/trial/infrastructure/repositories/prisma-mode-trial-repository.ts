@@ -63,21 +63,17 @@ export class PrismaModeTrialRepository implements IModeTrialRepository {
     });
   }
 
-  async endModeTrial(request: IEndModeTrialRequest): Promise<void> {
+  async endModeTrial({ modeId, modeSesssionId, startTime, status, endTime, rawData, results, trialId }: IEndModeTrialRequest): Promise<void> {
     await this.db.modeTrialSession.create({
       data: {
-        startTime: request.startTime,
-        trialId: request.trialId,
-        mode: {
-          connect: {
-            id: request.modeId
-          }
-        },
-        modeSession: {
-          connect: {
-            id: request.modeSessionId
-          }
-        }
+        modeId,
+        modeSesssionId,
+        startTime,
+        endTime,
+        trialId,
+        rawData,
+        results,
+        status
       }
     });
   }

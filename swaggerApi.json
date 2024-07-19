@@ -1018,10 +1018,10 @@
                 "required": ["startTime", "endTime", "trialId", "results", "rawData", "sessionId"],
                 "properties": {
                   "startTime": {
-                    "type": "string"
+                    "type": "date"
                   },
                   "endTime": {
-                    "type": "string"
+                    "type": "date"
                   },
                   "sessionId": {
                     "type": "string"

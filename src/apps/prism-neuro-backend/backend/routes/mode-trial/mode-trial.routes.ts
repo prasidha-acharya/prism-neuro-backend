@@ -41,8 +41,8 @@ export const modeTrialRoutesHandler = (
             type: "object",
             required: ['startTime","endTime" ,"trialId","results" ,"rawData","sessionId"],
             properties: {
-              startTime:{type:"string"},
-              endTime: { type:"string"},
+              startTime:{type:'date'},
+              endTime: { type:'date'},
               sessionId: { type:"string"},
               trialId:{type:"number"},
               results: { type: "object" },
