@@ -36,8 +36,8 @@ import { GetUserSessionService } from '../../../contexts/prism-neuro/users/appli
 import { GetUsersService } from '../../../contexts/prism-neuro/users/application/get-users.service';
 import { ImageUploadService } from '../../../contexts/prism-neuro/users/application/image-upload.service';
 import { ResetPasswordService } from '../../../contexts/prism-neuro/users/application/reset-password.service';
-import { UpdatePhysioService } from '../../../contexts/prism-neuro/users/application/update-doctor-by-admin.service';
 import { UpdatePatientService } from '../../../contexts/prism-neuro/users/application/update-patient-by-physio.service';
+import { UpdatePhysioService } from '../../../contexts/prism-neuro/users/application/update-physio-by-admin.service';
 import { UserTransformer } from '../../../contexts/prism-neuro/users/domain/transformer/user-transformer';
 import { PrismaUserRepository } from '../../../contexts/prism-neuro/users/infrastructure/repositories/prisma-users-repository';
 import { CreateAdminSeeder } from '../../../contexts/prism-neuro/users/infrastructure/seeders/create-admin.seeder';
