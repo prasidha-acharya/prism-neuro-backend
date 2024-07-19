@@ -4,7 +4,7 @@ import { PrismaUserRepository } from '../infrastructure/repositories/prisma-user
 export class DeleteUserService {
   constructor(private prismaUserRepository: PrismaUserRepository) {}
 
-  public async invoke(doctorId: string, role: USER_ROLES): Promise<void> {
-    this.prismaUserRepository.deleteUserByAdmin(doctorId, role);
+  public async invoke(userId: string, role: USER_ROLES): Promise<void> {
+    await this.prismaUserRepository.deleteUserByAdmin(userId, role);
   }
 }
