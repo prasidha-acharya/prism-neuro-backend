@@ -1,4 +1,4 @@
-import { Prisma } from '@prisma/client';
+import { ModeTrialSession, Prisma } from '@prisma/client';
 import { IPrismaModeSessionRequest } from '../../../../contexts/prism-neuro/mode-session/domain/interface/mode-session-request.interface';
 import { IGetModeSessionOfPatientResponse } from '../../../../contexts/prism-neuro/mode-session/domain/interface/mode-session-response.interface';
 
@@ -20,4 +20,21 @@ export class ModeTransformer {
       };
     });
   }
+
+  public getModeTrialsofActiveSessions = (trials: ModeTrialSession[]): { trialId: number; modeSessionId: string; results: number | null }[] => {
+    return trials.map(({ trialId, modeSesssionId, results, modeId, id }) => {
+      let result: number | null = null;
+      if (results && typeof results === 'object') {
+        const d = results as Prisma.JsonObject;
+        result = Number(d.data);
+      }
+      return {
+        id,
+        trialId,
+        modeId,
+        modeSessionId: modeSesssionId,
+        results: result
+      };
+    });
+  };
 }

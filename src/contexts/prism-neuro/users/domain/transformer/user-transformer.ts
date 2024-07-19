@@ -18,8 +18,9 @@ export class UserTransformer {
   public patientListsByPhysio(data: any): any {
     return data.data.map((user: any) => {
       return {
+        id: user.id,
         email: user.email,
-        age: user.userDetail.age ?? null,
+        age: user?.userDetail?.age ?? null,
         fullName: `${user.firstName} ${user.lastName}`,
         totalSession: user.patientModeSession.reduce((total: number, modeSesson: any) => {
           const isTrialCompleted =

@@ -11,7 +11,7 @@ interface IHandler {
   getPhysioModeAnalyticsController: controllers.GetPhysioModeAnalyticsController;
   getPerformanceSummaryOfPhysioController: controllers.GetPerformanceSummaryOfPhysioController;
   deletePatientByAdminController: controllers.DeletePatientByAdminController;
-  getModeSessionActivityOfPatientByPhysioController: controllers.GetModeSessionActivityOfPatientByPhysioController;
+  // getModeSessionActivityOfPatientByPhysioController: controllers.GetModeSessionActivityOfPatientByPhysioController;
 }
 
 export const physioRoutesHandler = (
@@ -21,8 +21,8 @@ export const physioRoutesHandler = (
     getAllPatientListsWithSessionController,
     getPhysioModeAnalyticsController,
     getPerformanceSummaryOfPhysioController,
-    deletePatientByAdminController,
-    getModeSessionActivityOfPatientByPhysioController
+    deletePatientByAdminController
+    // getModeSessionActivityOfPatientByPhysioController
   }: IHandler,
   physioAuthorizer: IAuthorizer<Request, Response, NextFunction>,
   router: Router
@@ -115,8 +115,8 @@ export const physioRoutesHandler = (
   #swagger.security = [{
             "bearerAuth": []
     }] 
-      #swagger.tags = ['Physio']
-      #swagger.summary = 'Physio can fetch patient lists'
+      #swagger.tags = ['Physio ']
+      #swagger.summary = 'Tablet end point to fetch patient lists to start session.'
       #swagger.description = 'Endpoint for physio-therapist to fetch patient lists'
       #swagger.parameters['search'] = {
         in: 'query',
@@ -185,10 +185,12 @@ export const physioRoutesHandler = (
     */
   );
 
+  // TODO :WIP
+
   router.get(
     '/physio/activity/:modeId',
-    physioAuthorizer.authorize,
-    getModeSessionActivityOfPatientByPhysioController.invoke.bind(getModeSessionActivityOfPatientByPhysioController)
+    physioAuthorizer.authorize
+    // getModeSessionActivityOfPatientByPhysioController.invoke.bind(getModeSessionActivityOfPatientByPhysioController)
     /*
     #swagger.security =[{
     "bearerAuth":[]

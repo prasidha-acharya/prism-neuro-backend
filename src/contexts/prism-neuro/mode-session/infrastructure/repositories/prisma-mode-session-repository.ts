@@ -23,7 +23,9 @@ export class PrismaModeSessionRepository implements IModeSessionRepository {
   }: IGetModeTrialsOfPatientRequest): Promise<IPaginateResponse<any[] | null>> {
     let args: Prisma.ModeSessionFindManyArgs['where'] = {
       deletedAt: null,
-      modeId,
+      modeIds: {
+        has: modeId
+      },
       patientId,
       status: MODE_SESSION_STATUS.STOP,
       modeTrialSession: {
@@ -107,11 +109,12 @@ export class PrismaModeSessionRepository implements IModeSessionRepository {
     });
   }
 
-  async updateModeSession(request: IUpdateModeSessionRequest, sessionId: string): Promise<void> {
+  async updateModeSession({ modeId, ...request }: IUpdateModeSessionRequest, sessionId: string): Promise<void> {
     await this.db.modeSession.update({
       where: { id: sessionId },
       data: {
-        ...request
+        ...request,
+        modeIds: { push: modeId }
       }
     });
   }

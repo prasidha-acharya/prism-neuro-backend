@@ -12,7 +12,7 @@ export class PrismaModeTrialRepository implements IModeTrialRepository {
         deletedAt: null,
         modeSession: {
           patient: { id: patientId },
-          modeId: { not: null },
+          modeIds: { isEmpty: false },
           status: MODE_SESSION_STATUS.STOP,
           deletedAt: null
         }
@@ -27,7 +27,7 @@ export class PrismaModeTrialRepository implements IModeTrialRepository {
         deletedAt: null,
         modeSession: {
           physioId,
-          modeId: { not: null },
+          modeIds: { isEmpty: false },
           status: MODE_SESSION_STATUS.STOP,
           deletedAt: null
         }
