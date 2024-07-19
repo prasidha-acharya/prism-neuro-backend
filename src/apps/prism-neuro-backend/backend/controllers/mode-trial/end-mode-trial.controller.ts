@@ -49,21 +49,22 @@ export class EndModeTrialController implements Controller {
   ];
 
   async invoke(req: Request, res: Response, next: NextFunction): Promise<void> {
-    const { results, endTime, rawData } = req.body;
+    const { results, endTime, rawData, trialId, startTime, sessionId } = req.body;
+
     const modeId = req.params.modeId as string;
-    const modeTrialId = req.params.modeTrialId as string;
 
     try {
       await this.endModeTrialService.invoke({
-        data: {
-          results,
-          rawData,
-          status: MODE_TRIAL_SESSION_STATUS.COMPLETED,
-          endTime
-        },
-        id: modeTrialId,
-        modeId
+        results,
+        rawData,
+        status: MODE_TRIAL_SESSION_STATUS.COMPLETED,
+        endTime,
+        trialId,
+        modeId,
+        startTime,
+        modeSessionId: sessionId
       });
+
       res.status(httpStatus.OK).json({ status: 'SUCCESS' });
     } catch (error) {
       next(error);
