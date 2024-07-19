@@ -133,8 +133,8 @@
     "/admin/delete-user/{id}": {
       "delete": {
         "tags": ["Admin"],
-        "summary": "Delete physio data",
-        "description": "End point to delete physio",
+        "summary": "Delete user",
+        "description": "End point to delete user",
         "parameters": [
           {
             "name": "id",
@@ -774,6 +774,33 @@
         "tags": ["Physio"],
         "summary": "Performance of patient",
         "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/physio/delele-patient/{patientId}": {
+      "delete": {
+        "tags": ["Physio"],
+        "summary": "Physio therapists delete their patients. ",
+        "description": "",
+        "parameters": [
+          {
+            "name": "patientId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
           "default": {
             "description": ""

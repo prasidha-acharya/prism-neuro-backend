@@ -25,7 +25,8 @@ export class PrismaUserRepository implements IPrismaUserRepository {
     await this.db.user.update({
       where: {
         id: patientId,
-        createdBy: physioId
+        createdBy: physioId,
+        role: USER_ROLES.PHYSIO
       },
       data: { deletedAt: new Date() }
     });

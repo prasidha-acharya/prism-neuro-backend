@@ -10,6 +10,7 @@ interface IHandler {
   getAllPatientListsWithSessionController: controllers.GetAllPatientListsWithSessionController;
   getPhysioModeAnalyticsController: controllers.GetPhysioModeAnalyticsController;
   getPerformanceSummaryOfPhysioController: controllers.GetPerformanceSummaryOfPhysioController;
+  deletePatientByAdminController: controllers.DeletePatientByAdminController;
 }
 
 export const physioRoutesHandler = (
@@ -18,7 +19,8 @@ export const physioRoutesHandler = (
     createPatientByPhysioController,
     getAllPatientListsWithSessionController,
     getPhysioModeAnalyticsController,
-    getPerformanceSummaryOfPhysioController
+    getPerformanceSummaryOfPhysioController,
+    deletePatientByAdminController
   }: IHandler,
   physioAuthorizer: IAuthorizer<Request, Response, NextFunction>,
   router: Router
@@ -196,6 +198,20 @@ export const physioRoutesHandler = (
     }] 
       #swagger.tags = ['Physio']
       #swagger.summary = 'Performance of patient'
+      #swagger.description = ''
+    */
+  );
+
+  router.delete(
+    '/physio/delele-patient/:patientId',
+    physioAuthorizer.authorize,
+    deletePatientByAdminController.invoke.bind(deletePatientByAdminController)
+    /*
+      #swagger.security = [{
+            "bearerAuth": []
+    }] 
+      #swagger.tags = ['Physio']
+      #swagger.summary = 'Physio therapists delete their patients. '
       #swagger.description = ''
     */
   );
