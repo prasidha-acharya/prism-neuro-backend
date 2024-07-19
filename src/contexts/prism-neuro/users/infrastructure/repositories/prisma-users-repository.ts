@@ -108,7 +108,8 @@ export class PrismaUserRepository implements IPrismaUserRepository {
     return this.db.user.findUnique({
       where: {
         id: userId,
-        role: role
+        role: role,
+        deletedAt: null
       }
     });
   }
@@ -305,20 +306,6 @@ export class PrismaUserRepository implements IPrismaUserRepository {
     });
   }
 
-  // updatePatientByPatient(request: IUpdateDoctorRequest): Promise<User | null> {
-  //   return this.db.user.update({
-  //     where: {
-  //       id: request.id,
-  //       deletedAt: {
-  //         not: null
-  //       }
-  //     },
-  //     data: {
-  //       ...request.data
-  //     }
-  //   });
-  // }
-
   async createAdmin(request: ICreateAdminRequest): Promise<void> {
     await this.db.user.create({
       data: {
@@ -386,9 +373,7 @@ export class PrismaUserRepository implements IPrismaUserRepository {
     return this.db.user.update({
       where: {
         id: request.id,
-        deletedAt: {
-          not: null
-        }
+        deletedAt: null
       },
       data: {
         ...request.data,
@@ -405,7 +390,8 @@ export class PrismaUserRepository implements IPrismaUserRepository {
     await this.db.user.update({
       where: {
         id: userId,
-        role
+        role,
+        deletedAt: null
       },
       data: {
         deletedAt: new Date()
