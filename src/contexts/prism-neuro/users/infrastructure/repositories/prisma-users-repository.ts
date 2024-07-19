@@ -26,7 +26,7 @@ export class PrismaUserRepository implements IPrismaUserRepository {
       where: {
         id: patientId,
         createdBy: physioId,
-        role: USER_ROLES.PHYSIO
+        role: USER_ROLES.PATIENT
       },
       data: { deletedAt: new Date() }
     });
