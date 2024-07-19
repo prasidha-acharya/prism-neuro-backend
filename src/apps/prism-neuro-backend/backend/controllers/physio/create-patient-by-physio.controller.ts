@@ -47,7 +47,7 @@ export class CreatePatientByPhysioController implements Controller {
     const password = generatePassword();
 
     const data: ICreateUser = {
-      email,
+      email: email.toLowerCase(),
       firstName,
       lastName,
       password: hashPassword(password),

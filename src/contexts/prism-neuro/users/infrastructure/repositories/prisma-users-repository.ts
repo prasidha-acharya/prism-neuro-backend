@@ -2,8 +2,8 @@ import { LoginSession, MODE_SESSION_STATUS, OTP_TYPE, Otp, Prisma, PrismaClient,
 import {
   IChangePassword,
   ICreateAdminRequest,
-  ICreateDoctorRequest,
   ICreatePatientByPhysioRequest,
+  ICreatePhysioTherapistRequest,
   IFetchOtpRequest,
   IFetchUsersRequest,
   IFogotPasswordRequest,
@@ -11,8 +11,8 @@ import {
   IGetUserByRoleRequest,
   IGetUserRequest,
   IResetPassword,
-  IUpdateDoctorRequest,
-  IUpdatePatientReq
+  IUpdatePatientReq,
+  IUpdatePhysioTherapistRequest
 } from '../../domain/interface/user-request.interface';
 import { CreateSession } from '../../domain/interface/user-session.interface';
 import { IGetTotalUsersResponse, IPaginateResponse } from '../../domain/interface/user.response.interface';
@@ -21,7 +21,7 @@ import { IPrismaUserRepository } from '../../domain/repositories/users-repositor
 export class PrismaUserRepository implements IPrismaUserRepository {
   constructor(private db: PrismaClient) {}
 
-  async deletePatientByDoctor(patientId: string, physioId: string): Promise<void> {
+  async deletePatientByPhysio(patientId: string, physioId: string): Promise<void> {
     await this.db.user.update({
       where: {
         id: patientId,
@@ -351,7 +351,7 @@ export class PrismaUserRepository implements IPrismaUserRepository {
     });
   }
 
-  async createPhysioByAdmin(request: ICreateDoctorRequest): Promise<void> {
+  async createPhysioByAdmin(request: ICreatePhysioTherapistRequest): Promise<void> {
     const { address, userDetail, ...remainigRequest } = request;
 
     await this.db.user.create({
@@ -369,7 +369,7 @@ export class PrismaUserRepository implements IPrismaUserRepository {
     });
   }
 
-  updatePhysioByAdmin(request: IUpdateDoctorRequest): Promise<User | null> {
+  updatePhysioByAdmin(request: IUpdatePhysioTherapistRequest): Promise<User | null> {
     return this.db.user.update({
       where: {
         id: request.id,

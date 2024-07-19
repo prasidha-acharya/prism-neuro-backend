@@ -36,7 +36,7 @@ export class UserTransformer {
   }
 
   public userListsByAdmin(users: IPrismaUserResponse[]): IGetUserListByAdminResponse[] {
-    return users.map(({ id, firstLogin, email, firstName, lastName, userDetail, userAddress, role, patients }) => {
+    return users.map(({ id, isVerified, email, firstName, lastName, userDetail, userAddress, role, patients }) => {
       const { phoneNumber, phoneCode } = userDetail ?? {};
 
       let contactNumber = phoneNumber && phoneCode ? `${phoneCode}-${phoneNumber}` : null;
@@ -45,7 +45,7 @@ export class UserTransformer {
 
       let userList: IGetUserListByAdminResponse = {
         id,
-        isVerified: !firstLogin,
+        isVerified,
         firstName: firstName!,
         lastName: lastName!,
         email,

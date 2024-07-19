@@ -1,10 +1,10 @@
-import { ICreateDoctorRequest } from '../domain/interface/user-request.interface';
+import { ICreatePhysioTherapistRequest } from '../domain/interface/user-request.interface';
 import { PrismaUserRepository } from '../infrastructure/repositories/prisma-users-repository';
 
-export class CreateDoctorByAdminService {
+export class CreatePhysioByAdminService {
   constructor(private prismaUserRepository: PrismaUserRepository) {}
 
-  public async invoke(request: ICreateDoctorRequest): Promise<void> {
+  public async invoke(request: ICreatePhysioTherapistRequest): Promise<void> {
     await this.prismaUserRepository.createPhysioByAdmin(request);
   }
 }

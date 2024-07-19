@@ -42,7 +42,7 @@ model User {
   createdAt          DateTime       @default(now())
   updatedAt          DateTime       @updatedAt
   deletedAt          DateTime?
-  firstLogin         Boolean        @default(true)
+  isVerified         Boolean        @default(true)
   role               USER_ROLES
   loginSessions      LoginSession[]
   createdBy          String?

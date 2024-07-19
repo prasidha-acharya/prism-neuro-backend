@@ -3,9 +3,9 @@ import { ParamsDictionary } from 'express-serve-static-core';
 import { body } from 'express-validator';
 import httpStatus from 'http-status';
 import { ParsedQs } from 'qs';
-import { UpdatePhysioService } from '../../../../../../contexts/prism-neuro/users/application/update-doctor-by-admin.service';
+import { UpdatePhysioService } from '../../../../../../contexts/prism-neuro/users/application/update-physio-by-admin.service';
 import { IClientUpdatePhysioRequest } from '../../../../../../contexts/prism-neuro/users/domain/interface/user-client-request.interface';
-import { IUpdateDoctorRequest } from '../../../../../../contexts/prism-neuro/users/domain/interface/user-request.interface';
+import { IUpdatePhysioTherapistRequest } from '../../../../../../contexts/prism-neuro/users/domain/interface/user-request.interface';
 import { HTTP400Error } from '../../../../../../contexts/shared/domain/errors/http.exception';
 import { RequestValidator } from '../../../../../../contexts/shared/infrastructure/middleware/request-validator';
 import { MESSAGE_CODES } from '../../../../../../contexts/shared/infrastructure/utils/message-code';
@@ -33,7 +33,7 @@ export class UpdatePhysioController implements Controller {
       // const physioId: string = req.body.physioId;
       const { address, firstName, lastName, phoneCode, phoneNumber, physioId }: IClientUpdatePhysioRequest = JSON.parse(req.body.physioTherapist);
 
-      let physioData: IUpdateDoctorRequest = {
+      let physioData: IUpdatePhysioTherapistRequest = {
         id: physioId
       };
 
