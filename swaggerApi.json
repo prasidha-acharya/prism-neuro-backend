@@ -130,14 +130,14 @@
         }
       }
     },
-    "/admin/delete-user/{id}": {
+    "/admin/delete-physio/{physioId}": {
       "delete": {
         "tags": ["Admin"],
         "summary": "Delete user",
         "description": "End point to delete user",
         "parameters": [
           {
-            "name": "id",
+            "name": "physioId",
             "in": "path",
             "required": true,
             "schema": {
@@ -283,6 +283,33 @@
             }
           }
         }
+      }
+    },
+    "/admin/delete-patient/{patientId}": {
+      "delete": {
+        "tags": ["Admin"],
+        "summary": "Delete user",
+        "description": "End point to delete user",
+        "parameters": [
+          {
+            "name": "patientId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
       }
     },
     "/admin/statistics/users": {

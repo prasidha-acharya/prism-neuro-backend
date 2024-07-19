@@ -6,7 +6,7 @@ import { RequestValidator } from '../../../../../contexts/shared/infrastructure/
 import { MESSAGE_CODES } from '../../../../../contexts/shared/infrastructure/utils/message-code';
 import { Controller } from '../controller';
 
-export class DeletePatientByAdminController implements Controller {
+export class DeletePatientByPhysioController implements Controller {
   constructor(private deletePatientByAdminService: DeletePatientByAdminService) {}
 
   public validate = [param('patientId').exists().withMessage(MESSAGE_CODES.USER.REQUIRED_PATIENT_ID), RequestValidator];

@@ -1,4 +1,4 @@
-import { LoginSession, OTP_TYPE, Otp, User } from '@prisma/client';
+import { LoginSession, OTP_TYPE, Otp, USER_ROLES, User } from '@prisma/client';
 import {
   IChangePassword,
   ICreateAdminRequest,
@@ -25,7 +25,7 @@ export interface IPrismaUserRepository {
 
   updatePhysioByAdmin(request: IUpdateDoctorRequest): Promise<User | null>;
 
-  deleteUserByAdmin(userId: string): Promise<void>;
+  deleteUserByAdmin(userId: string, role: USER_ROLES): Promise<void>;
 
   deletePatientByDoctor(patientId: string, physioId: string): Promise<void>;
 

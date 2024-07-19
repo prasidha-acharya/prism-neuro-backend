@@ -8,6 +8,7 @@ import * as controllers from '../controllers';
 import { activityRoutesHandler } from './admin/activity.routes';
 import { adminPhysioRoutesHandler } from './admin/admin-physio.routes';
 import { adminAuthRoutesHandler } from './admin/auth.routes';
+import { adminPatientRoutesHandler } from './admin/patient.routes';
 import { statisticsRoutesHandler } from './admin/statistics.routes';
 import { userRoutesHandler } from './admin/user.routes';
 import { physioRoutesHandler } from './doctor/doctor.routes';
@@ -76,6 +77,9 @@ export const masterRouter = (
   statisticsRoutesHandler({ getTotalUsersController, getModeAnalyticsController }, adminAuthorizer, apiRouter);
 
   adminAuthRoutesHandler({ loginAdminController }, apiRouter);
+
+  adminPatientRoutesHandler({ deletePatientByAdminController }, adminAuthorizer, apiRouter);
+
   physioRoutesHandler(
     {
       loginPhysioController,
@@ -103,6 +107,7 @@ export const masterRouter = (
     patientAuthorizer,
     apiRouter
   );
+
   userRoutesHandler(
     {
       userLogoutController,
@@ -123,6 +128,7 @@ export const masterRouter = (
     adminAuthorizer,
     apiRouter
   );
+
   modeTrialRoutesHandler(
     {
       endModeTrialController,

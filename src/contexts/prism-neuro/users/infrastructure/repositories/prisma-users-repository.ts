@@ -401,10 +401,11 @@ export class PrismaUserRepository implements IPrismaUserRepository {
     });
   }
 
-  async deleteUserByAdmin(userId: string): Promise<void> {
+  async deleteUserByAdmin(userId: string, role: USER_ROLES): Promise<void> {
     await this.db.user.update({
       where: {
-        id: userId
+        id: userId,
+        role
       },
       data: {
         deletedAt: new Date()

@@ -13,7 +13,7 @@ interface IHandler {
 export const imageUpload = multer({});
 
 export const adminPhysioRoutesHandler = (
-  { createPhysioController, updatePhysioController, getAllUsersController, getAllPatientListByPhysioIdController }: IHandler,
+  { createPhysioController, updatePhysioController, getAllUsersController, getAllPatientListByPhysioIdController, deletePhysioController }: IHandler,
   adminAuthorizer: IAuthorizer<Request, Response, NextFunction>,
   router: Router
 ): Router => {
@@ -131,9 +131,9 @@ export const adminPhysioRoutesHandler = (
   );
 
   router.delete(
-    '/admin/delete-user/:id',
-    adminAuthorizer.authorize
-    // deleteDoctorController.invoke.bind(deleteDoctorController)
+    '/admin/delete-physio/:physioId',
+    adminAuthorizer.authorize,
+    deletePhysioController.invoke.bind(deletePhysioController)
     /*
       #swagger.security = [{
             "bearerAuth": []

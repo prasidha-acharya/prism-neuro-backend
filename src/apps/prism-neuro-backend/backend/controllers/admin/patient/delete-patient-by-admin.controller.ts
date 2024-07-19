@@ -9,11 +9,11 @@ import { RequestValidator } from '../../../../../../contexts/shared/infrastructu
 import { MESSAGE_CODES } from '../../../../../../contexts/shared/infrastructure/utils/message-code';
 import { Controller } from '../../controller';
 
-export class DeletePhysioController implements Controller {
+export class DeletePatientByAdminController implements Controller {
   constructor(private deleteUserService: DeleteUserService) {}
 
   public validate = [
-    param('physioId').exists().withMessage(MESSAGE_CODES.USER.REQUIRED_EMAIL).isEmail().withMessage(MESSAGE_CODES.USER.INVALID_EMAIL),
+    param('patientId').exists().withMessage(MESSAGE_CODES.USER.REQUIRED_EMAIL).isEmail().withMessage(MESSAGE_CODES.USER.INVALID_EMAIL),
     RequestValidator
   ];
 
@@ -23,8 +23,10 @@ export class DeletePhysioController implements Controller {
     next: NextFunction
   ): Promise<void> {
     try {
-      const { physioId } = req.params;
-      await this.deleteUserService.invoke(physioId, USER_ROLES.PHYSIO);
+      const { patientId } = req.params;
+
+      await this.deleteUserService.invoke(patientId, USER_ROLES.PATIENT);
+
       res.status(httpStatus.OK).json({ status: 'SUCCESS' });
     } catch (error) {
       next(error);
