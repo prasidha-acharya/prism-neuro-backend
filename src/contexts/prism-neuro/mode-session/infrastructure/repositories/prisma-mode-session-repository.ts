@@ -77,8 +77,6 @@ export class PrismaModeSessionRepository implements IModeSessionRepository {
 
     const totalPages = Math.ceil(total / limit) ?? 0;
 
-    console.log({ modeSessions });
-
     return {
       data: modeSessions,
       pagination: {
