@@ -1,4 +1,4 @@
-import { MODE_SESSION_STATUS, MODE_TRIAL_SESSION_STATUS, ModeSession, Prisma, PrismaClient } from '@prisma/client';
+import { MODE_SESSION_STATUS, ModeSession, Prisma, PrismaClient } from '@prisma/client';
 import { IPaginateResponse } from '../../../../../contexts/prism-neuro/users/domain/interface/user.response.interface';
 import {
   ICreateModeSessionRequest,
@@ -29,15 +29,12 @@ export class PrismaModeSessionRepository implements IModeSessionRepository {
       },
       patientId,
       physioId,
-      status: MODE_SESSION_STATUS.STOP,
-      modeTrialSession: {
-        every: {
-          status: MODE_TRIAL_SESSION_STATUS.COMPLETED
-        },
-        some: {
-          modeId
-        }
-      }
+      status: MODE_SESSION_STATUS.STOP
+      // modeTrialSession: {
+      //   every: {
+      //     status: MODE_TRIAL_SESSION_STATUS.COMPLETED
+      //   }
+      // }
     };
 
     if (startDate) {
@@ -73,7 +70,7 @@ export class PrismaModeSessionRepository implements IModeSessionRepository {
           }
         },
         orderBy: {
-          createdAt: 'desc'
+          createdAt: 'asc'
         },
         take: limit,
         skip: (page - 1) * limit
