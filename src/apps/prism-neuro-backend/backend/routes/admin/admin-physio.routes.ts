@@ -21,6 +21,7 @@ export const adminPhysioRoutesHandler = (
     '/admin/create-physio',
     imageUpload.single('file'),
     adminAuthorizer.authorize,
+    createPhysioController.parse,
     createPhysioController.validate,
     createPhysioController.invoke.bind(createPhysioController)
     /* 
@@ -30,16 +31,35 @@ export const adminPhysioRoutesHandler = (
    #swagger.tags = ['Admin']
    #swagger.summary = 'Admin creates physio'
    #swagger.description = ''
-   #swagger.requestBody = {
-            required: true,
-            content: {
-                "multipart/form-data": {
-                    schema: {
-                        $ref: "#/components/schemas/createPhysioRequest"
-                    }  
-                }
+      #swagger.requestBody = {
+      required: true,
+      content: {
+        "multipart/form-data": {
+          schema: {
+            type: "object",
+            required: ["file","patient"],
+            properties: {
+             file: { type: "string", format: "binary" },
+             patient:{
+             type:"object",
+             required:["email", "firstName" ,"lastName","address"],
+               properties :{
+               email: { type: "string", format: "email" },
+              firstName: { type: "string"},
+              lastName: { type: "string"},
+              address:{type:"array",required:"true"},
+              lastName: { type: "string",required:"true" },
+              phoneCode: { type: "string" },
+              phoneNumber:{type:"string"},
+               }
+
+             }
+              
             }
-        } 
+          }
+        }
+      }
+    }
   #swagger.responses[201]  = {
       schema: {
         $ref: "#/components/schemas/successReponse"

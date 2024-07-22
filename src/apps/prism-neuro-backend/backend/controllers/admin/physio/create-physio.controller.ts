@@ -40,20 +40,23 @@ export class CreatePhysioController implements Controller {
         }
         return true;
       }),
-    body('physioTherapist.address')
-      .exists()
-      .withMessage(MESSAGE_CODES.USER.REQUIRED_ADDRESS)
-      .isString()
-      .withMessage(MESSAGE_CODES.USER.INVALID_ADDRESS),
+
+    body('physioTherapist.address.*.name').notEmpty().withMessage(MESSAGE_CODES.USER.ADDRESS.REQUIRED_ADDRESS_NAME),
     RequestValidator
   ];
+
+  public parse(req: Request, res: Response, next: NextFunction): void {
+    const physioTherapist = JSON.parse(req.body.physioTherapist);
+    req.body.physioTherapist = { ...physioTherapist, address: JSON.parse(physioTherapist.address) };
+    next();
+  }
 
   public async invoke(
     req: Request<ParamsDictionary, any, any, ParsedQs, Record<string, any>>,
     res: Response<any, Record<string, any>>,
     next: NextFunction
   ): Promise<void> {
-    const { firstName, lastName, email, address, phoneCode, phoneNumber }: IClientCreatePhysioRequest = JSON.parse(req.body.physioTherapist);
+    const { firstName, lastName, email, address, phoneCode, phoneNumber }: IClientCreatePhysioRequest = req.body.physioTherapist;
 
     const password = generatePassword();
 

@@ -86,7 +86,41 @@
           "content": {
             "multipart/form-data": {
               "schema": {
-                "$ref": "#/components/schemas/createPhysioRequest"
+                "type": "object",
+                "required": ["file", "patient"],
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "patient": {
+                    "type": "object",
+                    "required": ["email", "firstName", "lastName", "address"],
+                    "properties": {
+                      "email": {
+                        "type": "string",
+                        "format": "email"
+                      },
+                      "firstName": {
+                        "type": "string"
+                      },
+                      "lastName": {
+                        "type": "string",
+                        "required": "true"
+                      },
+                      "address": {
+                        "type": "array",
+                        "required": "true"
+                      },
+                      "phoneCode": {
+                        "type": "string"
+                      },
+                      "phoneNumber": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
               }
             }
           }
