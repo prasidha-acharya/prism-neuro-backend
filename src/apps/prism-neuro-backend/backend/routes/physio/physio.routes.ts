@@ -12,6 +12,7 @@ interface IHandler {
   getPerformanceSummaryOfPhysioController: controllers.GetPerformanceSummaryOfPhysioController;
   deletePatientByAdminController: controllers.DeletePatientByAdminController;
   getModeSessionActivityOfPatientByPhysioController: controllers.GetModeSessionActivityOfPatientByPhysioController;
+  getSessionsBetweenPatientAndDoctorController: controllers.GetSessionsBetweenPatientAndDoctorController;
 }
 
 export const physioRoutesHandler = (
@@ -22,7 +23,8 @@ export const physioRoutesHandler = (
     getPhysioModeAnalyticsController,
     getPerformanceSummaryOfPhysioController,
     deletePatientByAdminController,
-    getModeSessionActivityOfPatientByPhysioController
+    getModeSessionActivityOfPatientByPhysioController,
+    getSessionsBetweenPatientAndDoctorController
   }: IHandler,
   physioAuthorizer: IAuthorizer<Request, Response, NextFunction>,
   router: Router
@@ -222,6 +224,63 @@ export const physioRoutesHandler = (
     #swagger.parameters['page'] = {
     in:"query",
     type:"number",
+    }
+
+     #swagger.responses[200]  = {
+      schema: {
+        $ref: "#/components/schemas/getModeSessionOfPatientResponse"
+      }
+    }
+     */
+  );
+
+  router.get(
+    '/physio/patient-sessions/:modeId/:patientId',
+    physioAuthorizer.authorize,
+    getSessionsBetweenPatientAndDoctorController.validate,
+    getSessionsBetweenPatientAndDoctorController.invoke.bind(getSessionsBetweenPatientAndDoctorController)
+
+    /*
+    #swagger.security =[{
+    "bearerAuth":[]
+    }]
+    #swagger.tags =['Physio']
+    #swagger.summary = 'Patient mode session'
+    #swagger.description = 'Physio can view their patients activity'
+
+      #swagger.parameters['search'] = {
+    in:"query",
+    type:"number",
+    }
+
+      #swagger.parameters['startDate'] = {
+    in:"query",
+    type:"string",
+    }
+
+    #swagger.parameters['endDate'] = {
+    in:"query",
+    type:"string",
+    }
+
+    #swagger.parameters['limit'] = {
+    in:"query",
+    type:"number",
+    }
+    
+    #swagger.parameters['page'] = {
+    in:"query",
+    type:"number",
+    }
+
+    #swagger.parameters['modeId'] = {
+    in:"path",
+    type:"string",
+    }
+
+    #swagger.parameters['patientId'] = {
+    in:"path",
+    type:"string",
     }
 
      #swagger.responses[200]  = {
