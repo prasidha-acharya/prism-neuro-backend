@@ -30,7 +30,7 @@ export class PrismaUserRepository implements IPrismaUserRepository {
         userDetail: true,
         patientModeSession: {
           orderBy: {
-            createdAt: 'desc'
+            createdAt: 'asc'
           },
           include: {
             modeTrialSession: true
