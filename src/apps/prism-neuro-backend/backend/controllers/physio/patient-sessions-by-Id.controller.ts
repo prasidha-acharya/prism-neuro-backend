@@ -8,7 +8,7 @@ import { ModeTransformer } from '../../../../../contexts/shared/infrastructure/t
 import { MESSAGE_CODES } from '../../../../../contexts/shared/infrastructure/utils/message-code';
 import { Controller } from '../controller';
 
-export class GetModeSessionActivityOfPatientController implements Controller {
+export class GetSessionsBetweenPatientAndDoctorController implements Controller {
   constructor(
     private getSessionOfPateintService: GetSessionOfPateintService,
     private modeTransformer: ModeTransformer
@@ -16,6 +16,7 @@ export class GetModeSessionActivityOfPatientController implements Controller {
 
   public validate = [
     param('modeId').exists().withMessage(MESSAGE_CODES.MODE.REQUIRED_MODE_ID),
+    param('patientId').exists().withMessage(MESSAGE_CODES.MODE.REQUIRED_PATIENT_ID),
     query('startDate')
       .optional()
       .isISO8601()
@@ -68,13 +69,15 @@ export class GetModeSessionActivityOfPatientController implements Controller {
       startDate?: Date;
     };
 
-    const patientId = req.body.user.userId;
+    const patientId = req.params.patientId;
+    const physioId = req.body.user.userId;
 
     const modeId = req.params.modeId;
 
     try {
       const response = await this.getSessionOfPateintService.invoke({
         patientId,
+        physioId,
         modeId,
         search,
         startDate,
