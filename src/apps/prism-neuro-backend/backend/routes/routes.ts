@@ -11,11 +11,11 @@ import { adminAuthRoutesHandler } from './admin/auth.routes';
 import { adminPatientRoutesHandler } from './admin/patient.routes';
 import { statisticsRoutesHandler } from './admin/statistics.routes';
 import { userRoutesHandler } from './admin/user.routes';
-import { physioRoutesHandler } from './doctor/doctor.routes';
 import { modeSessionRoutesHandler } from './mode-session/mode-session.routes';
 import { modeTrialRoutesHandler } from './mode-trial/mode-trial.routes';
 import { modeRoutesHandler } from './mode/mode.routes';
 import { patientRoutesHandler } from './patient/patient.routes';
+import { physioRoutesHandler } from './physio/physio.routes';
 
 export const masterRouter = (
   createPhysioController: controllers.CreatePhysioController,
