@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response, Router } from 'express';
-import { JWTPatientAuthorizer } from 'src/contexts/shared/infrastructure/authorizer/patient.authorizer';
 import { IAuthorizer } from '../../../../contexts/shared/domain/model/authentication/authorizer';
+import { JWTPatientAuthorizer } from '../../../../contexts/shared/infrastructure/authorizer/patient.authorizer';
 import { JWTPhysioTherapistAuthorizer } from '../../../../contexts/shared/infrastructure/authorizer/physio.authorizer';
 import { RefreshAuthorizer } from '../../../../contexts/shared/infrastructure/authorizer/refresh.authorizer';
 import { JWTUserAuthorizer } from '../../../../contexts/shared/infrastructure/authorizer/user.authorizer';
