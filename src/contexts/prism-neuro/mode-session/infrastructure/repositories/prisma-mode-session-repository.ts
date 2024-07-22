@@ -18,6 +18,7 @@ export class PrismaModeSessionRepository implements IModeSessionRepository {
     search,
     modeId,
     patientId,
+    physioId,
     page = 1,
     limit = 10
   }: IGetModeTrialsOfPatientRequest): Promise<IPaginateResponse<any[] | null>> {
@@ -27,6 +28,7 @@ export class PrismaModeSessionRepository implements IModeSessionRepository {
         has: modeId
       },
       patientId,
+      physioId,
       status: MODE_SESSION_STATUS.STOP,
       modeTrialSession: {
         every: {
@@ -71,7 +73,7 @@ export class PrismaModeSessionRepository implements IModeSessionRepository {
           }
         },
         orderBy: {
-          createdAt: 'asc'
+          createdAt: 'desc'
         },
         take: limit,
         skip: (page - 1) * limit

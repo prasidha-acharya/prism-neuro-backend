@@ -11,7 +11,7 @@ interface IHandler {
   getPhysioModeAnalyticsController: controllers.GetPhysioModeAnalyticsController;
   getPerformanceSummaryOfPhysioController: controllers.GetPerformanceSummaryOfPhysioController;
   deletePatientByAdminController: controllers.DeletePatientByAdminController;
-  // getModeSessionActivityOfPatientByPhysioController: controllers.GetModeSessionActivityOfPatientByPhysioController;
+  getModeSessionActivityOfPatientByPhysioController: controllers.GetModeSessionActivityOfPatientByPhysioController;
 }
 
 export const physioRoutesHandler = (
@@ -21,8 +21,8 @@ export const physioRoutesHandler = (
     getAllPatientListsWithSessionController,
     getPhysioModeAnalyticsController,
     getPerformanceSummaryOfPhysioController,
-    deletePatientByAdminController
-    // getModeSessionActivityOfPatientByPhysioController
+    deletePatientByAdminController,
+    getModeSessionActivityOfPatientByPhysioController
   }: IHandler,
   physioAuthorizer: IAuthorizer<Request, Response, NextFunction>,
   router: Router
@@ -189,8 +189,8 @@ export const physioRoutesHandler = (
 
   router.get(
     '/physio/activity/:modeId',
-    physioAuthorizer.authorize
-    // getModeSessionActivityOfPatientByPhysioController.invoke.bind(getModeSessionActivityOfPatientByPhysioController)
+    physioAuthorizer.authorize,
+    getModeSessionActivityOfPatientByPhysioController.invoke.bind(getModeSessionActivityOfPatientByPhysioController)
     /*
     #swagger.security =[{
     "bearerAuth":[]
