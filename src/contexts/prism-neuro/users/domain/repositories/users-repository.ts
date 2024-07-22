@@ -14,7 +14,7 @@ import {
   IUpdatePhysioTherapistRequest
 } from '../../domain/interface/user-request.interface';
 import { CreateSession } from '../interface/user-session.interface';
-import { IGetTotalUsersResponse, IPaginateResponse } from '../interface/user.response.interface';
+import { IGetTotalUsersResponse, IPaginateResponse, IPrismaUserForGetPatientsByPhysioResponse } from '../interface/user.response.interface';
 
 export interface IPrismaUserRepository {
   createAdmin(request: ICreateAdminRequest): Promise<void>;
@@ -58,4 +58,6 @@ export interface IPrismaUserRepository {
   getTotalUsers(request: IGetTotalUsersRequest): Promise<IGetTotalUsersResponse>;
 
   getTotalPatients(physioId: string): Promise<number>;
+
+  getPatientsOfPhysio(physioId: string): Promise<IPrismaUserForGetPatientsByPhysioResponse[] | null>;
 }

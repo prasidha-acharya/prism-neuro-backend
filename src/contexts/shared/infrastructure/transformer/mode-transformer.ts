@@ -1,30 +1,67 @@
 import { ModeTrialSession, Prisma } from '@prisma/client';
 import { IPrismaModeSessionRequest } from '../../../../contexts/prism-neuro/mode-session/domain/interface/mode-session-request.interface';
-import { IGetModeSessionOfPatientResponse } from '../../../../contexts/prism-neuro/mode-session/domain/interface/mode-session-response.interface';
+import {
+  IGetModeSessionOfPatientResponse,
+  IGetPatientsModeSessionByPhysioResponse,
+  ITrials
+} from '../../../../contexts/prism-neuro/mode-session/domain/interface/mode-session-response.interface';
+import { IPrismaUserForGetPatientsByPhysioResponse } from '../../../../contexts/prism-neuro/users/domain/interface/user.response.interface';
 
 export class ModeTransformer {
-  public modeSessionActivityOfAllPatientsByPhysio(modeSessions: IPrismaModeSessionRequest[]): IGetModeSessionOfPatientResponse[] {
-    return modeSessions.map(({ id, createdAt, modeTrialSession, patient }, index) => {
-      return {
-        id,
-        createdAt,
-        patient: {
-          id: patient.id,
-          fullName: `${patient.firstName} ${patient.lastName}`,
-          profileURL: patient?.userDetail?.profileURL ?? null
-        },
-        sessions: index + 1,
-        trials: modeTrialSession.map(({ trialId, results, id, modeId }) => {
-          let result: number | null = null;
+  public modeSessionActivityOfAllPatientsByPhysio(
+    users: IPrismaUserForGetPatientsByPhysioResponse[],
+    modeId: string
+  ): IGetPatientsModeSessionByPhysioResponse[] {
+    return users?.reduce((results: IGetPatientsModeSessionByPhysioResponse[], user) => {
+      const { firstName, lastName, id: userId, userDetail, patientModeSession } = user;
 
-          if (results && typeof results === 'object') {
-            const trialObject = results as Prisma.JsonObject;
-            result = Number(trialObject.data);
-          }
-          return { id, result, trialId, modeId };
-        })
+      let initialData: IGetPatientsModeSessionByPhysioResponse = {
+        id: '',
+        user: {
+          id: userId,
+          fullName: `${firstName} ${lastName}`,
+          profileURL: userDetail?.profileURL ?? null
+        },
+        trials: [],
+        createdAt: new Date(),
+        session: 0
       };
-    });
+
+      //
+
+      const trials = patientModeSession.reduce(
+        (modeTrials: IGetPatientsModeSessionByPhysioResponse[], { modeIds, modeTrialSession, id, createdAt }, index: number) => {
+          if (modeIds.includes(modeId)) {
+            const trialsFilteredByMode = modeTrialSession.reduce((trialResult: ITrials[], trialSession) => {
+              if (trialSession.modeId === modeId) {
+                trialResult.push({
+                  id: trialSession.id,
+                  result: 20,
+                  trialId: trialSession.trialId
+                });
+              }
+              return trialResult;
+            }, []);
+
+            if (trialsFilteredByMode.length) {
+              modeTrials.push({
+                ...initialData,
+                id,
+                trials: trialsFilteredByMode,
+                createdAt,
+                session: index + 1
+              });
+            }
+          }
+
+          return modeTrials;
+        },
+        []
+      );
+
+      results = trials;
+      return results;
+    }, []);
   }
 
   public modeSessionOfPatients(modeSessions: IPrismaModeSessionRequest[]): IGetModeSessionOfPatientResponse[] {

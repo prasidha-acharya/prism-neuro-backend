@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { param, query } from 'express-validator';
 import httpStatus from 'http-status';
-import { GetSessionOfPateintService } from '../../../../../contexts/prism-neuro/mode-session/application/get-session-of-patient.service';
+import { GetPatientsOfPhysioService } from '../../../../../contexts/prism-neuro/users/application/get-pateints-of-physio.service';
 import { HTTP422Error } from '../../../../../contexts/shared/domain/errors/http.exception';
 import { RequestValidator } from '../../../../../contexts/shared/infrastructure/middleware/request-validator';
 import { ModeTransformer } from '../../../../../contexts/shared/infrastructure/transformer/mode-transformer';
@@ -10,8 +10,8 @@ import { Controller } from '../controller';
 
 export class GetModeSessionActivityOfPatientByPhysioController implements Controller {
   constructor(
-    private getSessionOfPateintService: GetSessionOfPateintService,
-    private modeTransformer: ModeTransformer
+    private modeTransformer: ModeTransformer,
+    private getPatientsOfPhysioService: GetPatientsOfPhysioService
   ) {}
 
   public validate = [
@@ -60,28 +60,26 @@ export class GetModeSessionActivityOfPatientByPhysioController implements Contro
   ];
 
   async invoke(req: Request, res: Response, next: NextFunction): Promise<void> {
-    const { limit, page, endDate, search, startDate } = req?.query as unknown as {
-      limit?: number;
-      page?: number;
-      search?: string;
-      endDate?: Date;
-      startDate?: Date;
-    };
+    // const { limit, page, endDate, search, startDate } = req?.query as unknown as {
+    //   limit?: number;
+    //   page?: number;
+    //   search?: string;
+    //   endDate?: Date;
+    //   startDate?: Date;
+    // };
 
     const physioId = req.body.user.userId;
 
     const modeId = req.params.modeId;
 
     try {
-      const response = await this.getSessionOfPateintService.invoke({ modeId, page, startDate, endDate, limit, search, physioId });
-      const data = response.data === null ? [] : this.modeTransformer.modeSessionActivityOfAllPatientsByPhysio(response.data);
+      const response = await this.getPatientsOfPhysioService.invoke(physioId);
+
+      const data = response === null ? [] : this.modeTransformer.modeSessionActivityOfAllPatientsByPhysio(response, modeId);
 
       res.status(httpStatus.OK).json({
         status: 'SUCCESS',
-        data: {
-          ...response,
-          data
-        }
+        data
       });
     } catch (error) {
       next(error);
