@@ -31,6 +31,9 @@ export class PrismaModeSessionRepository implements IModeSessionRepository {
       modeTrialSession: {
         every: {
           status: MODE_TRIAL_SESSION_STATUS.COMPLETED
+        },
+        some: {
+          modeId
         }
       }
     };
@@ -61,11 +64,14 @@ export class PrismaModeSessionRepository implements IModeSessionRepository {
           patient: { include: { userDetail: true } },
           physio: { include: { userDetail: true } },
           modeTrialSession: {
+            where: {
+              modeId
+            },
             include: { mode: true }
           }
         },
         orderBy: {
-          createdAt: 'desc'
+          createdAt: 'asc'
         },
         take: limit,
         skip: (page - 1) * limit
@@ -110,12 +116,17 @@ export class PrismaModeSessionRepository implements IModeSessionRepository {
   }
 
   async updateModeSession({ modeId, ...request }: IUpdateModeSessionRequest, sessionId: string): Promise<void> {
+    let data: any = {
+      ...request
+    };
+
+    if (modeId) {
+      data = { ...data, modeIds: { push: modeId } };
+    }
+
     await this.db.modeSession.update({
       where: { id: sessionId },
-      data: {
-        ...request,
-        modeIds: { push: modeId }
-      }
+      data
     });
   }
 }
