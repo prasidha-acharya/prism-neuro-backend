@@ -94,8 +94,8 @@ export class PrismaModeSessionRepository implements IModeSessionRepository {
         total,
         totalPages,
         currentPage: page,
-        isFirstPage: page === 0,
-        isLastPage: page === totalPages - 1
+        isFirstPage: page === 1,
+        isLastPage: page === totalPages
       }
     };
   }

@@ -194,7 +194,6 @@ export class PrismaUserRepository implements IPrismaUserRepository {
   }
 
   async getPaginatedUsers(request: IFetchUsersRequest): Promise<IPaginateResponse<any>> {
-    console.log('🚀 ~ PrismaUserRepository ~ getPaginatedUsers ~ request:', request);
     const { page = 1, limit = 10 } = request;
     const args = this.arguments(request);
 
