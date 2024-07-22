@@ -53,6 +53,7 @@ export const masterRouter = (
   getPhysioModeAnalyticsController: controllers.GetPhysioModeAnalyticsController,
   getPerformanceSummaryOfPhysioController: controllers.GetPerformanceSummaryOfPhysioController,
   deletePatientByAdminController: controllers.DeletePatientByAdminController,
+  getModeSessionActivityOfPatientByPhysioController: controllers.GetModeSessionActivityOfPatientByPhysioController,
   refreshAuthorizer: RefreshAuthorizer,
   userAuthorizer: JWTUserAuthorizer,
   physioAuthorizer: JWTPhysioTherapistAuthorizer,
@@ -89,7 +90,8 @@ export const masterRouter = (
       createPatientByPhysioController,
       getPhysioModeAnalyticsController,
       getPerformanceSummaryOfPhysioController,
-      deletePatientByAdminController
+      deletePatientByAdminController,
+      getModeSessionActivityOfPatientByPhysioController
     },
     physioAuthorizer,
     apiRouter

@@ -18,17 +18,24 @@ export class PrismaModeSessionRepository implements IModeSessionRepository {
     search,
     modeId,
     patientId,
+    physioId,
     page = 1,
     limit = 10
   }: IGetModeTrialsOfPatientRequest): Promise<IPaginateResponse<any[] | null>> {
     let args: Prisma.ModeSessionFindManyArgs['where'] = {
       deletedAt: null,
-      modeId,
+      modeIds: {
+        has: modeId
+      },
       patientId,
+      physioId,
       status: MODE_SESSION_STATUS.STOP,
       modeTrialSession: {
         every: {
           status: MODE_TRIAL_SESSION_STATUS.COMPLETED
+        },
+        some: {
+          modeId
         }
       }
     };
@@ -59,6 +66,9 @@ export class PrismaModeSessionRepository implements IModeSessionRepository {
           patient: { include: { userDetail: true } },
           physio: { include: { userDetail: true } },
           modeTrialSession: {
+            where: {
+              modeId
+            },
             include: { mode: true }
           }
         },
@@ -76,8 +86,6 @@ export class PrismaModeSessionRepository implements IModeSessionRepository {
     ]);
 
     const totalPages = Math.ceil(total / limit) ?? 0;
-
-    console.log({ modeSessions });
 
     return {
       data: modeSessions,
@@ -109,12 +117,18 @@ export class PrismaModeSessionRepository implements IModeSessionRepository {
     });
   }
 
-  async updateModeSession(request: IUpdateModeSessionRequest, sessionId: string): Promise<void> {
+  async updateModeSession({ modeId, ...request }: IUpdateModeSessionRequest, sessionId: string): Promise<void> {
+    let data: any = {
+      ...request
+    };
+
+    if (modeId) {
+      data = { ...data, modeIds: { push: modeId } };
+    }
+
     await this.db.modeSession.update({
       where: { id: sessionId },
-      data: {
-        ...request
-      }
+      data
     });
   }
 }

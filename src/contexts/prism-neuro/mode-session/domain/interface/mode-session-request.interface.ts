@@ -25,6 +25,7 @@ export interface IUpdateModeSessionRequest {
 export interface IGetModeTrialsOfPatientRequest {
   modeId?: string;
   patientId?: string;
+  physioId?: string;
   search?: string;
   startDate?: Date;
   endDate?: Date;

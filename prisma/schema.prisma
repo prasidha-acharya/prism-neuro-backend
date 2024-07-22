@@ -42,7 +42,7 @@ model User {
   createdAt          DateTime       @default(now())
   updatedAt          DateTime       @updatedAt
   deletedAt          DateTime?
-  isVerified         Boolean        @default(true)
+  isVerified         Boolean        @default(false)
   role               USER_ROLES
   loginSessions      LoginSession[]
   createdBy          String?
@@ -100,7 +100,7 @@ model ModeSession {
   physio           User                @relation(fields: [physioId], name: "physioModeSession", references: [id])
   patient          User                @relation(fields: [patientId], name: "patientModeSession", references: [id])
   physioId         String
-  modeId           String?
+  modeIds          String[]
   status           MODE_SESSION_STATUS
   createdAt        DateTime            @default(now()) @db.Timestamptz()
   updatedAt        DateTime            @updatedAt

@@ -29,6 +29,7 @@ import { DeleteUserSessionService } from '../../../contexts/prism-neuro/users/ap
 import { ForgotPasswordService } from '../../../contexts/prism-neuro/users/application/forgot-password.service';
 import { GetAdminByEmailService } from '../../../contexts/prism-neuro/users/application/get-admin-email.service';
 import { GetOtpService } from '../../../contexts/prism-neuro/users/application/get-otp.service';
+import { GetPatientsOfPhysioService } from '../../../contexts/prism-neuro/users/application/get-pateints-of-physio.service';
 import { GetTotalPatientsService } from '../../../contexts/prism-neuro/users/application/get-total-patients.service';
 import { GetTotalUsersService } from '../../../contexts/prism-neuro/users/application/get-total-users.service';
 import { GetUserByRoleService } from '../../../contexts/prism-neuro/users/application/get-user-by-role.service';
@@ -93,7 +94,8 @@ const {
   UpdatePatientProfileController,
   GetPhysioModeAnalyticsController,
   GetPerformanceSummaryOfPhysioController,
-  DeletePatientByAdminController
+  DeletePatientByAdminController,
+  GetModeSessionActivityOfPatientByPhysioController
 } = controller;
 export class Container {
   private readonly container: AwilixContainer;
@@ -190,7 +192,8 @@ export class Container {
         updatePatientService: asClass(UpdatePatientService).singleton(),
         updatePatientProfileController: asClass(UpdatePatientProfileController),
         deletePatientByAdminService: asClass(DeletePatientByAdminService).singleton(),
-        deletePatientByAdminController: asClass(DeletePatientByAdminController)
+        deletePatientByAdminController: asClass(DeletePatientByAdminController),
+        getPatientsOfPhysioService: asClass(GetPatientsOfPhysioService).singleton()
       })
       //doctor
       .register({
@@ -227,7 +230,8 @@ export class Container {
         getPhysioModeAnalyticsController: asClass(GetPhysioModeAnalyticsController),
         getModeTrialsOfPhysioService: asClass(GetModeTrialsOfPhysioService).singleton(),
         getPerformanceSummaryOfPhysioController: asClass(GetPerformanceSummaryOfPhysioController),
-        getTotalPatientsService: asClass(GetTotalPatientsService).singleton()
+        getTotalPatientsService: asClass(GetTotalPatientsService).singleton(),
+        getModeSessionActivityOfPatientByPhysioController: asClass(GetModeSessionActivityOfPatientByPhysioController)
       })
       //mode trial session
       .register({

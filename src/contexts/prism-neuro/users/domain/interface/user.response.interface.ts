@@ -48,3 +48,8 @@ export interface IGetPatientPerformance {
   bestScores: number;
   averageScores: number;
 }
+
+export interface IPrismaUserForGetPatientsByPhysioResponse extends User {
+  userDetail?: UserDetail | null;
+  patientModeSession: IPrismaModeSessionResponse[];
+}

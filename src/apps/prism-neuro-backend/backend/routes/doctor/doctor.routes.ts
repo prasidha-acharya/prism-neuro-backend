@@ -11,6 +11,7 @@ interface IHandler {
   getPhysioModeAnalyticsController: controllers.GetPhysioModeAnalyticsController;
   getPerformanceSummaryOfPhysioController: controllers.GetPerformanceSummaryOfPhysioController;
   deletePatientByAdminController: controllers.DeletePatientByAdminController;
+  getModeSessionActivityOfPatientByPhysioController: controllers.GetModeSessionActivityOfPatientByPhysioController;
 }
 
 export const physioRoutesHandler = (
@@ -20,7 +21,8 @@ export const physioRoutesHandler = (
     getAllPatientListsWithSessionController,
     getPhysioModeAnalyticsController,
     getPerformanceSummaryOfPhysioController,
-    deletePatientByAdminController
+    deletePatientByAdminController,
+    getModeSessionActivityOfPatientByPhysioController
   }: IHandler,
   physioAuthorizer: IAuthorizer<Request, Response, NextFunction>,
   router: Router
@@ -113,8 +115,8 @@ export const physioRoutesHandler = (
   #swagger.security = [{
             "bearerAuth": []
     }] 
-      #swagger.tags = ['Physio']
-      #swagger.summary = 'Physio can fetch patient lists'
+      #swagger.tags = ['Physio ']
+      #swagger.summary = 'Tablet end point to fetch patient lists to start session.'
       #swagger.description = 'Endpoint for physio-therapist to fetch patient lists'
       #swagger.parameters['search'] = {
         in: 'query',
@@ -181,6 +183,53 @@ export const physioRoutesHandler = (
       #swagger.summary = 'Physio therapists delete their patients. '
       #swagger.description = ''
     */
+  );
+
+  // TODO :WIP
+
+  router.get(
+    '/physio/activity/:modeId',
+    physioAuthorizer.authorize,
+    getModeSessionActivityOfPatientByPhysioController.invoke.bind(getModeSessionActivityOfPatientByPhysioController)
+    /*
+    #swagger.security =[{
+    "bearerAuth":[]
+    }]
+    #swagger.tags =['Physio']
+    #swagger.summary = 'Patient Activity / History'
+    #swagger.description = 'Patient can view their activity'
+
+      #swagger.parameters['search'] = {
+    in:"query",
+    type:"number",
+    }
+
+      #swagger.parameters['startDate'] = {
+    in:"query",
+    type:"string",
+    }
+
+    #swagger.parameters['endDate'] = {
+    in:"query",
+    type:"string",
+    }
+
+    #swagger.parameters['limit'] = {
+    in:"query",
+    type:"number",
+    }
+    
+    #swagger.parameters['page'] = {
+    in:"query",
+    type:"number",
+    }
+
+     #swagger.responses[200]  = {
+      schema: {
+        $ref: "#/components/schemas/getModeSessionOfPatientResponse"
+      }
+    }
+     */
   );
 
   return router;

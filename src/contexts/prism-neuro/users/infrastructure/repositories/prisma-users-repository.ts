@@ -15,11 +15,33 @@ import {
   IUpdatePhysioTherapistRequest
 } from '../../domain/interface/user-request.interface';
 import { CreateSession } from '../../domain/interface/user-session.interface';
-import { IGetTotalUsersResponse, IPaginateResponse } from '../../domain/interface/user.response.interface';
+import { IGetTotalUsersResponse, IPaginateResponse, IPrismaUserForGetPatientsByPhysioResponse } from '../../domain/interface/user.response.interface';
 import { IPrismaUserRepository } from '../../domain/repositories/users-repository';
 
 export class PrismaUserRepository implements IPrismaUserRepository {
   constructor(private db: PrismaClient) {}
+
+  async getPatientsOfPhysio(physioId: string): Promise<IPrismaUserForGetPatientsByPhysioResponse[] | null> {
+    return this.db.user.findMany({
+      where: {
+        createdBy: physioId
+      },
+      include: {
+        userDetail: true,
+        patientModeSession: {
+          orderBy: {
+            createdAt: 'asc'
+          },
+          include: {
+            modeTrialSession: true
+          }
+        }
+      },
+      orderBy: {
+        createdAt: 'desc'
+      }
+    });
+  }
 
   async deletePatientByPhysio(patientId: string, physioId: string): Promise<void> {
     await this.db.user.update({
@@ -143,9 +165,25 @@ export class PrismaUserRepository implements IPrismaUserRepository {
           {
             email: {
               contains: search
-            },
+            }
+          },
+          {
             firstName: {
               contains: search
+            }
+          },
+          {
+            lastName: { contains: search }
+          },
+          {
+            userDetail: {
+              OR: [
+                {
+                  phoneNumber: {
+                    contains: search
+                  }
+                }
+              ]
             }
           }
         ]
@@ -156,6 +194,7 @@ export class PrismaUserRepository implements IPrismaUserRepository {
   }
 
   async getPaginatedUsers(request: IFetchUsersRequest): Promise<IPaginateResponse<any>> {
+    console.log('🚀 ~ PrismaUserRepository ~ getPaginatedUsers ~ request:', request);
     const { page = 1, limit = 10 } = request;
     const args = this.arguments(request);
 
