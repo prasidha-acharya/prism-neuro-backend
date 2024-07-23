@@ -41,11 +41,11 @@ export class CreatePhysioController implements Controller {
         return true;
       }),
 
-    body('physioTherapist.address.*.name').notEmpty().withMessage(MESSAGE_CODES.USER.ADDRESS.REQUIRED_ADDRESS_NAME),
+    body('physioTherapist.address.*.address').notEmpty().withMessage(MESSAGE_CODES.USER.ADDRESS.REQUIRED_ADDRESS_NAME),
     RequestValidator
   ];
 
-  public parse(req: Request, res: Response, next: NextFunction): void {
+  public parse(req: Request, _: Response, next: NextFunction): void {
     const physioTherapist = JSON.parse(req.body.physioTherapist);
     req.body.physioTherapist = { ...physioTherapist, address: JSON.parse(physioTherapist.address) };
     next();

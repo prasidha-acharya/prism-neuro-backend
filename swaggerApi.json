@@ -1234,7 +1234,7 @@
                         "minLength": 6
                       },
                       "address": {
-                        "type": "string",
+                        "type": "array",
                         "required": "true"
                       },
                       "lastName": {

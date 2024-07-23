@@ -19,10 +19,24 @@ export class UpdatePhysioController implements Controller {
     body('physioTherapist.password').optional().isLength({ min: 6 }).withMessage(MESSAGE_CODES.USER.PASSWORD_MIN_LENGTH),
     body('physioTherapist.firstName').optional().isString().withMessage(MESSAGE_CODES.USER.INVALID_FIRST_NAME),
     body('physioTherapist.lastName').optional().isString().withMessage(MESSAGE_CODES.USER.INVALID_LAST_NAME),
-    body('physioTherapist.address').optional().isString().withMessage(MESSAGE_CODES.USER.INVALID_ADDRESS),
+    body('patient.address.*.address').notEmpty().withMessage(MESSAGE_CODES.USER.ADDRESS.REQUIRED_ADDRESS_NAME),
+    body('patient.address.*.id').notEmpty().withMessage(MESSAGE_CODES.USER.ADDRESS.REQUIRED_ADDRESS_ID),
     body('physioTherapist.physioId').exists().withMessage(MESSAGE_CODES.USER.REQUIRED_PHYSIO_ID),
     RequestValidator
   ];
+
+  public parse(req: Request, res: Response, next: NextFunction): void {
+    if (!req.body.physioTherapist || Object.values(req.body.physioTherapist).length === 0) {
+      res.status(httpStatus.BAD_REQUEST).json({
+        status: 'ERROR',
+        message: 'At least one field should be required.'
+      });
+      return;
+    }
+    const physioTherapist = JSON.parse(req.body.physioTherapist);
+    req.body.physioTherapist = { ...physioTherapist, address: JSON.parse(physioTherapist.address) };
+    next();
+  }
 
   async invoke(
     req: Request<ParamsDictionary, any, any, ParsedQs, Record<string, any>>,

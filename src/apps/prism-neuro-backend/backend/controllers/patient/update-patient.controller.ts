@@ -13,7 +13,7 @@ export class UpdatePatientProfileController implements Controller {
   public validate = [
     body('patient.firstName').optional().isString().withMessage(MESSAGE_CODES.USER.INVALID_FIRST_NAME),
     body('patient.lastName').optional().isString().withMessage(MESSAGE_CODES.USER.INVALID_LAST_NAME),
-    body('patient.address.*.name').notEmpty().withMessage(MESSAGE_CODES.USER.ADDRESS.REQUIRED_ADDRESS_NAME),
+    body('patient.address.*.address').notEmpty().withMessage(MESSAGE_CODES.USER.ADDRESS.REQUIRED_ADDRESS_NAME),
     body('patient.address.*.id').notEmpty().withMessage(MESSAGE_CODES.USER.ADDRESS.REQUIRED_ADDRESS_ID),
     body('patient.phoneCode').optional(),
     body('patient.phoneNumber').optional(),

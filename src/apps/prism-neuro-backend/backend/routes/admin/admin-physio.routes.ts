@@ -123,6 +123,7 @@ export const adminPhysioRoutesHandler = (
     '/admin/update-physio',
     imageUpload.single('file'),
     adminAuthorizer.authorize,
+    updatePhysioController.parse,
     updatePhysioController.validate,
     updatePhysioController.invoke.bind(updatePhysioController)
     /*

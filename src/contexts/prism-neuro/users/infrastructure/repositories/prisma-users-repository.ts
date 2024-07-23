@@ -88,7 +88,8 @@ export class PrismaUserRepository implements IPrismaUserRepository {
             return {
               where: { id: address.id },
               data: {
-                ...address
+                ...address,
+                address: address.address
               }
             };
           })
@@ -336,8 +337,8 @@ export class PrismaUserRepository implements IPrismaUserRepository {
           }
         },
         userAddress: {
-          create: {
-            address: request.address
+          createMany: {
+            data: request.address
           }
         }
       }
@@ -350,9 +351,9 @@ export class PrismaUserRepository implements IPrismaUserRepository {
         email: request.email,
         role: request.role,
         password: request.password,
-        userAddress: {
-          create: {
-            address: request.address
+        userAddress: request.address && {
+          createMany: {
+            data: request.address
           }
         }
       }
@@ -396,11 +397,11 @@ export class PrismaUserRepository implements IPrismaUserRepository {
       data: {
         ...remainigRequest,
         userAddress: {
-          create: {
-            address
+          createMany: {
+            data: address
           }
         },
-        userDetail: {
+        userDetail: userDetail && {
           create: { ...userDetail }
         }
       }
@@ -419,6 +420,16 @@ export class PrismaUserRepository implements IPrismaUserRepository {
           update: {
             ...request.userDetail
           }
+        },
+        userAddress: request.address && {
+          updateMany: request.address.map(add => {
+            return {
+              where: { id: add.id },
+              data: {
+                ...add
+              }
+            };
+          })
         }
       }
     });
