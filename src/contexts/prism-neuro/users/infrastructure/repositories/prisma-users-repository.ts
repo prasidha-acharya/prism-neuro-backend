@@ -22,7 +22,7 @@ export class PrismaUserRepository implements IPrismaUserRepository {
   constructor(private db: PrismaClient) {}
 
   async getPatientsOfPhysio(physioId: string): Promise<IPrismaUserForGetPatientsByPhysioResponse[] | null> {
-    return this.db.user.findMany({
+    return await this.db.user.findMany({
       where: {
         createdBy: physioId
       },
@@ -54,8 +54,8 @@ export class PrismaUserRepository implements IPrismaUserRepository {
     });
   }
 
-  getTotalPatients(physioId: string): Promise<number> {
-    return this.db.user.count({
+  async getTotalPatients(physioId: string): Promise<number> {
+    return await this.db.user.count({
       where: {
         createdBy: physioId,
         deletedAt: null
@@ -63,8 +63,8 @@ export class PrismaUserRepository implements IPrismaUserRepository {
     });
   }
 
-  updatePatient({ id, data, userDetail, addresses }: IUpdatePatientReq): Promise<User | null> {
-    return this.db.user.update({
+  async updatePatient({ id, data, userDetail, addresses }: IUpdatePatientReq): Promise<User | null> {
+    return await this.db.user.update({
       where: {
         id
       },
@@ -127,8 +127,8 @@ export class PrismaUserRepository implements IPrismaUserRepository {
     };
   }
 
-  getUserByRole({ userId, role }: IGetUserByRoleRequest): Promise<User | null> {
-    return this.db.user.findUnique({
+  async getUserByRole({ userId, role }: IGetUserByRoleRequest): Promise<User | null> {
+    return await this.db.user.findUnique({
       where: {
         id: userId,
         role: role,
@@ -249,8 +249,8 @@ export class PrismaUserRepository implements IPrismaUserRepository {
     });
   }
 
-  getOtp({ otp, type, userId }: IFetchOtpRequest): Promise<Otp | null> {
-    return this.db.otp.findFirst({
+  async getOtp({ otp, type, userId }: IFetchOtpRequest): Promise<Otp | null> {
+    return await this.db.otp.findFirst({
       where: {
         otpCode: otp,
         type,
@@ -303,7 +303,7 @@ export class PrismaUserRepository implements IPrismaUserRepository {
   }
 
   async createSession({ deviceTokenId, userId }: CreateSession): Promise<LoginSession> {
-    return this.db.loginSession.create({
+    return await this.db.loginSession.create({
       data: {
         deviceTokenId,
         userId
@@ -361,7 +361,7 @@ export class PrismaUserRepository implements IPrismaUserRepository {
   }
 
   async getUserByEmail({ email, role }: IGetUserRequest): Promise<User | null> {
-    return this.db.user.findFirst({
+    return await this.db.user.findFirst({
       where: {
         email,
         role,
@@ -408,8 +408,8 @@ export class PrismaUserRepository implements IPrismaUserRepository {
     });
   }
 
-  updatePhysioByAdmin({ data, userDetail, address, id }: IUpdatePhysioTherapistRequest): Promise<User | null> {
-    return this.db.user.update({
+  async updatePhysioByAdmin({ data, userDetail, address, id }: IUpdatePhysioTherapistRequest): Promise<User | null> {
+    return await this.db.user.update({
       where: {
         id,
         deletedAt: null
@@ -434,7 +434,7 @@ export class PrismaUserRepository implements IPrismaUserRepository {
             return {
               where: { id: userAddress.id },
               data: {
-                address: userAddress.address
+                ...userAddress
               }
             };
           })

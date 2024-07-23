@@ -89,8 +89,6 @@ export class UpdatePhysioController implements Controller {
         throw new HTTP400Error(MESSAGE_CODES.USER.REQUIRED_PHYSIO_ID);
       }
 
-      //fetch userDetail
-
       const physio = await this.updatePhysioService.invoke(physioData);
       res.status(httpStatus.OK).json({
         data: physio,
