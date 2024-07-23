@@ -30,16 +30,25 @@ export class CreatePatientByPhysioController implements Controller {
       .withMessage(MESSAGE_CODES.USER.INVALID_FIRST_NAME),
     body('patient.lastName').exists().withMessage(MESSAGE_CODES.USER.REQUIRED_LAST_NAME).isString().withMessage(MESSAGE_CODES.USER.INVALID_LAST_NAME),
     body('patient.address.*.address').notEmpty().withMessage(MESSAGE_CODES.USER.ADDRESS.REQUIRED_ADDRESS_NAME),
-    body('patient.phoneNumber').optional(),
+    body('patient.phoneNumber').optional().isNumeric().withMessage(MESSAGE_CODES.USER.INVALID_CONTACT_NUMBER),
+    body('patient.phoneCode').optional(),
     body('patient.age').optional().isNumeric().withMessage(MESSAGE_CODES.USER.AGE_SHOULD_BE_NUMBER),
     body('patient.weight').optional().isNumeric().withMessage(MESSAGE_CODES.USER.WEIGHT_SHOULD_BE_NUMBER),
     RequestValidator
   ];
 
-  public parse(req: Request, _: Response, next: NextFunction): void {
+  public parse(req: Request, res: Response, next: NextFunction): void {
     const patient = JSON.parse(req.body.patient);
-    req.body.patient = { ...patient };
-    next();
+
+    if (patient.address instanceof Array) {
+      req.body.patient = { ...patient };
+      next();
+    } else {
+      res.status(httpStatus.BAD_REQUEST).json({
+        message: 'Address must be in array',
+        status: 'ERROR'
+      });
+    }
   }
 
   async invoke(req: Request, res: Response, next: NextFunction): Promise<void> {
