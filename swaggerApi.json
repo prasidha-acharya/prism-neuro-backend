@@ -312,7 +312,7 @@
         ]
       }
     },
-    "/admin/patient-sessions/{patientId}": {
+    "/admin/patient-sessions/{patientId}/{modeId}": {
       "get": {
         "tags": ["Admin"],
         "summary": "Patient mode session ",
@@ -320,6 +320,14 @@
         "parameters": [
           {
             "name": "patientId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "modeId",
             "in": "path",
             "required": true,
             "schema": {
@@ -359,14 +367,6 @@
             "in": "query",
             "schema": {
               "type": "number"
-            }
-          },
-          {
-            "name": "modeId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
             }
           }
         ],

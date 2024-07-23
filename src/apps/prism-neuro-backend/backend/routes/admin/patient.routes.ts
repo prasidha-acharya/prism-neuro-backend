@@ -27,7 +27,7 @@ export const adminPatientRoutesHandler = (
   );
 
   router.get(
-    '/admin/patient-sessions/:patientId',
+    '/admin/patient-sessions/:patientId/:modeId',
     adminAuthorizer.authorize,
     getModeSessionsByPatientIdController.validate,
     getModeSessionsByPatientIdController.invoke.bind(getModeSessionsByPatientIdController)

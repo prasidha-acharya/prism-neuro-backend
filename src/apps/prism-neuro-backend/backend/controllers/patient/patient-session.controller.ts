@@ -60,7 +60,13 @@ export class GetModeSessionActivityOfPatientController implements Controller {
   ];
 
   async invoke(req: Request, res: Response, next: NextFunction): Promise<void> {
-    const { limit, page, endDate, search, startDate } = req?.query as unknown as {
+    const {
+      limit = 10,
+      page = 1,
+      endDate,
+      search,
+      startDate
+    } = req?.query as unknown as {
       limit?: number;
       page?: number;
       search?: string;
