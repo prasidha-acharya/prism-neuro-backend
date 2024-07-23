@@ -7,11 +7,33 @@ export class UserTransformer {
     // eslint-disable-next-line no-unused-vars
     const { password, physioModeSession, patientModeSession, ...remainigData } = data;
 
+    const { userDetail, id, email, isVerified, firstName, lastName, role, userAddress } = remainigData;
+
     const modeSession =
-      remainigData.role === USER_ROLES.ADMIN ? null : remainigData.role === USER_ROLES.PHYSIO ? physioModeSession[0] : patientModeSession[0];
+      remainigData.role === USER_ROLES.ADMIN
+        ? null
+        : remainigData.role === USER_ROLES.PHYSIO
+          ? physioModeSession?.[0] ?? null
+          : patientModeSession?.[0] ?? null;
+
     return {
-      ...remainigData,
-      modeSession
+      id,
+      email,
+      isVerified,
+      firstName,
+      lastName,
+      userAddress,
+      role,
+      modeSession,
+      userDetail: userDetail
+        ? {
+            phoneNumber: userDetail.phoneNumber,
+            phoneCode: userDetail.phoneCode,
+            profileURL: userDetail.profileURL,
+            age: userDetail.age,
+            weight: userDetail.weight
+          }
+        : null
     };
   }
 

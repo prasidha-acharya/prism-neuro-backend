@@ -20,7 +20,6 @@ import { physioRoutesHandler } from './physio/physio.routes';
 export const masterRouter = (
   createPhysioController: controllers.CreatePhysioController,
   loginAdminController: controllers.LoginAdminController,
-  loginPatientController: controllers.LoginPatientController,
   adminAuthorizer: IAuthorizer<Request, Response, NextFunction>,
   userLogoutController: controllers.UserLogoutController,
   generateAccessTokenController: controllers.GenerateAccessTokenController,
@@ -102,7 +101,6 @@ export const masterRouter = (
 
   patientRoutesHandler(
     {
-      loginPatientController,
       getModeSessionActivityOfPatientController,
       getPerformanceSummaryOfPatientController,
       getModeComparisionController,

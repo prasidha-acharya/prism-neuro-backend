@@ -117,7 +117,7 @@ export const physioRoutesHandler = (
   #swagger.security = [{
             "bearerAuth": []
     }] 
-      #swagger.tags = ['Physio ']
+      #swagger.tags = ['Physio']
       #swagger.summary = 'Tablet end point to fetch patient lists to start session.'
       #swagger.description = 'Endpoint for physio-therapist to fetch patient lists'
       #swagger.parameters['search'] = {

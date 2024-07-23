@@ -42,17 +42,31 @@ export class LoginAdminController implements Controller {
     try {
       const { email, password }: IClientLoginRequest = req.body;
 
-      const user = await this.getAdminByEmailService.invoke({ email, role: USER_ROLES.ADMIN });
+      const user = await this.getAdminByEmailService.invoke({ email });
 
       if (!user || (user && !comparePassword(password, user.password!))) {
         res.status(httpStatus.UNPROCESSABLE_ENTITY).json({ message: MESSAGE_CODES.USER.INVALID_CREDENTIALS, status: 'ERROR' });
         return;
       }
 
-      const sessionResponse = await this.addUserSessionService.invoke({ userId: user.id });
+      let scopes: TokenScope[] | undefined;
 
-      if (!sessionResponse) {
-        throw new Error('');
+      if (![USER_ROLES.ADMIN, USER_ROLES.PATIENT, USER_ROLES.PHYSIO].includes(user.role)) {
+        res.status(httpStatus.UNPROCESSABLE_ENTITY).json({ message: MESSAGE_CODES.USER.USER_NOT_FOUND, status: 'ERROR' });
+        return;
+      }
+
+      if (user.role === USER_ROLES.ADMIN) {
+        scopes = [TokenScope.ADMIN_ACCESS];
+      } else if (user.role === USER_ROLES.PATIENT) {
+        scopes = [TokenScope.PATIENT_ACCESS];
+      } else {
+        scopes = [TokenScope.PHYSIO_ACCESS];
+      }
+
+      const sessionResponse = await this.addUserSessionService.invoke({ userId: user.id });
+      if (!sessionResponse || !scopes) {
+        throw new Error('Cannot Login');
       }
 
       const payload: Payload = {
@@ -60,7 +74,7 @@ export class LoginAdminController implements Controller {
         email: user.email,
         sessionId: sessionResponse.id,
         role: user.role,
-        scopes: [TokenScope.ADMIN_ACCESS]
+        scopes
       };
 
       const jwtToken = JWTSign(

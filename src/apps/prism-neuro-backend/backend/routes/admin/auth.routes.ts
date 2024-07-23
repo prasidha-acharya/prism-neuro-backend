@@ -18,9 +18,9 @@ export const adminAuthRoutesHandler = (
     loginAdminController.validate,
     loginAdminController.invoke.bind(loginAdminController)
     /*
-      #swagger.tags = ['Admin Auth']
-      #swagger.summary = 'Login for Admin Controller'
-      #swagger.description = 'Endpoint for administrators to log in, providing email, password, and optionally device info and device type'
+      #swagger.tags = ['User']
+      #swagger.summary = 'Login for Patient Physio Therapist and Admin Controller'
+      #swagger.description = 'Endpoint for all users to log in, providing email, password, and optionally device info and device type'
       #swagger.requestBody = {
       required: true,
       content: {
