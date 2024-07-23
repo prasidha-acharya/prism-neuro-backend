@@ -241,9 +241,9 @@
     },
     "/auth/login": {
       "post": {
-        "tags": ["Admin Auth"],
-        "summary": "Login for Admin Controller",
-        "description": "Endpoint for administrators to log in, providing email, password, and optionally device info and device type",
+        "tags": ["User"],
+        "summary": "Login for Patient Physio Therapist and Admin Controller",
+        "description": "Endpoint for all users to log in, providing email, password, and optionally device info and device type",
         "responses": {
           "200": {
             "description": "OK",
@@ -859,51 +859,6 @@
         ]
       }
     },
-    "/patient/login": {
-      "post": {
-        "tags": ["Patient"],
-        "summary": "Login for Patient",
-        "description": "Endpoint for patient to log in, providing email, password",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/loginAdminReponse"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/loginAdminReponse"
-                }
-              }
-            }
-          }
-        },
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "required": ["email", "password"],
-                "properties": {
-                  "email": {
-                    "type": "string",
-                    "format": "email"
-                  },
-                  "password": {
-                    "type": "string",
-                    "minLength": 6
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/patient/update-profile": {
       "put": {
         "tags": ["Patient"],
@@ -1230,7 +1185,7 @@
     },
     "/physio/patients": {
       "get": {
-        "tags": ["Physio "],
+        "tags": ["Physio"],
         "summary": "Tablet end point to fetch patient lists to start session.",
         "description": "Endpoint for physio-therapist to fetch patient lists",
         "parameters": [
