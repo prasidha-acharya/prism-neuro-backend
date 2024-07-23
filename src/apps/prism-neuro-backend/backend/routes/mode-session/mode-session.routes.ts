@@ -34,7 +34,7 @@ export const modeSessionRoutesHandler = (
   );
 
   router.put(
-    'physio/mode/session-end/:patientId',
+    '/physio/mode/session-end/:patientId',
     physioAuthorizer.authorize,
     endModeSessionController.validate,
     endModeSessionController.invoke.bind(endModeSessionController)
@@ -59,7 +59,7 @@ export const modeSessionRoutesHandler = (
   );
 
   router.get(
-    'physio/mode-session/:modeId/:patientId',
+    '/physio/mode-session/:modeId/:patientId',
     adminAuthorizer.authorize,
     getModeSessionOfPatientController.validate,
     getModeSessionOfPatientController.invoke.bind(getModeSessionOfPatientController)

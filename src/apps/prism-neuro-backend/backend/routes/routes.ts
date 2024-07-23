@@ -139,7 +139,6 @@ export const masterRouter = (
       getModeTrialBySessionController
     },
     physioAuthorizer,
-    adminAuthorizer,
     apiRouter
   );
 
