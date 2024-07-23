@@ -7,7 +7,7 @@ interface IHandler {
 }
 export const modeRoutesHandler = ({ getModesController }: IHandler, userAuthorizer: JWTUserAuthorizer, router: Router): Router => {
   router.get(
-    '/modes',
+    '/physio/modes',
     userAuthorizer.adminAndPhysioauthorize,
     getModesController.invoke.bind(getModesController)
     /*

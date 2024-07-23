@@ -17,7 +17,7 @@ export const modeTrialRoutesHandler = (
   const { endModeTrialController, getModeTrialBySessionController } = controller;
 
   router.post(
-    '/mode/trial-end/:modeId',
+    'physio/mode/trial-end/:modeId',
     physioAuthorizer.authorize,
     endModeTrialController.validate,
     endModeTrialController.invoke.bind(endModeTrialController)
@@ -56,7 +56,7 @@ export const modeTrialRoutesHandler = (
   );
 
   router.get(
-    '/mode/trials/:modeId/:modeSessionId',
+    '/phyiso/trials/:modeId/:modeSessionId',
     physioAuthorizer.authorize,
     getModeTrialBySessionController.invoke.bind(getModeTrialBySessionController)
     /* 

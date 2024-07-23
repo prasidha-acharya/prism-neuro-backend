@@ -687,7 +687,7 @@
         }
       }
     },
-    "/mode/session-start/{patientId}": {
+    "/physio/mode/session-start/{patientId}": {
       "post": {
         "tags": ["Mode session"],
         "summary": "Physio can start session",
@@ -714,7 +714,7 @@
         ]
       }
     },
-    "/mode/session-end/{patientId}": {
+    "physio/mode/session-end/{patientId}": {
       "put": {
         "tags": ["Mode session"],
         "summary": "Physio ends session",
@@ -749,7 +749,7 @@
         ]
       }
     },
-    "/mode/session/{modeId}/{patientId}": {
+    "physio/mode-session/{modeId}/{patientId}": {
       "get": {
         "tags": ["Mode session"],
         "summary": "Admin can fetch session",
@@ -831,7 +831,7 @@
         ]
       }
     },
-    "/mode/trial-end/{modeId}": {
+    "physio/mode/trial-end/{modeId}": {
       "post": {
         "tags": ["Mode Trial"],
         "summary": "",
@@ -889,7 +889,7 @@
         }
       }
     },
-    "/mode/trials/{modeId}/{modeSessionId}": {
+    "/phyiso/trials/{modeId}/{modeSessionId}": {
       "get": {
         "tags": ["Mode Trial"],
         "summary": "Physio therapist can access mode trial",
@@ -924,7 +924,7 @@
         ]
       }
     },
-    "/modes": {
+    "/physio/modes": {
       "get": {
         "tags": ["Mode"],
         "summary": "Fetch modes",
