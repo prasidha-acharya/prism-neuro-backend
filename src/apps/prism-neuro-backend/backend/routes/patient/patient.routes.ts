@@ -4,7 +4,6 @@ import * as controllers from '../../controllers/index';
 import { imageUpload } from '../admin/admin-physio.routes';
 
 interface IHandler {
-  loginPatientController: controllers.LoginPatientController;
   getModeSessionActivityOfPatientController: controllers.GetModeSessionActivityOfPatientController;
   getPerformanceSummaryOfPatientController: controllers.GetPerformanceSummaryOfPatientController;
   getModeComparisionController: controllers.GetModeComparisionController;
@@ -13,7 +12,6 @@ interface IHandler {
 }
 export const patientRoutesHandler = (
   {
-    loginPatientController,
     getModeSessionActivityOfPatientController,
     getPerformanceSummaryOfPatientController,
     getModeComparisionController,
@@ -23,36 +21,6 @@ export const patientRoutesHandler = (
   patientAuthorizer: JWTPatientAuthorizer,
   router: Router
 ): Router => {
-  router.post(
-    '/patient/login',
-    loginPatientController.invoke.bind(loginPatientController)
-    /*
-      #swagger.tags = ['Patient']
-      #swagger.summary = 'Login for Patient'
-      #swagger.description = 'Endpoint for patient to log in, providing email, password'
-      #swagger.requestBody = {
-      required: true,
-      content: {
-        "application/json": {
-          schema: {
-            type: "object",
-            required: ["email", "password"],
-            properties: {
-              email: { type: "string", format: "email" },
-              password: { type: "string", minLength: 6 },
-            }
-          }
-        }
-      }
-    }
-      #swagger.responses[200]  = {
-      schema: {
-        $ref: "#/components/schemas/loginAdminReponse"
-      }
-    }
-    */
-  );
-
   router.put(
     '/patient/update-profile',
     imageUpload.single('file'),
