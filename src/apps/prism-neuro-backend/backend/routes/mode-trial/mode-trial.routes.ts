@@ -11,13 +11,12 @@ interface IHandler {
 export const modeTrialRoutesHandler = (
   controller: IHandler,
   physioAuthorizer: IAuthorizer<Request, Response, NextFunction>,
-  adminAuthorizer: IAuthorizer<Request, Response, NextFunction>,
   router: Router
 ): Router => {
   const { endModeTrialController, getModeTrialBySessionController } = controller;
 
   router.post(
-    '/mode/trial-end/:modeId',
+    '/physio/mode/trial-end/:modeId',
     physioAuthorizer.authorize,
     endModeTrialController.validate,
     endModeTrialController.invoke.bind(endModeTrialController)
@@ -56,7 +55,7 @@ export const modeTrialRoutesHandler = (
   );
 
   router.get(
-    '/mode/trials/:modeId/:modeSessionId',
+    '/phyiso/trials/:modeId/:modeSessionId',
     physioAuthorizer.authorize,
     getModeTrialBySessionController.invoke.bind(getModeTrialBySessionController)
     /* 

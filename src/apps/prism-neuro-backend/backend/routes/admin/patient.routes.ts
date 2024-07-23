@@ -3,10 +3,11 @@ import { IAuthorizer } from 'src/contexts/shared/domain/model/authentication/aut
 import * as controllers from '../../controllers/index';
 interface IHandler {
   deletePatientByAdminController: controllers.DeletePatientByAdminController;
+  getModeSessionsByPatientIdController: controllers.GetModeSessionsByPatientIdController;
 }
 
 export const adminPatientRoutesHandler = (
-  { deletePatientByAdminController }: IHandler,
+  { deletePatientByAdminController, getModeSessionsByPatientIdController }: IHandler,
   adminAuthorizer: IAuthorizer<Request, Response, NextFunction>,
   router: Router
 ): Router => {
@@ -25,5 +26,61 @@ export const adminPatientRoutesHandler = (
         */
   );
 
+  router.get(
+    '/admin/patient-sessions/:patientId/:modeId',
+    adminAuthorizer.authorize,
+    getModeSessionsByPatientIdController.validate,
+    getModeSessionsByPatientIdController.invoke.bind(getModeSessionsByPatientIdController)
+
+    /*
+    #swagger.security =[{
+    "bearerAuth":[]
+    }]
+    #swagger.tags =['Admin']
+    #swagger.summary = 'Patient mode session '
+    #swagger.description = 'Admin can view patients sessions'
+
+      #swagger.parameters['search'] = {
+    in:"query",
+    type:"number",
+    }
+
+      #swagger.parameters['startDate'] = {
+    in:"query",
+    type:"string",
+    }
+
+    #swagger.parameters['endDate'] = {
+    in:"query",
+    type:"string",
+    }
+
+    #swagger.parameters['limit'] = {
+    in:"query",
+    type:"number",
+    }
+    
+    #swagger.parameters['page'] = {
+    in:"query",
+    type:"number",
+    }
+
+    #swagger.parameters['modeId'] = {
+    in:"path",
+    type:"string",
+    }
+
+    #swagger.parameters['patientId'] = {
+    in:"path",
+    type:"string",
+    }
+
+     #swagger.responses[200]  = {
+      schema: {
+        $ref: "#/components/schemas/getModeSessionOfPatientResponse"
+      }
+    }
+     */
+  );
   return router;
 };

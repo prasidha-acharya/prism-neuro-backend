@@ -312,6 +312,88 @@
         ]
       }
     },
+    "/admin/patient-sessions/{patientId}/{modeId}": {
+      "get": {
+        "tags": ["Admin"],
+        "summary": "Patient mode session ",
+        "description": "Admin can view patients sessions",
+        "parameters": [
+          {
+            "name": "patientId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "modeId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "startDate",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "endDate",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/getModeSessionOfPatientResponse"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/getModeSessionOfPatientResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
     "/admin/statistics/users": {
       "get": {
         "tags": ["Admin"],
@@ -605,7 +687,7 @@
         }
       }
     },
-    "/mode/session-start/{patientId}": {
+    "/physio/mode/session-start/{patientId}": {
       "post": {
         "tags": ["Mode session"],
         "summary": "Physio can start session",
@@ -632,7 +714,7 @@
         ]
       }
     },
-    "/mode/session-end/{patientId}": {
+    "/physio/mode/session-end/{patientId}": {
       "put": {
         "tags": ["Mode session"],
         "summary": "Physio ends session",
@@ -667,7 +749,7 @@
         ]
       }
     },
-    "/mode/session/{modeId}/{patientId}": {
+    "/physio/mode-session/{modeId}/{patientId}": {
       "get": {
         "tags": ["Mode session"],
         "summary": "Admin can fetch session",
@@ -749,7 +831,7 @@
         ]
       }
     },
-    "/mode/trial-end/{modeId}": {
+    "/physio/mode/trial-end/{modeId}": {
       "post": {
         "tags": ["Mode Trial"],
         "summary": "",
@@ -807,7 +889,7 @@
         }
       }
     },
-    "/mode/trials/{modeId}/{modeSessionId}": {
+    "/phyiso/trials/{modeId}/{modeSessionId}": {
       "get": {
         "tags": ["Mode Trial"],
         "summary": "Physio therapist can access mode trial",
@@ -842,7 +924,7 @@
         ]
       }
     },
-    "/modes": {
+    "/physio/modes": {
       "get": {
         "tags": ["Mode"],
         "summary": "Fetch modes",
