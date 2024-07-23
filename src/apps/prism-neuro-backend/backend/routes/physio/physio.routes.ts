@@ -65,6 +65,7 @@ export const physioRoutesHandler = (
     '/physio/create-patient',
     createPatientByPhysioController.upload,
     physioAuthorizer.authorize,
+    createPatientByPhysioController.parse,
     createPatientByPhysioController.validate,
     createPatientByPhysioController.invoke.bind(createPatientByPhysioController)
     /*
@@ -89,7 +90,7 @@ export const physioRoutesHandler = (
                properties :{
                email: { type: "string", format: "email" },
               firstName: { type: "string", minLength: 6 },
-              address:{type:"string",required:"true"},
+              address:{type:"array",required:"true"},
               lastName: { type: "string",required:"true" },
               phoneCode: { type: "string" },
               phoneNumber:{type:"string"},
