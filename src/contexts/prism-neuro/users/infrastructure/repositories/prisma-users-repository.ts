@@ -408,25 +408,33 @@ export class PrismaUserRepository implements IPrismaUserRepository {
     });
   }
 
-  updatePhysioByAdmin(request: IUpdatePhysioTherapistRequest): Promise<User | null> {
+  updatePhysioByAdmin({ data, userDetail, address, id }: IUpdatePhysioTherapistRequest): Promise<User | null> {
     return this.db.user.update({
       where: {
-        id: request.id,
+        id,
         deletedAt: null
       },
       data: {
-        ...request.data,
-        userDetail: {
-          update: {
-            ...request.userDetail
+        ...data,
+        userDetail: userDetail && {
+          upsert: {
+            where: {
+              userId: id
+            },
+            create: {
+              ...userDetail
+            },
+            update: {
+              ...userDetail
+            }
           }
         },
-        userAddress: request.address && {
-          updateMany: request.address.map(add => {
+        userAddress: address && {
+          updateMany: address.map(userAddress => {
             return {
-              where: { id: add.id },
+              where: { id: userAddress.id },
               data: {
-                ...add
+                address: userAddress.address
               }
             };
           })

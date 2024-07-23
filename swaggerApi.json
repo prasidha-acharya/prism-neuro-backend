@@ -157,7 +157,36 @@
           "content": {
             "multipart/form-data": {
               "schema": {
-                "$ref": "#/components/schemas/createPhysioRequest"
+                "type": "object",
+                "required": ["file", "physioTherapist"],
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "physioTherapist": {
+                    "type": "object",
+                    "required": ["firstName", "lastName", "address"],
+                    "properties": {
+                      "firstName": {
+                        "type": "string"
+                      },
+                      "lastName": {
+                        "type": "string",
+                        "required": "true"
+                      },
+                      "address": {
+                        "type": "array"
+                      },
+                      "phoneCode": {
+                        "type": "string"
+                      },
+                      "phoneNumber": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
               }
             }
           }

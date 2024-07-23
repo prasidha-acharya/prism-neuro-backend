@@ -34,7 +34,7 @@ export class UpdatePhysioController implements Controller {
       return;
     }
     const physioTherapist = JSON.parse(req.body.physioTherapist);
-    req.body.physioTherapist = { ...physioTherapist, address: JSON.parse(physioTherapist.address) };
+    req.body.physioTherapist = { ...physioTherapist };
     next();
   }
 
@@ -45,7 +45,7 @@ export class UpdatePhysioController implements Controller {
   ): Promise<void> {
     try {
       // const physioId: string = req.body.physioId;
-      const { address, firstName, lastName, phoneCode, phoneNumber, physioId }: IClientUpdatePhysioRequest = JSON.parse(req.body.physioTherapist);
+      const { address, firstName, lastName, phoneCode, phoneNumber, physioId }: IClientUpdatePhysioRequest = req.body.physioTherapist;
 
       let physioData: IUpdatePhysioTherapistRequest = {
         id: physioId

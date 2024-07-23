@@ -137,16 +137,34 @@ export const adminPhysioRoutesHandler = (
         in: 'path',
         type: 'string'
       }
-    #swagger.requestBody = {
-            required: true,
-            content: {
-                "multipart/form-data": {
-                    schema: {
-                        $ref: "#/components/schemas/createPhysioRequest"
-                    }  
-                }
+      #swagger.requestBody = {
+      required: true,
+      content: {
+        "multipart/form-data": {
+          schema: {
+            type: "object",
+            required: ["file","physioTherapist"],
+            properties: {
+             file: { type: "string", format: "binary" },
+             physioTherapist:{
+             type:"object",
+             required:["firstName" ,"lastName","address"],
+               properties :{
+              firstName: { type: "string"},
+              lastName: { type: "string"},
+              address:{type:"array"},
+              lastName: { type: "string",required:"true" },
+              phoneCode: { type: "string" },
+              phoneNumber:{type:"string"},
+               }
+
+             }
+              
             }
-        } 
+          }
+        }
+      }
+    }
       #swagger.responses[200]
     */
   );
