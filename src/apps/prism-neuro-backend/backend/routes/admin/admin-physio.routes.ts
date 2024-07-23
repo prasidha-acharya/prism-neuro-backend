@@ -37,10 +37,10 @@ export const adminPhysioRoutesHandler = (
         "multipart/form-data": {
           schema: {
             type: "object",
-            required: ["file","patient"],
+            required: ["file","physioTherapist"],
             properties: {
              file: { type: "string", format: "binary" },
-             patient:{
+             physioTherapist:{
              type:"object",
              required:["email", "firstName" ,"lastName","address"],
                properties :{

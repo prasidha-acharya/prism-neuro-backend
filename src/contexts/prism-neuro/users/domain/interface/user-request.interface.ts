@@ -30,7 +30,7 @@ export interface ICreatePhysioTherapistRequest extends ICreateAdmin {
   role: USER_ROLES;
   firstName: string;
   lastName: string;
-  userDetail: IUserDetail;
+  userDetail?: IUserDetail;
 }
 
 export interface ICreatePatientRequest extends ICreateAdmin {
