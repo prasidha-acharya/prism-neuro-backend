@@ -96,7 +96,8 @@ const {
   DeletePatientByAdminController,
   GetModeSessionActivityOfPatientByPhysioController,
   GetSessionsBetweenPatientAndDoctorController,
-  GetModeSessionsByPatientIdController
+  GetModeSessionsByPatientIdController,
+  UpdatePatientProfileByPhysioController
 } = controller;
 export class Container {
   private readonly container: AwilixContainer;
@@ -203,7 +204,8 @@ export class Container {
         updatePhysioController: asClass(UpdatePhysioController),
         createPatientByPhysioService: asClass(CreatePatientByPhysioService).singleton(),
         createPatientByPhysioController: asClass(CreatePatientByPhysioController),
-        getAllPatientListsWithSessionController: asClass(GetAllPatientListsWithSessionController).singleton()
+        getAllPatientListsWithSessionController: asClass(GetAllPatientListsWithSessionController).singleton(),
+        updatePatientProfileByPhysioController: asClass(UpdatePatientProfileByPhysioController)
       })
       // mode
       .register({

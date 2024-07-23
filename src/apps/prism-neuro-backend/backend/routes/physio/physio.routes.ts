@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response, Router } from 'express';
 import { IAuthorizer } from 'src/contexts/shared/domain/model/authentication/authorizer';
 import * as controllers from '../../controllers/index';
+import { imageUpload } from '../admin/admin-physio.routes';
 
 interface IHandler {
   loginPhysioController: controllers.LoginDoctorController;
@@ -13,6 +14,7 @@ interface IHandler {
   deletePatientByAdminController: controllers.DeletePatientByAdminController;
   getModeSessionActivityOfPatientByPhysioController: controllers.GetModeSessionActivityOfPatientByPhysioController;
   getSessionsBetweenPatientAndDoctorController: controllers.GetSessionsBetweenPatientAndDoctorController;
+  updatePatientProfileByPhysioController: controllers.UpdatePatientProfileByPhysioController;
 }
 
 export const physioRoutesHandler = (
@@ -24,7 +26,8 @@ export const physioRoutesHandler = (
     getPerformanceSummaryOfPhysioController,
     deletePatientByAdminController,
     getModeSessionActivityOfPatientByPhysioController,
-    getSessionsBetweenPatientAndDoctorController
+    getSessionsBetweenPatientAndDoctorController,
+    updatePatientProfileByPhysioController
   }: IHandler,
   physioAuthorizer: IAuthorizer<Request, Response, NextFunction>,
   router: Router
@@ -107,6 +110,60 @@ export const physioRoutesHandler = (
     }
       #swagger.responses[201]
     */
+  );
+
+  router.put(
+    '/physio/patient-profile/:patientId',
+    imageUpload.single('file'),
+    physioAuthorizer.authorize,
+    updatePatientProfileByPhysioController.parse,
+    updatePatientProfileByPhysioController.validate,
+    updatePatientProfileByPhysioController.invoke.bind(updatePatientProfileByPhysioController)
+    /*
+    #swagger.security =[{
+    'bearerAuth':[]
+    }]
+    #swagger.tags = ['Physio']
+    #swagger.summary = 'Update Profile of patient'
+    #swagger.description = 'Physio can update their patient's profile'
+      #swagger.requestBody = {
+      required: true,
+      content: {
+        "multipart/form-data": {
+          schema: {
+            type: "object",
+            required: ["file","patient"],
+            properties: {
+             file: { type: "string", format: "binary" },
+             patient:{
+             type:"object",
+               properties :{
+               email: { type: "string", format: "email" },
+              firstName: { type: "string", minLength: 6 },
+              address:{type:"array",required:"true"},
+              lastName: { type: "string",required:"true" },
+              phoneCode: { type: "string" },
+              phoneNumber:{type:"string"},
+              age:{type:"number"},
+              weight:{type:"number"},
+               }
+
+             }
+              
+            }
+          }
+        }
+      }
+    }
+  #swagger.responses[201]  = {
+      schema: {
+        $ref: "#/components/schemas/successReponse"
+      }
+    }
+    
+    
+
+ */
   );
 
   router.get(

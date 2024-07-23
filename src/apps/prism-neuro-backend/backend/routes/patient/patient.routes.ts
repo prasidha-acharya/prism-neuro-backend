@@ -36,15 +36,34 @@ export const patientRoutesHandler = (
     #swagger.summary = 'Update Profile'
     #swagger.description = 'Patient can update their profile'
       #swagger.requestBody = {
-            required: true,
-            content: {
-                "multipart/form-data": {
-                    schema: {
-                        $ref: "#/components/schemas/updatePatientRequest"
-                    }  
-                }
+      required: true,
+      content: {
+        "multipart/form-data": {
+          schema: {
+            type: "object",
+            required: ["file","patient"],
+            properties: {
+             file: { type: "string", format: "binary" },
+             patient:{
+             type:"object",
+               properties :{
+               email: { type: "string", format: "email" },
+              firstName: { type: "string", minLength: 6 },
+              address:{type:"array",required:"true"},
+              lastName: { type: "string",required:"true" },
+              phoneCode: { type: "string" },
+              phoneNumber:{type:"string"},
+              age:{type:"number"},
+              weight:{type:"number"},
+               }
+
+             }
+              
             }
-        } 
+          }
+        }
+      }
+    }
   #swagger.responses[201]  = {
       schema: {
         $ref: "#/components/schemas/successReponse"

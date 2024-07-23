@@ -7,7 +7,7 @@ import { RequestValidator } from '../../../../../contexts/shared/infrastructure/
 import { MESSAGE_CODES } from '../../../../../contexts/shared/infrastructure/utils/message-code';
 import { Controller } from '../controller';
 
-export class UpdatePatientProfileController implements Controller {
+export class UpdatePatientProfileByPhysioController implements Controller {
   constructor(private updatePatientService: UpdatePatientService) {}
 
   public validate = [
@@ -19,6 +19,8 @@ export class UpdatePatientProfileController implements Controller {
     body('patient.phoneNumber').optional(),
     body('patient.age').optional().isNumeric().withMessage(MESSAGE_CODES.USER.AGE_SHOULD_BE_NUMBER),
     body('patient.weight').optional().isNumeric().withMessage(MESSAGE_CODES.USER.WEIGHT_SHOULD_BE_NUMBER),
+    body('patient.patientId').exists().withMessage(MESSAGE_CODES.USER.REQUIRED_PATIENT_ID),
+
     RequestValidator
   ];
 
@@ -30,20 +32,22 @@ export class UpdatePatientProfileController implements Controller {
       });
       return;
     }
+
     const patient = JSON.parse(req.body.patient);
     req.body.patient = { ...patient };
+
     next();
   }
 
   async invoke(req: Request, res: Response, next: NextFunction): Promise<void> {
-    const { firstName, lastName, age, weight, phoneCode, phoneNumber, address } = req.body.patient;
+    const { firstName, lastName, age, weight, phoneCode, phoneNumber, address = [], patientId } = req.body.patient;
 
-    const userId = req.body.user.userId;
+    // const userId = req.body.user.userId;
 
     // TODO: profile URL
 
     let request: IUpdatePatientReq = {
-      id: userId
+      id: patientId
     };
 
     if (firstName) {
@@ -58,7 +62,7 @@ export class UpdatePatientProfileController implements Controller {
       request = {
         ...request,
         userDetail: {
-          ...(request.userDetail ?? {}),
+          ...(request?.userDetail ?? {}),
           age
         }
       };
@@ -68,7 +72,7 @@ export class UpdatePatientProfileController implements Controller {
       request = {
         ...request,
         userDetail: {
-          ...(request.userDetail ?? {}),
+          ...(request?.userDetail ?? {}),
           weight
         }
       };
@@ -78,7 +82,7 @@ export class UpdatePatientProfileController implements Controller {
       request = {
         ...request,
         userDetail: {
-          ...(request.userDetail ?? {}),
+          ...(request?.userDetail ?? {}),
           phoneNumber
         }
       };
@@ -88,7 +92,7 @@ export class UpdatePatientProfileController implements Controller {
       request = {
         ...request,
         userDetail: {
-          ...(request.userDetail ?? {}),
+          ...(request?.userDetail ?? {}),
           phoneCode
         }
       };
