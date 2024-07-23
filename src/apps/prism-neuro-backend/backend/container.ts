@@ -69,7 +69,6 @@ const {
   GenerateAccessTokenController,
   LoginAdminController,
   LoginDoctorController,
-  LoginPatientController,
   UpdatePhysioController,
   GetAllPatientListByPhysioIdController,
   UserLogoutController,
@@ -161,9 +160,8 @@ export class Container {
         getUserSessionService: asClass(GetUserSessionService).singleton(),
         deleteUserSessionService: asClass(DeleteUserSessionService).singleton()
       })
-      // patient login
+      // login
       .register({
-        loginPatientController: asClass(LoginPatientController),
         loginPhysioController: asClass(LoginDoctorController)
       })
       //seeder
