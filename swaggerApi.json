@@ -752,7 +752,7 @@
     },
     "/physio/mode/session-start/{patientId}": {
       "post": {
-        "tags": ["Mode session"],
+        "tags": ["Tablet Mode Session"],
         "summary": "Physio can start session",
         "description": "This end point creates session between physio therapist and patient.",
         "parameters": [
@@ -779,7 +779,7 @@
     },
     "/physio/mode/session-end/{patientId}": {
       "put": {
-        "tags": ["Mode session"],
+        "tags": ["Tablet Mode Session"],
         "summary": "Physio ends session",
         "description": "This end point ends session between physio and patient.",
         "parameters": [
@@ -814,7 +814,7 @@
     },
     "/physio/mode-session/{modeId}/{patientId}": {
       "get": {
-        "tags": ["Mode session"],
+        "tags": ["Tablet Mode Session"],
         "summary": "Admin can fetch session",
         "description": "",
         "parameters": [
@@ -896,7 +896,7 @@
     },
     "/physio/mode/trial-end/{modeId}": {
       "post": {
-        "tags": ["Mode Trial"],
+        "tags": ["Tablet Mode Trial"],
         "summary": "",
         "description": "",
         "parameters": [
@@ -954,7 +954,7 @@
     },
     "/phyiso/trials/{modeId}/{modeSessionId}": {
       "get": {
-        "tags": ["Mode Trial"],
+        "tags": ["Tablet Mode Trial"],
         "summary": "Physio therapist can access mode trial",
         "description": "",
         "parameters": [
@@ -989,8 +989,8 @@
     },
     "/physio/modes": {
       "get": {
-        "tags": ["Mode"],
-        "summary": "Fetch modes",
+        "tags": ["Tablet Mode"],
+        "summary": "Phsyio therapist can access to this end point",
         "description": "",
         "responses": {
           "default": {
@@ -1257,7 +1257,7 @@
     },
     "/physio/login": {
       "post": {
-        "tags": ["Physio"],
+        "tags": ["Tablet Physio"],
         "summary": "Login for physio",
         "description": "Endpoint for physio-therapist to log in, providing email, password, and optionally device info and device type",
         "responses": {
@@ -1303,7 +1303,7 @@
     "/physio/create-patient": {
       "post": {
         "tags": ["Physio"],
-        "summary": "Physio can create patient",
+        "summary": "Patient can be created from both tablet and dashboard",
         "description": "Endpoint for physio-therapist to create patient",
         "responses": {
           "201": {
@@ -1459,7 +1459,7 @@
     },
     "/physio/patients": {
       "get": {
-        "tags": ["Physio"],
+        "tags": ["Tablet Physio"],
         "summary": "Tablet end point to fetch patient lists to start session.",
         "description": "Endpoint for physio-therapist to fetch patient lists",
         "parameters": [

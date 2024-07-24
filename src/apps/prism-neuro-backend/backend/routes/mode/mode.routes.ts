@@ -14,8 +14,8 @@ export const modeRoutesHandler = ({ getModesController }: IHandler, userAuthoriz
       #swagger.security = [{
             "bearerAuth": []
     }] 
-    #swagger.tags= ['Mode']
-    #swagger.summary ='Fetch modes'
+    #swagger.tags= ['Tablet Mode']
+    #swagger.summary ='Phsyio therapist can access to this end point'
     
      */
   );

@@ -24,7 +24,7 @@ export const modeTrialRoutesHandler = (
      #swagger.security = [{
             "bearerAuth": []
     }] 
-    #swagger.tags = ['Mode Trial']
+    #swagger.tags = ['Tablet Mode Trial']
     #swagger.summary=""
     #swagger.description=""
     #swagger.parameters['modeId'] = {
@@ -62,7 +62,7 @@ export const modeTrialRoutesHandler = (
      #swagger.security = [{
             "bearerAuth": []
     }] 
-    #swagger.tags = ['Mode Trial']
+    #swagger.tags = ['Tablet Mode Trial']
     #swagger.summary="Physio therapist can access mode trial"
     #swagger.description=""
     #swagger.parameters['modeId'] = {

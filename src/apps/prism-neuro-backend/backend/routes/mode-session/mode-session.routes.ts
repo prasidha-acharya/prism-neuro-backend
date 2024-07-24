@@ -22,7 +22,7 @@ export const modeSessionRoutesHandler = (
      #swagger.security = [{
             "bearerAuth": []
     }] 
-    #swagger.tags = ['Mode session']
+    #swagger.tags = ['Tablet Mode Session']
     #swagger.summary="Physio can start session"
     #swagger.description="This end point creates session between physio therapist and patient."
     #swagger.parameters['patientId'] = {
@@ -42,7 +42,7 @@ export const modeSessionRoutesHandler = (
      #swagger.security = [{
             "bearerAuth": []
     }] 
-    #swagger.tags = ['Mode session']
+    #swagger.tags = ['Tablet Mode Session']
     #swagger.summary="Physio ends session"
     #swagger.description="This end point ends session between physio and patient."
     #swagger.parameters['patientId'] = {
@@ -67,7 +67,7 @@ export const modeSessionRoutesHandler = (
      #swagger.security = [{
             "bearerAuth": []
     }] 
-    #swagger.tags = ['Mode session']
+    #swagger.tags = ['Tablet Mode Session']
     #swagger.summary="Admin can fetch session"
     #swagger.description=""
     #swagger.parameters['modeId'] = {
