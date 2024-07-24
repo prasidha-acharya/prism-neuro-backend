@@ -198,10 +198,13 @@ export const physioRoutesHandler = (
       #swagger.tags = ['Physio']
       #swagger.summary = 'Physio can view patient mode'
       #swagger.description = ''
-      #swagger.parameters['filter'] = {
-        in: 'query',
-        type: 'string'
-      }
+       #swagger.parameters['filter'] = {
+      in:'query',
+      required:true,
+      schema: {
+                '@enum': ['monthly','weekly',"daily"]
+            }
+    }
       #swagger.parameters['startDate'] = {
         in: 'query',
         type: 'string'

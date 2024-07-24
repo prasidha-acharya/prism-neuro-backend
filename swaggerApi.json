@@ -1492,8 +1492,10 @@
           {
             "name": "filter",
             "in": "query",
+            "required": true,
             "schema": {
-              "type": "string"
+              "type": "string",
+              "enum": ["monthly", "weekly", "daily"]
             }
           },
           {

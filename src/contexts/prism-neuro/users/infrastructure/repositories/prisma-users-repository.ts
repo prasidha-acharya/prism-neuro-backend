@@ -137,7 +137,7 @@ export class PrismaUserRepository implements IPrismaUserRepository {
     });
   }
 
-  arguments(request: IFetchUsersRequest): Prisma.UserFindManyArgs['where'] {
+  private arguments(request: IFetchUsersRequest): Prisma.UserFindManyArgs['where'] {
     const { startDate, endDate, search, createdBy, role } = request;
 
     let args: Prisma.UserFindManyArgs['where'] = {
