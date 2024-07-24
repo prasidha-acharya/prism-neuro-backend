@@ -12,7 +12,7 @@ export class ActivityTransformer {
         createdAt,
         patient: { profileURL: patientProfile, fullName: `${patient.firstName} ${patient.lastName}` },
         email: patient.email,
-        physioTherapist: { profileURL: physioProfile, fullName: `${patient.firstName} ${patient.lastName}` },
+        physioTherapist: { profileURL: physioProfile, fullName: `${physio.firstName} ${physio.lastName}` },
         session:
           modeTrialSession.length > 0 && modeTrialSession.every(({ status: trialStaus }) => trialStaus === MODE_TRIAL_SESSION_STATUS.COMPLETED)
             ? 1

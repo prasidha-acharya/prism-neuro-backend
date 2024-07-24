@@ -74,7 +74,6 @@ export class GetAllPatientActivityController implements Controller {
       const endDate = req.query.startDate as Date | undefined;
 
       // const response = await this.getUsersService.invoke({ search, startDate, endDate, role: USER_ROLES.PATIENT });
-
       const response = await this.getSessionOfPateintService.invoke({ search, startDate, endDate });
       const data = response.data === null ? [] : this.activityTransformer.activityResponse(response.data);
       res.status(httpStatus.OK).json({ data: { ...response, data }, status: 'SUCESS' });
