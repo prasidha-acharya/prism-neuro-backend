@@ -21,39 +21,54 @@ export class CreatePhysioController implements Controller {
   ) {}
 
   public validate = [
-    body('physioTherapist.email').exists().withMessage(MESSAGE_CODES.USER.REQUIRED_EMAIL).isEmail().withMessage(MESSAGE_CODES.USER.INVALID_EMAIL),
-    body('physioTherapist.firstName').optional().isString().withMessage(MESSAGE_CODES.USER.INVALID_FIRST_NAME),
-    body('physioTherapist.lastName').optional().isString().withMessage(MESSAGE_CODES.USER.INVALID_LAST_NAME),
+    body('physioTherapist.email').isEmail().withMessage(MESSAGE_CODES.USER.REQUIRED_EMAIL),
+    body('physioTherapist.firstName')
+      .exists()
+      .withMessage(MESSAGE_CODES.USER.REQUIRED_FIRST_NAME)
+      .isString()
+      .withMessage(MESSAGE_CODES.USER.INVALID_FIRST_NAME),
+    body('physioTherapist.lastName')
+      .exists()
+      .withMessage(MESSAGE_CODES.USER.REQUIRED_LAST_NAME)
+      .isString()
+      .withMessage(MESSAGE_CODES.USER.INVALID_LAST_NAME),
     body('physioTherapist.phoneCode')
-      .optional()
       .custom((val, { req }) => {
+        console.log(val);
         if (val && !req?.body.physioTherapist.phoneNumber) {
           throw new HTTP400Error(MESSAGE_CODES.USER.REQUIRED_PHONE_NUMBER);
         }
         return true;
-      }),
+      })
+      .optional(),
     body('physioTherapist.phoneNumber')
-      .optional()
+      .isNumeric()
+      .withMessage(MESSAGE_CODES.USER.INVALID_CONTACT_NUMBER)
       .custom((val, { req }) => {
+        console.log(val);
         if (val && !req?.body.physioTherapist.phoneCode) {
           throw new HTTP400Error(MESSAGE_CODES.USER.REQUIRED_PHONE_CODE);
         }
         return true;
-      }),
-    body('physioTherapist.address')
-      .exists()
-      .withMessage(MESSAGE_CODES.USER.REQUIRED_ADDRESS)
-      .isString()
-      .withMessage(MESSAGE_CODES.USER.INVALID_ADDRESS),
+      })
+      .optional(),
+    body('physioTherapist.address').isArray().withMessage(MESSAGE_CODES.USER.REQUIRED_ADDRESS),
+    body('physioTherapist.address.*.address').isString().withMessage(MESSAGE_CODES.USER.ADDRESS.REQUIRED_ADDRESS_NAME),
     RequestValidator
   ];
+
+  public parse(req: Request, res: Response, next: NextFunction): void {
+    const physioTherapist = JSON.parse(req.body.physioTherapist);
+    req.body.physioTherapist = { ...physioTherapist };
+    next();
+  }
 
   public async invoke(
     req: Request<ParamsDictionary, any, any, ParsedQs, Record<string, any>>,
     res: Response<any, Record<string, any>>,
     next: NextFunction
   ): Promise<void> {
-    const { firstName, lastName, email, address, phoneCode, phoneNumber }: IClientCreatePhysioRequest = JSON.parse(req.body.physioTherapist);
+    const { firstName, lastName, email, address, phoneCode, phoneNumber }: IClientCreatePhysioRequest = req.body.physioTherapist;
 
     const password = generatePassword();
 
@@ -63,12 +78,11 @@ export class CreatePhysioController implements Controller {
       email: email.toLowerCase(),
       password: hashPassword(password),
       address,
-      role: USER_ROLES.PHYSIO,
-      userDetail: {}
+      role: USER_ROLES.PHYSIO
     };
 
     if (phoneCode && phoneNumber) {
-      physioData.userDetail = { phoneNumber, phoneCode };
+      physioData = { ...physioData, userDetail: { phoneNumber, phoneCode } };
     }
 
     try {

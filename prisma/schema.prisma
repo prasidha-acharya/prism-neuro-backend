@@ -21,9 +21,9 @@ model RequestResponseLogs {
   userId     String?
   statusCode Int?
   response   Json?
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @updatedAt
-  deletedAt  DateTime?
+  createdAt  DateTime  @default(now()) @db.Timestamptz()
+  updatedAt  DateTime  @updatedAt @db.Timestamptz()
+  deletedAt  DateTime? @db.Timestamptz()
 }
 
 enum USER_ROLES {
@@ -39,9 +39,9 @@ model User {
   firstName          String?
   lastName           String?
   password           String
-  createdAt          DateTime       @default(now())
-  updatedAt          DateTime       @updatedAt
-  deletedAt          DateTime?
+  createdAt          DateTime       @default(now()) @db.Timestamptz()
+  updatedAt          DateTime       @updatedAt @db.Timestamptz()
+  deletedAt          DateTime?      @db.Timestamptz()
   isVerified         Boolean        @default(false)
   role               USER_ROLES
   loginSessions      LoginSession[]
@@ -66,17 +66,20 @@ model UserDetail {
   weight      Int?
   profileURL  String?
   phoneCode   String?
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  deletedAt   DateTime?
+  createdAt   DateTime  @default(now()) @db.Timestamptz()
+  updatedAt   DateTime  @updatedAt @db.Timestamptz()
+  deletedAt   DateTime? @db.Timestamptz()
   user        User      @relation(fields: [userId], references: [id])
 }
 
 model UserAddress {
-  id      String @id @default(uuid())
-  userId  String
-  address String
-  user    User   @relation(fields: [userId], references: [id])
+  id        String    @id @default(uuid())
+  userId    String
+  address   String
+  user      User      @relation(fields: [userId], references: [id])
+  createdAt DateTime  @default(now()) @db.Timestamptz()
+  updatedAt DateTime? @updatedAt @db.Timestamptz()
+  deletedAt DateTime? @db.Timestamptz()
 }
 
 model LoginSession {
@@ -85,7 +88,7 @@ model LoginSession {
   deviceTokenId String?
   user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt     DateTime  @default(now()) @db.Timestamptz()
-  updatedAt     DateTime  @updatedAt
+  updatedAt     DateTime  @updatedAt @db.Timestamptz()
   deletedAt     DateTime? @db.Timestamptz()
 }
 
@@ -103,7 +106,7 @@ model ModeSession {
   modeIds          String[]
   status           MODE_SESSION_STATUS
   createdAt        DateTime            @default(now()) @db.Timestamptz()
-  updatedAt        DateTime            @updatedAt
+  updatedAt        DateTime            @updatedAt @db.Timestamptz()
   deletedAt        DateTime?           @db.Timestamptz()
   modeTrialSession ModeTrialSession[]
 }
@@ -123,7 +126,7 @@ model Mode {
   trialDuration    Int?
   type             MODE_TYPE
   createdAt        DateTime           @default(now()) @db.Timestamptz()
-  updatedAt        DateTime           @updatedAt
+  updatedAt        DateTime           @updatedAt @db.Timestamptz()
   deletedAt        DateTime?          @db.Timestamptz()
   modeDetail       ModeDetail?
   modeTrialSession ModeTrialSession[]
@@ -137,7 +140,7 @@ model ModeDetail {
   videoUrls    String[]
   instructions String[]
   createdAt    DateTime  @default(now()) @db.Timestamptz()
-  updatedAt    DateTime  @updatedAt
+  updatedAt    DateTime  @updatedAt @db.Timestamptz()
   deletedAt    DateTime? @db.Timestamptz()
   modeId       String    @unique
   mode         Mode      @relation(fields: [modeId], references: [id], onDelete: Cascade)
@@ -150,15 +153,15 @@ enum MODE_TRIAL_SESSION_STATUS {
 model ModeTrialSession {
   id             String                     @id @default(uuid())
   trialId        Int
-  startTime      DateTime?
-  endTime        DateTime?
+  startTime      DateTime?                  @db.Timestamptz()
+  endTime        DateTime?                  @db.Timestamptz()
   status         MODE_TRIAL_SESSION_STATUS?
   mode           Mode                       @relation(fields: [modeId], references: [id])
   modeId         String
   results        Json?
   rawData        Json?
   createdAt      DateTime                   @default(now()) @db.Timestamptz()
-  updatedAt      DateTime                   @updatedAt
+  updatedAt      DateTime                   @updatedAt @db.Timestamptz()
   deletedAt      DateTime?                  @db.Timestamptz()
   modeSesssionId String
   modeSession    ModeSession                @relation(fields: [modeSesssionId], references: [id])
@@ -176,9 +179,9 @@ model Otp {
   type      OTP_TYPE
   otpCode   String
   createdAt DateTime  @default(now()) @db.Timestamptz()
-  updatedAt DateTime  @updatedAt
+  updatedAt DateTime  @updatedAt @db.Timestamptz()
   deletedAt DateTime? @db.Timestamptz()
-  expiresAt DateTime
+  expiresAt DateTime  @db.Timestamptz()
   sessionId String?
   user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
@@ -193,7 +196,7 @@ model File {
   name      String
   url       String
   createdAt DateTime  @default(now()) @db.Timestamptz()
-  updatedAt DateTime  @updatedAt
+  updatedAt DateTime  @updatedAt @db.Timestamptz()
   deletedAt DateTime? @db.Timestamptz()
   type      FILE_TYPE
 }

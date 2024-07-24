@@ -1,4 +1,5 @@
 import { USER_ROLES } from '@prisma/client';
+import { IAddress } from './user-request.interface';
 
 export interface IClientLoginRequest {
   email: string;
@@ -11,7 +12,7 @@ interface ICommonUserInterface {
   email: string;
   password: string;
   role: USER_ROLES;
-  address: string;
+  address: IAddress[];
   phoneNumber?: string;
   phoneCode?: string;
 }

@@ -86,7 +86,41 @@
           "content": {
             "multipart/form-data": {
               "schema": {
-                "$ref": "#/components/schemas/createPhysioRequest"
+                "type": "object",
+                "required": ["file", "physioTherapist"],
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "physioTherapist": {
+                    "type": "object",
+                    "required": ["email", "firstName", "lastName", "address"],
+                    "properties": {
+                      "email": {
+                        "type": "string",
+                        "format": "email"
+                      },
+                      "firstName": {
+                        "type": "string"
+                      },
+                      "lastName": {
+                        "type": "string",
+                        "required": "true"
+                      },
+                      "address": {
+                        "type": "array",
+                        "required": "true"
+                      },
+                      "phoneCode": {
+                        "type": "string"
+                      },
+                      "phoneNumber": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
               }
             }
           }
@@ -123,7 +157,36 @@
           "content": {
             "multipart/form-data": {
               "schema": {
-                "$ref": "#/components/schemas/createPhysioRequest"
+                "type": "object",
+                "required": ["file", "physioTherapist"],
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "physioTherapist": {
+                    "type": "object",
+                    "required": ["firstName", "lastName", "address"],
+                    "properties": {
+                      "firstName": {
+                        "type": "string"
+                      },
+                      "lastName": {
+                        "type": "string",
+                        "required": "true"
+                      },
+                      "address": {
+                        "type": "array"
+                      },
+                      "phoneCode": {
+                        "type": "string"
+                      },
+                      "phoneNumber": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
               }
             }
           }
@@ -973,7 +1036,47 @@
           "content": {
             "multipart/form-data": {
               "schema": {
-                "$ref": "#/components/schemas/updatePatientRequest"
+                "type": "object",
+                "required": ["file", "patient"],
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "patient": {
+                    "type": "object",
+                    "properties": {
+                      "email": {
+                        "type": "string",
+                        "format": "email"
+                      },
+                      "firstName": {
+                        "type": "string",
+                        "minLength": 6
+                      },
+                      "address": {
+                        "type": "array",
+                        "required": "true"
+                      },
+                      "lastName": {
+                        "type": "string",
+                        "required": "true"
+                      },
+                      "phoneCode": {
+                        "type": "string"
+                      },
+                      "phoneNumber": {
+                        "type": "string"
+                      },
+                      "age": {
+                        "type": "number"
+                      },
+                      "weight": {
+                        "type": "number"
+                      }
+                    }
+                  }
+                }
               }
             }
           }
@@ -1237,7 +1340,96 @@
                         "minLength": 6
                       },
                       "address": {
+                        "type": "array",
+                        "required": "true"
+                      },
+                      "lastName": {
                         "type": "string",
+                        "required": "true"
+                      },
+                      "phoneCode": {
+                        "type": "string"
+                      },
+                      "phoneNumber": {
+                        "type": "string"
+                      },
+                      "age": {
+                        "type": "number"
+                      },
+                      "weight": {
+                        "type": "number"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/physio/patient-profile/{patientId}": {
+      "put": {
+        "tags": ["Physio"],
+        "summary": "Update Profile of patient",
+        "description": "Physio can update their patient",
+        "parameters": [
+          {
+            "name": "patientId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/successReponse"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/successReponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "required": ["file", "patient"],
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "patient": {
+                    "type": "object",
+                    "properties": {
+                      "email": {
+                        "type": "string",
+                        "format": "email"
+                      },
+                      "firstName": {
+                        "type": "string",
+                        "minLength": 6
+                      },
+                      "address": {
+                        "type": "array",
                         "required": "true"
                       },
                       "lastName": {
@@ -1300,8 +1492,10 @@
           {
             "name": "filter",
             "in": "query",
+            "required": true,
             "schema": {
-              "type": "string"
+              "type": "string",
+              "enum": ["monthly", "weekly", "daily"]
             }
           },
           {

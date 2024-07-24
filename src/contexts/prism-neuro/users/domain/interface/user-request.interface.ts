@@ -4,10 +4,15 @@ export interface IGetUserRequest {
   email: string;
   role?: USER_ROLES;
 }
+
+export interface IAddress {
+  id?: string;
+  address: string;
+}
 export interface ICreateAdmin {
   email: string;
   password: string;
-  address: string;
+  address: IAddress[];
   phoneNumber?: string;
   phoneCode?: string;
 }
@@ -25,7 +30,7 @@ export interface ICreatePhysioTherapistRequest extends ICreateAdmin {
   role: USER_ROLES;
   firstName: string;
   lastName: string;
-  userDetail: IUserDetail;
+  userDetail?: IUserDetail;
 }
 
 export interface ICreatePatientRequest extends ICreateAdmin {
@@ -40,7 +45,7 @@ export interface IUpdatePhysioTherapistRequest {
     firstName?: string;
     lastName?: string;
   };
-  address?: string;
+  address?: IAddress[];
   userDetail?: IUserDetail;
 }
 
@@ -106,7 +111,7 @@ export interface ICreatePhysioDetail {
 export interface ICreatePatientByPhysioRequest {
   data: ICreateUser;
   detail?: ICreatePhysioDetail;
-  address: string;
+  address: IAddress[];
 }
 
 export interface IUpdatePatientRequest {
@@ -134,7 +139,7 @@ export interface IUpdatePatientReq {
     firstName?: string;
     lastName?: string;
   };
-  addresses?: [{ id: string; name: string }];
+  addresses?: [{ id: string; address: string }];
   userDetail?: {
     phoneCode?: string;
     phoneNumber?: string;

@@ -1,4 +1,4 @@
-import { MODE_SESSION_STATUS, MODE_TRIAL_SESSION_STATUS } from '@prisma/client';
+import { MODE_SESSION_STATUS } from '@prisma/client';
 import { NextFunction, Request, Response } from 'express';
 import { param, query } from 'express-validator';
 import httpStatus from 'http-status';
@@ -34,12 +34,7 @@ export class EndModeSessionController implements Controller {
           id: value
         });
 
-        const isTrailSessionStarted =
-          isModeSessionOpen &&
-          isModeSessionOpen?.modeTrialSession?.length > 0 &&
-          isModeSessionOpen?.modeTrialSession.every(({ status }) => status === MODE_TRIAL_SESSION_STATUS.COMPLETED);
-
-        if (!isModeSessionOpen || !isTrailSessionStarted) {
+        if (!isModeSessionOpen) {
           throw new HTTP405Error(MESSAGE_CODES.MODE.CANNOT_END_MODE_SESSION);
         }
 

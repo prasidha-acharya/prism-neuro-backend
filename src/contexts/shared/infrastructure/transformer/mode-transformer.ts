@@ -34,9 +34,16 @@ export class ModeTransformer {
           if (modeIds.includes(modeId)) {
             const trialsFilteredByMode = modeTrialSession.reduce((trialResult: ITrials[], trialSession) => {
               if (trialSession.modeId === modeId) {
+                let result: number | null = null;
+
+                if (typeof trialSession.results === 'object') {
+                  const value = trialSession.results as Prisma.JsonObject;
+                  result = Number(value.data);
+                }
+
                 trialResult.push({
                   id: trialSession.id,
-                  result: 20,
+                  result,
                   trialId: trialSession.trialId
                 });
               }
@@ -58,9 +65,7 @@ export class ModeTransformer {
         },
         []
       );
-
-      results = trials;
-      return results;
+      return [...results, ...trials];
     }, []);
   }
 

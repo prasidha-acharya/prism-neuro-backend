@@ -36,10 +36,14 @@ export class PrismaModeTrialRepository implements IModeTrialRepository {
   }
 
   getModeTrials(request: IGetModeTrialsRequest): Promise<ModeTrialSession[] | null> {
+    // fetching trial for active session only
     return this.db.modeTrialSession.findMany({
       where: {
         modeId: request.modeId,
-        modeSesssionId: request.modeSessionId
+        modeSesssionId: request.modeSessionId,
+        modeSession: {
+          status: MODE_SESSION_STATUS.START
+        }
       }
     });
   }

@@ -24,9 +24,6 @@ export class PrismaModeSessionRepository implements IModeSessionRepository {
   }: IGetModeTrialsOfPatientRequest): Promise<IPaginateResponse<any[] | null>> {
     let args: Prisma.ModeSessionFindManyArgs['where'] = {
       deletedAt: null,
-      modeIds: {
-        has: modeId
-      },
       patientId,
       physioId,
       status: MODE_SESSION_STATUS.STOP
@@ -44,6 +41,13 @@ export class PrismaModeSessionRepository implements IModeSessionRepository {
           gte: startDate,
           lte: endDate ?? new Date()
         }
+      };
+    }
+
+    if (modeId) {
+      args = {
+        ...args,
+        modeIds: { has: modeId }
       };
     }
 

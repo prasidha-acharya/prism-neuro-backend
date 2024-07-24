@@ -1,4 +1,4 @@
-import { Mode, PrismaClient } from '@prisma/client';
+import { Mode, MODE_SESSION_STATUS, PrismaClient } from '@prisma/client';
 import {
   ICreateBalanceModeRequest,
   ICreateLeftRightMode,
@@ -23,18 +23,14 @@ export class PrismaModeRepository implements IModeRepository {
         createdAt: {
           gte: startDate,
           lte: endDate
-        },
-        modeTrialSession: {
-          some: {
-            modeSession: {
-              patientId,
-              physioId
-            }
-          }
         }
       },
       include: {
-        modeTrialSession: true
+        modeTrialSession: {
+          where: {
+            modeSession: { patientId, physioId, status: MODE_SESSION_STATUS.STOP }
+          }
+        }
       },
       orderBy: {
         createdAt: 'desc'
