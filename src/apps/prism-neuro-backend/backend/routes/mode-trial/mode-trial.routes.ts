@@ -55,7 +55,7 @@ export const modeTrialRoutesHandler = (
   );
 
   router.get(
-    '/phyiso/trials/:modeId/:modeSessionId',
+    '/physio/trials/:modeId/:modeSessionId',
     physioAuthorizer.authorize,
     getModeTrialBySessionController.invoke.bind(getModeTrialBySessionController)
     /* 
