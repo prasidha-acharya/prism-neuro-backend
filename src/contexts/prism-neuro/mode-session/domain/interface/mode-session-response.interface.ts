@@ -16,8 +16,23 @@ export interface IGetPatientsModeSessionByPhysioResponse {
   user: {
     fullName: string;
     id: string;
-    profileURL: string | null;
+    // profileURL: string | null;
   };
   trials: ITrials[];
+  session: number;
+}
+
+interface IUserDetail {
+  fullName: string;
+  id: string;
+}
+
+export interface IGetPatientsActivityResponse {
+  id: string;
+  createdAt: Date;
+  patient: IUserDetail;
+  email: string;
+  isVerified: boolean;
+  physioTherapist: IUserDetail | null;
   session: number;
 }

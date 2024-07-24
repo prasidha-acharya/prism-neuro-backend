@@ -2,32 +2,34 @@ import { ModeTrialSession, Prisma } from '@prisma/client';
 import { IPrismaModeSessionRequest } from '../../../../contexts/prism-neuro/mode-session/domain/interface/mode-session-request.interface';
 import {
   IGetModeSessionOfPatientResponse,
+  IGetPatientsActivityResponse,
   IGetPatientsModeSessionByPhysioResponse,
   ITrials
 } from '../../../../contexts/prism-neuro/mode-session/domain/interface/mode-session-response.interface';
-import { IPrismaUserForGetPatientsByPhysioResponse } from '../../../../contexts/prism-neuro/users/domain/interface/user.response.interface';
+import {
+  IPaginateResponse,
+  IPrismaUserForGetPatientsByPhysioResponse,
+  IPrismaUserForGetPatientsDetailIncludingSessions
+} from '../../../../contexts/prism-neuro/users/domain/interface/user.response.interface';
 
 export class ModeTransformer {
   public modeSessionActivityOfAllPatientsByPhysio(
     users: IPrismaUserForGetPatientsByPhysioResponse[],
     modeId: string
-  ): IGetPatientsModeSessionByPhysioResponse[] {
-    return users?.reduce((results: IGetPatientsModeSessionByPhysioResponse[], user) => {
-      const { firstName, lastName, id: userId, userDetail, patientModeSession } = user;
+  ): IPaginateResponse<IGetPatientsModeSessionByPhysioResponse[]> {
+    const activities = users?.reduce((results: IGetPatientsModeSessionByPhysioResponse[], user) => {
+      const { firstName, lastName, id: userId, patientModeSession } = user;
 
       let initialData: IGetPatientsModeSessionByPhysioResponse = {
         id: '',
         user: {
           id: userId,
-          fullName: `${firstName} ${lastName}`,
-          profileURL: userDetail?.profileURL ?? null
+          fullName: `${firstName} ${lastName}`
         },
         trials: [],
         createdAt: new Date(),
         session: 0
       };
-
-      //
 
       const trials = patientModeSession.reduce(
         (modeTrials: IGetPatientsModeSessionByPhysioResponse[], { modeIds, modeTrialSession, id, createdAt }, index: number) => {
@@ -67,6 +69,72 @@ export class ModeTransformer {
       );
       return [...results, ...trials];
     }, []);
+
+    return {
+      data: activities,
+      pagination: {
+        limit: 10,
+        total: 10,
+        totalPages: 1,
+        currentPage: 0,
+        isFirstPage: false,
+        isLastPage: false
+      }
+    };
+  }
+
+  public modeSessionActivityOfAllPatients(
+    users: IPrismaUserForGetPatientsDetailIncludingSessions[],
+    { startDate, endDate, page, limit }: { startDate?: Date; endDate?: Date; page: number; limit: number }
+  ): IPaginateResponse<IGetPatientsActivityResponse[]> {
+    const activities = users?.reduce((results: IGetPatientsActivityResponse[], user) => {
+      const { firstName, email, lastName, isVerified, id: userId, patientModeSession, physioTherapist } = user;
+
+      const modeSession = patientModeSession.reduce((activity: IGetPatientsActivityResponse[], modeSessionOfPatient, index) => {
+        const trialSessionIsDone = modeSessionOfPatient.modeTrialSession.length > 0;
+        if (
+          trialSessionIsDone ||
+          (trialSessionIsDone && startDate && endDate && startDate <= modeSessionOfPatient.createdAt && modeSessionOfPatient.createdAt >= endDate)
+        ) {
+          activity.push({
+            id: modeSessionOfPatient.id,
+            createdAt: modeSessionOfPatient.createdAt,
+            patient: {
+              id: userId,
+              fullName: `${firstName} ${lastName}`
+            },
+            email,
+            isVerified,
+            physioTherapist:
+              physioTherapist !== null
+                ? {
+                    id: physioTherapist.id,
+                    fullName: `${physioTherapist.firstName} ${physioTherapist.lastName}`
+                  }
+                : null,
+            session: index + 1
+          });
+        }
+        return activity;
+      }, []);
+
+      return [...results, ...modeSession];
+    }, []);
+
+    const totalPages = Math.ceil(activities.length / limit) ?? 0;
+
+    const pagination = {
+      limit,
+      total: activities.length,
+      totalPages,
+      currentPage: page,
+      isFirstPage: page === 1,
+      isLastPage: page === totalPages
+    };
+
+    const offset = (page - 1) * limit;
+
+    return { data: activities.slice(offset, offset + limit), pagination };
   }
 
   public modeSessionOfPatients(modeSessions: IPrismaModeSessionRequest[]): IGetModeSessionOfPatientResponse[] {

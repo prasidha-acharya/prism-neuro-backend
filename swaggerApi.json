@@ -40,6 +40,20 @@
             "schema": {
               "type": "Date"
             }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
           }
         ],
         "responses": {
@@ -952,7 +966,7 @@
         }
       }
     },
-    "/phyiso/trials/{modeId}/{modeSessionId}": {
+    "/physio/trials/{modeId}/{modeSessionId}": {
       "get": {
         "tags": ["Tablet Mode Trial"],
         "summary": "Physio therapist can access mode trial",
@@ -1371,7 +1385,7 @@
     "/physio/patient-profile/{patientId}": {
       "put": {
         "tags": ["Physio"],
-        "summary": "Update Profile of patient",
+        "summary": "Update Profile of patient from both tablet and dashboard",
         "description": "Physio can update their patient",
         "parameters": [
           {

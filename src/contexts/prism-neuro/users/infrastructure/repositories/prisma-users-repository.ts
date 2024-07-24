@@ -15,7 +15,12 @@ import {
   IUpdatePhysioTherapistRequest
 } from '../../domain/interface/user-request.interface';
 import { CreateSession } from '../../domain/interface/user-session.interface';
-import { IGetTotalUsersResponse, IPaginateResponse, IPrismaUserForGetPatientsByPhysioResponse } from '../../domain/interface/user.response.interface';
+import {
+  IGetTotalUsersResponse,
+  IPaginateResponse,
+  IPrismaUserForGetPatientsByPhysioResponse,
+  IPrismaUserForGetPatientsDetailIncludingSessions
+} from '../../domain/interface/user.response.interface';
 import { IPrismaUserRepository } from '../../domain/repositories/users-repository';
 
 export class PrismaUserRepository implements IPrismaUserRepository {
@@ -28,6 +33,53 @@ export class PrismaUserRepository implements IPrismaUserRepository {
       },
       include: {
         userDetail: true,
+        patientModeSession: {
+          orderBy: {
+            createdAt: 'asc'
+          },
+          include: {
+            modeTrialSession: true
+          }
+        }
+      },
+      orderBy: {
+        createdAt: 'desc'
+      }
+    });
+  }
+
+  async getAllPatientsIncludingTrialSession(search?: string): Promise<IPrismaUserForGetPatientsDetailIncludingSessions[] | null> {
+    let args: Prisma.UserFindManyArgs['where'] = {
+      deletedAt: null,
+      role: USER_ROLES.PATIENT
+    };
+
+    if (search) {
+      args = {
+        ...args,
+        OR: [
+          {
+            firstName: {
+              contains: search
+            }
+          },
+          {
+            email: {
+              contains: search
+            }
+          },
+          { lastName: { contains: search } }
+        ]
+      };
+    }
+
+    return await this.db.user.findMany({
+      where: {
+        ...args
+      },
+      include: {
+        userDetail: true,
+        physioTherapist: true,
         patientModeSession: {
           orderBy: {
             createdAt: 'asc'

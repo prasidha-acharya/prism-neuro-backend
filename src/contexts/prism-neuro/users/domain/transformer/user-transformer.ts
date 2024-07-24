@@ -25,15 +25,11 @@ export class UserTransformer {
       userAddress,
       role,
       modeSession,
-      userDetail: userDetail
-        ? {
-            phoneNumber: userDetail.phoneNumber,
-            phoneCode: userDetail.phoneCode,
-            profileURL: userDetail.profileURL,
-            age: userDetail.age,
-            weight: userDetail.weight
-          }
-        : null
+      phoneNumber: userDetail?.phoneNumber ?? null,
+      phoneCode: userDetail?.phoneCode ?? null,
+      profileURL: userDetail?.profileURL ?? null,
+      age: userDetail?.age ?? null,
+      weight: userDetail?.weight ?? null
     };
   }
 

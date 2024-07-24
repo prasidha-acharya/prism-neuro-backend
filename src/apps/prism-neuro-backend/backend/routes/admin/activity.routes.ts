@@ -31,9 +31,17 @@ export const activityRoutesHandler = (
         in: 'query',
         type: 'Date'
       }
-         #swagger.parameters['endDate'] = {
+      #swagger.parameters['endDate'] = {
         in: 'query',
         type: 'Date'
+      }
+      #swagger.parameters['page'] = {
+        in: 'query',
+        type: 'number'
+      }
+      #swagger.parameters['limit'] = {
+        in: 'query',
+        type: 'number'
       }
       #swagger.responses[200]
     }

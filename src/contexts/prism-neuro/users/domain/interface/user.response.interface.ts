@@ -53,3 +53,7 @@ export interface IPrismaUserForGetPatientsByPhysioResponse extends User {
   userDetail?: UserDetail | null;
   patientModeSession: IPrismaModeSessionResponse[];
 }
+
+export interface IPrismaUserForGetPatientsDetailIncludingSessions extends IPrismaUserForGetPatientsByPhysioResponse {
+  physioTherapist: User | null;
+}
