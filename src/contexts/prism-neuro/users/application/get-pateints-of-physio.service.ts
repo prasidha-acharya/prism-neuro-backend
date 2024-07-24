@@ -4,7 +4,7 @@ import { PrismaUserRepository } from '../infrastructure/repositories/prisma-user
 export class GetPatientsOfPhysioService {
   constructor(private prismaUserRepository: PrismaUserRepository) {}
 
-  invoke(physioId: string): Promise<IPrismaUserForGetPatientsByPhysioResponse[] | null> {
-    return this.prismaUserRepository.getPatientsOfPhysio(physioId);
+  invoke(physioId: string, search?: string): Promise<IPrismaUserForGetPatientsByPhysioResponse[] | null> {
+    return this.prismaUserRepository.getPatientsOfPhysio(physioId, search);
   }
 }

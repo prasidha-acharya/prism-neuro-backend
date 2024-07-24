@@ -15,7 +15,8 @@ import {
 export class ModeTransformer {
   public modeSessionActivityOfAllPatientsByPhysio(
     users: IPrismaUserForGetPatientsByPhysioResponse[],
-    modeId: string
+    modeId: string,
+    { page, limit, endDate, startDate }: any
   ): IPaginateResponse<IGetPatientsModeSessionByPhysioResponse[]> {
     const activities = users?.reduce((results: IGetPatientsModeSessionByPhysioResponse[], user) => {
       const { firstName, lastName, id: userId, patientModeSession } = user;
@@ -33,7 +34,7 @@ export class ModeTransformer {
 
       const trials = patientModeSession.reduce(
         (modeTrials: IGetPatientsModeSessionByPhysioResponse[], { modeIds, modeTrialSession, id, createdAt }, index: number) => {
-          if (modeIds.includes(modeId)) {
+          if (modeIds.includes(modeId) || (modeIds.includes(modeId) && startDate && endDate && startDate <= createdAt >= endDate)) {
             const trialsFilteredByMode = modeTrialSession.reduce((trialResult: ITrials[], trialSession) => {
               if (trialSession.modeId === modeId) {
                 let result: number | null = null;
@@ -70,15 +71,17 @@ export class ModeTransformer {
       return [...results, ...trials];
     }, []);
 
+    const totalPages = Math.ceil(activities.length / limit);
+
     return {
       data: activities,
       pagination: {
-        limit: 10,
-        total: 10,
-        totalPages: 1,
-        currentPage: 0,
-        isFirstPage: false,
-        isLastPage: false
+        limit,
+        total: activities.length,
+        totalPages,
+        currentPage: page,
+        isFirstPage: page === 1,
+        isLastPage: totalPages === page
       }
     };
   }

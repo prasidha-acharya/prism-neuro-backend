@@ -572,7 +572,7 @@
       }
     },
     "/logout": {
-      "get": {
+      "post": {
         "tags": ["User"],
         "summary": "Logout",
         "description": "End point to logout",
@@ -1613,7 +1613,7 @@
             "name": "search",
             "in": "query",
             "schema": {
-              "type": "number"
+              "type": "string"
             }
           },
           {

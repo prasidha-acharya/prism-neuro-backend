@@ -42,7 +42,7 @@ export const userRoutesHandler = (
         }
         */
   );
-  router.get(
+  router.post(
     '/logout',
     userAuthorizer.authorize,
     userLogoutController.invoke.bind(userLogoutController)
