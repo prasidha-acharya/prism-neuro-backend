@@ -22,19 +22,6 @@ export class CreateModeSeeder {
               instructions
             );
           }
-        } else if (type === MODE_TYPE.LEFT_RIGHT_MODE) {
-          const isModeAvailable = await this.prismaModeRepository.getModeByType({ type });
-
-          if (!isModeAvailable) {
-            this.prismaModeRepository.createLeftRightMode(
-              {
-                type: MODE_TYPE.LEFT_RIGHT_MODE,
-                trialCount,
-                name
-              },
-              instructions
-            );
-          }
         } else if (type === MODE_TYPE.TARGET_MODE) {
           const isModeAvailable = await this.prismaModeRepository.getModeByType({ type });
 
@@ -44,6 +31,19 @@ export class CreateModeSeeder {
                 type: MODE_TYPE.TARGET_MODE,
                 trialCount,
                 trialDuration,
+                name
+              },
+              instructions
+            );
+          }
+        } else if (type === MODE_TYPE.LEFT_RIGHT_MODE) {
+          const isModeAvailable = await this.prismaModeRepository.getModeByType({ type });
+
+          if (!isModeAvailable) {
+            this.prismaModeRepository.createLeftRightMode(
+              {
+                type: MODE_TYPE.LEFT_RIGHT_MODE,
+                trialCount,
                 name
               },
               instructions

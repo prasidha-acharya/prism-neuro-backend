@@ -24,7 +24,7 @@ export const modeTrialRoutesHandler = (
      #swagger.security = [{
             "bearerAuth": []
     }] 
-    #swagger.tags = ['Mode Trial']
+    #swagger.tags = ['Tablet Mode Trial']
     #swagger.summary=""
     #swagger.description=""
     #swagger.parameters['modeId'] = {
@@ -55,14 +55,14 @@ export const modeTrialRoutesHandler = (
   );
 
   router.get(
-    '/phyiso/trials/:modeId/:modeSessionId',
+    '/physio/trials/:modeId/:modeSessionId',
     physioAuthorizer.authorize,
     getModeTrialBySessionController.invoke.bind(getModeTrialBySessionController)
     /* 
      #swagger.security = [{
             "bearerAuth": []
     }] 
-    #swagger.tags = ['Mode Trial']
+    #swagger.tags = ['Tablet Mode Trial']
     #swagger.summary="Physio therapist can access mode trial"
     #swagger.description=""
     #swagger.parameters['modeId'] = {

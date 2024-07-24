@@ -38,7 +38,7 @@ export const physioRoutesHandler = (
     loginDoctorController.invoke.bind(loginDoctorController)
     /*
 
-      #swagger.tags = ['Physio']
+      #swagger.tags = ['Tablet Physio']
       #swagger.summary = 'Login for physio'
       #swagger.description = 'Endpoint for physio-therapist to log in, providing email, password, and optionally device info and device type'
       #swagger.requestBody = {
@@ -76,7 +76,7 @@ export const physioRoutesHandler = (
             "bearerAuth": []
     }] 
       #swagger.tags = ['Physio']
-      #swagger.summary = 'Physio can create patient'
+      #swagger.summary = 'Patient can be created from both tablet and dashboard'
       #swagger.description = 'Endpoint for physio-therapist to create patient'
       #swagger.requestBody = {
       required: true,
@@ -124,7 +124,7 @@ export const physioRoutesHandler = (
     'bearerAuth':[]
     }]
     #swagger.tags = ['Physio']
-    #swagger.summary = 'Update Profile of patient'
+    #swagger.summary = 'Update Profile of patient from both tablet and dashboard'
     #swagger.description = 'Physio can update their patient's profile'
       #swagger.requestBody = {
       required: true,
@@ -175,7 +175,7 @@ export const physioRoutesHandler = (
   #swagger.security = [{
             "bearerAuth": []
     }] 
-      #swagger.tags = ['Physio']
+      #swagger.tags = ['Tablet Physio']
       #swagger.summary = 'Tablet end point to fetch patient lists to start session.'
       #swagger.description = 'Endpoint for physio-therapist to fetch patient lists'
       #swagger.parameters['search'] = {
