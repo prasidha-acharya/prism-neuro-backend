@@ -197,7 +197,8 @@ export class PrismaUserRepository implements IPrismaUserRepository {
           createdAt: {
             gte: startDate,
             lte: endDate
-          }
+          },
+          NOT: { deletedAt: null }
         }
       })
     ]);
