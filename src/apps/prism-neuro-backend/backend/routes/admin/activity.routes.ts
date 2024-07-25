@@ -1,16 +1,12 @@
-import { NextFunction, Request, Response, Router } from 'express';
-import { IAuthorizer } from 'src/contexts/shared/domain/model/authentication/authorizer';
+import { Router } from 'express';
+import { JWTAdminAuthorizer } from 'src/contexts/shared/infrastructure/authorizer/admin.authorizer';
 import * as controllers from '../../controllers/index';
 
 interface IHandler {
   getAllPatientActivityController: controllers.GetAllPatientActivityController;
 }
 
-export const activityRoutesHandler = (
-  { getAllPatientActivityController }: IHandler,
-  adminAuthorizer: IAuthorizer<Request, Response, NextFunction>,
-  router: Router
-): Router => {
+export const activityRoutesHandler = ({ getAllPatientActivityController }: IHandler, adminAuthorizer: JWTAdminAuthorizer, router: Router): Router => {
   router.get(
     '/admin/activity',
     adminAuthorizer.authorize,
