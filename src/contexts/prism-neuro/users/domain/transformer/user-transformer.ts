@@ -107,7 +107,7 @@ export class UserTransformer {
 
     return {
       bestScores: response.bestScores,
-      averageScores: response.totalScores / trials.length
+      averageScores: response?.totalScores > 0 ? response.totalScores / trials.length : 0
     };
   }
 }

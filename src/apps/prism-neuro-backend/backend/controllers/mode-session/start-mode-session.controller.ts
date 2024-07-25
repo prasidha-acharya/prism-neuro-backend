@@ -36,7 +36,6 @@ export class StartModeSessionController implements Controller {
 
         // checking if any session is on.
         const isModeSessionAlreadyStarted = await this.getModeSessionOfPhysioAndPatientService.invoke({
-          patientId: value,
           physioId,
           status: MODE_SESSION_STATUS.START
         });
