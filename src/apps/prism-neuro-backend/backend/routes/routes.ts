@@ -147,7 +147,7 @@ export const masterRouter = (
     apiRouter
   );
 
-  modeRoutesHandler({ getModesController }, userAuthorizer, apiRouter);
+  modeRoutesHandler({ getModesController }, physioAuthorizer, apiRouter);
 
   return apiRouter;
 };
