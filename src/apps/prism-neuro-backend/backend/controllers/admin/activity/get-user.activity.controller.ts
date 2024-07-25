@@ -3,19 +3,17 @@ import { ParamsDictionary } from 'express-serve-static-core';
 import { query } from 'express-validator';
 import httpStatus from 'http-status';
 import { ParsedQs } from 'qs';
-import { GetSessionOfPateintService } from '../../../../../../contexts/prism-neuro/mode-session/application/get-session-of-patient.service';
-import { GetUsersService } from '../../../../../../contexts/prism-neuro/users/application/get-users.service';
+import { GetAllPatientsInCludingSessionInfoService } from '../../../../../../contexts/prism-neuro/users/application/get-all-patients-including-session-info.service';
 import { HTTP422Error } from '../../../../../../contexts/shared/domain/errors/http.exception';
 import { RequestValidator } from '../../../../../../contexts/shared/infrastructure/middleware/request-validator';
-import { ActivityTransformer } from '../../../../../../contexts/shared/infrastructure/transformer/activity-transformer';
+import { ModeTransformer } from '../../../../../../contexts/shared/infrastructure/transformer/mode-transformer';
 import { MESSAGE_CODES } from '../../../../../../contexts/shared/infrastructure/utils/message-code';
 import { Controller } from '../../controller';
 
 export class GetAllPatientActivityController implements Controller {
   constructor(
-    private getUsersService: GetUsersService,
-    private activityTransformer: ActivityTransformer,
-    private getSessionOfPateintService: GetSessionOfPateintService
+    private modeTransformer: ModeTransformer,
+    private getAllPatientsInCludingSessionInfoService: GetAllPatientsInCludingSessionInfoService
   ) {}
 
   public validate = [
@@ -69,14 +67,20 @@ export class GetAllPatientActivityController implements Controller {
     next: NextFunction
   ): Promise<void> {
     try {
-      const search = req.query.search as string | undefined;
-      const startDate = req.query.startDate as Date | undefined;
-      const endDate = req.query.startDate as Date | undefined;
+      const {
+        page = 1,
+        limit = 10,
+        startDate,
+        endDate,
+        search
+      } = req.query as unknown as { page?: number; limit?: number; startDate?: Date; endDate?: Date; search?: string };
 
-      // const response = await this.getUsersService.invoke({ search, startDate, endDate, role: USER_ROLES.PATIENT });
-      const response = await this.getSessionOfPateintService.invoke({ search, startDate, endDate });
-      const data = response.data === null ? [] : this.activityTransformer.activityResponse(response.data);
-      res.status(httpStatus.OK).json({ data: { ...response, data }, status: 'SUCESS' });
+      const response = await this.getAllPatientsInCludingSessionInfoService.invoke(search);
+      const data =
+        response === null
+          ? []
+          : this.modeTransformer.modeSessionActivityOfAllPatients(response, { limit: Number(limit), page: Number(page), startDate, endDate });
+      res.status(httpStatus.OK).json({ data, status: 'SUCESS' });
     } catch (error) {
       next(error);
     }

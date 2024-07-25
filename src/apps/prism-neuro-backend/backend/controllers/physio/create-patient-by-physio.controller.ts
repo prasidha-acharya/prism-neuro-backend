@@ -52,7 +52,7 @@ export class CreatePatientByPhysioController implements Controller {
   }
 
   async invoke(req: Request, res: Response, next: NextFunction): Promise<void> {
-    const { address, firstName, lastName, email, age, weight, phoneCode, phoneNumber } = req.body.patient;
+    const { address, firstName, lastName, email, age, weight, phoneCode, phoneNumber, userName } = req.body.patient;
 
     const { userId } = req.body.user;
 
@@ -91,6 +91,10 @@ export class CreatePatientByPhysioController implements Controller {
 
     if (profileURL) {
       detail = { ...(detail ?? {}), profileURL };
+    }
+
+    if (userName) {
+      data.userName = userName;
     }
 
     try {

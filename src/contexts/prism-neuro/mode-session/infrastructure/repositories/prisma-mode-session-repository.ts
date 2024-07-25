@@ -4,9 +4,9 @@ import {
   ICreateModeSessionRequest,
   IGetModeSessionRequest,
   IGetModeTrialsOfPatientRequest,
-  IPrismaModeSessionOfPhysioAndPatientReponse,
   IUpdateModeSessionRequest
 } from '../../domain/interface/mode-session-request.interface';
+import { IPrismaModeSessionOfPhysioAndPatientReponse } from '../../domain/interface/mode-session-response.interface';
 import { IModeSessionRepository } from '../../domain/repositories/mode-session-repository';
 
 export class PrismaModeSessionRepository implements IModeSessionRepository {

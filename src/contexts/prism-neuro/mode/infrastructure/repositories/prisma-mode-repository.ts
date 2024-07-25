@@ -8,6 +8,7 @@ import {
   IGetModeByIdRequest,
   IGetModeByTypeRequest
 } from '../../domain/interface/mode-request.interface';
+import { IPrismaModeWithTrials } from '../../domain/interface/mode-response.interface';
 import { IModeRepository } from '../../domain/repositories/mode-repository';
 
 export class PrismaModeRepository implements IModeRepository {
@@ -17,7 +18,7 @@ export class PrismaModeRepository implements IModeRepository {
     return this.db.mode.findMany({});
   }
 
-  getAllModes({ startDate, endDate, patientId, physioId }: IGetAllModesRequest): Promise<Mode[] | null> {
+  getAllModes({ startDate, endDate, patientId, physioId }: IGetAllModesRequest): Promise<IPrismaModeWithTrials[] | null> {
     return this.db.mode.findMany({
       where: {
         createdAt: {

@@ -11,8 +11,10 @@ export class GetModeComparisionController implements Controller {
   ) {}
 
   async invoke(req: Request, res: Response, next: NextFunction): Promise<void> {
+    const patientId = req.body.user.userId;
+
     try {
-      const response = await this.getAllModesService.invoke({});
+      const response = await this.getAllModesService.invoke({ patientId });
 
       const data = response === null ? [] : this.statisticsTransformer.modeComparisionTransformer(response);
 

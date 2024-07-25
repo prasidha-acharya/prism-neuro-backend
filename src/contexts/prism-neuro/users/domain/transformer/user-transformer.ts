@@ -1,13 +1,19 @@
 import { MODE_SESSION_STATUS, MODE_TRIAL_SESSION_STATUS, ModeTrialSession, Prisma, USER_ROLES } from '@prisma/client';
-import { IGetPatientPerformance, IGetUserListByAdminResponse, IPrismaUserResponse } from '../interface/user.response.interface';
+import {
+  IGetPatientPerformance,
+  IGetUserListByAdminResponse,
+  IPrismaGetUserByEmail,
+  IPrismaUserResponse,
+  UserResponse
+} from '../interface/user.response.interface';
 
 // TODO: remove any
 export class UserTransformer {
-  public loginLists(data: any): any {
+  public loginLists(data: IPrismaGetUserByEmail): UserResponse {
     // eslint-disable-next-line no-unused-vars
     const { password, physioModeSession, patientModeSession, ...remainigData } = data;
 
-    const { userDetail, id, email, isVerified, firstName, lastName, role, userAddress } = remainigData;
+    const { userDetail, id, email, isVerified, firstName, lastName, role, userAddress, userName } = remainigData;
 
     const modeSession =
       remainigData.role === USER_ROLES.ADMIN
@@ -20,20 +26,17 @@ export class UserTransformer {
       id,
       email,
       isVerified,
-      firstName,
-      lastName,
+      firstName: firstName ?? '',
+      lastName: lastName ?? '',
+      userName,
       userAddress,
       role,
       modeSession,
-      userDetail: userDetail
-        ? {
-            phoneNumber: userDetail.phoneNumber,
-            phoneCode: userDetail.phoneCode,
-            profileURL: userDetail.profileURL,
-            age: userDetail.age,
-            weight: userDetail.weight
-          }
-        : null
+      phoneNumber: userDetail?.phoneNumber ?? null,
+      phoneCode: userDetail?.phoneCode ?? null,
+      profileURL: userDetail?.profileURL ?? null,
+      age: userDetail?.age ?? null,
+      weight: userDetail?.weight ?? null
     };
   }
 
@@ -104,7 +107,7 @@ export class UserTransformer {
 
     return {
       bestScores: response.bestScores,
-      averageScores: response.totalScores / trials.length
+      averageScores: response?.totalScores > 0 ? response.totalScores / trials.length : 0
     };
   }
 }

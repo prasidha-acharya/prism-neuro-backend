@@ -264,7 +264,7 @@ export const physioRoutesHandler = (
 
       #swagger.parameters['search'] = {
     in:"query",
-    type:"number",
+    type:"string",
     }
 
       #swagger.parameters['startDate'] = {

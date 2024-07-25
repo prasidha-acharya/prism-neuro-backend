@@ -28,6 +28,7 @@ import { DeletePatientByAdminService } from '../../../contexts/prism-neuro/users
 import { DeleteUserSessionService } from '../../../contexts/prism-neuro/users/application/delete-user-session.service';
 import { ForgotPasswordService } from '../../../contexts/prism-neuro/users/application/forgot-password.service';
 import { GetAdminByEmailService } from '../../../contexts/prism-neuro/users/application/get-admin-email.service';
+import { GetAllPatientsInCludingSessionInfoService } from '../../../contexts/prism-neuro/users/application/get-all-patients-including-session-info.service';
 import { GetOtpService } from '../../../contexts/prism-neuro/users/application/get-otp.service';
 import { GetPatientsOfPhysioService } from '../../../contexts/prism-neuro/users/application/get-pateints-of-physio.service';
 import { GetTotalPatientsService } from '../../../contexts/prism-neuro/users/application/get-total-patients.service';
@@ -235,7 +236,8 @@ export class Container {
         getTotalPatientsService: asClass(GetTotalPatientsService).singleton(),
         getModeSessionActivityOfPatientByPhysioController: asClass(GetModeSessionActivityOfPatientByPhysioController),
         getSessionsBetweenPatientAndDoctorController: asClass(GetSessionsBetweenPatientAndDoctorController),
-        getModeSessionsByPatientIdController: asClass(GetModeSessionsByPatientIdController)
+        getModeSessionsByPatientIdController: asClass(GetModeSessionsByPatientIdController),
+        getAllPatientsInCludingSessionInfoService: asClass(GetAllPatientsInCludingSessionInfoService).singleton()
       })
       //mode trial session
       .register({

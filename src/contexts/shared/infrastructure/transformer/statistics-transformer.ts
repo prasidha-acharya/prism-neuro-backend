@@ -1,4 +1,5 @@
-import { Mode, MODE_TYPE, ModeTrialSession, Prisma } from '@prisma/client';
+import { MODE_TYPE, ModeTrialSession, Prisma } from '@prisma/client';
+import { IPrismaModeWithTrials } from '../../../../contexts/prism-neuro/mode/domain/interface/mode-response.interface';
 
 interface ModeResponse {
   id: string;
@@ -6,8 +7,8 @@ interface ModeResponse {
   data: number;
 }
 export class StatisticsTransformer {
-  modeAnalyticsTransformer(modes: Mode[]): ModeResponse[] {
-    const result = modes.map((mode: any) => {
+  modeAnalyticsTransformer(modes: IPrismaModeWithTrials[]): ModeResponse[] {
+    const result = modes.map(mode => {
       const data = mode.modeTrialSession.reduce((a: number, trial: ModeTrialSession) => {
         //assuming
         if (trial.results && typeof trial.results === 'object') {
@@ -22,7 +23,7 @@ export class StatisticsTransformer {
       return {
         id: mode.id,
         type: mode.type,
-        data: data / mode.trialCount,
+        data: Number((data / mode.trialCount).toFixed(2)),
         createdAt: mode.createdAt
       };
     });
@@ -30,8 +31,8 @@ export class StatisticsTransformer {
     return result;
   }
 
-  modeComparisionTransformer(modes: Mode[]): ModeResponse[] {
-    const result = modes.map((mode: any) => {
+  modeComparisionTransformer(modes: IPrismaModeWithTrials[]): ModeResponse[] {
+    const result = modes.map(mode => {
       const data = mode.modeTrialSession.reduce((a: number, trial: ModeTrialSession) => {
         //assuming
         if (trial.results && typeof trial.results === 'object') {
@@ -46,7 +47,7 @@ export class StatisticsTransformer {
       return {
         id: mode.id,
         type: mode.type,
-        data: data,
+        data: data > 0 ? Number((data / mode.trialCount).toFixed(2)) : 0,
         createdAt: mode.createdAt
       };
     });
