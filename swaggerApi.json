@@ -781,6 +781,35 @@
         }
       }
     },
+    "/admin/upload/files": {
+      "post": {
+        "tags": ["File"],
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "type": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/physio/mode/session-start/{patientId}": {
       "post": {
         "tags": ["Tablet Mode Session"],
@@ -2094,6 +2123,18 @@
         },
         "xml": {
           "name": "updatePatientRequest"
+        }
+      },
+      "uploadFile": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "example": "LEFT_RIGHT_MODE"
+          }
+        },
+        "xml": {
+          "name": "uploadFile"
         }
       }
     },

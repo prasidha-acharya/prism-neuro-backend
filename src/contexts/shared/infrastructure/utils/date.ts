@@ -21,3 +21,8 @@ export const getDateBeforeOneMonth = (): dayjs.Dayjs => {
   let currentDate = dayjs();
   return currentDate.subtract(1, 'month').startOf('day');
 };
+
+export const getCurrentTimeStamp = (): number => {
+  const currentDate = dayjs();
+  return currentDate.valueOf();
+};

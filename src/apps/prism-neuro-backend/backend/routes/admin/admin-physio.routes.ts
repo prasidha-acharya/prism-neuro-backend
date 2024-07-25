@@ -30,7 +30,7 @@ export const adminPhysioRoutesHandler = (
     }] 
    #swagger.tags = ['Admin']
    #swagger.summary = 'Admin creates physio'
-   #swagger.description = ''
+   #swagger.description = ''  
       #swagger.requestBody = {
       required: true,
       content: {

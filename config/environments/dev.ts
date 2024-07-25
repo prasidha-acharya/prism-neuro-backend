@@ -22,10 +22,10 @@ const DEV: Configuration = {
     SENDER_ADDRESS: process.env.MAIL_SENDER_ADDRESS || ''
   },
   AWS: {
-    ACCESS_KEY_ID: process.env.ACCESS_KEY_ID || '',
-    BUCKET_NAME: process.env.BUCKET_NAME || '',
-    REGION: process.env.REGION || '',
-    SECRET_ACCESS_KEY: process.env.SECRET_ACCESS_KEY || ''
+    ACCESS_KEY_ID: process.env.S3_BUCKET_ACCESS_KEY_ID || '',
+    BUCKET_NAME: process.env.S3_BUCKET_NAME || '',
+    REGION: process.env.S3_BUCKET_REGION || '',
+    SECRET_ACCESS_KEY: process.env.S3_BUCKET_SECRET_ACCESS_KEY || ''
   }
 };
 

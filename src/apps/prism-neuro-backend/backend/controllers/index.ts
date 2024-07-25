@@ -10,6 +10,7 @@ export * from './admin/physio/login-physio.controller';
 export * from './admin/physio/update-physio.controller';
 export * from './admin/statistics/get-mode-analytics.controller';
 export * from './admin/statistics/get-total-users.controller';
+export * from './file/upload-mode-files.controller';
 export * from './general/access-token.controller';
 export * from './general/change-password.controller';
 export * from './general/delete-account.controller';

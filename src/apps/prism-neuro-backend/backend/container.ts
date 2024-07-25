@@ -98,7 +98,8 @@ const {
   GetModeSessionActivityOfPatientByPhysioController,
   GetSessionsBetweenPatientAndDoctorController,
   GetModeSessionsByPatientIdController,
-  UpdatePatientProfileByPhysioController
+  UpdatePatientProfileByPhysioController,
+  UploadModeFilesController
 } = controller;
 export class Container {
   private readonly container: AwilixContainer;
@@ -251,7 +252,8 @@ export class Container {
       })
       //image upload
       .register({
-        imageUploadService: asClass(ImageUploadService).singleton()
+        imageUploadService: asClass(ImageUploadService).singleton(),
+        uploadModeFilesController: asClass(UploadModeFilesController)
       })
       .register({
         userTransformer: asClass(UserTransformer),
