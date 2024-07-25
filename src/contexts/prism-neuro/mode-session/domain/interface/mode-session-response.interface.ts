@@ -1,3 +1,5 @@
+import { ModeSession, ModeTrialSession } from '@prisma/client';
+
 export interface ITrials {
   id: string;
   trialId: number;
@@ -35,4 +37,8 @@ export interface IGetPatientsActivityResponse {
   isVerified: boolean;
   physioTherapist: IUserDetail | null;
   session: number;
+}
+
+export interface IPrismaModeSessionOfPhysioAndPatientReponse extends ModeSession {
+  modeTrialSession: ModeTrialSession[];
 }
