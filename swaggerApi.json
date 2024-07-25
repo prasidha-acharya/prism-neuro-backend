@@ -320,7 +320,7 @@
       "post": {
         "tags": ["User"],
         "summary": "Login for Patient Physio Therapist and Admin Controller",
-        "description": "Endpoint for all users to log in, providing email, password, and optionally device info and device type",
+        "description": "Endpoint for all users to log in, providing email, password",
         "responses": {
           "200": {
             "description": "OK",
@@ -360,6 +360,23 @@
             }
           }
         }
+      }
+    },
+    "/admin/modes": {
+      "get": {
+        "tags": ["Admin"],
+        "summary": "Admin can access to this end point",
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
       }
     },
     "/admin/delete-patient/{patientId}": {

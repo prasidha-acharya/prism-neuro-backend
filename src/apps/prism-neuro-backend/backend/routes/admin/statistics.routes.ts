@@ -1,5 +1,5 @@
-import { NextFunction, Request, Response, Router } from 'express';
-import { IAuthorizer } from '../../../../../contexts/shared/domain/model/authentication/authorizer';
+import { Router } from 'express';
+import { JWTAdminAuthorizer } from '../../../../../contexts/shared/infrastructure/authorizer/admin.authorizer';
 import * as controllers from '../../controllers/index';
 
 interface IHandler {
@@ -9,7 +9,7 @@ interface IHandler {
 
 export const statisticsRoutesHandler = (
   { getTotalUsersController, getModeAnalyticsController }: IHandler,
-  adminAuthorizer: IAuthorizer<Request, Response, NextFunction>,
+  adminAuthorizer: JWTAdminAuthorizer,
   router: Router
 ): Router => {
   router.get(

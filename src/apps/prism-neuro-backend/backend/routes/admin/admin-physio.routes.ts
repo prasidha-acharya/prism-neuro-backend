@@ -1,6 +1,6 @@
-import { NextFunction, Request, Response, Router } from 'express';
+import { Router } from 'express';
 import multer from 'multer';
-import { IAuthorizer } from '../../../../../contexts/shared/domain/model/authentication/authorizer';
+import { JWTAdminAuthorizer } from '../../../../../contexts/shared/infrastructure/authorizer/admin.authorizer';
 import * as controllers from '../../controllers/index';
 
 interface IHandler {
@@ -14,7 +14,7 @@ export const imageUpload = multer({});
 
 export const adminPhysioRoutesHandler = (
   { createPhysioController, updatePhysioController, getAllUsersController, getAllPatientListByPhysioIdController, deletePhysioController }: IHandler,
-  adminAuthorizer: IAuthorizer<Request, Response, NextFunction>,
+  adminAuthorizer: JWTAdminAuthorizer,
   router: Router
 ): Router => {
   router.post(

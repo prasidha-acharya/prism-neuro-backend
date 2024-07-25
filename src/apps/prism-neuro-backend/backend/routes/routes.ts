@@ -1,5 +1,5 @@
-import { NextFunction, Request, Response, Router } from 'express';
-import { IAuthorizer } from '../../../../contexts/shared/domain/model/authentication/authorizer';
+import { Router } from 'express';
+import { JWTAdminAuthorizer } from 'src/contexts/shared/infrastructure/authorizer/admin.authorizer';
 import { JWTPatientAuthorizer } from '../../../../contexts/shared/infrastructure/authorizer/patient.authorizer';
 import { JWTPhysioTherapistAuthorizer } from '../../../../contexts/shared/infrastructure/authorizer/physio.authorizer';
 import { RefreshAuthorizer } from '../../../../contexts/shared/infrastructure/authorizer/refresh.authorizer';
@@ -8,6 +8,7 @@ import * as controllers from '../controllers';
 import { activityRoutesHandler } from './admin/activity.routes';
 import { adminPhysioRoutesHandler } from './admin/admin-physio.routes';
 import { adminAuthRoutesHandler } from './admin/auth.routes';
+import { adminModeRoutesHandler } from './admin/mode.routes';
 import { adminPatientRoutesHandler } from './admin/patient.routes';
 import { statisticsRoutesHandler } from './admin/statistics.routes';
 import { userRoutesHandler } from './admin/user.routes';
@@ -20,7 +21,7 @@ import { physioRoutesHandler } from './physio/physio.routes';
 export const masterRouter = (
   createPhysioController: controllers.CreatePhysioController,
   loginAdminController: controllers.LoginAdminController,
-  adminAuthorizer: IAuthorizer<Request, Response, NextFunction>,
+  adminAuthorizer: JWTAdminAuthorizer,
   userLogoutController: controllers.UserLogoutController,
   generateAccessTokenController: controllers.GenerateAccessTokenController,
   loginPhysioController: controllers.LoginDoctorController,
@@ -74,6 +75,8 @@ export const masterRouter = (
     adminAuthorizer,
     apiRouter
   );
+
+  adminModeRoutesHandler({ getModesController }, adminAuthorizer, apiRouter);
 
   activityRoutesHandler({ getAllPatientActivityController }, adminAuthorizer, apiRouter);
 
@@ -144,7 +147,7 @@ export const masterRouter = (
     apiRouter
   );
 
-  modeRoutesHandler({ getModesController }, userAuthorizer, apiRouter);
+  modeRoutesHandler({ getModesController }, physioAuthorizer, apiRouter);
 
   return apiRouter;
 };

@@ -1,14 +1,14 @@
 import { Router } from 'express';
-import { JWTUserAuthorizer } from '../../../../../contexts/shared/infrastructure/authorizer/user.authorizer';
+import { JWTPhysioTherapistAuthorizer } from '../../../../../contexts/shared/infrastructure/authorizer/physio.authorizer';
 import * as controllers from '../../controllers/index';
 
 interface IHandler {
   getModesController: controllers.GetModesController;
 }
-export const modeRoutesHandler = ({ getModesController }: IHandler, userAuthorizer: JWTUserAuthorizer, router: Router): Router => {
+export const modeRoutesHandler = ({ getModesController }: IHandler, physioAuthorizer: JWTPhysioTherapistAuthorizer, router: Router): Router => {
   router.get(
     '/physio/modes',
-    userAuthorizer.adminAndPhysioauthorize,
+    physioAuthorizer.authorize,
     getModesController.invoke.bind(getModesController)
     /*
       #swagger.security = [{

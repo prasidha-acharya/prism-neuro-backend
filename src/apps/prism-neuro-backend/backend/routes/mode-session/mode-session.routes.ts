@@ -1,5 +1,6 @@
-import { NextFunction, Request, Response, Router } from 'express';
-import { IAuthorizer } from '../../../../../contexts/shared/domain/model/authentication/authorizer';
+import { Router } from 'express';
+import { JWTPhysioTherapistAuthorizer } from 'src/contexts/shared/infrastructure/authorizer/physio.authorizer';
+import { JWTAdminAuthorizer } from '../../../../../contexts/shared/infrastructure/authorizer/admin.authorizer';
 import * as controllers from '../../controllers/index';
 
 interface IHandler {
@@ -9,8 +10,8 @@ interface IHandler {
 }
 export const modeSessionRoutesHandler = (
   { startModeSessionController, endModeSessionController, getModeSessionOfPatientController }: IHandler,
-  physioAuthorizer: IAuthorizer<Request, Response, NextFunction>,
-  adminAuthorizer: IAuthorizer<Request, Response, NextFunction>,
+  physioAuthorizer: JWTPhysioTherapistAuthorizer,
+  adminAuthorizer: JWTAdminAuthorizer,
   router: Router
 ): Router => {
   router.post(

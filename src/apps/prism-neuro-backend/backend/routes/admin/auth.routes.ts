@@ -7,11 +7,7 @@ interface Handler {
   loginAdminController: controller.LoginAdminController;
 }
 
-export const adminAuthRoutesHandler = (
-  { loginAdminController }: Handler,
-  // adminAuthorizer: IAuthorizer<Request, Response, NextFunction>,
-  router: Router
-): Router => {
+export const adminAuthRoutesHandler = ({ loginAdminController }: Handler, router: Router): Router => {
   //TODO Swagger request body ref implimentation required
   router.post(
     '/auth/login',
