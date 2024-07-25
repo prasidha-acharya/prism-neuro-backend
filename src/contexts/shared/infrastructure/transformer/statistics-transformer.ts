@@ -23,7 +23,7 @@ export class StatisticsTransformer {
       return {
         id: mode.id,
         type: mode.type,
-        data: data / mode.trialCount,
+        data: Number((data / mode.trialCount).toFixed(2)),
         createdAt: mode.createdAt
       };
     });
@@ -47,7 +47,7 @@ export class StatisticsTransformer {
       return {
         id: mode.id,
         type: mode.type,
-        data: data,
+        data: data > 0 ? Number((data / mode.trialCount).toFixed(2)) : 0,
         createdAt: mode.createdAt
       };
     });

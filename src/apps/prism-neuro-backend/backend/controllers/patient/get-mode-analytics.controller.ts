@@ -23,6 +23,8 @@ export class GetPatientModeAnalyticsController implements Controller {
   public validate = [query('filter').exists().withMessage(MESSAGE_CODES.MODE), RequestValidator];
 
   async invoke(req: Request, res: Response, next: NextFunction): Promise<void> {
+    const patientId = req.body.user.userId as string;
+
     let startDate: any | undefined;
     let endDate: any | undefined;
 
@@ -45,7 +47,7 @@ export class GetPatientModeAnalyticsController implements Controller {
         throw new HTTP400Error(MESSAGE_CODES.INVALID_DATE);
       }
 
-      const response = await this.getAllModesService.invoke({ startDate, endDate });
+      const response = await this.getAllModesService.invoke({ startDate, endDate, patientId });
 
       const data = response === null ? [] : this.statisticsTransformer.modeAnalyticsTransformer(response);
 

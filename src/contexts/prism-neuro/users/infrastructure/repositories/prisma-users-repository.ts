@@ -61,6 +61,9 @@ export class PrismaUserRepository implements IPrismaUserRepository {
       include: {
         userDetail: true,
         patientModeSession: {
+          where: {
+            status: MODE_SESSION_STATUS.STOP
+          },
           orderBy: {
             createdAt: 'asc'
           },
@@ -110,6 +113,9 @@ export class PrismaUserRepository implements IPrismaUserRepository {
         userDetail: true,
         physioTherapist: true,
         patientModeSession: {
+          where: {
+            status: MODE_SESSION_STATUS.STOP
+          },
           orderBy: {
             createdAt: 'asc'
           },
