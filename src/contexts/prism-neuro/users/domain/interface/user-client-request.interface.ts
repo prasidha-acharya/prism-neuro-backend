@@ -15,6 +15,7 @@ interface ICommonUserInterface {
   address: IAddress[];
   phoneNumber?: string;
   phoneCode?: string;
+  userName?: string;
 }
 
 export interface IClientCreatePhysioRequest extends ICommonUserInterface {}

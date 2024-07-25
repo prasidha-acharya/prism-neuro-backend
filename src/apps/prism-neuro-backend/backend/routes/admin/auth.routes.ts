@@ -20,7 +20,7 @@ export const adminAuthRoutesHandler = (
     /*
       #swagger.tags = ['User']
       #swagger.summary = 'Login for Patient Physio Therapist and Admin Controller'
-      #swagger.description = 'Endpoint for all users to log in, providing email, password, and optionally device info and device type'
+      #swagger.description = 'Endpoint for all users to log in, providing email, password'
       #swagger.requestBody = {
       required: true,
       content: {

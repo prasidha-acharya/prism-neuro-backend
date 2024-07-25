@@ -68,7 +68,7 @@ export class CreatePhysioController implements Controller {
     res: Response<any, Record<string, any>>,
     next: NextFunction
   ): Promise<void> {
-    const { firstName, lastName, email, address, phoneCode, phoneNumber }: IClientCreatePhysioRequest = req.body.physioTherapist;
+    const { firstName, lastName, email, address, phoneCode, phoneNumber, userName }: IClientCreatePhysioRequest = req.body.physioTherapist;
 
     const password = generatePassword();
 
@@ -83,6 +83,10 @@ export class CreatePhysioController implements Controller {
 
     if (phoneCode && phoneNumber) {
       physioData = { ...physioData, userDetail: { phoneNumber, phoneCode } };
+    }
+
+    if (userName) {
+      physioData = { ...physioData, userName };
     }
 
     try {

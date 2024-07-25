@@ -18,6 +18,7 @@ import { CreateSession } from '../../domain/interface/user-session.interface';
 import {
   IGetTotalUsersResponse,
   IPaginateResponse,
+  IPrismaGetUserByEmail,
   IPrismaUserForGetPatientsByPhysioResponse,
   IPrismaUserForGetPatientsDetailIncludingSessions
 } from '../../domain/interface/user.response.interface';
@@ -443,7 +444,7 @@ export class PrismaUserRepository implements IPrismaUserRepository {
     });
   }
 
-  async getUserByEmail({ email, role }: IGetUserRequest): Promise<User | null> {
+  async getUserByEmail({ email, role }: IGetUserRequest): Promise<IPrismaGetUserByEmail | null> {
     return await this.db.user.findFirst({
       where: {
         email,
