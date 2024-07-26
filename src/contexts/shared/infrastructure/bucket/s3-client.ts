@@ -6,9 +6,7 @@ import { S3Client } from '@aws-sdk/client-s3';
 
 const { AWS } = config;
 
-console.log(config.AWS);
-
-export const s3Client = new S3Client({
+export const s3ClientBucket = new S3Client({
   region: AWS.REGION,
   credentials: {
     accessKeyId: AWS.ACCESS_KEY_ID,

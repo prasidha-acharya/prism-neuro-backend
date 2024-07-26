@@ -36,7 +36,6 @@ import { GetTotalUsersService } from '../../../contexts/prism-neuro/users/applic
 import { GetUserByRoleService } from '../../../contexts/prism-neuro/users/application/get-user-by-role.service';
 import { GetUserSessionService } from '../../../contexts/prism-neuro/users/application/get-user-session.service';
 import { GetUsersService } from '../../../contexts/prism-neuro/users/application/get-users.service';
-import { ImageUploadService } from '../../../contexts/prism-neuro/users/application/image-upload.service';
 import { ResetPasswordService } from '../../../contexts/prism-neuro/users/application/reset-password.service';
 import { UpdatePatientService } from '../../../contexts/prism-neuro/users/application/update-patient-by-physio.service';
 import { UpdatePhysioService } from '../../../contexts/prism-neuro/users/application/update-physio-by-admin.service';
@@ -48,6 +47,10 @@ import { JWTPatientAuthorizer } from '../../../contexts/shared/infrastructure/au
 import { JWTPhysioTherapistAuthorizer } from '../../../contexts/shared/infrastructure/authorizer/physio.authorizer';
 import { RefreshAuthorizer } from '../../../contexts/shared/infrastructure/authorizer/refresh.authorizer';
 import { JWTUserAuthorizer } from '../../../contexts/shared/infrastructure/authorizer/user.authorizer';
+import { CreateFileService } from '../../../contexts/shared/infrastructure/file/application/create-file.service';
+import { GetSignedURLService } from '../../../contexts/shared/infrastructure/file/application/get-signed-url.service';
+import { UploadFileToBucketService } from '../../../contexts/shared/infrastructure/file/application/upload-file-to-bucket.service';
+import { PrismaFileRepository } from '../../../contexts/shared/infrastructure/file/infrastructure/repositories/prisma-file-repository';
 import { SendPasswordToUserService } from '../../../contexts/shared/infrastructure/mail/application/send-password.service';
 import { SendResetOtpService } from '../../../contexts/shared/infrastructure/mail/application/send-reset-otp.service';
 import { PrismaMailerRepository } from '../../../contexts/shared/infrastructure/mail/infrastructure/repositories/prisma-mail-repostory';
@@ -252,8 +255,11 @@ export class Container {
       })
       //image upload
       .register({
-        imageUploadService: asClass(ImageUploadService).singleton(),
-        uploadModeFilesController: asClass(UploadModeFilesController)
+        uploadModeFilesController: asClass(UploadModeFilesController),
+        uploadFileToBucketService: asClass(UploadFileToBucketService).singleton(),
+        prismaFileRepository: asClass(PrismaFileRepository),
+        createFileService: asClass(CreateFileService).singleton(),
+        getSignedURLService: asClass(GetSignedURLService).singleton()
       })
       .register({
         userTransformer: asClass(UserTransformer),

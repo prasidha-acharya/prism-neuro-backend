@@ -9,21 +9,27 @@ interface IHandler {
 
 export const fileRoutesHandler = ({ uploadModeFilesController }: IHandler, adminAuthorizer: JWTAdminAuthorizer, router: Router): Router => {
   router.post(
-    '/admin/upload/files',
-    imageUpload.single('file'),
+    '/admin/upload-files',
     // adminAuthorizer.authorize,
+    imageUpload.array('files', 25),
     uploadModeFilesController.invoke.bind(uploadModeFilesController)
     /*
     #swagger.tags = ['File']
-    #swagger.requestBody  ={
-    
-    content :{
-    "multipart/form-data" :{
+    #swagger.requestBody = {
+    content:{
+    "multipart/form-data": {
     schema:{
-    type:"object" ,
+    type: "object",
+    required: ["files"],
     properties:{
-    file:{type:"string" ,format:"binary"},
-    type:{type:"string"}
+    files:{
+    type:"array",
+    items:{
+    type:"string",
+    format:"binary"
+    }
+    },
+    type:{enum :["LEFT_RIGHT_MODE","VISUAL_BALANCE_MODE"]}
     }
     }
     }

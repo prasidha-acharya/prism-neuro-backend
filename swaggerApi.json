@@ -781,7 +781,7 @@
         }
       }
     },
-    "/admin/upload/files": {
+    "/admin/upload-files": {
       "post": {
         "tags": ["File"],
         "description": "",
@@ -795,13 +795,17 @@
             "multipart/form-data": {
               "schema": {
                 "type": "object",
+                "required": ["files"],
                 "properties": {
-                  "file": {
-                    "type": "string",
-                    "format": "binary"
+                  "files": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "binary"
+                    }
                   },
                   "type": {
-                    "type": "string"
+                    "enum": ["LEFT_RIGHT_MODE", "VISUAL_BALANCE_MODE"]
                   }
                 }
               }
