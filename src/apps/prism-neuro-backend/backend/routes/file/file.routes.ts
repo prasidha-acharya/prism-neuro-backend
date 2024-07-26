@@ -45,7 +45,7 @@ export const fileRoutesHandler = (
   );
 
   router.get(
-    '/admin/files/',
+    '/admin/files',
     getModeFilesController.invoke.bind(getModeFilesController)
     /* 
     #swagger.tags = ['File']
