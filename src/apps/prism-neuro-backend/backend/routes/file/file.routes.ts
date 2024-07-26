@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import { JWTUserAuthorizer } from 'src/contexts/shared/infrastructure/authorizer/user.authorizer';
 import { JWTAdminAuthorizer } from '../../../../../contexts/shared/infrastructure/authorizer/admin.authorizer';
 import * as controller from '../../controllers/index';
 import { imageUpload } from '../admin/admin-physio.routes';
@@ -6,19 +7,25 @@ import { imageUpload } from '../admin/admin-physio.routes';
 interface IHandler {
   uploadModeFilesController: controller.UploadModeFilesController;
   getModeFilesController: controller.GetModeFilesController;
+  deleteFilesController: controller.DeleteFilesController;
 }
 
 export const fileRoutesHandler = (
-  { uploadModeFilesController, getModeFilesController }: IHandler,
+  { uploadModeFilesController, getModeFilesController, deleteFilesController }: IHandler,
   adminAuthorizer: JWTAdminAuthorizer,
+  userAuthorizer: JWTUserAuthorizer,
   router: Router
 ): Router => {
   router.post(
     '/admin/upload-files',
-    // adminAuthorizer.authorize,
+    adminAuthorizer.authorize,
     imageUpload.array('files', 25),
+    uploadModeFilesController.validate,
     uploadModeFilesController.invoke.bind(uploadModeFilesController)
     /*
+      #swagger.security = [{
+            "bearerAuth": []
+    }] 
     #swagger.tags = ['File']
     #swagger.requestBody = {
     content:{
@@ -34,7 +41,9 @@ export const fileRoutesHandler = (
     format:"binary"
     }
     },
-    type:{enum :["LEFT_RIGHT_MODE","VISUAL_BALANCE_MODE"]}
+    type:{enum :["LEFT_RIGHT_MODE","VISUAL_BALANCE_MODE"]},
+    isLeftMode:{type:"boolean"},
+    isRightMode:{type:"boolean"}
     }
     }
     }
@@ -46,8 +55,12 @@ export const fileRoutesHandler = (
 
   router.get(
     '/admin/files',
+    adminAuthorizer.authorize,
     getModeFilesController.invoke.bind(getModeFilesController)
     /* 
+    #swagger.security = [{
+            "bearerAuth": []
+    }] 
     #swagger.tags = ['File']
     #swagger.summary = "Get files"
      #swagger.parameters['type'] = {
@@ -70,5 +83,34 @@ export const fileRoutesHandler = (
 
     */
   );
+
+  router.post(
+    '/delete/file',
+    userAuthorizer.authorize,
+    deleteFilesController.invoke.bind(deleteFilesController)
+    /*
+    #swagger.security = [{
+      "bearerAuth": []
+    }] 
+  #swagger.tags = ['File']
+  #swagger.summary = 'Delete file'
+    #swagger.requestBody = {
+      required: true,
+      content: {
+        "application/json": {
+          schema: {
+            type: "object",
+            required: ["key"],
+            properties: {
+            key:{type:"string"}
+            }
+          }
+        }
+      }
+    }
+  }
+  */
+  );
+
   return router;
 };

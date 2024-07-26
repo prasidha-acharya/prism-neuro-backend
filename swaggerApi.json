@@ -790,6 +790,11 @@
             "description": ""
           }
         },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "requestBody": {
           "content": {
             "multipart/form-data": {
@@ -806,6 +811,12 @@
                   },
                   "type": {
                     "enum": ["LEFT_RIGHT_MODE", "VISUAL_BALANCE_MODE"]
+                  },
+                  "isLeftMode": {
+                    "type": "boolean"
+                  },
+                  "isRightMode": {
+                    "type": "boolean"
                   }
                 }
               }
@@ -814,7 +825,7 @@
         }
       }
     },
-    "/admin/files/": {
+    "/admin/files": {
       "get": {
         "tags": ["File"],
         "summary": "Get files",
@@ -847,6 +858,44 @@
         "responses": {
           "default": {
             "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/delete/file": {
+      "post": {
+        "tags": ["File"],
+        "summary": "Delete file",
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["key"],
+                "properties": {
+                  "key": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
           }
         }
       }

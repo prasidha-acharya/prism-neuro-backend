@@ -59,6 +59,7 @@ export const masterRouter = (
   getModeSessionsByPatientIdController: controllers.GetModeSessionsByPatientIdController,
   updatePatientProfileByPhysioController: controllers.UpdatePatientProfileByPhysioController,
   uploadModeFilesController: controllers.UploadModeFilesController,
+  deleteFilesController: controllers.DeleteFilesController,
   getModeFilesController: controllers.GetModeFilesController,
   refreshAuthorizer: RefreshAuthorizer,
   userAuthorizer: JWTUserAuthorizer,
@@ -152,7 +153,7 @@ export const masterRouter = (
 
   modeRoutesHandler({ getModesController }, physioAuthorizer, apiRouter);
 
-  fileRoutesHandler({ uploadModeFilesController, getModeFilesController }, adminAuthorizer, apiRouter);
+  fileRoutesHandler({ uploadModeFilesController, getModeFilesController, deleteFilesController }, adminAuthorizer, userAuthorizer, apiRouter);
 
   return apiRouter;
 };
