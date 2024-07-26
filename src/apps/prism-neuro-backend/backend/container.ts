@@ -48,6 +48,7 @@ import { JWTPhysioTherapistAuthorizer } from '../../../contexts/shared/infrastru
 import { RefreshAuthorizer } from '../../../contexts/shared/infrastructure/authorizer/refresh.authorizer';
 import { JWTUserAuthorizer } from '../../../contexts/shared/infrastructure/authorizer/user.authorizer';
 import { CreateFileService } from '../../../contexts/shared/infrastructure/file/application/create-file.service';
+import { GetFilesService } from '../../../contexts/shared/infrastructure/file/application/get-files.service';
 import { GetSignedURLService } from '../../../contexts/shared/infrastructure/file/application/get-signed-url.service';
 import { UploadFileToBucketService } from '../../../contexts/shared/infrastructure/file/application/upload-file-to-bucket.service';
 import { PrismaFileRepository } from '../../../contexts/shared/infrastructure/file/infrastructure/repositories/prisma-file-repository';
@@ -102,7 +103,8 @@ const {
   GetSessionsBetweenPatientAndDoctorController,
   GetModeSessionsByPatientIdController,
   UpdatePatientProfileByPhysioController,
-  UploadModeFilesController
+  UploadModeFilesController,
+  GetModeFilesController
 } = controller;
 export class Container {
   private readonly container: AwilixContainer;
@@ -259,7 +261,9 @@ export class Container {
         uploadFileToBucketService: asClass(UploadFileToBucketService).singleton(),
         prismaFileRepository: asClass(PrismaFileRepository),
         createFileService: asClass(CreateFileService).singleton(),
-        getSignedURLService: asClass(GetSignedURLService).singleton()
+        getSignedURLService: asClass(GetSignedURLService).singleton(),
+        getFilesService: asClass(GetFilesService).singleton(),
+        getModeFilesController: asClass(GetModeFilesController)
       })
       .register({
         userTransformer: asClass(UserTransformer),

@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { JWTAdminAuthorizer } from 'src/contexts/shared/infrastructure/authorizer/admin.authorizer';
+import { JWTAdminAuthorizer } from '../../../../contexts/shared/infrastructure/authorizer/admin.authorizer';
 import { JWTPatientAuthorizer } from '../../../../contexts/shared/infrastructure/authorizer/patient.authorizer';
 import { JWTPhysioTherapistAuthorizer } from '../../../../contexts/shared/infrastructure/authorizer/physio.authorizer';
 import { RefreshAuthorizer } from '../../../../contexts/shared/infrastructure/authorizer/refresh.authorizer';
@@ -59,6 +59,7 @@ export const masterRouter = (
   getModeSessionsByPatientIdController: controllers.GetModeSessionsByPatientIdController,
   updatePatientProfileByPhysioController: controllers.UpdatePatientProfileByPhysioController,
   uploadModeFilesController: controllers.UploadModeFilesController,
+  getModeFilesController: controllers.GetModeFilesController,
   refreshAuthorizer: RefreshAuthorizer,
   userAuthorizer: JWTUserAuthorizer,
   physioAuthorizer: JWTPhysioTherapistAuthorizer,
@@ -151,7 +152,7 @@ export const masterRouter = (
 
   modeRoutesHandler({ getModesController }, physioAuthorizer, apiRouter);
 
-  fileRoutesHandler({ uploadModeFilesController }, adminAuthorizer, apiRouter);
+  fileRoutesHandler({ uploadModeFilesController, getModeFilesController }, adminAuthorizer, apiRouter);
 
   return apiRouter;
 };

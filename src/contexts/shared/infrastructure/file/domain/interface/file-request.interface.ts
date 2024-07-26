@@ -5,3 +5,13 @@ export interface ICreateFileRequest {
   url: string;
   type: FILE_TYPE;
 }
+
+export interface IFileRequest {
+  type: FILE_TYPE;
+}
+
+export interface IGetFileRequest {
+  type: FILE_TYPE;
+  isLeftMode?: true;
+  isRightMode?: true;
+}

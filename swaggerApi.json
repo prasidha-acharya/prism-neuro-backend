@@ -814,6 +814,43 @@
         }
       }
     },
+    "/admin/files/": {
+      "get": {
+        "tags": ["File"],
+        "summary": "Get files",
+        "description": "",
+        "parameters": [
+          {
+            "name": "type",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": ["LEFT_RIGHT_MODE", "VISUAL_BALANCE_MODE"]
+            }
+          },
+          {
+            "name": "isLeftMode",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "isRightMode",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
     "/physio/mode/session-start/{patientId}": {
       "post": {
         "tags": ["Tablet Mode Session"],

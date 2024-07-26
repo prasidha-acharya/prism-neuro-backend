@@ -18,6 +18,8 @@ export class UploadFileToBucketService {
     });
     await s3ClientBucket.send(command);
 
-    return this.getSignedURLService.invoke(key);
+    return key;
+
+    // return this.getSignedURLService.invoke(key);
   }
 }
