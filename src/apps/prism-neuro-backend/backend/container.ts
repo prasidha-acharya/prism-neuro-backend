@@ -59,6 +59,7 @@ import { ErrorMiddleware } from '../../../contexts/shared/infrastructure/middlew
 import { createPrismaClient } from '../../../contexts/shared/infrastructure/persistence/prisma';
 import { RequestLogger } from '../../../contexts/shared/infrastructure/request-logs/request-logger';
 import { ActivityTransformer } from '../../../contexts/shared/infrastructure/transformer/activity-transformer';
+import { FileTransformer } from '../../../contexts/shared/infrastructure/transformer/files.transformer';
 import { ModeTransformer } from '../../../contexts/shared/infrastructure/transformer/mode-transformer';
 import { StatisticsTransformer } from '../../../contexts/shared/infrastructure/transformer/statistics-transformer';
 import { ServerLogger } from '../../../contexts/shared/infrastructure/winston-logger/index';
@@ -269,7 +270,8 @@ export class Container {
         userTransformer: asClass(UserTransformer),
         statisticsTransformer: asClass(StatisticsTransformer),
         modeTransformer: asClass(ModeTransformer),
-        activityTransformer: asClass(ActivityTransformer)
+        activityTransformer: asClass(ActivityTransformer),
+        fileTransformer: asClass(FileTransformer)
       });
   }
 
