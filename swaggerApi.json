@@ -1563,6 +1563,58 @@
         }
       }
     },
+    "/physio/update-profile/{physioId}": {
+      "put": {
+        "tags": ["Physio"],
+        "summary": "Physio update their profile",
+        "description": "Admin can update physio",
+        "parameters": [
+          {
+            "name": "physioId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [""],
+                "properties": {
+                  "firstName": {
+                    "type": "string"
+                  },
+                  "lastName": {
+                    "type": "string"
+                  },
+                  "phoneCode": {
+                    "type": "string"
+                  },
+                  "phoneNumber": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/physio/patients": {
       "get": {
         "tags": ["Tablet Physio"],

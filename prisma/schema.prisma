@@ -43,6 +43,7 @@ model User {
   updatedAt          DateTime       @updatedAt @db.Timestamptz()
   deletedAt          DateTime?      @db.Timestamptz()
   isVerified         Boolean        @default(false)
+  lastLogin          DateTime?      @db.Timestamptz()
   role               USER_ROLES
   loginSessions      LoginSession[]
   createdBy          String?

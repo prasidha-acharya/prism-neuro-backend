@@ -26,7 +26,8 @@ export const physioRoutesHandler = (
     deletePatientByAdminController,
     getModeSessionActivityOfPatientByPhysioController,
     getSessionsBetweenPatientAndDoctorController,
-    updatePatientProfileByPhysioController
+    updatePatientProfileByPhysioController,
+    updatePhysioController
   }: IHandler,
   physioAuthorizer: IAuthorizer<Request, Response, NextFunction>,
   router: Router
@@ -145,6 +146,43 @@ export const physioRoutesHandler = (
  */
   );
 
+  router.put(
+    '/physio/update-profile/:physioId',
+    physioAuthorizer.authorize,
+    updatePhysioController.validate,
+    updatePhysioController.invoke.bind(updatePhysioController)
+    /*
+      #swagger.security = [{
+            "bearerAuth": []
+    }] 
+      #swagger.tags = ['Physio']
+      #swagger.summary = 'Physio update their profile'
+      #swagger.description = 'Admin can update physio'
+      #swagger.parameters['physioId'] = {
+        in: 'path',
+        type: 'string'
+      }
+      #swagger.requestBody = {
+      required: true,
+      content: {
+        "application/json": {
+          schema: {
+             type:"object",
+             required:[""],
+               properties :{
+              firstName: { type: "string"},
+              lastName: { type: "string"},
+              phoneCode: { type: "string" },
+              phoneNumber:{type:"string"},
+            }
+          }
+        }
+      }
+    }
+      #swagger.responses[200]
+    */
+  );
+
   router.get(
     '/physio/patients',
     physioAuthorizer.authorize,
@@ -226,8 +264,6 @@ export const physioRoutesHandler = (
       #swagger.description = ''
     */
   );
-
-  // TODO :WIP
 
   router.get(
     '/physio/activity/:modeId',
