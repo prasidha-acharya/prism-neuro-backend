@@ -1200,47 +1200,31 @@
         "requestBody": {
           "required": true,
           "content": {
-            "multipart/form-data": {
+            "application/json": {
               "schema": {
                 "type": "object",
-                "required": ["file", "patient"],
+                "required": ["firstName", "lastName"],
                 "properties": {
-                  "file": {
-                    "type": "string",
-                    "format": "binary"
+                  "firstName": {
+                    "type": "string"
                   },
-                  "patient": {
-                    "type": "object",
-                    "properties": {
-                      "email": {
-                        "type": "string",
-                        "format": "email"
-                      },
-                      "firstName": {
-                        "type": "string",
-                        "minLength": 6
-                      },
-                      "address": {
-                        "type": "array",
-                        "required": "true"
-                      },
-                      "lastName": {
-                        "type": "string",
-                        "required": "true"
-                      },
-                      "phoneCode": {
-                        "type": "string"
-                      },
-                      "phoneNumber": {
-                        "type": "string"
-                      },
-                      "age": {
-                        "type": "number"
-                      },
-                      "weight": {
-                        "type": "number"
-                      }
-                    }
+                  "address": {
+                    "type": "array"
+                  },
+                  "lastName": {
+                    "type": "string"
+                  },
+                  "phoneCode": {
+                    "type": "string"
+                  },
+                  "phoneNumber": {
+                    "type": "string"
+                  },
+                  "age": {
+                    "type": "number"
+                  },
+                  "weight": {
+                    "type": "number"
                   }
                 }
               }
