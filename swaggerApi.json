@@ -1568,16 +1568,6 @@
         "tags": ["Physio"],
         "summary": "Physio update their profile",
         "description": "",
-        "parameters": [
-          {
-            "name": "physioId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
         "responses": {
           "200": {
             "description": "OK"
