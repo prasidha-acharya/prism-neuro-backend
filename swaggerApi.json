@@ -1484,48 +1484,41 @@
         "requestBody": {
           "required": true,
           "content": {
-            "multipart/form-data": {
+            "application/json": {
               "schema": {
                 "type": "object",
-                "required": ["file", "patient"],
+                "required": ["firstName", "lastName", "email", "address"],
                 "properties": {
-                  "file": {
+                  "email": {
                     "type": "string",
-                    "format": "binary"
+                    "format": "email"
                   },
-                  "patient": {
-                    "type": "object",
-                    "required": ["email", "firstName", "lastName"],
-                    "properties": {
-                      "email": {
-                        "type": "string",
-                        "format": "email"
-                      },
-                      "firstName": {
-                        "type": "string",
-                        "minLength": 6
-                      },
-                      "address": {
-                        "type": "array",
-                        "required": "true"
-                      },
-                      "lastName": {
-                        "type": "string",
-                        "required": "true"
-                      },
-                      "phoneCode": {
-                        "type": "string"
-                      },
-                      "phoneNumber": {
-                        "type": "string"
-                      },
-                      "age": {
-                        "type": "number"
-                      },
-                      "weight": {
-                        "type": "number"
-                      }
-                    }
+                  "firstName": {
+                    "type": "string",
+                    "minLength": 6
+                  },
+                  "address": {
+                    "type": "array",
+                    "required": "true"
+                  },
+                  "lastName": {
+                    "type": "string",
+                    "required": "true"
+                  },
+                  "phoneCode": {
+                    "type": "string"
+                  },
+                  "profileURL": {
+                    "type": "string"
+                  },
+                  "phoneNumber": {
+                    "type": "string"
+                  },
+                  "age": {
+                    "type": "number"
+                  },
+                  "weight": {
+                    "type": "number"
                   }
                 }
               }

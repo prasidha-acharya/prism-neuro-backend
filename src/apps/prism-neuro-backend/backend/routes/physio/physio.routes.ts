@@ -66,9 +66,7 @@ export const physioRoutesHandler = (
 
   router.post(
     '/physio/create-patient',
-    createPatientByPhysioController.upload,
     physioAuthorizer.authorize,
-    createPatientByPhysioController.parse,
     createPatientByPhysioController.validate,
     createPatientByPhysioController.invoke.bind(createPatientByPhysioController)
     /*
@@ -81,28 +79,20 @@ export const physioRoutesHandler = (
       #swagger.requestBody = {
       required: true,
       content: {
-        "multipart/form-data": {
+        "application/json": {
           schema: {
             type: "object",
-            required: ["file","patient"],
-            properties: {
-             file: { type: "string", format: "binary" },
-             patient:{
-             type:"object",
-             required:["email", "firstName" ,"lastName"],
-               properties :{
-               email: { type: "string", format: "email" },
+            required: ["firstName","lastName","email","address"],
+              properties :{
+              email: { type: "string", format: "email" },
               firstName: { type: "string", minLength: 6 },
               address:{type:"array",required:"true"},
               lastName: { type: "string",required:"true" },
               phoneCode: { type: "string" },
+              profileURL: { type: "string" },
               phoneNumber:{type:"string"},
               age:{type:"number"},
               weight:{type:"number"},
-               }
-
-             }
-              
             }
           }
         }
