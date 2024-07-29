@@ -61,6 +61,7 @@ export const masterRouter = (
   uploadModeFilesController: controllers.UploadModeFilesController,
   deleteFilesController: controllers.DeleteFilesController,
   getModeFilesController: controllers.GetModeFilesController,
+  uploadProfileImageController: controllers.UploadProfileImageController,
   refreshAuthorizer: RefreshAuthorizer,
   userAuthorizer: JWTUserAuthorizer,
   physioAuthorizer: JWTPhysioTherapistAuthorizer,
@@ -153,7 +154,12 @@ export const masterRouter = (
 
   modeRoutesHandler({ getModesController }, physioAuthorizer, apiRouter);
 
-  fileRoutesHandler({ uploadModeFilesController, getModeFilesController, deleteFilesController }, adminAuthorizer, userAuthorizer, apiRouter);
+  fileRoutesHandler(
+    { uploadModeFilesController, getModeFilesController, deleteFilesController, uploadProfileImageController },
+    adminAuthorizer,
+    userAuthorizer,
+    apiRouter
+  );
 
   return apiRouter;
 };

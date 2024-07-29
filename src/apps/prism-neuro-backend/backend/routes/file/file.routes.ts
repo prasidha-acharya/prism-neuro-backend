@@ -1,21 +1,41 @@
 import { Router } from 'express';
+import multer from 'multer';
 import { JWTUserAuthorizer } from 'src/contexts/shared/infrastructure/authorizer/user.authorizer';
 import { JWTAdminAuthorizer } from '../../../../../contexts/shared/infrastructure/authorizer/admin.authorizer';
 import * as controller from '../../controllers/index';
-import { imageUpload } from '../admin/admin-physio.routes';
+
+export const imageUpload = multer({});
 
 interface IHandler {
   uploadModeFilesController: controller.UploadModeFilesController;
   getModeFilesController: controller.GetModeFilesController;
   deleteFilesController: controller.DeleteFilesController;
+  uploadProfileImageController: controller.UploadProfileImageController;
 }
 
 export const fileRoutesHandler = (
-  { uploadModeFilesController, getModeFilesController, deleteFilesController }: IHandler,
+  { uploadModeFilesController, getModeFilesController, deleteFilesController, uploadProfileImageController }: IHandler,
   adminAuthorizer: JWTAdminAuthorizer,
   userAuthorizer: JWTUserAuthorizer,
   router: Router
 ): Router => {
+  router.post(
+    '/upload-profile',
+    userAuthorizer.authorize,
+    imageUpload.single('file'),
+    uploadProfileImageController.invoke.bind(uploadProfileImageController)
+
+    /*
+    #swagger.security = [{
+            "bearerAuth": []
+    }] 
+    #swagger.tags =["File"]
+    #swagger.responses[200] = {
+  
+    }
+    */
+  );
+
   router.post(
     '/admin/upload-files',
     adminAuthorizer.authorize,

@@ -781,6 +781,22 @@
         }
       }
     },
+    "/upload-profile": {
+      "post": {
+        "tags": ["File"],
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
     "/admin/upload-files": {
       "post": {
         "tags": ["File"],

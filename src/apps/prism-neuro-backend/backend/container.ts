@@ -107,7 +107,8 @@ const {
   DeleteFilesController,
   UpdatePatientProfileByPhysioController,
   UploadModeFilesController,
-  GetModeFilesController
+  GetModeFilesController,
+  UploadProfileImageController
 } = controller;
 export class Container {
   private readonly container: AwilixContainer;
@@ -268,7 +269,8 @@ export class Container {
         getFilesService: asClass(GetFilesService).singleton(),
         getModeFilesController: asClass(GetModeFilesController),
         deleteFileFromBucketService: asClass(DeleteFileFromBucketService),
-        deleteFilesController: asClass(DeleteFilesController)
+        deleteFilesController: asClass(DeleteFilesController),
+        uploadProfileImageController: asClass(UploadProfileImageController)
       })
       .register({
         userTransformer: asClass(UserTransformer),
