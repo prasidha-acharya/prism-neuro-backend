@@ -12,16 +12,20 @@ export class UploadProfileImageController implements Controller {
   async invoke(req: Request, res: Response, next: NextFunction): Promise<void> {
     const file = req.file as Express.Multer.File;
 
+    const uploadFor = req.body.uploadFor;
+
     try {
       if (!file) {
         throw new HTTP422Error(MESSAGE_CODES.FILE.FILE_IS_REQUIRED);
       }
 
-      const fileExtension = file.originalname.split('.').pop();
+      const fileInfo = file.originalname.split('.');
 
-      const key = `/profile/${getCurrentTimeStamp()}.${fileExtension}`;
+      const fileExtension = fileInfo.pop();
 
-      const profileURL = this.uploadFileToBucketService.invoke(key, file);
+      const key = `/profile/${uploadFor}/${getCurrentTimeStamp()}.${fileExtension}`;
+
+      const profileURL = await this.uploadFileToBucketService.invoke(key, file);
 
       res.status(httpStatus.OK).json({
         data: {

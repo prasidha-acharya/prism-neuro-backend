@@ -30,6 +30,25 @@ export const fileRoutesHandler = (
             "bearerAuth": []
     }] 
     #swagger.tags =["File"]
+    #swagger.requestBody = {
+    content:{
+    "multipart/form-data" :{
+    schema:{
+    type:"object",
+    required:["file"],
+    properties:{
+    file:{
+    type:"string",
+    format:"binary"
+    },
+    uploadFor:{
+    enum:["PATIENT","ADMIN","PHYSIO"]
+    }
+    }
+    }
+    }
+    }
+    }
     #swagger.responses[200] = {
   
     }

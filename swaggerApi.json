@@ -773,7 +773,26 @@
           {
             "bearerAuth": []
           }
-        ]
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "required": ["file"],
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "uploadFor": {
+                    "enum": ["PATIENT", "ADMIN", "PHYSIO"]
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/admin/upload-files": {
