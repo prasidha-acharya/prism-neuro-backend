@@ -1,7 +1,6 @@
 import { Router } from 'express';
 import { JWTPatientAuthorizer } from 'src/contexts/shared/infrastructure/authorizer/patient.authorizer';
 import * as controllers from '../../controllers/index';
-import { imageUpload } from '../admin/admin-physio.routes';
 
 interface IHandler {
   getModeSessionActivityOfPatientController: controllers.GetModeSessionActivityOfPatientController;
@@ -23,9 +22,7 @@ export const patientRoutesHandler = (
 ): Router => {
   router.put(
     '/patient/update-profile',
-    imageUpload.single('file'),
     patientAuthorizer.authorize,
-    updatePatientProfileController.parse,
     updatePatientProfileController.validate,
     updatePatientProfileController.invoke.bind(updatePatientProfileController)
     /*
@@ -38,27 +35,18 @@ export const patientRoutesHandler = (
       #swagger.requestBody = {
       required: true,
       content: {
-        "multipart/form-data": {
+        "application/json": {
           schema: {
             type: "object",
-            required: ["file","patient"],
+            required: ["firstName","lastName"],
             properties: {
-             file: { type: "string", format: "binary" },
-             patient:{
-             type:"object",
-               properties :{
-               email: { type: "string", format: "email" },
-              firstName: { type: "string", minLength: 6 },
-              address:{type:"array",required:"true"},
-              lastName: { type: "string",required:"true" },
+              firstName: { type: "string"},
+              address: {type:"array"},
+              lastName: { type: "string"},
               phoneCode: { type: "string" },
-              phoneNumber:{type:"string"},
-              age:{type:"number"},
-              weight:{type:"number"},
-               }
-
-             }
-              
+              phoneNumber:{ type:"string"},
+              age: {type:"number"},
+              weight: {type:"number"},
             }
           }
         }

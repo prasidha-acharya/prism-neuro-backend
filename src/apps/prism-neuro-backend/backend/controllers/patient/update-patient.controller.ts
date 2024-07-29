@@ -11,36 +11,21 @@ export class UpdatePatientProfileController implements Controller {
   constructor(private updatePatientService: UpdatePatientService) {}
 
   public validate = [
-    body('patient.firstName').optional().isString().withMessage(MESSAGE_CODES.USER.INVALID_FIRST_NAME),
-    body('patient.lastName').optional().isString().withMessage(MESSAGE_CODES.USER.INVALID_LAST_NAME),
-    body('patient.address.*.address').notEmpty().withMessage(MESSAGE_CODES.USER.ADDRESS.REQUIRED_ADDRESS_NAME),
-    body('patient.address.*.id').notEmpty().withMessage(MESSAGE_CODES.USER.ADDRESS.REQUIRED_ADDRESS_ID),
-    body('patient.phoneCode').optional(),
-    body('patient.phoneNumber').optional(),
-    body('patient.age').optional().isNumeric().withMessage(MESSAGE_CODES.USER.AGE_SHOULD_BE_NUMBER),
-    body('patient.weight').optional().isNumeric().withMessage(MESSAGE_CODES.USER.WEIGHT_SHOULD_BE_NUMBER),
+    body('firstName').optional().isString().withMessage(MESSAGE_CODES.USER.INVALID_FIRST_NAME),
+    body('lastName').optional().isString().withMessage(MESSAGE_CODES.USER.INVALID_LAST_NAME),
+    body('address.*.address').notEmpty().withMessage(MESSAGE_CODES.USER.ADDRESS.REQUIRED_ADDRESS_NAME),
+    body('address.*.id').notEmpty().withMessage(MESSAGE_CODES.USER.ADDRESS.REQUIRED_ADDRESS_ID),
+    body('phoneCode').optional(),
+    body('phoneNumber').optional(),
+    body('age').optional().isNumeric().withMessage(MESSAGE_CODES.USER.AGE_SHOULD_BE_NUMBER),
+    body('weight').optional().isNumeric().withMessage(MESSAGE_CODES.USER.WEIGHT_SHOULD_BE_NUMBER),
     RequestValidator
   ];
 
-  public parse(req: Request, res: Response, next: NextFunction): void {
-    if (!req.body.patient || Object.values(req.body.patient).length === 0) {
-      res.status(httpStatus.BAD_REQUEST).json({
-        status: 'ERROR',
-        message: 'At least one field should be required.'
-      });
-      return;
-    }
-    const patient = JSON.parse(req.body.patient);
-    req.body.patient = { ...patient };
-    next();
-  }
-
   async invoke(req: Request, res: Response, next: NextFunction): Promise<void> {
-    const { firstName, lastName, age, weight, phoneCode, phoneNumber, address } = req.body.patient;
+    const { firstName, lastName, age, weight, phoneCode, phoneNumber, address, profileURL } = req.body;
 
     const userId = req.body.user.userId;
-
-    // TODO: profile URL
 
     let request: IUpdatePatientReq = {
       id: userId
@@ -90,6 +75,16 @@ export class UpdatePatientProfileController implements Controller {
         userDetail: {
           ...(request.userDetail ?? {}),
           phoneCode
+        }
+      };
+    }
+
+    if (profileURL) {
+      request = {
+        ...request,
+        userDetail: {
+          ...(request.userDetail ?? {}),
+          profileURL
         }
       };
     }

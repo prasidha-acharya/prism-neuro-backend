@@ -1,3 +1,5 @@
+import { FILE_TYPE } from '@prisma/client';
+
 const createPhysioRequest = {
   physioTherapist: {
     $firstName: 'John',
@@ -62,6 +64,10 @@ const getPerformanceSummary = {
   ...successReponse
 };
 
+export const uploadFile = {
+  type: FILE_TYPE.LEFT_RIGHT_MODE
+};
+
 export const loginAdminReponse = {
   data: {
     token: {
@@ -105,5 +111,6 @@ export const AdminSchema = {
   getModeSessionOfPatientResponse,
   getPerformanceSummary,
   statisticsMode,
-  updatePatientRequest
+  updatePatientRequest,
+  uploadFile
 };

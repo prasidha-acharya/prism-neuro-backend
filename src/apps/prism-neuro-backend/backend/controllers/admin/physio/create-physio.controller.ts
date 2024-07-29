@@ -21,39 +21,29 @@ export class CreatePhysioController implements Controller {
   ) {}
 
   public validate = [
-    body('physioTherapist.email').isEmail().withMessage(MESSAGE_CODES.USER.REQUIRED_EMAIL),
-    body('physioTherapist.firstName')
-      .exists()
-      .withMessage(MESSAGE_CODES.USER.REQUIRED_FIRST_NAME)
-      .isString()
-      .withMessage(MESSAGE_CODES.USER.INVALID_FIRST_NAME),
-    body('physioTherapist.lastName')
-      .exists()
-      .withMessage(MESSAGE_CODES.USER.REQUIRED_LAST_NAME)
-      .isString()
-      .withMessage(MESSAGE_CODES.USER.INVALID_LAST_NAME),
-    body('physioTherapist.phoneCode')
+    body('email').isEmail().withMessage(MESSAGE_CODES.USER.REQUIRED_EMAIL),
+    body('firstName').exists().withMessage(MESSAGE_CODES.USER.REQUIRED_FIRST_NAME).isString().withMessage(MESSAGE_CODES.USER.INVALID_FIRST_NAME),
+    body('lastName').exists().withMessage(MESSAGE_CODES.USER.REQUIRED_LAST_NAME).isString().withMessage(MESSAGE_CODES.USER.INVALID_LAST_NAME),
+    body('phoneCode')
       .custom((val, { req }) => {
-        console.log(val);
-        if (val && !req?.body.physioTherapist.phoneNumber) {
+        if (val && !req?.body.phoneNumber) {
           throw new HTTP400Error(MESSAGE_CODES.USER.REQUIRED_PHONE_NUMBER);
         }
         return true;
       })
       .optional(),
-    body('physioTherapist.phoneNumber')
+    body('phoneNumber')
       .isNumeric()
       .withMessage(MESSAGE_CODES.USER.INVALID_CONTACT_NUMBER)
       .custom((val, { req }) => {
-        console.log(val);
-        if (val && !req?.body.physioTherapist.phoneCode) {
+        if (val && !req?.body.phoneCode) {
           throw new HTTP400Error(MESSAGE_CODES.USER.REQUIRED_PHONE_CODE);
         }
         return true;
       })
       .optional(),
-    body('physioTherapist.address').isArray().withMessage(MESSAGE_CODES.USER.REQUIRED_ADDRESS),
-    body('physioTherapist.address.*.address').isString().withMessage(MESSAGE_CODES.USER.ADDRESS.REQUIRED_ADDRESS_NAME),
+    body('address').isArray().withMessage(MESSAGE_CODES.USER.REQUIRED_ADDRESS),
+    body('address.*.address').isString().withMessage(MESSAGE_CODES.USER.ADDRESS.REQUIRED_ADDRESS_NAME),
     RequestValidator
   ];
 

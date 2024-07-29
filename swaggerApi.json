@@ -98,41 +98,34 @@
         "requestBody": {
           "required": true,
           "content": {
-            "multipart/form-data": {
+            "application/json": {
               "schema": {
                 "type": "object",
-                "required": ["file", "physioTherapist"],
+                "required": ["email", "firstName", "lastName", "address"],
                 "properties": {
-                  "file": {
+                  "email": {
                     "type": "string",
-                    "format": "binary"
+                    "format": "email"
                   },
-                  "physioTherapist": {
-                    "type": "object",
-                    "required": ["email", "firstName", "lastName", "address"],
-                    "properties": {
-                      "email": {
-                        "type": "string",
-                        "format": "email"
-                      },
-                      "firstName": {
-                        "type": "string"
-                      },
-                      "lastName": {
-                        "type": "string",
-                        "required": "true"
-                      },
-                      "address": {
-                        "type": "array",
-                        "required": "true"
-                      },
-                      "phoneCode": {
-                        "type": "string"
-                      },
-                      "phoneNumber": {
-                        "type": "string"
-                      }
-                    }
+                  "firstName": {
+                    "type": "string"
+                  },
+                  "lastName": {
+                    "type": "string",
+                    "required": "true"
+                  },
+                  "address": {
+                    "type": "array",
+                    "required": "true"
+                  },
+                  "phoneCode": {
+                    "type": "string"
+                  },
+                  "phoneNumber": {
+                    "type": "string"
+                  },
+                  "profileURL": {
+                    "type": "string"
                   }
                 }
               }
@@ -141,7 +134,7 @@
         }
       }
     },
-    "/admin/update-physio": {
+    "/admin/update-physio/{physioId}": {
       "put": {
         "tags": ["Admin"],
         "summary": "Admin update physio",
@@ -169,36 +162,22 @@
         "requestBody": {
           "required": true,
           "content": {
-            "multipart/form-data": {
+            "application/json": {
               "schema": {
                 "type": "object",
-                "required": ["file", "physioTherapist"],
+                "required": [""],
                 "properties": {
-                  "file": {
-                    "type": "string",
-                    "format": "binary"
+                  "firstName": {
+                    "type": "string"
                   },
-                  "physioTherapist": {
-                    "type": "object",
-                    "required": ["firstName", "lastName", "address"],
-                    "properties": {
-                      "firstName": {
-                        "type": "string"
-                      },
-                      "lastName": {
-                        "type": "string",
-                        "required": "true"
-                      },
-                      "address": {
-                        "type": "array"
-                      },
-                      "phoneCode": {
-                        "type": "string"
-                      },
-                      "phoneNumber": {
-                        "type": "string"
-                      }
-                    }
+                  "lastName": {
+                    "type": "string"
+                  },
+                  "phoneCode": {
+                    "type": "string"
+                  },
+                  "phoneNumber": {
+                    "type": "string"
                   }
                 }
               }
@@ -781,6 +760,141 @@
         }
       }
     },
+    "/upload-profile": {
+      "post": {
+        "tags": ["File"],
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/admin/upload-files": {
+      "post": {
+        "tags": ["File"],
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "required": ["files"],
+                "properties": {
+                  "files": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "binary"
+                    }
+                  },
+                  "type": {
+                    "enum": ["LEFT_RIGHT_MODE", "VISUAL_BALANCE_MODE"]
+                  },
+                  "isLeftMode": {
+                    "type": "boolean"
+                  },
+                  "isRightMode": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin/files": {
+      "get": {
+        "tags": ["File"],
+        "summary": "Get files",
+        "description": "",
+        "parameters": [
+          {
+            "name": "type",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": ["LEFT_RIGHT_MODE", "VISUAL_BALANCE_MODE"]
+            }
+          },
+          {
+            "name": "isLeftMode",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "isRightMode",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/delete/file": {
+      "post": {
+        "tags": ["File"],
+        "summary": "Delete file",
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["key"],
+                "properties": {
+                  "key": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/physio/mode/session-start/{patientId}": {
       "post": {
         "tags": ["Tablet Mode Session"],
@@ -1065,47 +1179,31 @@
         "requestBody": {
           "required": true,
           "content": {
-            "multipart/form-data": {
+            "application/json": {
               "schema": {
                 "type": "object",
-                "required": ["file", "patient"],
+                "required": ["firstName", "lastName"],
                 "properties": {
-                  "file": {
-                    "type": "string",
-                    "format": "binary"
+                  "firstName": {
+                    "type": "string"
                   },
-                  "patient": {
-                    "type": "object",
-                    "properties": {
-                      "email": {
-                        "type": "string",
-                        "format": "email"
-                      },
-                      "firstName": {
-                        "type": "string",
-                        "minLength": 6
-                      },
-                      "address": {
-                        "type": "array",
-                        "required": "true"
-                      },
-                      "lastName": {
-                        "type": "string",
-                        "required": "true"
-                      },
-                      "phoneCode": {
-                        "type": "string"
-                      },
-                      "phoneNumber": {
-                        "type": "string"
-                      },
-                      "age": {
-                        "type": "number"
-                      },
-                      "weight": {
-                        "type": "number"
-                      }
-                    }
+                  "address": {
+                    "type": "array"
+                  },
+                  "lastName": {
+                    "type": "string"
+                  },
+                  "phoneCode": {
+                    "type": "string"
+                  },
+                  "phoneNumber": {
+                    "type": "string"
+                  },
+                  "age": {
+                    "type": "number"
+                  },
+                  "weight": {
+                    "type": "number"
                   }
                 }
               }
@@ -1349,48 +1447,41 @@
         "requestBody": {
           "required": true,
           "content": {
-            "multipart/form-data": {
+            "application/json": {
               "schema": {
                 "type": "object",
-                "required": ["file", "patient"],
+                "required": ["firstName", "lastName", "email", "address"],
                 "properties": {
-                  "file": {
+                  "email": {
                     "type": "string",
-                    "format": "binary"
+                    "format": "email"
                   },
-                  "patient": {
-                    "type": "object",
-                    "required": ["email", "firstName", "lastName"],
-                    "properties": {
-                      "email": {
-                        "type": "string",
-                        "format": "email"
-                      },
-                      "firstName": {
-                        "type": "string",
-                        "minLength": 6
-                      },
-                      "address": {
-                        "type": "array",
-                        "required": "true"
-                      },
-                      "lastName": {
-                        "type": "string",
-                        "required": "true"
-                      },
-                      "phoneCode": {
-                        "type": "string"
-                      },
-                      "phoneNumber": {
-                        "type": "string"
-                      },
-                      "age": {
-                        "type": "number"
-                      },
-                      "weight": {
-                        "type": "number"
-                      }
-                    }
+                  "firstName": {
+                    "type": "string",
+                    "minLength": 6
+                  },
+                  "address": {
+                    "type": "array",
+                    "required": "true"
+                  },
+                  "lastName": {
+                    "type": "string",
+                    "required": "true"
+                  },
+                  "phoneCode": {
+                    "type": "string"
+                  },
+                  "profileURL": {
+                    "type": "string"
+                  },
+                  "phoneNumber": {
+                    "type": "string"
+                  },
+                  "age": {
+                    "type": "number"
+                  },
+                  "weight": {
+                    "type": "number"
                   }
                 }
               }
@@ -1399,7 +1490,7 @@
         }
       }
     },
-    "/physio/patient-profile/{patientId}": {
+    "/physio/update-patient/{patientId}": {
       "put": {
         "tags": ["Physio"],
         "summary": "Update Profile of patient from both tablet and dashboard",
@@ -1439,47 +1530,31 @@
         "requestBody": {
           "required": true,
           "content": {
-            "multipart/form-data": {
+            "application/json": {
               "schema": {
                 "type": "object",
-                "required": ["file", "patient"],
+                "required": [""],
                 "properties": {
-                  "file": {
-                    "type": "string",
-                    "format": "binary"
+                  "firstName": {
+                    "type": "string"
                   },
-                  "patient": {
-                    "type": "object",
-                    "properties": {
-                      "email": {
-                        "type": "string",
-                        "format": "email"
-                      },
-                      "firstName": {
-                        "type": "string",
-                        "minLength": 6
-                      },
-                      "address": {
-                        "type": "array",
-                        "required": "true"
-                      },
-                      "lastName": {
-                        "type": "string",
-                        "required": "true"
-                      },
-                      "phoneCode": {
-                        "type": "string"
-                      },
-                      "phoneNumber": {
-                        "type": "string"
-                      },
-                      "age": {
-                        "type": "number"
-                      },
-                      "weight": {
-                        "type": "number"
-                      }
-                    }
+                  "lastName": {
+                    "type": "string"
+                  },
+                  "address": {
+                    "type": "array"
+                  },
+                  "phoneCode": {
+                    "type": "string"
+                  },
+                  "phoneNumber": {
+                    "type": "string"
+                  },
+                  "age": {
+                    "type": "number"
+                  },
+                  "weight": {
+                    "type": "number"
                   }
                 }
               }
@@ -2094,6 +2169,18 @@
         },
         "xml": {
           "name": "updatePatientRequest"
+        }
+      },
+      "uploadFile": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "example": "LEFT_RIGHT_MODE"
+          }
+        },
+        "xml": {
+          "name": "uploadFile"
         }
       }
     },

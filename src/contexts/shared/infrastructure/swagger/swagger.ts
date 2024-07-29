@@ -25,7 +25,8 @@ const doc = {
       getModeSessionOfPatientResponse: AdminSchema.getModeSessionOfPatientResponse,
       getPerformanceSummary: AdminSchema.getPerformanceSummary,
       statisticsMode: AdminSchema.statisticsMode,
-      updatePatientRequest: AdminSchema.updatePatientRequest
+      updatePatientRequest: AdminSchema.updatePatientRequest,
+      uploadFile: AdminSchema.uploadFile
     },
     parameters: {}
   }

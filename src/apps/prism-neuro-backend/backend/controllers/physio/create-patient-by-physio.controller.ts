@@ -2,16 +2,14 @@ import { USER_ROLES } from '@prisma/client';
 import { NextFunction, Request, Response } from 'express';
 import { body } from 'express-validator';
 import httpStatus from 'http-status';
-import multer from 'multer';
 import { CreatePatientByPhysioService } from '../../../../../contexts/prism-neuro/users/application/create-patient-by-physio.service';
 import { ICreatePhysioDetail, ICreateUser } from '../../../../../contexts/prism-neuro/users/domain/interface/user-request.interface';
+import { HTTP422Error } from '../../../../../contexts/shared/domain/errors/http.exception';
 import { generatePassword, hashPassword } from '../../../../../contexts/shared/infrastructure/encryptor/encryptor';
 import { SendPasswordToUserService } from '../../../../../contexts/shared/infrastructure/mail/application/send-password.service';
 import { RequestValidator } from '../../../../../contexts/shared/infrastructure/middleware/request-validator';
 import { MESSAGE_CODES } from '../../../../../contexts/shared/infrastructure/utils/message-code';
 import { Controller } from '../controller';
-
-const imageUpload = multer({});
 
 export class CreatePatientByPhysioController implements Controller {
   constructor(
@@ -19,44 +17,33 @@ export class CreatePatientByPhysioController implements Controller {
     private sendPasswordToUserService: SendPasswordToUserService
   ) {}
 
-  public upload = imageUpload.single('file');
-
   public validate = [
-    body('patient.email').exists().withMessage(MESSAGE_CODES.USER.REQUIRED_EMAIL).isEmail().withMessage(MESSAGE_CODES.USER.INVALID_EMAIL),
-    body('patient.firstName')
-      .exists()
-      .withMessage(MESSAGE_CODES.USER.REQUIRED_FIRST_NAME)
-      .isString()
-      .withMessage(MESSAGE_CODES.USER.INVALID_FIRST_NAME),
-    body('patient.lastName').exists().withMessage(MESSAGE_CODES.USER.REQUIRED_LAST_NAME).isString().withMessage(MESSAGE_CODES.USER.INVALID_LAST_NAME),
-    body('patient.address.*.address').notEmpty().withMessage(MESSAGE_CODES.USER.ADDRESS.REQUIRED_ADDRESS_NAME),
-    body('patient.phoneNumber').optional().isNumeric().withMessage(MESSAGE_CODES.USER.INVALID_CONTACT_NUMBER),
-    body('patient.phoneCode').optional(),
-    body('patient.age').optional().isNumeric().withMessage(MESSAGE_CODES.USER.AGE_SHOULD_BE_NUMBER),
-    body('patient.weight').optional().isNumeric().withMessage(MESSAGE_CODES.USER.WEIGHT_SHOULD_BE_NUMBER),
+    body('email').exists().withMessage(MESSAGE_CODES.USER.REQUIRED_EMAIL).isEmail().withMessage(MESSAGE_CODES.USER.INVALID_EMAIL),
+    body('firstName').exists().withMessage(MESSAGE_CODES.USER.REQUIRED_FIRST_NAME).isString().withMessage(MESSAGE_CODES.USER.INVALID_FIRST_NAME),
+    body('lastName').exists().withMessage(MESSAGE_CODES.USER.REQUIRED_LAST_NAME).isString().withMessage(MESSAGE_CODES.USER.INVALID_LAST_NAME),
+    body('address')
+      .isArray()
+      .withMessage(MESSAGE_CODES.USER.REQUIRED_ADDRESS)
+      .custom(value => {
+        if (value.length === 0) {
+          throw new HTTP422Error(MESSAGE_CODES.USER.REQUIRED_ADDRESS);
+        }
+        return true;
+      }),
+    body('address.*.address').notEmpty().withMessage(MESSAGE_CODES.USER.ADDRESS.REQUIRED_ADDRESS_NAME),
+    body('phoneNumber').optional().isMobilePhone('any').withMessage(MESSAGE_CODES.USER.INVALID_CONTACT_NUMBER),
+    body('phoneCode').optional(),
+    body('age').optional().isNumeric().withMessage(MESSAGE_CODES.USER.AGE_SHOULD_BE_NUMBER),
+    body('weight').optional().isNumeric().withMessage(MESSAGE_CODES.USER.WEIGHT_SHOULD_BE_NUMBER),
+    body('profileURL').optional().isString().withMessage(MESSAGE_CODES.USER.PROFILE_URL_MUST_BE_STRING),
+
     RequestValidator
   ];
 
-  public parse(req: Request, res: Response, next: NextFunction): void {
-    const patient = JSON.parse(req.body.patient);
-
-    if (patient.address instanceof Array) {
-      req.body.patient = { ...patient };
-      next();
-    } else {
-      res.status(httpStatus.BAD_REQUEST).json({
-        message: 'Address must be in array',
-        status: 'ERROR'
-      });
-    }
-  }
-
   async invoke(req: Request, res: Response, next: NextFunction): Promise<void> {
-    const { address, firstName, lastName, email, age, weight, phoneCode, phoneNumber, userName } = req.body.patient;
+    const { address, firstName, lastName, email, age, weight, phoneCode, phoneNumber, userName, profileURL } = req.body;
 
     const { userId } = req.body.user;
-
-    // image upload service
 
     const password = generatePassword();
 
@@ -68,8 +55,6 @@ export class CreatePatientByPhysioController implements Controller {
       role: USER_ROLES.PATIENT,
       createdBy: userId
     };
-
-    let profileURL: string | undefined;
 
     let detail: ICreatePhysioDetail | undefined;
 

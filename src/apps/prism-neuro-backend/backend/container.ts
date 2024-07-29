@@ -36,7 +36,6 @@ import { GetTotalUsersService } from '../../../contexts/prism-neuro/users/applic
 import { GetUserByRoleService } from '../../../contexts/prism-neuro/users/application/get-user-by-role.service';
 import { GetUserSessionService } from '../../../contexts/prism-neuro/users/application/get-user-session.service';
 import { GetUsersService } from '../../../contexts/prism-neuro/users/application/get-users.service';
-import { ImageUploadService } from '../../../contexts/prism-neuro/users/application/image-upload.service';
 import { ResetPasswordService } from '../../../contexts/prism-neuro/users/application/reset-password.service';
 import { UpdatePatientService } from '../../../contexts/prism-neuro/users/application/update-patient-by-physio.service';
 import { UpdatePhysioService } from '../../../contexts/prism-neuro/users/application/update-physio-by-admin.service';
@@ -48,6 +47,12 @@ import { JWTPatientAuthorizer } from '../../../contexts/shared/infrastructure/au
 import { JWTPhysioTherapistAuthorizer } from '../../../contexts/shared/infrastructure/authorizer/physio.authorizer';
 import { RefreshAuthorizer } from '../../../contexts/shared/infrastructure/authorizer/refresh.authorizer';
 import { JWTUserAuthorizer } from '../../../contexts/shared/infrastructure/authorizer/user.authorizer';
+import { CreateFileService } from '../../../contexts/shared/infrastructure/file/application/create-file.service';
+import { DeleteFileFromBucketService } from '../../../contexts/shared/infrastructure/file/application/delete-file-from-bucket.service';
+import { GetFilesService } from '../../../contexts/shared/infrastructure/file/application/get-files.service';
+import { GetSignedURLService } from '../../../contexts/shared/infrastructure/file/application/get-signed-url.service';
+import { UploadFileToBucketService } from '../../../contexts/shared/infrastructure/file/application/upload-file-to-bucket.service';
+import { PrismaFileRepository } from '../../../contexts/shared/infrastructure/file/infrastructure/repositories/prisma-file-repository';
 import { SendPasswordToUserService } from '../../../contexts/shared/infrastructure/mail/application/send-password.service';
 import { SendResetOtpService } from '../../../contexts/shared/infrastructure/mail/application/send-reset-otp.service';
 import { PrismaMailerRepository } from '../../../contexts/shared/infrastructure/mail/infrastructure/repositories/prisma-mail-repostory';
@@ -55,6 +60,7 @@ import { ErrorMiddleware } from '../../../contexts/shared/infrastructure/middlew
 import { createPrismaClient } from '../../../contexts/shared/infrastructure/persistence/prisma';
 import { RequestLogger } from '../../../contexts/shared/infrastructure/request-logs/request-logger';
 import { ActivityTransformer } from '../../../contexts/shared/infrastructure/transformer/activity-transformer';
+import { FileTransformer } from '../../../contexts/shared/infrastructure/transformer/files.transformer';
 import { ModeTransformer } from '../../../contexts/shared/infrastructure/transformer/mode-transformer';
 import { StatisticsTransformer } from '../../../contexts/shared/infrastructure/transformer/statistics-transformer';
 import { ServerLogger } from '../../../contexts/shared/infrastructure/winston-logger/index';
@@ -98,7 +104,11 @@ const {
   GetModeSessionActivityOfPatientByPhysioController,
   GetSessionsBetweenPatientAndDoctorController,
   GetModeSessionsByPatientIdController,
-  UpdatePatientProfileByPhysioController
+  DeleteFilesController,
+  UpdatePatientProfileByPhysioController,
+  UploadModeFilesController,
+  GetModeFilesController,
+  UploadProfileImageController
 } = controller;
 export class Container {
   private readonly container: AwilixContainer;
@@ -251,13 +261,23 @@ export class Container {
       })
       //image upload
       .register({
-        imageUploadService: asClass(ImageUploadService).singleton()
+        uploadModeFilesController: asClass(UploadModeFilesController),
+        uploadFileToBucketService: asClass(UploadFileToBucketService).singleton(),
+        prismaFileRepository: asClass(PrismaFileRepository),
+        createFileService: asClass(CreateFileService).singleton(),
+        getSignedURLService: asClass(GetSignedURLService).singleton(),
+        getFilesService: asClass(GetFilesService).singleton(),
+        getModeFilesController: asClass(GetModeFilesController),
+        deleteFileFromBucketService: asClass(DeleteFileFromBucketService),
+        deleteFilesController: asClass(DeleteFilesController),
+        uploadProfileImageController: asClass(UploadProfileImageController)
       })
       .register({
         userTransformer: asClass(UserTransformer),
         statisticsTransformer: asClass(StatisticsTransformer),
         modeTransformer: asClass(ModeTransformer),
-        activityTransformer: asClass(ActivityTransformer)
+        activityTransformer: asClass(ActivityTransformer),
+        fileTransformer: asClass(FileTransformer)
       });
   }
 
