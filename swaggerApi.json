@@ -98,41 +98,34 @@
         "requestBody": {
           "required": true,
           "content": {
-            "multipart/form-data": {
+            "application/json": {
               "schema": {
                 "type": "object",
-                "required": ["file", "physioTherapist"],
+                "required": ["email", "firstName", "lastName", "address"],
                 "properties": {
-                  "file": {
+                  "email": {
                     "type": "string",
-                    "format": "binary"
+                    "format": "email"
                   },
-                  "physioTherapist": {
-                    "type": "object",
-                    "required": ["email", "firstName", "lastName", "address"],
-                    "properties": {
-                      "email": {
-                        "type": "string",
-                        "format": "email"
-                      },
-                      "firstName": {
-                        "type": "string"
-                      },
-                      "lastName": {
-                        "type": "string",
-                        "required": "true"
-                      },
-                      "address": {
-                        "type": "array",
-                        "required": "true"
-                      },
-                      "phoneCode": {
-                        "type": "string"
-                      },
-                      "phoneNumber": {
-                        "type": "string"
-                      }
-                    }
+                  "firstName": {
+                    "type": "string"
+                  },
+                  "lastName": {
+                    "type": "string",
+                    "required": "true"
+                  },
+                  "address": {
+                    "type": "array",
+                    "required": "true"
+                  },
+                  "phoneCode": {
+                    "type": "string"
+                  },
+                  "phoneNumber": {
+                    "type": "string"
+                  },
+                  "profileURL": {
+                    "type": "string"
                   }
                 }
               }
@@ -141,7 +134,7 @@
         }
       }
     },
-    "/admin/update-physio": {
+    "/admin/update-physio/{physioId}": {
       "put": {
         "tags": ["Admin"],
         "summary": "Admin update physio",
@@ -169,36 +162,22 @@
         "requestBody": {
           "required": true,
           "content": {
-            "multipart/form-data": {
+            "application/json": {
               "schema": {
                 "type": "object",
-                "required": ["file", "physioTherapist"],
+                "required": [""],
                 "properties": {
-                  "file": {
-                    "type": "string",
-                    "format": "binary"
+                  "firstName": {
+                    "type": "string"
                   },
-                  "physioTherapist": {
-                    "type": "object",
-                    "required": ["firstName", "lastName", "address"],
-                    "properties": {
-                      "firstName": {
-                        "type": "string"
-                      },
-                      "lastName": {
-                        "type": "string",
-                        "required": "true"
-                      },
-                      "address": {
-                        "type": "array"
-                      },
-                      "phoneCode": {
-                        "type": "string"
-                      },
-                      "phoneNumber": {
-                        "type": "string"
-                      }
-                    }
+                  "lastName": {
+                    "type": "string"
+                  },
+                  "phoneCode": {
+                    "type": "string"
+                  },
+                  "phoneNumber": {
+                    "type": "string"
                   }
                 }
               }

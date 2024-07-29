@@ -1,5 +1,4 @@
 import { Router } from 'express';
-import multer from 'multer';
 import { JWTAdminAuthorizer } from '../../../../../contexts/shared/infrastructure/authorizer/admin.authorizer';
 import * as controllers from '../../controllers/index';
 
@@ -10,7 +9,6 @@ interface IHandler {
   getAllUsersController: controllers.GetAllUsersController;
   getAllPatientListByPhysioIdController: controllers.GetAllPatientListByPhysioIdController;
 }
-export const imageUpload = multer({});
 
 export const adminPhysioRoutesHandler = (
   { createPhysioController, updatePhysioController, getAllUsersController, getAllPatientListByPhysioIdController, deletePhysioController }: IHandler,
@@ -19,9 +17,7 @@ export const adminPhysioRoutesHandler = (
 ): Router => {
   router.post(
     '/admin/create-physio',
-    imageUpload.single('file'),
     adminAuthorizer.authorize,
-    createPhysioController.parse,
     createPhysioController.validate,
     createPhysioController.invoke.bind(createPhysioController)
     /* 
@@ -34,27 +30,18 @@ export const adminPhysioRoutesHandler = (
       #swagger.requestBody = {
       required: true,
       content: {
-        "multipart/form-data": {
+        "application/json": {
           schema: {
-            type: "object",
-            required: ["file","physioTherapist"],
-            properties: {
-             file: { type: "string", format: "binary" },
-             physioTherapist:{
              type:"object",
              required:["email", "firstName" ,"lastName","address"],
                properties :{
                email: { type: "string", format: "email" },
               firstName: { type: "string"},
-              lastName: { type: "string"},
-              address:{type:"array",required:"true"},
               lastName: { type: "string",required:"true" },
+              address:{type:"array",required:"true"},
               phoneCode: { type: "string" },
-              phoneNumber:{type:"string"},
-               }
-
-             }
-              
+              phoneNumber:{type:"string"},  
+              profileURL:{type:"string"},  
             }
           }
         }
@@ -68,62 +55,9 @@ export const adminPhysioRoutesHandler = (
   */
   );
 
-  // router.get(
-  //   '/admin/physio/:physioId',
-  //   adminAuthorizer.authorize
-  //   /*
-  //     #swagger.security = [{
-  //           "bearerAuth": []
-  //   }]
-  //     #swagger.tags = ['Admin']
-  //     #swagger.summary = 'Fetch physio data by id'
-  //     #swagger.description = 'Endpoint to fetch physio data by id'
-  //     #swagger.requestBody = {
-  //     required: true,
-  //     content: {
-  //       "application/json": {
-  //         schema: {
-  //           type: "object",
-  //           required: ["email", "password"],
-  //           properties: {
-  //             email: { type: "string", format: "email" },
-  //             password: { type: "string", minLength: 6 },
-  //           }
-  //         }
-  //       }
-  //     }
-  //   }
-  //     #swagger.responses[200]  = {
-  //     schema: {
-  //       $ref: "#/components/schemas/loginAdminReponse"
-  //     }
-  //   }
-  //   */
-  // );
-
-  // router.get(
-  //   '/admin/physio',
-  //   adminAuthorizer.authorize
-  //   /*
-  //     #swagger.security = [{
-  //           "bearerAuth": []
-  //   }]
-  //     #swagger.tags = ['Admin']
-  //     #swagger.summary = 'Fetch all physio'
-  //     #swagger.description = 'Admin can access to all physio'
-  //     #swagger.responses[200]  = {
-  //     schema: {
-  //       $ref: "#/components/schemas/loginAdminReponse"
-  //     }
-  //   }
-  //   */
-  // );
-
   router.put(
-    '/admin/update-physio',
-    imageUpload.single('file'),
+    '/admin/update-physio/:physioId',
     adminAuthorizer.authorize,
-    updatePhysioController.parse,
     updatePhysioController.validate,
     updatePhysioController.invoke.bind(updatePhysioController)
     /*
@@ -133,33 +67,22 @@ export const adminPhysioRoutesHandler = (
       #swagger.tags = ['Admin']
       #swagger.summary = 'Admin update physio'
       #swagger.description = 'Admin can update physio'
-   #swagger.parameters['physioId'] = {
+      #swagger.parameters['physioId'] = {
         in: 'path',
         type: 'string'
       }
       #swagger.requestBody = {
       required: true,
       content: {
-        "multipart/form-data": {
+        "application/json": {
           schema: {
-            type: "object",
-            required: ["file","physioTherapist"],
-            properties: {
-             file: { type: "string", format: "binary" },
-             physioTherapist:{
              type:"object",
-             required:["firstName" ,"lastName","address"],
+             required:[""],
                properties :{
               firstName: { type: "string"},
               lastName: { type: "string"},
-              address:{type:"array"},
-              lastName: { type: "string",required:"true" },
               phoneCode: { type: "string" },
               phoneNumber:{type:"string"},
-               }
-
-             }
-              
             }
           }
         }
