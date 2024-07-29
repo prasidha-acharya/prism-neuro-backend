@@ -158,7 +158,7 @@ export const physioRoutesHandler = (
     }] 
       #swagger.tags = ['Physio']
       #swagger.summary = 'Physio update their profile'
-      #swagger.description = 'Admin can update physio'
+      #swagger.description = ''
       #swagger.parameters['physioId'] = {
         in: 'path',
         type: 'string'

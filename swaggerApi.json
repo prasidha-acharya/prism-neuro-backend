@@ -1563,11 +1563,11 @@
         }
       }
     },
-    "/physio/update-profile/{physioId}": {
+    "/physio/update-profile": {
       "put": {
         "tags": ["Physio"],
         "summary": "Physio update their profile",
-        "description": "Admin can update physio",
+        "description": "",
         "parameters": [
           {
             "name": "physioId",
