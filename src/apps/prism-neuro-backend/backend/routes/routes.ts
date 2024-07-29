@@ -62,6 +62,7 @@ export const masterRouter = (
   deleteFilesController: controllers.DeleteFilesController,
   getModeFilesController: controllers.GetModeFilesController,
   uploadProfileImageController: controllers.UploadProfileImageController,
+  updatePhysioByPhysioController: controllers.UpdatePhysioByPhysioController,
   refreshAuthorizer: RefreshAuthorizer,
   userAuthorizer: JWTUserAuthorizer,
   physioAuthorizer: JWTPhysioTherapistAuthorizer,
@@ -103,7 +104,8 @@ export const masterRouter = (
       deletePatientByAdminController,
       getModeSessionActivityOfPatientByPhysioController,
       getSessionsBetweenPatientAndDoctorController,
-      updatePatientProfileByPhysioController
+      updatePatientProfileByPhysioController,
+      updatePhysioByPhysioController
     },
     physioAuthorizer,
     apiRouter

@@ -14,6 +14,7 @@ interface IHandler {
   getModeSessionActivityOfPatientByPhysioController: controllers.GetModeSessionActivityOfPatientByPhysioController;
   getSessionsBetweenPatientAndDoctorController: controllers.GetSessionsBetweenPatientAndDoctorController;
   updatePatientProfileByPhysioController: controllers.UpdatePatientProfileByPhysioController;
+  updatePhysioByPhysioController: controllers.UpdatePhysioByPhysioController;
 }
 
 export const physioRoutesHandler = (
@@ -27,7 +28,7 @@ export const physioRoutesHandler = (
     getModeSessionActivityOfPatientByPhysioController,
     getSessionsBetweenPatientAndDoctorController,
     updatePatientProfileByPhysioController,
-    updatePhysioController
+    updatePhysioByPhysioController
   }: IHandler,
   physioAuthorizer: IAuthorizer<Request, Response, NextFunction>,
   router: Router
@@ -147,10 +148,10 @@ export const physioRoutesHandler = (
   );
 
   router.put(
-    '/physio/update-profile/:physioId',
+    '/physio/update-profile',
     physioAuthorizer.authorize,
-    updatePhysioController.validate,
-    updatePhysioController.invoke.bind(updatePhysioController)
+    updatePhysioByPhysioController.validate,
+    updatePhysioByPhysioController.invoke.bind(updatePhysioByPhysioController)
     /*
       #swagger.security = [{
             "bearerAuth": []

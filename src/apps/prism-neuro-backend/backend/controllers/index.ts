@@ -40,3 +40,4 @@ export * from './physio/get-physio-mode-analytics.controller';
 export * from './physio/patient-session.controller';
 export * from './physio/patient-sessions-by-Id.controller';
 export * from './physio/update-patient-by-physio.controller';
+export * from './physio/update-physio.controller';
