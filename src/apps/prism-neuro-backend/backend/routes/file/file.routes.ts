@@ -23,6 +23,7 @@ export const fileRoutesHandler = (
     '/upload-profile',
     userAuthorizer.authorize,
     imageUpload.single('file'),
+    uploadProfileImageController.validate,
     uploadProfileImageController.invoke.bind(uploadProfileImageController)
 
     /*

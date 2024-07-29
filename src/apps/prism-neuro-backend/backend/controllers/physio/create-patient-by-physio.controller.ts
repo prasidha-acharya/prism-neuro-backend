@@ -32,11 +32,28 @@ export class CreatePatientByPhysioController implements Controller {
       }),
     body('address.*.address').notEmpty().withMessage(MESSAGE_CODES.USER.ADDRESS.REQUIRED_ADDRESS_NAME),
     body('phoneNumber').optional().isMobilePhone('any').withMessage(MESSAGE_CODES.USER.INVALID_CONTACT_NUMBER),
-    body('phoneCode').optional(),
-    body('age').optional().isNumeric().withMessage(MESSAGE_CODES.USER.AGE_SHOULD_BE_NUMBER),
-    body('weight').optional().isNumeric().withMessage(MESSAGE_CODES.USER.WEIGHT_SHOULD_BE_NUMBER),
+    body('phoneCode').optional().isIn(['+61']).withMessage(MESSAGE_CODES.USER.INVALID_PHONE_CODE),
+    body('age')
+      .optional()
+      .isNumeric()
+      .withMessage(MESSAGE_CODES.USER.AGE_SHOULD_BE_NUMBER)
+      .custom(val => {
+        if (typeof val !== 'number') {
+          throw new HTTP422Error(MESSAGE_CODES.USER.AGE_SHOULD_BE_NUMBER);
+        }
+        return true;
+      }),
+    body('weight')
+      .optional()
+      .isNumeric()
+      .withMessage(MESSAGE_CODES.USER.WEIGHT_SHOULD_BE_NUMBER)
+      .custom(val => {
+        if (typeof val !== 'number') {
+          throw new HTTP422Error(MESSAGE_CODES.USER.WEIGHT_SHOULD_BE_NUMBER);
+        }
+        return true;
+      }),
     body('profileURL').optional().isString().withMessage(MESSAGE_CODES.USER.PROFILE_URL_MUST_BE_STRING),
-
     RequestValidator
   ];
 
