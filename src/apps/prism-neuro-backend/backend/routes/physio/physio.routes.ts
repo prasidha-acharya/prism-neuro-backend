@@ -1,7 +1,6 @@
 import { NextFunction, Request, Response, Router } from 'express';
 import { IAuthorizer } from 'src/contexts/shared/domain/model/authentication/authorizer';
 import * as controllers from '../../controllers/index';
-import { imageUpload } from '../admin/admin-physio.routes';
 
 interface IHandler {
   loginPhysioController: controllers.LoginDoctorController;
@@ -103,10 +102,8 @@ export const physioRoutesHandler = (
   );
 
   router.put(
-    '/physio/patient-profile/:patientId',
-    imageUpload.single('file'),
+    '/physio/update-patient/:patientId',
     physioAuthorizer.authorize,
-    updatePatientProfileByPhysioController.parse,
     updatePatientProfileByPhysioController.validate,
     updatePatientProfileByPhysioController.invoke.bind(updatePatientProfileByPhysioController)
     /*
@@ -119,27 +116,19 @@ export const physioRoutesHandler = (
       #swagger.requestBody = {
       required: true,
       content: {
-        "multipart/form-data": {
+        "application/json": {
           schema: {
             type: "object",
-            required: ["file","patient"],
+            required: [""],
             properties: {
-             file: { type: "string", format: "binary" },
-             patient:{
-             type:"object",
-               properties :{
-               email: { type: "string", format: "email" },
-              firstName: { type: "string", minLength: 6 },
-              address:{type:"array",required:"true"},
-              lastName: { type: "string",required:"true" },
+              firstName: { type: "string"},
+              lastName:{type:"string"},
+              address:{type:"array"},
+              lastName: { type: "string"},
               phoneCode: { type: "string" },
               phoneNumber:{type:"string"},
               age:{type:"number"},
-              weight:{type:"number"},
-               }
-
-             }
-              
+              weight:{type:"number"},    
             }
           }
         }

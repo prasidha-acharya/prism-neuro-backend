@@ -1527,7 +1527,7 @@
         }
       }
     },
-    "/physio/patient-profile/{patientId}": {
+    "/physio/update-patient/{patientId}": {
       "put": {
         "tags": ["Physio"],
         "summary": "Update Profile of patient from both tablet and dashboard",
@@ -1567,47 +1567,31 @@
         "requestBody": {
           "required": true,
           "content": {
-            "multipart/form-data": {
+            "application/json": {
               "schema": {
                 "type": "object",
-                "required": ["file", "patient"],
+                "required": [""],
                 "properties": {
-                  "file": {
-                    "type": "string",
-                    "format": "binary"
+                  "firstName": {
+                    "type": "string"
                   },
-                  "patient": {
-                    "type": "object",
-                    "properties": {
-                      "email": {
-                        "type": "string",
-                        "format": "email"
-                      },
-                      "firstName": {
-                        "type": "string",
-                        "minLength": 6
-                      },
-                      "address": {
-                        "type": "array",
-                        "required": "true"
-                      },
-                      "lastName": {
-                        "type": "string",
-                        "required": "true"
-                      },
-                      "phoneCode": {
-                        "type": "string"
-                      },
-                      "phoneNumber": {
-                        "type": "string"
-                      },
-                      "age": {
-                        "type": "number"
-                      },
-                      "weight": {
-                        "type": "number"
-                      }
-                    }
+                  "lastName": {
+                    "type": "string"
+                  },
+                  "address": {
+                    "type": "array"
+                  },
+                  "phoneCode": {
+                    "type": "string"
+                  },
+                  "phoneNumber": {
+                    "type": "string"
+                  },
+                  "age": {
+                    "type": "number"
+                  },
+                  "weight": {
+                    "type": "number"
                   }
                 }
               }
