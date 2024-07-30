@@ -15,7 +15,8 @@ export class GetUserDetailController implements Controller {
     try {
       const response = await this.getAdminByEmailService.invoke({ email });
 
-      const userDetail = response === null ? [] : this.userTransformer.loginLists(response);
+      const userDetail = response === null ? [] : await this.userTransformer.loginLists(response);
+
       res.status(httpStatus.OK).json({
         data: userDetail,
         status: 'SUCCESS'
