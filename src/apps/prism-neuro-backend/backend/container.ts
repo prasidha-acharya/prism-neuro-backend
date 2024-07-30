@@ -18,8 +18,8 @@ import { GetModeTrialsOfPhysioService } from '../../../contexts/prism-neuro/tria
 import { StartModeTrialService } from '../../../contexts/prism-neuro/trial/application/start-mode-trial.service';
 import { PrismaModeTrialRepository } from '../../../contexts/prism-neuro/trial/infrastructure/repositories/prisma-mode-trial-repository';
 import { ChangePasswordService } from '../../../contexts/prism-neuro/users/application/change-password.service';
-import { CreatePhysioByAdminService } from '../../../contexts/prism-neuro/users/application/create-doctor-by-admin.service';
 import { CreatePatientByPhysioService } from '../../../contexts/prism-neuro/users/application/create-patient-by-physio.service';
+import { CreatePhysioByAdminService } from '../../../contexts/prism-neuro/users/application/create-physio-by-admin.service';
 import { AddUserSessionService } from '../../../contexts/prism-neuro/users/application/create-user-session.service';
 import { DeleteAccountService } from '../../../contexts/prism-neuro/users/application/delete-account.service';
 import { DeleteOTPService } from '../../../contexts/prism-neuro/users/application/delete-otp.service';
