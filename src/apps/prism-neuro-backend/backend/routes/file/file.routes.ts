@@ -4,7 +4,7 @@ import { JWTUserAuthorizer } from 'src/contexts/shared/infrastructure/authorizer
 import { JWTAdminAuthorizer } from '../../../../../contexts/shared/infrastructure/authorizer/admin.authorizer';
 import * as controller from '../../controllers/index';
 
-export const imageUpload = multer({});
+export const imageUpload = multer();
 
 interface IHandler {
   uploadModeFilesController: controller.UploadModeFilesController;
