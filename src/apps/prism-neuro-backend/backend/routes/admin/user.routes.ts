@@ -57,7 +57,7 @@ export const userRoutesHandler = (
             }]
         #swagger.responses[200] = {
           schema: {
-            $ref: "#/components/schemas/customerRefreshSchema"
+            $ref: "#/components/schemas/successReponse"
           }
         }
         */

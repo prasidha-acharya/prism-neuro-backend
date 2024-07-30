@@ -28,7 +28,7 @@ export interface IPrismaUserRepository {
 
   createPhysioByAdmin(request: ICreatePhysioTherapistRequest): Promise<void>;
 
-  updatePhysioByAdmin(request: IUpdatePhysioTherapistRequest): Promise<User | null>;
+  updatePhysioOrAdmin(request: IUpdatePhysioTherapistRequest): Promise<User | null>;
 
   deleteUserByAdmin(userId: string, role: USER_ROLES): Promise<void>;
 
@@ -67,4 +67,6 @@ export interface IPrismaUserRepository {
   getPatientsOfPhysio(physioId: string, search?: string): Promise<IPrismaUserForGetPatientsByPhysioResponse[] | null>;
 
   getAllPatientsIncludingTrialSession(search?: string): Promise<IPrismaUserForGetPatientsDetailIncludingSessions[] | null>;
+
+  updateLastLogin(userId: string): Promise<void>;
 }

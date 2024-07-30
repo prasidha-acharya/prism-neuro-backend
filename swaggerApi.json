@@ -341,6 +341,48 @@
         }
       }
     },
+    "/admin/update-profile": {
+      "put": {
+        "tags": ["Admin"],
+        "summary": "Admin update physio",
+        "description": "Admin can update physio",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [""],
+                "properties": {
+                  "firstName": {
+                    "type": "string"
+                  },
+                  "lastName": {
+                    "type": "string"
+                  },
+                  "phoneCode": {
+                    "type": "string"
+                  },
+                  "phoneNumber": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/admin/modes": {
       "get": {
         "tags": ["Admin"],
@@ -578,12 +620,12 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/customerRefreshSchema"
+                  "$ref": "#/components/schemas/successReponse"
                 }
               },
               "application/xml": {
                 "schema": {
-                  "$ref": "#/components/schemas/customerRefreshSchema"
+                  "$ref": "#/components/schemas/successReponse"
                 }
               }
             }
@@ -789,7 +831,26 @@
           {
             "bearerAuth": []
           }
-        ]
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "required": ["file"],
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "uploadFor": {
+                    "enum": ["PATIENT", "ADMIN", "PHYSIO"]
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/admin/upload-files": {

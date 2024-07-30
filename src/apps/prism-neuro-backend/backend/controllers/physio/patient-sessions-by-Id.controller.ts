@@ -8,7 +8,7 @@ import { ModeTransformer } from '../../../../../contexts/shared/infrastructure/t
 import { MESSAGE_CODES } from '../../../../../contexts/shared/infrastructure/utils/message-code';
 import { Controller } from '../controller';
 
-export class GetSessionsBetweenPatientAndDoctorController implements Controller {
+export class GetSessionsBetweenPatientAndPhysioController implements Controller {
   constructor(
     private getSessionOfPateintService: GetSessionOfPateintService,
     private modeTransformer: ModeTransformer

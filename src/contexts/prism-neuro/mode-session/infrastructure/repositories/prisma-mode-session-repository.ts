@@ -12,6 +12,18 @@ import { IModeSessionRepository } from '../../domain/repositories/mode-session-r
 export class PrismaModeSessionRepository implements IModeSessionRepository {
   constructor(private db: PrismaClient) {}
 
+  async endModeSessionByPhysio(userId: string): Promise<void> {
+    await this.db.modeSession.updateMany({
+      where: {
+        physioId: userId,
+        status: MODE_SESSION_STATUS.START
+      },
+      data: {
+        status: MODE_SESSION_STATUS.STOP
+      }
+    });
+  }
+
   async getModeTrialsOfPatient({
     startDate,
     endDate,

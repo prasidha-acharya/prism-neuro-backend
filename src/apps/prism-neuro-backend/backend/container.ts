@@ -1,5 +1,6 @@
 import { AwilixContainer, InjectionMode, asClass, asFunction, asValue, createContainer } from 'awilix';
 import { config } from '../../../../config';
+import { EndModeSessionByPhsyioService } from '../../../contexts/prism-neuro/mode-session/application/end-session-by-physio.service';
 import { EndModeSessionService } from '../../../contexts/prism-neuro/mode-session/application/end-session.service';
 import { GetSessionOfPateintService } from '../../../contexts/prism-neuro/mode-session/application/get-session-of-patient.service';
 import { GetModeSessionOfPhysioAndPatientService } from '../../../contexts/prism-neuro/mode-session/application/get-session.service';
@@ -18,13 +19,13 @@ import { GetModeTrialsOfPhysioService } from '../../../contexts/prism-neuro/tria
 import { StartModeTrialService } from '../../../contexts/prism-neuro/trial/application/start-mode-trial.service';
 import { PrismaModeTrialRepository } from '../../../contexts/prism-neuro/trial/infrastructure/repositories/prisma-mode-trial-repository';
 import { ChangePasswordService } from '../../../contexts/prism-neuro/users/application/change-password.service';
-import { CreatePhysioByAdminService } from '../../../contexts/prism-neuro/users/application/create-doctor-by-admin.service';
 import { CreatePatientByPhysioService } from '../../../contexts/prism-neuro/users/application/create-patient-by-physio.service';
+import { CreatePhysioByAdminService } from '../../../contexts/prism-neuro/users/application/create-physio-by-admin.service';
 import { AddUserSessionService } from '../../../contexts/prism-neuro/users/application/create-user-session.service';
 import { DeleteAccountService } from '../../../contexts/prism-neuro/users/application/delete-account.service';
-import { DeleteUserService } from '../../../contexts/prism-neuro/users/application/delete-doctor-by-admin.service';
 import { DeleteOTPService } from '../../../contexts/prism-neuro/users/application/delete-otp.service';
 import { DeletePatientByAdminService } from '../../../contexts/prism-neuro/users/application/delete-patient-by-physio.service';
+import { DeleteUserService } from '../../../contexts/prism-neuro/users/application/delete-physio-by-admin.service';
 import { DeleteUserSessionService } from '../../../contexts/prism-neuro/users/application/delete-user-session.service';
 import { ForgotPasswordService } from '../../../contexts/prism-neuro/users/application/forgot-password.service';
 import { GetAdminByEmailService } from '../../../contexts/prism-neuro/users/application/get-admin-email.service';
@@ -37,6 +38,7 @@ import { GetUserByRoleService } from '../../../contexts/prism-neuro/users/applic
 import { GetUserSessionService } from '../../../contexts/prism-neuro/users/application/get-user-session.service';
 import { GetUsersService } from '../../../contexts/prism-neuro/users/application/get-users.service';
 import { ResetPasswordService } from '../../../contexts/prism-neuro/users/application/reset-password.service';
+import { UpdateLastLoginService } from '../../../contexts/prism-neuro/users/application/update-last-login.service';
 import { UpdatePatientService } from '../../../contexts/prism-neuro/users/application/update-patient-by-physio.service';
 import { UpdatePhysioService } from '../../../contexts/prism-neuro/users/application/update-physio-by-admin.service';
 import { UserTransformer } from '../../../contexts/prism-neuro/users/domain/transformer/user-transformer';
@@ -75,7 +77,7 @@ const {
   ForgotPasswordController,
   GenerateAccessTokenController,
   LoginAdminController,
-  LoginDoctorController,
+  LoginPhysioController,
   UpdatePhysioController,
   GetAllPatientListByPhysioIdController,
   UserLogoutController,
@@ -102,7 +104,7 @@ const {
   GetPerformanceSummaryOfPhysioController,
   DeletePatientByAdminController,
   GetModeSessionActivityOfPatientByPhysioController,
-  GetSessionsBetweenPatientAndDoctorController,
+  GetSessionsBetweenPatientAndPhysioController,
   GetModeSessionsByPatientIdController,
   DeleteFilesController,
   UpdatePatientProfileByPhysioController,
@@ -110,7 +112,8 @@ const {
   GetModeFilesController,
   UploadProfileImageController,
   UpdatePhysioByPhysioController,
-  GetUserDetailController
+  GetUserDetailController,
+  UpdateAdminProfileController
 } = controller;
 export class Container {
   private readonly container: AwilixContainer;
@@ -143,25 +146,26 @@ export class Container {
         errorMiddleware: asClass(ErrorMiddleware).singleton(),
         masterRouter: asFunction(masterRouter).singleton()
       })
-      // admin repository
+      // Admin repository
       .register({
         prismaUserRepository: asClass(PrismaUserRepository),
         createPhysioByAdminService: asClass(CreatePhysioByAdminService).singleton(),
         createPhysioController: asClass(CreatePhysioController),
         getAdminByEmailService: asClass(GetAdminByEmailService).singleton(),
-        getUsersService: asClass(GetUsersService).singleton()
+        getUsersService: asClass(GetUsersService).singleton(),
+        updateAdminProfileController: asClass(UpdateAdminProfileController)
       })
-      //admin auth
+      //Admin auth
       .register({
         loginAdminController: asClass(LoginAdminController),
         deleteAccountService: asClass(DeleteAccountService).singleton(),
         deleteAccountController: asClass(DeleteAccountController)
       })
-      // general auth
+      // General auth
       .register({
         forgotPasswordController: asClass(ForgotPasswordController)
       })
-      //authorizer
+      //Authorizer
       .register({
         adminAuthorizer: asClass(JWTAdminAuthorizer).singleton(),
         userAuthorizer: asClass(JWTUserAuthorizer).singleton(),
@@ -169,22 +173,22 @@ export class Container {
         generateAccessTokenController: asClass(GenerateAccessTokenController).singleton(),
         patientAuthorizer: asClass(JWTPatientAuthorizer).singleton()
       })
-      // user session
+      // User session
       .register({
         addUserSessionService: asClass(AddUserSessionService).singleton(),
         getUserSessionService: asClass(GetUserSessionService).singleton(),
         deleteUserSessionService: asClass(DeleteUserSessionService).singleton()
       })
-      // login
+      // Login
       .register({
-        loginPhysioController: asClass(LoginDoctorController)
+        loginPhysioController: asClass(LoginPhysioController)
       })
-      //seeder
+      //Seeder
       .register({
         adminSeeder: asClass(CreateAdminSeeder).singleton(),
         modeSeeder: asClass(CreateModeSeeder).singleton()
       })
-      //user logout
+      //User logout
       .register({
         userLogoutController: asClass(UserLogoutController),
         refreshAuthorizer: asClass(RefreshAuthorizer),
@@ -208,7 +212,8 @@ export class Container {
         deletePatientByAdminService: asClass(DeletePatientByAdminService).singleton(),
         deletePatientByAdminController: asClass(DeletePatientByAdminController),
         getPatientsOfPhysioService: asClass(GetPatientsOfPhysioService).singleton(),
-        getUserDetailController: asClass(GetUserDetailController)
+        getUserDetailController: asClass(GetUserDetailController),
+        updateLastLoginService: asClass(UpdateLastLoginService).singleton()
       })
       //Physio
       .register({
@@ -222,7 +227,7 @@ export class Container {
         updatePatientProfileByPhysioController: asClass(UpdatePatientProfileByPhysioController),
         updatePhysioByPhysioController: asClass(UpdatePhysioByPhysioController)
       })
-      // mode
+      // Mode
       .register({
         prismaModeRepository: asClass(PrismaModeRepository),
         getAllModesService: asClass(GetAllModesService).singleton(),
@@ -249,11 +254,12 @@ export class Container {
         getPerformanceSummaryOfPhysioController: asClass(GetPerformanceSummaryOfPhysioController),
         getTotalPatientsService: asClass(GetTotalPatientsService).singleton(),
         getModeSessionActivityOfPatientByPhysioController: asClass(GetModeSessionActivityOfPatientByPhysioController),
-        getSessionsBetweenPatientAndDoctorController: asClass(GetSessionsBetweenPatientAndDoctorController),
+        getSessionsBetweenPatientAndPhysioController: asClass(GetSessionsBetweenPatientAndPhysioController),
         getModeSessionsByPatientIdController: asClass(GetModeSessionsByPatientIdController),
-        getAllPatientsInCludingSessionInfoService: asClass(GetAllPatientsInCludingSessionInfoService).singleton()
+        getAllPatientsInCludingSessionInfoService: asClass(GetAllPatientsInCludingSessionInfoService).singleton(),
+        endModeSessionByPhsyioService: asClass(EndModeSessionByPhsyioService).singleton()
       })
-      //mode trial session
+      //Mode trial session
       .register({
         prismaModeTrialRepository: asClass(PrismaModeTrialRepository),
         startModeTrialService: asClass(StartModeTrialService).singleton(),
@@ -263,7 +269,7 @@ export class Container {
         getModeTrialsBySessionService: asClass(GetModeTrialsBySessionService).singleton(),
         getModeTrialBySessionController: asClass(GetModeTrialBySessionController)
       })
-      //image upload
+      //Image upload
       .register({
         uploadModeFilesController: asClass(UploadModeFilesController),
         uploadFileToBucketService: asClass(UploadFileToBucketService).singleton(),
@@ -276,6 +282,7 @@ export class Container {
         deleteFilesController: asClass(DeleteFilesController),
         uploadProfileImageController: asClass(UploadProfileImageController)
       })
+      //Transformer
       .register({
         userTransformer: asClass(UserTransformer),
         statisticsTransformer: asClass(StatisticsTransformer),

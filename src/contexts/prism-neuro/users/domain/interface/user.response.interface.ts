@@ -37,7 +37,7 @@ export interface IGetUserListByAdminResponse {
   firstName: string;
   lastName: string;
   email: string;
-  profileURL: string | null;
+  // profileURL: string | null;
   userAddress: UserAddress[];
   age: number | null;
   weight: number | null;
@@ -70,15 +70,19 @@ export interface UserResponse {
   id: string;
   email: string;
   isVerified: boolean;
-  firstName: string;
-  lastName: string;
+  firstName: string | null; //for admin firstName and lastName can be null
+  lastName: string | null;
   userName: string | null;
   userAddress: IAddress[];
   role: USER_ROLES;
   modeSession: ModeSession | null;
   phoneNumber: string | null;
   phoneCode: string | null;
-  profileURL: string | null;
   age: number | null;
   weight: number | null;
+  lastLogin: Date | null;
+  profile: {
+    path: string | null;
+    profileURL: string | null;
+  };
 }

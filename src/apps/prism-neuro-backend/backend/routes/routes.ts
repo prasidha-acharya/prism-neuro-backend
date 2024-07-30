@@ -25,7 +25,7 @@ export const masterRouter = (
   adminAuthorizer: JWTAdminAuthorizer,
   userLogoutController: controllers.UserLogoutController,
   generateAccessTokenController: controllers.GenerateAccessTokenController,
-  loginPhysioController: controllers.LoginDoctorController,
+  loginPhysioController: controllers.LoginPhysioController,
   deletePhysioController: controllers.DeletePhysioController,
   updatePhysioController: controllers.UpdatePhysioController,
   forgotPasswordController: controllers.ForgotPasswordController,
@@ -55,7 +55,7 @@ export const masterRouter = (
   getPerformanceSummaryOfPhysioController: controllers.GetPerformanceSummaryOfPhysioController,
   deletePatientByAdminController: controllers.DeletePatientByAdminController,
   getModeSessionActivityOfPatientByPhysioController: controllers.GetModeSessionActivityOfPatientByPhysioController,
-  getSessionsBetweenPatientAndDoctorController: controllers.GetSessionsBetweenPatientAndDoctorController,
+  getSessionsBetweenPatientAndPhysioController: controllers.GetSessionsBetweenPatientAndPhysioController,
   getModeSessionsByPatientIdController: controllers.GetModeSessionsByPatientIdController,
   updatePatientProfileByPhysioController: controllers.UpdatePatientProfileByPhysioController,
   uploadModeFilesController: controllers.UploadModeFilesController,
@@ -64,6 +64,7 @@ export const masterRouter = (
   uploadProfileImageController: controllers.UploadProfileImageController,
   updatePhysioByPhysioController: controllers.UpdatePhysioByPhysioController,
   getUserDetailController: controllers.GetUserDetailController,
+  updateAdminProfileController: controllers.UpdateAdminProfileController,
   refreshAuthorizer: RefreshAuthorizer,
   userAuthorizer: JWTUserAuthorizer,
   physioAuthorizer: JWTPhysioTherapistAuthorizer,
@@ -89,7 +90,7 @@ export const masterRouter = (
 
   statisticsRoutesHandler({ getTotalUsersController, getModeAnalyticsController }, adminAuthorizer, apiRouter);
 
-  adminAuthRoutesHandler({ loginAdminController }, apiRouter);
+  adminAuthRoutesHandler({ loginAdminController, updateAdminProfileController }, adminAuthorizer, apiRouter);
 
   adminPatientRoutesHandler({ deletePatientByAdminController, getModeSessionsByPatientIdController }, adminAuthorizer, apiRouter);
 
@@ -104,7 +105,7 @@ export const masterRouter = (
       getPerformanceSummaryOfPhysioController,
       deletePatientByAdminController,
       getModeSessionActivityOfPatientByPhysioController,
-      getSessionsBetweenPatientAndDoctorController,
+      getSessionsBetweenPatientAndPhysioController,
       updatePatientProfileByPhysioController,
       updatePhysioByPhysioController
     },

@@ -7,6 +7,7 @@ import httpStatus from 'http-status';
 import { ParsedQs } from 'qs';
 import { AddUserSessionService } from '../../../../../../contexts/prism-neuro/users/application/create-user-session.service';
 import { GetAdminByEmailService } from '../../../../../../contexts/prism-neuro/users/application/get-admin-email.service';
+import { UpdateLastLoginService } from '../../../../../../contexts/prism-neuro/users/application/update-last-login.service';
 import { IClientLoginRequest } from '../../../../../../contexts/prism-neuro/users/domain/interface/user-client-request.interface';
 import { UserTransformer } from '../../../../../../contexts/prism-neuro/users/domain/transformer/user-transformer';
 import { Payload, TokenScope } from '../../../../../../contexts/shared/domain/interface/payload';
@@ -21,7 +22,8 @@ export class LoginAdminController implements Controller {
     private getAdminByEmailService: GetAdminByEmailService,
     private config: Configuration,
     private addUserSessionService: AddUserSessionService,
-    private userTransformer: UserTransformer
+    private userTransformer: UserTransformer,
+    private updateLastLoginService: UpdateLastLoginService
   ) {}
 
   public validate = [
@@ -88,7 +90,11 @@ export class LoginAdminController implements Controller {
         }
       );
 
-      const userDetail = this.userTransformer.loginLists(user);
+      const userDetail = await this.userTransformer.loginLists(user);
+
+      // update last login
+
+      await this.updateLastLoginService.invoke(user.id);
 
       res.status(httpStatus.OK).json({
         data: {

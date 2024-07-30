@@ -4,7 +4,7 @@ import { JWTUserAuthorizer } from 'src/contexts/shared/infrastructure/authorizer
 import { JWTAdminAuthorizer } from '../../../../../contexts/shared/infrastructure/authorizer/admin.authorizer';
 import * as controller from '../../controllers/index';
 
-export const imageUpload = multer({});
+export const imageUpload = multer();
 
 interface IHandler {
   uploadModeFilesController: controller.UploadModeFilesController;
@@ -23,6 +23,7 @@ export const fileRoutesHandler = (
     '/upload-profile',
     userAuthorizer.authorize,
     imageUpload.single('file'),
+    uploadProfileImageController.validate,
     uploadProfileImageController.invoke.bind(uploadProfileImageController)
 
     /*
@@ -30,6 +31,25 @@ export const fileRoutesHandler = (
             "bearerAuth": []
     }] 
     #swagger.tags =["File"]
+    #swagger.requestBody = {
+    content:{
+    "multipart/form-data" :{
+    schema:{
+    type:"object",
+    required:["file"],
+    properties:{
+    file:{
+    type:"string",
+    format:"binary"
+    },
+    uploadFor:{
+    enum:["PATIENT","ADMIN","PHYSIO"]
+    }
+    }
+    }
+    }
+    }
+    }
     #swagger.responses[200] = {
   
     }

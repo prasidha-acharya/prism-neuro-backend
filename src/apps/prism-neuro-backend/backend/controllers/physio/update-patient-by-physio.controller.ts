@@ -26,7 +26,7 @@ export class UpdatePatientProfileByPhysioController implements Controller {
       }),
     body('address.*.address').notEmpty().withMessage(MESSAGE_CODES.USER.ADDRESS.REQUIRED_ADDRESS_NAME),
     body('address.*.id').notEmpty().withMessage(MESSAGE_CODES.USER.ADDRESS.REQUIRED_ADDRESS_ID),
-    body('phoneCode').optional(),
+    body('phoneCode').optional().isIn(['+61']).withMessage(MESSAGE_CODES.USER.INVALID_PHONE_CODE),
     body('phoneNumber').optional().isMobilePhone('any').withMessage(MESSAGE_CODES.USER.INVALID_CONTACT_NUMBER),
     body('age').optional().isNumeric().withMessage(MESSAGE_CODES.USER.AGE_SHOULD_BE_NUMBER),
     body('weight').optional().isNumeric().withMessage(MESSAGE_CODES.USER.WEIGHT_SHOULD_BE_NUMBER),

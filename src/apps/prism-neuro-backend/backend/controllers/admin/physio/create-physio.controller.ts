@@ -4,7 +4,7 @@ import { ParamsDictionary } from 'express-serve-static-core';
 import { body } from 'express-validator';
 import httpStatus from 'http-status';
 import { ParsedQs } from 'qs';
-import { CreatePhysioByAdminService } from '../../../../../../contexts/prism-neuro/users/application/create-doctor-by-admin.service';
+import { CreatePhysioByAdminService } from '../../../../../../contexts/prism-neuro/users/application/create-physio-by-admin.service';
 import { IClientCreatePhysioRequest } from '../../../../../../contexts/prism-neuro/users/domain/interface/user-client-request.interface';
 import { ICreatePhysioTherapistRequest } from '../../../../../../contexts/prism-neuro/users/domain/interface/user-request.interface';
 import { HTTP400Error } from '../../../../../../contexts/shared/domain/errors/http.exception';
@@ -47,18 +47,12 @@ export class CreatePhysioController implements Controller {
     RequestValidator
   ];
 
-  public parse(req: Request, res: Response, next: NextFunction): void {
-    const physioTherapist = JSON.parse(req.body.physioTherapist);
-    req.body.physioTherapist = { ...physioTherapist };
-    next();
-  }
-
   public async invoke(
     req: Request<ParamsDictionary, any, any, ParsedQs, Record<string, any>>,
     res: Response<any, Record<string, any>>,
     next: NextFunction
   ): Promise<void> {
-    const { firstName, lastName, email, address, phoneCode, phoneNumber, userName }: IClientCreatePhysioRequest = req.body.physioTherapist;
+    const { firstName, lastName, email, address, phoneCode, phoneNumber, userName }: IClientCreatePhysioRequest = req.body;
 
     const password = generatePassword();
 

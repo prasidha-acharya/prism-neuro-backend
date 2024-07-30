@@ -5,10 +5,12 @@ import { ParamsDictionary } from 'express-serve-static-core';
 import { body } from 'express-validator';
 import httpStatus from 'http-status';
 import { ParsedQs } from 'qs';
-import { AddUserSessionService } from 'src/contexts/prism-neuro/users/application/create-user-session.service';
-import { IClientLoginRequest } from 'src/contexts/prism-neuro/users/domain/interface/user-client-request.interface';
-import { UserTransformer } from 'src/contexts/prism-neuro/users/domain/transformer/user-transformer';
+import { EndModeSessionByPhsyioService } from 'src/contexts/prism-neuro/mode-session/application/end-session-by-physio.service';
+import { AddUserSessionService } from '../../../../../../contexts/prism-neuro/users/application/create-user-session.service';
 import { GetAdminByEmailService } from '../../../../../../contexts/prism-neuro/users/application/get-admin-email.service';
+import { UpdateLastLoginService } from '../../../../../../contexts/prism-neuro/users/application/update-last-login.service';
+import { IClientLoginRequest } from '../../../../../../contexts/prism-neuro/users/domain/interface/user-client-request.interface';
+import { UserTransformer } from '../../../../../../contexts/prism-neuro/users/domain/transformer/user-transformer';
 import { Payload, TokenScope } from '../../../../../../contexts/shared/domain/interface/payload';
 import { JWTSign } from '../../../../../../contexts/shared/infrastructure/authorizer/jwt-token';
 import { comparePassword } from '../../../../../../contexts/shared/infrastructure/encryptor/encryptor';
@@ -16,12 +18,14 @@ import { RequestValidator } from '../../../../../../contexts/shared/infrastructu
 import { MESSAGE_CODES } from '../../../../../../contexts/shared/infrastructure/utils/message-code';
 import { Controller } from '../../controller';
 
-export class LoginDoctorController implements Controller {
+export class LoginPhysioController implements Controller {
   constructor(
     private getAdminByEmailService: GetAdminByEmailService,
     private config: Configuration,
     private addUserSessionService: AddUserSessionService,
-    private userTransformer: UserTransformer
+    private userTransformer: UserTransformer,
+    private updateLastLoginService: UpdateLastLoginService,
+    private endModeSessionByPhsyioService: EndModeSessionByPhsyioService
   ) {}
 
   public validate = [
@@ -69,7 +73,15 @@ export class LoginDoctorController implements Controller {
         }
       );
 
-      const userDetail = this.userTransformer.loginLists(user);
+      const userDetail = await this.userTransformer.loginLists(user);
+
+      // Update last login
+
+      await this.updateLastLoginService.invoke(user.id);
+
+      // end session if it is not ended
+
+      await this.endModeSessionByPhsyioService.invoke(user.id);
 
       res.status(httpStatus.OK).json({
         data: {
