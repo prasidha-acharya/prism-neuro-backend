@@ -15,7 +15,6 @@ export class UpdatePhysioController implements Controller {
   constructor(private updatePhysioService: UpdatePhysioService) {}
 
   public validate = [
-    body('email').optional().isEmail().withMessage(MESSAGE_CODES.USER.INVALID_EMAIL),
     body('firstName').optional().isString().withMessage(MESSAGE_CODES.USER.INVALID_FIRST_NAME),
     body('lastName').optional().isString().withMessage(MESSAGE_CODES.USER.INVALID_LAST_NAME),
     body('phoneCode')
