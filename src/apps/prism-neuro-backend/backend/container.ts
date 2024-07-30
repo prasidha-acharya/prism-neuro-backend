@@ -103,7 +103,7 @@ const {
   GetPerformanceSummaryOfPhysioController,
   DeletePatientByAdminController,
   GetModeSessionActivityOfPatientByPhysioController,
-  GetSessionsBetweenPatientAndDoctorController,
+  GetSessionsBetweenPatientAndPhysioController,
   GetModeSessionsByPatientIdController,
   DeleteFilesController,
   UpdatePatientProfileByPhysioController,
@@ -249,7 +249,7 @@ export class Container {
         getPerformanceSummaryOfPhysioController: asClass(GetPerformanceSummaryOfPhysioController),
         getTotalPatientsService: asClass(GetTotalPatientsService).singleton(),
         getModeSessionActivityOfPatientByPhysioController: asClass(GetModeSessionActivityOfPatientByPhysioController),
-        getSessionsBetweenPatientAndDoctorController: asClass(GetSessionsBetweenPatientAndDoctorController),
+        getSessionsBetweenPatientAndPhysioController: asClass(GetSessionsBetweenPatientAndPhysioController),
         getModeSessionsByPatientIdController: asClass(GetModeSessionsByPatientIdController),
         getAllPatientsInCludingSessionInfoService: asClass(GetAllPatientsInCludingSessionInfoService).singleton()
       })

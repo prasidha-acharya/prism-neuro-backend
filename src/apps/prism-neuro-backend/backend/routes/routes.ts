@@ -55,7 +55,7 @@ export const masterRouter = (
   getPerformanceSummaryOfPhysioController: controllers.GetPerformanceSummaryOfPhysioController,
   deletePatientByAdminController: controllers.DeletePatientByAdminController,
   getModeSessionActivityOfPatientByPhysioController: controllers.GetModeSessionActivityOfPatientByPhysioController,
-  getSessionsBetweenPatientAndDoctorController: controllers.GetSessionsBetweenPatientAndDoctorController,
+  getSessionsBetweenPatientAndPhysioController: controllers.GetSessionsBetweenPatientAndPhysioController,
   getModeSessionsByPatientIdController: controllers.GetModeSessionsByPatientIdController,
   updatePatientProfileByPhysioController: controllers.UpdatePatientProfileByPhysioController,
   uploadModeFilesController: controllers.UploadModeFilesController,
@@ -103,7 +103,7 @@ export const masterRouter = (
       getPerformanceSummaryOfPhysioController,
       deletePatientByAdminController,
       getModeSessionActivityOfPatientByPhysioController,
-      getSessionsBetweenPatientAndDoctorController,
+      getSessionsBetweenPatientAndPhysioController,
       updatePatientProfileByPhysioController,
       updatePhysioByPhysioController
     },
