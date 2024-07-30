@@ -44,7 +44,10 @@ export class UserTransformer {
       modeSession,
       phoneNumber: userDetail?.phoneNumber ?? null,
       phoneCode: userDetail?.phoneCode ?? null,
-      profileURL,
+      profile: {
+        path: userDetail?.profileURL ?? null,
+        profileURL
+      },
       age: userDetail?.age ?? null,
       weight: userDetail?.weight ?? null
     };

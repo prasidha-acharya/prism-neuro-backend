@@ -78,8 +78,11 @@ export interface UserResponse {
   modeSession: ModeSession | null;
   phoneNumber: string | null;
   phoneCode: string | null;
-  profileURL: string | null;
   age: number | null;
   weight: number | null;
   lastLogin: Date | null;
+  profile: {
+    path: string | null;
+    profileURL: string | null;
+  };
 }
