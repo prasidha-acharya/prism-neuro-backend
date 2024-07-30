@@ -4,7 +4,7 @@ import { ParamsDictionary } from 'express-serve-static-core';
 import { param } from 'express-validator';
 import httpStatus from 'http-status';
 import { ParsedQs } from 'qs';
-import { DeleteUserService } from 'src/contexts/prism-neuro/users/application/delete-doctor-by-admin.service';
+import { DeleteUserService } from '../../../../../../contexts/prism-neuro/users/application/delete-physio-by-admin.service';
 import { RequestValidator } from '../../../../../../contexts/shared/infrastructure/middleware/request-validator';
 import { MESSAGE_CODES } from '../../../../../../contexts/shared/infrastructure/utils/message-code';
 import { Controller } from '../../controller';

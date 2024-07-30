@@ -22,9 +22,9 @@ import { CreatePhysioByAdminService } from '../../../contexts/prism-neuro/users/
 import { CreatePatientByPhysioService } from '../../../contexts/prism-neuro/users/application/create-patient-by-physio.service';
 import { AddUserSessionService } from '../../../contexts/prism-neuro/users/application/create-user-session.service';
 import { DeleteAccountService } from '../../../contexts/prism-neuro/users/application/delete-account.service';
-import { DeleteUserService } from '../../../contexts/prism-neuro/users/application/delete-doctor-by-admin.service';
 import { DeleteOTPService } from '../../../contexts/prism-neuro/users/application/delete-otp.service';
 import { DeletePatientByAdminService } from '../../../contexts/prism-neuro/users/application/delete-patient-by-physio.service';
+import { DeleteUserService } from '../../../contexts/prism-neuro/users/application/delete-physio-by-admin.service';
 import { DeleteUserSessionService } from '../../../contexts/prism-neuro/users/application/delete-user-session.service';
 import { ForgotPasswordService } from '../../../contexts/prism-neuro/users/application/forgot-password.service';
 import { GetAdminByEmailService } from '../../../contexts/prism-neuro/users/application/get-admin-email.service';
