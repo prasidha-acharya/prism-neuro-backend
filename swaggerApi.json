@@ -578,12 +578,12 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/customerRefreshSchema"
+                  "$ref": "#/components/schemas/successReponse"
                 }
               },
               "application/xml": {
                 "schema": {
-                  "$ref": "#/components/schemas/customerRefreshSchema"
+                  "$ref": "#/components/schemas/successReponse"
                 }
               }
             }
