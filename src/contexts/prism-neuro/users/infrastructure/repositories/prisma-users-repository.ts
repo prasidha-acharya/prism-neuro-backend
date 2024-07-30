@@ -27,6 +27,18 @@ import { IPrismaUserRepository } from '../../domain/repositories/users-repositor
 export class PrismaUserRepository implements IPrismaUserRepository {
   constructor(private db: PrismaClient) {}
 
+  async updateLastLogin(userId: string): Promise<void> {
+    await this.db.user.update({
+      where: {
+        id: userId,
+        deletedAt: null
+      },
+      data: {
+        lastLogin: new Date()
+      }
+    });
+  }
+
   async getPatientsOfPhysio(physioId: string, search?: string): Promise<IPrismaUserForGetPatientsByPhysioResponse[] | null> {
     let args: Prisma.UserFindManyArgs['where'] = {
       createdBy: physioId,

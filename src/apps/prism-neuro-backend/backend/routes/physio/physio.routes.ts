@@ -3,7 +3,7 @@ import { IAuthorizer } from 'src/contexts/shared/domain/model/authentication/aut
 import * as controllers from '../../controllers/index';
 
 interface IHandler {
-  loginPhysioController: controllers.LoginDoctorController;
+  loginPhysioController: controllers.LoginPhysioController;
   deletePhysioController: controllers.DeletePhysioController;
   updatePhysioController: controllers.UpdatePhysioController;
   createPatientByPhysioController: controllers.CreatePatientByPhysioController;
@@ -12,21 +12,21 @@ interface IHandler {
   getPerformanceSummaryOfPhysioController: controllers.GetPerformanceSummaryOfPhysioController;
   deletePatientByAdminController: controllers.DeletePatientByAdminController;
   getModeSessionActivityOfPatientByPhysioController: controllers.GetModeSessionActivityOfPatientByPhysioController;
-  getSessionsBetweenPatientAndDoctorController: controllers.GetSessionsBetweenPatientAndDoctorController;
+  getSessionsBetweenPatientAndPhysioController: controllers.GetSessionsBetweenPatientAndPhysioController;
   updatePatientProfileByPhysioController: controllers.UpdatePatientProfileByPhysioController;
   updatePhysioByPhysioController: controllers.UpdatePhysioByPhysioController;
 }
 
 export const physioRoutesHandler = (
   {
-    loginPhysioController: loginDoctorController,
+    loginPhysioController,
     createPatientByPhysioController,
     getAllPatientListsWithSessionController,
     getPhysioModeAnalyticsController,
     getPerformanceSummaryOfPhysioController,
     deletePatientByAdminController,
     getModeSessionActivityOfPatientByPhysioController,
-    getSessionsBetweenPatientAndDoctorController,
+    getSessionsBetweenPatientAndPhysioController,
     updatePatientProfileByPhysioController,
     updatePhysioByPhysioController
   }: IHandler,
@@ -35,8 +35,8 @@ export const physioRoutesHandler = (
 ): Router => {
   router.post(
     '/physio/login',
-    loginDoctorController.validate,
-    loginDoctorController.invoke.bind(loginDoctorController)
+    loginPhysioController.validate,
+    loginPhysioController.invoke.bind(loginPhysioController)
     /*
 
       #swagger.tags = ['Tablet Physio']
@@ -310,8 +310,8 @@ export const physioRoutesHandler = (
   router.get(
     '/physio/patient-sessions/:modeId/:patientId',
     physioAuthorizer.authorize,
-    getSessionsBetweenPatientAndDoctorController.validate,
-    getSessionsBetweenPatientAndDoctorController.invoke.bind(getSessionsBetweenPatientAndDoctorController)
+    getSessionsBetweenPatientAndPhysioController.validate,
+    getSessionsBetweenPatientAndPhysioController.invoke.bind(getSessionsBetweenPatientAndPhysioController)
 
     /*
     #swagger.security =[{

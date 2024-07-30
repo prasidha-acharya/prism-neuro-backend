@@ -16,7 +16,7 @@ export class UserTransformer {
     // eslint-disable-next-line no-unused-vars
     const { password, physioModeSession, patientModeSession, ...remainigData } = data;
 
-    const { userDetail, id, email, isVerified, firstName, lastName, role, userAddress, userName } = remainigData;
+    const { userDetail, id, email, isVerified, firstName, lastLogin, lastName, role, userAddress, userName } = remainigData;
 
     const modeSession =
       remainigData.role === USER_ROLES.ADMIN
@@ -35,15 +35,19 @@ export class UserTransformer {
       id,
       email,
       isVerified,
-      firstName: firstName ?? '',
-      lastName: lastName ?? '',
+      firstName,
+      lastName,
       userName,
       userAddress,
       role,
+      lastLogin,
       modeSession,
       phoneNumber: userDetail?.phoneNumber ?? null,
       phoneCode: userDetail?.phoneCode ?? null,
-      profileURL,
+      profile: {
+        path: userDetail?.profileURL ?? null,
+        profileURL
+      },
       age: userDetail?.age ?? null,
       weight: userDetail?.weight ?? null
     };

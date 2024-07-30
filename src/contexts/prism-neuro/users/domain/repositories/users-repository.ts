@@ -67,4 +67,6 @@ export interface IPrismaUserRepository {
   getPatientsOfPhysio(physioId: string, search?: string): Promise<IPrismaUserForGetPatientsByPhysioResponse[] | null>;
 
   getAllPatientsIncludingTrialSession(search?: string): Promise<IPrismaUserForGetPatientsDetailIncludingSessions[] | null>;
+
+  updateLastLogin(userId: string): Promise<void>;
 }

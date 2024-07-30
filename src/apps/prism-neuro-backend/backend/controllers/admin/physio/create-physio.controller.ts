@@ -4,7 +4,7 @@ import { ParamsDictionary } from 'express-serve-static-core';
 import { body } from 'express-validator';
 import httpStatus from 'http-status';
 import { ParsedQs } from 'qs';
-import { CreatePhysioByAdminService } from '../../../../../../contexts/prism-neuro/users/application/create-doctor-by-admin.service';
+import { CreatePhysioByAdminService } from '../../../../../../contexts/prism-neuro/users/application/create-physio-by-admin.service';
 import { IClientCreatePhysioRequest } from '../../../../../../contexts/prism-neuro/users/domain/interface/user-client-request.interface';
 import { ICreatePhysioTherapistRequest } from '../../../../../../contexts/prism-neuro/users/domain/interface/user-request.interface';
 import { HTTP400Error } from '../../../../../../contexts/shared/domain/errors/http.exception';
