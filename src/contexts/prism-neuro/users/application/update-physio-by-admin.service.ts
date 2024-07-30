@@ -5,6 +5,6 @@ export class UpdatePhysioService {
   constructor(private prismaUserRepository: PrismaUserRepository) {}
 
   public async invoke(request: IUpdatePhysioTherapistRequest): Promise<void> {
-    this.prismaUserRepository.updatePhysioByAdmin(request);
+    this.prismaUserRepository.updatePhysioOrAdmin(request);
   }
 }

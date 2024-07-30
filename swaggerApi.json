@@ -341,6 +341,48 @@
         }
       }
     },
+    "/admin/update-profile": {
+      "put": {
+        "tags": ["Admin"],
+        "summary": "Admin update physio",
+        "description": "Admin can update physio",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [""],
+                "properties": {
+                  "firstName": {
+                    "type": "string"
+                  },
+                  "lastName": {
+                    "type": "string"
+                  },
+                  "phoneCode": {
+                    "type": "string"
+                  },
+                  "phoneNumber": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/admin/modes": {
       "get": {
         "tags": ["Admin"],
