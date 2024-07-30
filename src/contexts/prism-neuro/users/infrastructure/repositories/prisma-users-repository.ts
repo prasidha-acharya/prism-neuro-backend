@@ -30,7 +30,8 @@ export class PrismaUserRepository implements IPrismaUserRepository {
   async updateLastLogin(userId: string): Promise<void> {
     await this.db.user.update({
       where: {
-        id: userId
+        id: userId,
+        deletedAt: null
       },
       data: {
         lastLogin: new Date()
