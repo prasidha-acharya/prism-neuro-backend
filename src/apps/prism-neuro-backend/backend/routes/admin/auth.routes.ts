@@ -5,9 +5,10 @@ import * as controller from '../../controllers';
 
 interface Handler {
   loginAdminController: controller.LoginAdminController;
+  updateAdminProfileController: controller.UpdateAdminProfileController;
 }
 
-export const adminAuthRoutesHandler = ({ loginAdminController }: Handler, router: Router): Router => {
+export const adminAuthRoutesHandler = ({ loginAdminController, updateAdminProfileController }: Handler, router: Router): Router => {
   //TODO Swagger request body ref implimentation required
   router.post(
     '/auth/login',
@@ -37,6 +38,39 @@ export const adminAuthRoutesHandler = ({ loginAdminController }: Handler, router
         $ref: "#/components/schemas/loginAdminReponse"
       }
     }
+    */
+  );
+
+  router.put(
+    '/admin/update-profile',
+    updateAdminProfileController.validate,
+    updateAdminProfileController.invoke.bind(updateAdminProfileController)
+
+    /*
+      #swagger.security = [{
+            "bearerAuth": []
+    }] 
+      #swagger.tags = ['Admin']
+      #swagger.summary = 'Admin update physio'
+      #swagger.description = 'Admin can update physio'
+      #swagger.requestBody = {
+      required: true,
+      content: {
+        "application/json": {
+          schema: {
+             type:"object",
+             required:[""],
+               properties :{
+              firstName: { type: "string"},
+              lastName: { type: "string"},
+              phoneCode: { type: "string" },
+              phoneNumber:{type:"string"},
+            }
+          }
+        }
+      }
+    }
+      #swagger.responses[200]
     */
   );
 

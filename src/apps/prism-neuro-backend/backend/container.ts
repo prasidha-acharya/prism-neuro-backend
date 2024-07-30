@@ -111,7 +111,8 @@ const {
   UploadModeFilesController,
   GetModeFilesController,
   UploadProfileImageController,
-  UpdatePhysioByPhysioController
+  UpdatePhysioByPhysioController,
+  UpdateAdminProfileController
 } = controller;
 export class Container {
   private readonly container: AwilixContainer;
@@ -144,25 +145,26 @@ export class Container {
         errorMiddleware: asClass(ErrorMiddleware).singleton(),
         masterRouter: asFunction(masterRouter).singleton()
       })
-      // admin repository
+      // Admin repository
       .register({
         prismaUserRepository: asClass(PrismaUserRepository),
         createPhysioByAdminService: asClass(CreatePhysioByAdminService).singleton(),
         createPhysioController: asClass(CreatePhysioController),
         getAdminByEmailService: asClass(GetAdminByEmailService).singleton(),
-        getUsersService: asClass(GetUsersService).singleton()
+        getUsersService: asClass(GetUsersService).singleton(),
+        updateAdminProfileController: asClass(UpdateAdminProfileController)
       })
-      //admin auth
+      //Admin auth
       .register({
         loginAdminController: asClass(LoginAdminController),
         deleteAccountService: asClass(DeleteAccountService).singleton(),
         deleteAccountController: asClass(DeleteAccountController)
       })
-      // general auth
+      // General auth
       .register({
         forgotPasswordController: asClass(ForgotPasswordController)
       })
-      //authorizer
+      //Authorizer
       .register({
         adminAuthorizer: asClass(JWTAdminAuthorizer).singleton(),
         userAuthorizer: asClass(JWTUserAuthorizer).singleton(),
@@ -170,22 +172,22 @@ export class Container {
         generateAccessTokenController: asClass(GenerateAccessTokenController).singleton(),
         patientAuthorizer: asClass(JWTPatientAuthorizer).singleton()
       })
-      // user session
+      // User session
       .register({
         addUserSessionService: asClass(AddUserSessionService).singleton(),
         getUserSessionService: asClass(GetUserSessionService).singleton(),
         deleteUserSessionService: asClass(DeleteUserSessionService).singleton()
       })
-      // login
+      // Login
       .register({
         loginPhysioController: asClass(LoginPhysioController)
       })
-      //seeder
+      //Seeder
       .register({
         adminSeeder: asClass(CreateAdminSeeder).singleton(),
         modeSeeder: asClass(CreateModeSeeder).singleton()
       })
-      //user logout
+      //User logout
       .register({
         userLogoutController: asClass(UserLogoutController),
         refreshAuthorizer: asClass(RefreshAuthorizer),
@@ -223,7 +225,7 @@ export class Container {
         updatePatientProfileByPhysioController: asClass(UpdatePatientProfileByPhysioController),
         updatePhysioByPhysioController: asClass(UpdatePhysioByPhysioController)
       })
-      // mode
+      // Mode
       .register({
         prismaModeRepository: asClass(PrismaModeRepository),
         getAllModesService: asClass(GetAllModesService),
@@ -255,7 +257,7 @@ export class Container {
         getAllPatientsInCludingSessionInfoService: asClass(GetAllPatientsInCludingSessionInfoService).singleton(),
         endModeSessionByPhsyioService: asClass(EndModeSessionByPhsyioService).singleton()
       })
-      //mode trial session
+      //Mode trial session
       .register({
         prismaModeTrialRepository: asClass(PrismaModeTrialRepository),
         startModeTrialService: asClass(StartModeTrialService).singleton(),
@@ -265,7 +267,7 @@ export class Container {
         getModeTrialsBySessionService: asClass(GetModeTrialsBySessionService),
         getModeTrialBySessionController: asClass(GetModeTrialBySessionController)
       })
-      //image upload
+      //Image upload
       .register({
         uploadModeFilesController: asClass(UploadModeFilesController),
         uploadFileToBucketService: asClass(UploadFileToBucketService).singleton(),
@@ -278,6 +280,7 @@ export class Container {
         deleteFilesController: asClass(DeleteFilesController),
         uploadProfileImageController: asClass(UploadProfileImageController)
       })
+      //Transformer
       .register({
         userTransformer: asClass(UserTransformer),
         statisticsTransformer: asClass(StatisticsTransformer),
