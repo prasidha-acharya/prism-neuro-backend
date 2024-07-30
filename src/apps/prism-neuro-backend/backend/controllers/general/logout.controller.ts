@@ -26,8 +26,6 @@ export class UserLogoutController implements Controller {
 
       const loginSession = await this.getUserSessionService.invoke(sessionId);
 
-      // End mode session
-
       if (!loginSession) {
         throw new HTTP401Error();
       }
@@ -38,6 +36,7 @@ export class UserLogoutController implements Controller {
         await this.endModeSessionByPhsyioService.invoke(userId);
       }
 
+      // End mode session
       await this.deleteUserSessionService.invoke(sessionId);
 
       res.status(httpStatus.OK).json({ status: 'SUCCESS' });
