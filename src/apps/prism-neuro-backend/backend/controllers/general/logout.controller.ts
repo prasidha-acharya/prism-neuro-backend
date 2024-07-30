@@ -1,7 +1,9 @@
+import { USER_ROLES } from '@prisma/client';
 import { NextFunction, Request, Response } from 'express';
 import { ParamsDictionary } from 'express-serve-static-core';
 import httpStatus from 'http-status';
 import { ParsedQs } from 'qs';
+import { EndModeSessionByPhsyioService } from '../../../../../contexts/prism-neuro/mode-session/application/end-session-by-physio.service';
 import { DeleteUserSessionService } from '../../../../../contexts/prism-neuro/users/application/delete-user-session.service';
 import { GetUserSessionService } from '../../../../../contexts/prism-neuro/users/application/get-user-session.service';
 import { HTTP401Error } from '../../../../../contexts/shared/domain/errors/http.exception';
@@ -10,7 +12,8 @@ import { Controller } from '../controller';
 export class UserLogoutController implements Controller {
   constructor(
     private getUserSessionService: GetUserSessionService,
-    private deleteUserSessionService: DeleteUserSessionService
+    private deleteUserSessionService: DeleteUserSessionService,
+    private endModeSessionByPhsyioService: EndModeSessionByPhsyioService
   ) {}
 
   async invoke(
@@ -19,11 +22,20 @@ export class UserLogoutController implements Controller {
     next: NextFunction
   ): Promise<void> {
     try {
-      const { sessionId } = req.body.user;
-      const session = await this.getUserSessionService.invoke(sessionId);
+      const { sessionId, userId, role } = req.body.user;
 
-      if (!session) {
+      const loginSession = await this.getUserSessionService.invoke(sessionId);
+
+      // End mode session
+
+      if (!loginSession) {
         throw new HTTP401Error();
+      }
+
+      // End login session ;Only physio can end session
+
+      if (role === USER_ROLES.PHYSIO) {
+        await this.endModeSessionByPhsyioService.invoke(userId);
       }
 
       await this.deleteUserSessionService.invoke(sessionId);
