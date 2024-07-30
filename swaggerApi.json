@@ -773,7 +773,26 @@
           {
             "bearerAuth": []
           }
-        ]
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "required": ["file"],
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "uploadFor": {
+                    "enum": ["PATIENT", "ADMIN", "PHYSIO"]
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/admin/upload-files": {
@@ -1555,6 +1574,48 @@
                   },
                   "weight": {
                     "type": "number"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/physio/update-profile": {
+      "put": {
+        "tags": ["Physio"],
+        "summary": "Physio update their profile",
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [""],
+                "properties": {
+                  "firstName": {
+                    "type": "string"
+                  },
+                  "lastName": {
+                    "type": "string"
+                  },
+                  "phoneCode": {
+                    "type": "string"
+                  },
+                  "phoneNumber": {
+                    "type": "string"
                   }
                 }
               }

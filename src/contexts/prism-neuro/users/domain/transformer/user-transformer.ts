@@ -1,4 +1,5 @@
 import { MODE_SESSION_STATUS, MODE_TRIAL_SESSION_STATUS, ModeTrialSession, Prisma, USER_ROLES } from '@prisma/client';
+import { GetSignedURLService } from '../../../../../contexts/shared/infrastructure/file/application/get-signed-url.service';
 import {
   IGetPatientPerformance,
   IGetUserListByAdminResponse,
@@ -9,7 +10,9 @@ import {
 
 // TODO: remove any
 export class UserTransformer {
-  public loginLists(data: IPrismaGetUserByEmail): UserResponse {
+  constructor(private getSignedURLService: GetSignedURLService) {}
+
+  public async loginLists(data: IPrismaGetUserByEmail): Promise<UserResponse> {
     // eslint-disable-next-line no-unused-vars
     const { password, physioModeSession, patientModeSession, ...remainigData } = data;
 
@@ -21,6 +24,12 @@ export class UserTransformer {
         : remainigData.role === USER_ROLES.PHYSIO
           ? physioModeSession?.[0] ?? null
           : patientModeSession?.[0] ?? null;
+
+    let profileURL: string | null = null;
+
+    if (userDetail?.profileURL) {
+      profileURL = await this.getSignedURLService.invoke(userDetail.profileURL);
+    }
 
     return {
       id,
@@ -34,7 +43,7 @@ export class UserTransformer {
       modeSession,
       phoneNumber: userDetail?.phoneNumber ?? null,
       phoneCode: userDetail?.phoneCode ?? null,
-      profileURL: userDetail?.profileURL ?? null,
+      profileURL,
       age: userDetail?.age ?? null,
       weight: userDetail?.weight ?? null
     };
@@ -75,7 +84,6 @@ export class UserTransformer {
         firstName: firstName!,
         lastName: lastName!,
         email,
-        profileURL: userDetail?.profileURL ?? null,
         userAddress,
         age: userDetail?.age ?? null,
         weight: userDetail?.weight ?? null,

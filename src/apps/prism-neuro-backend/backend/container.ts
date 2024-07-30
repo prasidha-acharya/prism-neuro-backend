@@ -108,7 +108,8 @@ const {
   UpdatePatientProfileByPhysioController,
   UploadModeFilesController,
   GetModeFilesController,
-  UploadProfileImageController
+  UploadProfileImageController,
+  UpdatePhysioByPhysioController
 } = controller;
 export class Container {
   private readonly container: AwilixContainer;
@@ -207,7 +208,7 @@ export class Container {
         deletePatientByAdminController: asClass(DeletePatientByAdminController),
         getPatientsOfPhysioService: asClass(GetPatientsOfPhysioService).singleton()
       })
-      //doctor
+      //Physio
       .register({
         deleteUserService: asClass(DeleteUserService).singleton(),
         updatePhysioService: asClass(UpdatePhysioService).singleton(),
@@ -215,8 +216,9 @@ export class Container {
         updatePhysioController: asClass(UpdatePhysioController),
         createPatientByPhysioService: asClass(CreatePatientByPhysioService).singleton(),
         createPatientByPhysioController: asClass(CreatePatientByPhysioController),
-        getAllPatientListsWithSessionController: asClass(GetAllPatientListsWithSessionController).singleton(),
-        updatePatientProfileByPhysioController: asClass(UpdatePatientProfileByPhysioController)
+        getAllPatientListsWithSessionController: asClass(GetAllPatientListsWithSessionController),
+        updatePatientProfileByPhysioController: asClass(UpdatePatientProfileByPhysioController),
+        updatePhysioByPhysioController: asClass(UpdatePhysioByPhysioController)
       })
       // mode
       .register({

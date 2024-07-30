@@ -69,7 +69,7 @@ export class LoginDoctorController implements Controller {
         }
       );
 
-      const userDetail = this.userTransformer.loginLists(user);
+      const userDetail = await this.userTransformer.loginLists(user);
 
       res.status(httpStatus.OK).json({
         data: {

@@ -14,6 +14,7 @@ interface IHandler {
   getModeSessionActivityOfPatientByPhysioController: controllers.GetModeSessionActivityOfPatientByPhysioController;
   getSessionsBetweenPatientAndDoctorController: controllers.GetSessionsBetweenPatientAndDoctorController;
   updatePatientProfileByPhysioController: controllers.UpdatePatientProfileByPhysioController;
+  updatePhysioByPhysioController: controllers.UpdatePhysioByPhysioController;
 }
 
 export const physioRoutesHandler = (
@@ -26,7 +27,8 @@ export const physioRoutesHandler = (
     deletePatientByAdminController,
     getModeSessionActivityOfPatientByPhysioController,
     getSessionsBetweenPatientAndDoctorController,
-    updatePatientProfileByPhysioController
+    updatePatientProfileByPhysioController,
+    updatePhysioByPhysioController
   }: IHandler,
   physioAuthorizer: IAuthorizer<Request, Response, NextFunction>,
   router: Router
@@ -145,6 +147,39 @@ export const physioRoutesHandler = (
  */
   );
 
+  router.put(
+    '/physio/update-profile',
+    physioAuthorizer.authorize,
+    updatePhysioByPhysioController.validate,
+    updatePhysioByPhysioController.invoke.bind(updatePhysioByPhysioController)
+    /*
+      #swagger.security = [{
+            "bearerAuth": []
+    }] 
+      #swagger.tags = ['Physio']
+      #swagger.summary = 'Physio update their profile'
+      #swagger.description = ''
+      #swagger.requestBody = {
+      required: true,
+      content: {
+        "application/json": {
+          schema: {
+             type:"object",
+             required:[""],
+               properties :{
+              firstName: { type: "string"},
+              lastName: { type: "string"},
+              phoneCode: { type: "string" },
+              phoneNumber:{type:"string"},
+            }
+          }
+        }
+      }
+    }
+      #swagger.responses[200]
+    */
+  );
+
   router.get(
     '/physio/patients',
     physioAuthorizer.authorize,
@@ -226,8 +261,6 @@ export const physioRoutesHandler = (
       #swagger.description = ''
     */
   );
-
-  // TODO :WIP
 
   router.get(
     '/physio/activity/:modeId',

@@ -37,7 +37,7 @@ export interface IGetUserListByAdminResponse {
   firstName: string;
   lastName: string;
   email: string;
-  profileURL: string | null;
+  // profileURL: string | null;
   userAddress: UserAddress[];
   age: number | null;
   weight: number | null;
