@@ -37,6 +37,7 @@ import { GetUserByRoleService } from '../../../contexts/prism-neuro/users/applic
 import { GetUserSessionService } from '../../../contexts/prism-neuro/users/application/get-user-session.service';
 import { GetUsersService } from '../../../contexts/prism-neuro/users/application/get-users.service';
 import { ResetPasswordService } from '../../../contexts/prism-neuro/users/application/reset-password.service';
+import { UpdateLastLoginService } from '../../../contexts/prism-neuro/users/application/update-last-login.service';
 import { UpdatePatientService } from '../../../contexts/prism-neuro/users/application/update-patient-by-physio.service';
 import { UpdatePhysioService } from '../../../contexts/prism-neuro/users/application/update-physio-by-admin.service';
 import { UserTransformer } from '../../../contexts/prism-neuro/users/domain/transformer/user-transformer';
@@ -206,7 +207,8 @@ export class Container {
         updatePatientProfileController: asClass(UpdatePatientProfileController),
         deletePatientByAdminService: asClass(DeletePatientByAdminService).singleton(),
         deletePatientByAdminController: asClass(DeletePatientByAdminController),
-        getPatientsOfPhysioService: asClass(GetPatientsOfPhysioService).singleton()
+        getPatientsOfPhysioService: asClass(GetPatientsOfPhysioService).singleton(),
+        updateLastLoginService: asClass(UpdateLastLoginService).singleton()
       })
       //Physio
       .register({

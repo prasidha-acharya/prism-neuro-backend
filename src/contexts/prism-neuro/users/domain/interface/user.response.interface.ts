@@ -81,4 +81,5 @@ export interface UserResponse {
   profileURL: string | null;
   age: number | null;
   weight: number | null;
+  lastLogin: Date | null;
 }
