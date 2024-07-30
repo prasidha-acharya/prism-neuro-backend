@@ -1,5 +1,6 @@
 export * from './admin/activity/get-user.activity.controller';
 export * from './admin/auth/login-admin.controller';
+export * from './admin/auth/update-admin-profile.controller';
 export * from './admin/general/get-all-users.controller';
 export * from './admin/patient/delete-patient-by-admin.controller';
 export * from './admin/patient/get-sessions-by-patientId.controller';
@@ -18,6 +19,7 @@ export * from './general/access-token.controller';
 export * from './general/change-password.controller';
 export * from './general/delete-account.controller';
 export * from './general/forgot-password.controller';
+export * from './general/get-user-detail.controller';
 export * from './general/logout.controller';
 export * from './general/reset-password.controller';
 export * from './mode-session/end-mode-session.controller';

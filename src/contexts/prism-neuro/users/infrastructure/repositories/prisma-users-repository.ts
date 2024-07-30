@@ -511,7 +511,7 @@ export class PrismaUserRepository implements IPrismaUserRepository {
     });
   }
 
-  async updatePhysioByAdmin({ data, userDetail, address, id }: IUpdatePhysioTherapistRequest): Promise<User | null> {
+  async updatePhysioOrAdmin({ data, userDetail, address, id }: IUpdatePhysioTherapistRequest): Promise<User | null> {
     return await this.db.user.update({
       where: {
         id,

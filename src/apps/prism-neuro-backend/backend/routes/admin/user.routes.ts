@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response, Router } from 'express';
-import { IAuthorizer } from 'src/contexts/shared/domain/model/authentication/authorizer';
+import { IAuthorizer } from '../../../../../contexts/shared/domain/model/authentication/authorizer';
 import * as controllers from '../../controllers/index';
 
 interface IHandler {
@@ -9,6 +9,7 @@ interface IHandler {
   changePasswordController: controllers.ChangePasswordController;
   resetPasswordController: controllers.ResetPasswordController;
   deleteAccountController: controllers.DeleteAccountController;
+  getUserDetailController: controllers.GetUserDetailController;
 }
 
 export const userRoutesHandler = (
@@ -18,7 +19,8 @@ export const userRoutesHandler = (
     deleteAccountController,
     forgotPasswordController,
     changePasswordController,
-    resetPasswordController
+    resetPasswordController,
+    getUserDetailController
   }: IHandler,
   userAuthorizer: IAuthorizer<Request, Response, NextFunction>,
   refreshAuthorizer: IAuthorizer<Request, Response, NextFunction>,
@@ -37,29 +39,31 @@ export const userRoutesHandler = (
             }]
         #swagger.responses[200] = {
           schema: {
-            $ref: "#/components/schemas/customerRefreshSchema"
+            $ref: "#/components/schemas/refresTokenResponse"
           }
         }
         */
   );
+
   router.post(
     '/logout',
     userAuthorizer.authorize,
     userLogoutController.invoke.bind(userLogoutController)
     /*
-        #swagger.tags = ['User']
-        #swagger.summary = "Logout"
-        #swagger.description = "End point to logout"
         #swagger.security = [{
               "bearerAuth": []
             }]
+        #swagger.tags = ['User']
+        #swagger.summary = "Logout"
+        #swagger.description = "End point to logout"
         #swagger.responses[200] = {
           schema: {
-            $ref: "#/components/schemas/customerRefreshSchema"
+            $ref: "#/components/schemas/successReponse"
           }
         }
         */
   );
+
   router.post(
     '/forgot-password',
     forgotPasswordController.invoke.bind(forgotPasswordController)
@@ -176,6 +180,22 @@ export const userRoutesHandler = (
         $ref: "#/components/schemas/successReponse"
       }
     }
+        */
+  );
+
+  router.get(
+    '/user-detail',
+    userAuthorizer.authorize,
+    getUserDetailController.invoke.bind(getUserDetailController)
+
+    /*
+        #swagger.tags = ['User']
+        #swagger.description="Get user detail"
+        #swagger.description="End point to fetch user detail "
+        #swagger.security = [{
+              "bearerAuth": []
+            }]
+        #swagger.responses[200] 
         */
   );
 

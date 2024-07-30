@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { ParamsDictionary } from 'express-serve-static-core';
-import { body, param } from 'express-validator';
+import { body } from 'express-validator';
 import httpStatus from 'http-status';
 import { ParsedQs } from 'qs';
 import { UpdatePhysioService } from '../../../../../../contexts/prism-neuro/users/application/update-physio-by-admin.service';
@@ -11,7 +11,7 @@ import { RequestValidator } from '../../../../../../contexts/shared/infrastructu
 import { MESSAGE_CODES } from '../../../../../../contexts/shared/infrastructure/utils/message-code';
 import { Controller } from '../../controller';
 
-export class UpdatePhysioController implements Controller {
+export class UpdateAdminProfileController implements Controller {
   constructor(private updatePhysioService: UpdatePhysioService) {}
 
   public validate = [
@@ -37,7 +37,6 @@ export class UpdatePhysioController implements Controller {
       .optional(),
     body('address.*.address').notEmpty().withMessage(MESSAGE_CODES.USER.ADDRESS.REQUIRED_ADDRESS_NAME),
     body('address.*.id').notEmpty().withMessage(MESSAGE_CODES.USER.ADDRESS.REQUIRED_ADDRESS_ID),
-    param('physioId').isString().withMessage(MESSAGE_CODES.USER.REQUIRED_PHYSIO_ID),
     RequestValidator
   ];
 
@@ -47,40 +46,40 @@ export class UpdatePhysioController implements Controller {
     next: NextFunction
   ): Promise<void> {
     try {
-      const physioId: string = req.params.physioId;
+      const adminId: string = req.body.user.userId;
       const { address, firstName, lastName, phoneCode, phoneNumber, profileURL }: IClientUpdatePhysioRequest = req.body;
 
-      let physioData: IUpdatePhysioTherapistRequest = {
-        id: physioId
+      let admin: IUpdatePhysioTherapistRequest = {
+        id: adminId
       };
 
       if (address) {
-        physioData = { ...physioData, address };
+        admin = { ...admin, address };
       }
 
       if (firstName) {
-        physioData = { ...physioData, data: { ...(physioData?.data ?? {}), firstName } };
+        admin = { ...admin, data: { ...(admin?.data ?? {}), firstName } };
       }
 
       if (lastName) {
-        physioData = { ...physioData, data: { ...(physioData?.data ?? {}), lastName } };
+        admin = { ...admin, data: { ...(admin?.data ?? {}), lastName } };
       }
 
       if (phoneCode && phoneNumber) {
-        physioData.userDetail = { phoneNumber, phoneCode };
+        admin.userDetail = { phoneNumber, phoneCode };
       }
 
       if (profileURL) {
-        physioData.userDetail = {
-          ...(physioData.userDetail ?? {}),
+        admin.userDetail = {
+          ...(admin.userDetail ?? {}),
           profileURL
         };
       }
 
-      const physio = await this.updatePhysioService.invoke(physioData);
+      const response = await this.updatePhysioService.invoke(admin);
 
       res.status(httpStatus.OK).json({
-        data: physio,
+        data: response,
         status: 'SUCCESS'
       });
     } catch (error) {

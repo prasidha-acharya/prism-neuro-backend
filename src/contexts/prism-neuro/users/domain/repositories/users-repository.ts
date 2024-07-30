@@ -28,7 +28,7 @@ export interface IPrismaUserRepository {
 
   createPhysioByAdmin(request: ICreatePhysioTherapistRequest): Promise<void>;
 
-  updatePhysioByAdmin(request: IUpdatePhysioTherapistRequest): Promise<User | null>;
+  updatePhysioOrAdmin(request: IUpdatePhysioTherapistRequest): Promise<User | null>;
 
   deleteUserByAdmin(userId: string, role: USER_ROLES): Promise<void>;
 

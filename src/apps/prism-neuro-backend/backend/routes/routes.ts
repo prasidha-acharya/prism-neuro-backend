@@ -63,6 +63,8 @@ export const masterRouter = (
   getModeFilesController: controllers.GetModeFilesController,
   uploadProfileImageController: controllers.UploadProfileImageController,
   updatePhysioByPhysioController: controllers.UpdatePhysioByPhysioController,
+  getUserDetailController: controllers.GetUserDetailController,
+  updateAdminProfileController: controllers.UpdateAdminProfileController,
   refreshAuthorizer: RefreshAuthorizer,
   userAuthorizer: JWTUserAuthorizer,
   physioAuthorizer: JWTPhysioTherapistAuthorizer,
@@ -88,7 +90,7 @@ export const masterRouter = (
 
   statisticsRoutesHandler({ getTotalUsersController, getModeAnalyticsController }, adminAuthorizer, apiRouter);
 
-  adminAuthRoutesHandler({ loginAdminController }, apiRouter);
+  adminAuthRoutesHandler({ loginAdminController, updateAdminProfileController }, adminAuthorizer, apiRouter);
 
   adminPatientRoutesHandler({ deletePatientByAdminController, getModeSessionsByPatientIdController }, adminAuthorizer, apiRouter);
 
@@ -130,7 +132,8 @@ export const masterRouter = (
       forgotPasswordController,
       changePasswordController,
       resetPasswordController,
-      deleteAccountController
+      deleteAccountController,
+      getUserDetailController
     },
     userAuthorizer,
     refreshAuthorizer,

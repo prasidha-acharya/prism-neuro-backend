@@ -7,10 +7,10 @@
   },
   "servers": [
     {
-      "url": "http://localhost:4000/api/"
+      "url": "http://26b3-2407-1400-aa00-c308-1492-ab41-2447-a8dc.ngrok-free.app/api/"
     },
     {
-      "url": "https://localhost:4000/api/"
+      "url": "https://26b3-2407-1400-aa00-c308-1492-ab41-2447-a8dc.ngrok-free.app/api/"
     }
   ],
   "paths": {
@@ -341,6 +341,48 @@
         }
       }
     },
+    "/admin/update-profile": {
+      "put": {
+        "tags": ["Admin"],
+        "summary": "Admin update physio",
+        "description": "Admin can update physio",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [""],
+                "properties": {
+                  "firstName": {
+                    "type": "string"
+                  },
+                  "lastName": {
+                    "type": "string"
+                  },
+                  "phoneCode": {
+                    "type": "string"
+                  },
+                  "phoneNumber": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/admin/modes": {
       "get": {
         "tags": ["Admin"],
@@ -549,12 +591,12 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/customerRefreshSchema"
+                  "$ref": "#/components/schemas/refresTokenResponse"
                 }
               },
               "application/xml": {
                 "schema": {
-                  "$ref": "#/components/schemas/customerRefreshSchema"
+                  "$ref": "#/components/schemas/refresTokenResponse"
                 }
               }
             }
@@ -578,12 +620,12 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/customerRefreshSchema"
+                  "$ref": "#/components/schemas/successReponse"
                 }
               },
               "application/xml": {
                 "schema": {
-                  "$ref": "#/components/schemas/customerRefreshSchema"
+                  "$ref": "#/components/schemas/successReponse"
                 }
               }
             }
@@ -758,6 +800,22 @@
             }
           }
         }
+      }
+    },
+    "/user-detail": {
+      "get": {
+        "tags": ["User"],
+        "description": "Get user detail",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
       }
     },
     "/upload-profile": {
@@ -2242,6 +2300,36 @@
         },
         "xml": {
           "name": "uploadFile"
+        }
+      },
+      "refresTokenResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "object",
+            "properties": {
+              "token": {
+                "type": "object",
+                "properties": {
+                  "accessToken": {
+                    "type": "string",
+                    "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMzRiZTkxNDctMjRlMi00ZTRlLTkwM2QtM2Y0NDY5MTVhYjM0IiwiZW1haWwiOiJhZG1pbkBnbWFpbC5jb20iLCJyb2xlIjoiQURNSU4iLCJzY29wZSI6WyJhZG1pbjphY2Nlc3MiXSwiaWF0IjoxNzIwMDYyMDA2LCJleHAiOjE3MjAwNjU2MDZ9.pZRkhIGahX8FVaJ5pCBxuBSfoOzDEV3sXGEzcauLMHw"
+                  },
+                  "refreshToken": {
+                    "type": "string",
+                    "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMzRiZTkxNDctMjRlMi00ZTRlLTkwM2QtM2Y0NDY5MTVhYjM0IiwiZW1haWwiOiJhZG1pbkBnbWFpbC5jb20iLCJyb2xlIjoiQURNSU4iLCJzY29wZSI6WyJyZWZyZXNoIl0sImlhdCI6MTcyMDA2MjAwNiwiZXhwIjoxNzIwMDY1ODA2fQ.mN9FoLY5rdXSphhz5RI6URJ691unibI7iUi4h1NiLLc"
+                  }
+                }
+              }
+            }
+          },
+          "status": {
+            "type": "string",
+            "example": "SUCCESS"
+          }
+        },
+        "xml": {
+          "name": "refresTokenResponse"
         }
       }
     },
