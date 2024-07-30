@@ -112,6 +112,7 @@ const {
   GetModeFilesController,
   UploadProfileImageController,
   UpdatePhysioByPhysioController,
+  GetUserDetailController,
   UpdateAdminProfileController
 } = controller;
 export class Container {
@@ -211,6 +212,7 @@ export class Container {
         deletePatientByAdminService: asClass(DeletePatientByAdminService).singleton(),
         deletePatientByAdminController: asClass(DeletePatientByAdminController),
         getPatientsOfPhysioService: asClass(GetPatientsOfPhysioService).singleton(),
+        getUserDetailController: asClass(GetUserDetailController),
         updateLastLoginService: asClass(UpdateLastLoginService).singleton()
       })
       //Physio
@@ -228,7 +230,7 @@ export class Container {
       // Mode
       .register({
         prismaModeRepository: asClass(PrismaModeRepository),
-        getAllModesService: asClass(GetAllModesService),
+        getAllModesService: asClass(GetAllModesService).singleton(),
         getModeAnalyticsController: asClass(GetModeAnalyticsController),
         getModeByIdService: asClass(GetModeByIdService).singleton(),
         prismaModeSessionRepository: asClass(PrismaModeSessionRepository),
@@ -264,7 +266,7 @@ export class Container {
         endModeTrialService: asClass(EndModeTrialService).singleton(),
         startModeTrialController: asClass(StartModeTrialController),
         endModeTrialController: asClass(EndModeTrialController),
-        getModeTrialsBySessionService: asClass(GetModeTrialsBySessionService),
+        getModeTrialsBySessionService: asClass(GetModeTrialsBySessionService).singleton(),
         getModeTrialBySessionController: asClass(GetModeTrialBySessionController)
       })
       //Image upload

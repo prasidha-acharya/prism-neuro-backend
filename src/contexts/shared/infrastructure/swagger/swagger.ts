@@ -26,7 +26,8 @@ const doc = {
       getPerformanceSummary: AdminSchema.getPerformanceSummary,
       statisticsMode: AdminSchema.statisticsMode,
       updatePatientRequest: AdminSchema.updatePatientRequest,
-      uploadFile: AdminSchema.uploadFile
+      uploadFile: AdminSchema.uploadFile,
+      refresTokenResponse: AdminSchema.refresTokenResponse
     },
     parameters: {}
   }
