@@ -5,6 +5,7 @@ import { ParamsDictionary } from 'express-serve-static-core';
 import { body } from 'express-validator';
 import httpStatus from 'http-status';
 import { ParsedQs } from 'qs';
+import { EndModeSessionByPhsyioService } from 'src/contexts/prism-neuro/mode-session/application/end-session-by-physio.service';
 import { AddUserSessionService } from '../../../../../../contexts/prism-neuro/users/application/create-user-session.service';
 import { GetAdminByEmailService } from '../../../../../../contexts/prism-neuro/users/application/get-admin-email.service';
 import { UpdateLastLoginService } from '../../../../../../contexts/prism-neuro/users/application/update-last-login.service';
@@ -23,7 +24,8 @@ export class LoginPhysioController implements Controller {
     private config: Configuration,
     private addUserSessionService: AddUserSessionService,
     private userTransformer: UserTransformer,
-    private updateLastLoginService: UpdateLastLoginService
+    private updateLastLoginService: UpdateLastLoginService,
+    private endModeSessionByPhsyioService: EndModeSessionByPhsyioService
   ) {}
 
   public validate = [
@@ -76,6 +78,10 @@ export class LoginPhysioController implements Controller {
       // Update last login
 
       await this.updateLastLoginService.invoke(user.id);
+
+      // end session if it is not ended
+
+      await this.endModeSessionByPhsyioService.invoke(user.id);
 
       res.status(httpStatus.OK).json({
         data: {
