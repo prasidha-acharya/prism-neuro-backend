@@ -89,7 +89,7 @@ export const masterRouter = (
 
   statisticsRoutesHandler({ getTotalUsersController, getModeAnalyticsController }, adminAuthorizer, apiRouter);
 
-  adminAuthRoutesHandler({ loginAdminController, updateAdminProfileController }, apiRouter);
+  adminAuthRoutesHandler({ loginAdminController, updateAdminProfileController }, adminAuthorizer, apiRouter);
 
   adminPatientRoutesHandler({ deletePatientByAdminController, getModeSessionsByPatientIdController }, adminAuthorizer, apiRouter);
 

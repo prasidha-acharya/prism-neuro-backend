@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { ParamsDictionary } from 'express-serve-static-core';
-import { body, param } from 'express-validator';
+import { body } from 'express-validator';
 import httpStatus from 'http-status';
 import { ParsedQs } from 'qs';
 import { UpdatePhysioService } from '../../../../../../contexts/prism-neuro/users/application/update-physio-by-admin.service';
@@ -37,7 +37,6 @@ export class UpdateAdminProfileController implements Controller {
       .optional(),
     body('address.*.address').notEmpty().withMessage(MESSAGE_CODES.USER.ADDRESS.REQUIRED_ADDRESS_NAME),
     body('address.*.id').notEmpty().withMessage(MESSAGE_CODES.USER.ADDRESS.REQUIRED_ADDRESS_ID),
-    param('physioId').isString().withMessage(MESSAGE_CODES.USER.REQUIRED_PHYSIO_ID),
     RequestValidator
   ];
 

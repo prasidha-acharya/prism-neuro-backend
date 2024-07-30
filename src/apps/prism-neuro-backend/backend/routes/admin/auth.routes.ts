@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/unbound-method */
 
 import { Router } from 'express';
+import { JWTAdminAuthorizer } from '../../../../../contexts/shared/infrastructure/authorizer/admin.authorizer';
 import * as controller from '../../controllers';
 
 interface Handler {
@@ -8,7 +9,11 @@ interface Handler {
   updateAdminProfileController: controller.UpdateAdminProfileController;
 }
 
-export const adminAuthRoutesHandler = ({ loginAdminController, updateAdminProfileController }: Handler, router: Router): Router => {
+export const adminAuthRoutesHandler = (
+  { loginAdminController, updateAdminProfileController }: Handler,
+  adminAuthorizer: JWTAdminAuthorizer,
+  router: Router
+): Router => {
   //TODO Swagger request body ref implimentation required
   router.post(
     '/auth/login',
@@ -43,6 +48,7 @@ export const adminAuthRoutesHandler = ({ loginAdminController, updateAdminProfil
 
   router.put(
     '/admin/update-profile',
+    adminAuthorizer.authorize,
     updateAdminProfileController.validate,
     updateAdminProfileController.invoke.bind(updateAdminProfileController)
 
