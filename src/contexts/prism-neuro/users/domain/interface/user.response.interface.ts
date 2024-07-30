@@ -70,8 +70,8 @@ export interface UserResponse {
   id: string;
   email: string;
   isVerified: boolean;
-  firstName: string;
-  lastName: string;
+  firstName: string | null; //for admin firstName and lastName can be null
+  lastName: string | null;
   userName: string | null;
   userAddress: IAddress[];
   role: USER_ROLES;
