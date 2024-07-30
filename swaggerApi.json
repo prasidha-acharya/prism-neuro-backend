@@ -7,10 +7,10 @@
   },
   "servers": [
     {
-      "url": "http://localhost:4000/api/"
+      "url": "http://26b3-2407-1400-aa00-c308-1492-ab41-2447-a8dc.ngrok-free.app/api/"
     },
     {
-      "url": "https://localhost:4000/api/"
+      "url": "https://26b3-2407-1400-aa00-c308-1492-ab41-2447-a8dc.ngrok-free.app/api/"
     }
   ],
   "paths": {
@@ -758,6 +758,22 @@
             }
           }
         }
+      }
+    },
+    "/user-detail": {
+      "get": {
+        "tags": ["User"],
+        "description": "Get user detail",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
       }
     },
     "/upload-profile": {

@@ -63,6 +63,7 @@ export const masterRouter = (
   getModeFilesController: controllers.GetModeFilesController,
   uploadProfileImageController: controllers.UploadProfileImageController,
   updatePhysioByPhysioController: controllers.UpdatePhysioByPhysioController,
+  getUserDetailController: controllers.GetUserDetailController,
   refreshAuthorizer: RefreshAuthorizer,
   userAuthorizer: JWTUserAuthorizer,
   physioAuthorizer: JWTPhysioTherapistAuthorizer,
@@ -130,7 +131,8 @@ export const masterRouter = (
       forgotPasswordController,
       changePasswordController,
       resetPasswordController,
-      deleteAccountController
+      deleteAccountController,
+      getUserDetailController
     },
     userAuthorizer,
     refreshAuthorizer,

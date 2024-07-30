@@ -109,7 +109,8 @@ const {
   UploadModeFilesController,
   GetModeFilesController,
   UploadProfileImageController,
-  UpdatePhysioByPhysioController
+  UpdatePhysioByPhysioController,
+  GetUserDetailController
 } = controller;
 export class Container {
   private readonly container: AwilixContainer;
@@ -206,7 +207,8 @@ export class Container {
         updatePatientProfileController: asClass(UpdatePatientProfileController),
         deletePatientByAdminService: asClass(DeletePatientByAdminService).singleton(),
         deletePatientByAdminController: asClass(DeletePatientByAdminController),
-        getPatientsOfPhysioService: asClass(GetPatientsOfPhysioService).singleton()
+        getPatientsOfPhysioService: asClass(GetPatientsOfPhysioService).singleton(),
+        getUserDetailController: asClass(GetUserDetailController)
       })
       //Physio
       .register({
@@ -223,7 +225,7 @@ export class Container {
       // mode
       .register({
         prismaModeRepository: asClass(PrismaModeRepository),
-        getAllModesService: asClass(GetAllModesService),
+        getAllModesService: asClass(GetAllModesService).singleton(),
         getModeAnalyticsController: asClass(GetModeAnalyticsController),
         getModeByIdService: asClass(GetModeByIdService).singleton(),
         prismaModeSessionRepository: asClass(PrismaModeSessionRepository),
@@ -258,7 +260,7 @@ export class Container {
         endModeTrialService: asClass(EndModeTrialService).singleton(),
         startModeTrialController: asClass(StartModeTrialController),
         endModeTrialController: asClass(EndModeTrialController),
-        getModeTrialsBySessionService: asClass(GetModeTrialsBySessionService),
+        getModeTrialsBySessionService: asClass(GetModeTrialsBySessionService).singleton(),
         getModeTrialBySessionController: asClass(GetModeTrialBySessionController)
       })
       //image upload
