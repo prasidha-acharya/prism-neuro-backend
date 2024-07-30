@@ -39,22 +39,23 @@ export const userRoutesHandler = (
             }]
         #swagger.responses[200] = {
           schema: {
-            $ref: "#/components/schemas/customerRefreshSchema"
+            $ref: "#/components/schemas/refresTokenResponse"
           }
         }
         */
   );
+
   router.post(
     '/logout',
     userAuthorizer.authorize,
     userLogoutController.invoke.bind(userLogoutController)
     /*
-        #swagger.tags = ['User']
-        #swagger.summary = "Logout"
-        #swagger.description = "End point to logout"
         #swagger.security = [{
               "bearerAuth": []
             }]
+        #swagger.tags = ['User']
+        #swagger.summary = "Logout"
+        #swagger.description = "End point to logout"
         #swagger.responses[200] = {
           schema: {
             $ref: "#/components/schemas/successReponse"
@@ -62,6 +63,7 @@ export const userRoutesHandler = (
         }
         */
   );
+
   router.post(
     '/forgot-password',
     forgotPasswordController.invoke.bind(forgotPasswordController)
