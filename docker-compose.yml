@@ -6,7 +6,7 @@ services:
       - '6379:6379'
 
   prism-neuro-backend:
-    container_name: capital-remit-backend
+    container_name: prism-neuro-backend
     build:
       context: ./
       args:
