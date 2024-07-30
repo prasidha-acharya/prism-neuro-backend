@@ -19,7 +19,7 @@ interface IHandler {
 
 export const physioRoutesHandler = (
   {
-    loginPhysioController: loginDoctorController,
+    loginPhysioController,
     createPatientByPhysioController,
     getAllPatientListsWithSessionController,
     getPhysioModeAnalyticsController,
@@ -35,8 +35,8 @@ export const physioRoutesHandler = (
 ): Router => {
   router.post(
     '/physio/login',
-    loginDoctorController.validate,
-    loginDoctorController.invoke.bind(loginDoctorController)
+    loginPhysioController.validate,
+    loginPhysioController.invoke.bind(loginPhysioController)
     /*
 
       #swagger.tags = ['Tablet Physio']

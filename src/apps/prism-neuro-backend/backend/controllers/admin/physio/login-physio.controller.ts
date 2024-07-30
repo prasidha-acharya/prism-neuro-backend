@@ -5,10 +5,11 @@ import { ParamsDictionary } from 'express-serve-static-core';
 import { body } from 'express-validator';
 import httpStatus from 'http-status';
 import { ParsedQs } from 'qs';
-import { AddUserSessionService } from 'src/contexts/prism-neuro/users/application/create-user-session.service';
-import { IClientLoginRequest } from 'src/contexts/prism-neuro/users/domain/interface/user-client-request.interface';
-import { UserTransformer } from 'src/contexts/prism-neuro/users/domain/transformer/user-transformer';
+import { AddUserSessionService } from '../../../../../../contexts/prism-neuro/users/application/create-user-session.service';
 import { GetAdminByEmailService } from '../../../../../../contexts/prism-neuro/users/application/get-admin-email.service';
+import { UpdateLastLoginService } from '../../../../../../contexts/prism-neuro/users/application/update-last-login.service';
+import { IClientLoginRequest } from '../../../../../../contexts/prism-neuro/users/domain/interface/user-client-request.interface';
+import { UserTransformer } from '../../../../../../contexts/prism-neuro/users/domain/transformer/user-transformer';
 import { Payload, TokenScope } from '../../../../../../contexts/shared/domain/interface/payload';
 import { JWTSign } from '../../../../../../contexts/shared/infrastructure/authorizer/jwt-token';
 import { comparePassword } from '../../../../../../contexts/shared/infrastructure/encryptor/encryptor';
@@ -21,7 +22,8 @@ export class LoginDoctorController implements Controller {
     private getAdminByEmailService: GetAdminByEmailService,
     private config: Configuration,
     private addUserSessionService: AddUserSessionService,
-    private userTransformer: UserTransformer
+    private userTransformer: UserTransformer,
+    private updateLastLoginService: UpdateLastLoginService
   ) {}
 
   public validate = [
@@ -70,6 +72,10 @@ export class LoginDoctorController implements Controller {
       );
 
       const userDetail = await this.userTransformer.loginLists(user);
+
+      // Update last login
+
+      await this.updateLastLoginService.invoke(user.id);
 
       res.status(httpStatus.OK).json({
         data: {
