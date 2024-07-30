@@ -25,7 +25,7 @@ export const masterRouter = (
   adminAuthorizer: JWTAdminAuthorizer,
   userLogoutController: controllers.UserLogoutController,
   generateAccessTokenController: controllers.GenerateAccessTokenController,
-  loginPhysioController: controllers.LoginDoctorController,
+  loginPhysioController: controllers.LoginPhysioController,
   deletePhysioController: controllers.DeletePhysioController,
   updatePhysioController: controllers.UpdatePhysioController,
   forgotPasswordController: controllers.ForgotPasswordController,

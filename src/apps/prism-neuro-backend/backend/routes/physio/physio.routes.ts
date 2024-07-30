@@ -3,7 +3,7 @@ import { IAuthorizer } from 'src/contexts/shared/domain/model/authentication/aut
 import * as controllers from '../../controllers/index';
 
 interface IHandler {
-  loginPhysioController: controllers.LoginDoctorController;
+  loginPhysioController: controllers.LoginPhysioController;
   deletePhysioController: controllers.DeletePhysioController;
   updatePhysioController: controllers.UpdatePhysioController;
   createPatientByPhysioController: controllers.CreatePatientByPhysioController;

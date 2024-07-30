@@ -17,7 +17,7 @@ import { RequestValidator } from '../../../../../../contexts/shared/infrastructu
 import { MESSAGE_CODES } from '../../../../../../contexts/shared/infrastructure/utils/message-code';
 import { Controller } from '../../controller';
 
-export class LoginDoctorController implements Controller {
+export class LoginPhysioController implements Controller {
   constructor(
     private getAdminByEmailService: GetAdminByEmailService,
     private config: Configuration,

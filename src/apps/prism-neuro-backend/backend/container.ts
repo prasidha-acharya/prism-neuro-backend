@@ -76,7 +76,7 @@ const {
   ForgotPasswordController,
   GenerateAccessTokenController,
   LoginAdminController,
-  LoginDoctorController,
+  LoginPhysioController,
   UpdatePhysioController,
   GetAllPatientListByPhysioIdController,
   UserLogoutController,
@@ -177,7 +177,7 @@ export class Container {
       })
       // login
       .register({
-        loginPhysioController: asClass(LoginDoctorController)
+        loginPhysioController: asClass(LoginPhysioController)
       })
       //seeder
       .register({
