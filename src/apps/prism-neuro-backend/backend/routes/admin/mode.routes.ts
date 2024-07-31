@@ -3,13 +3,13 @@ import { JWTAdminAuthorizer } from '../../../../../contexts/shared/infrastructur
 import * as controllers from '../../controllers/index';
 
 interface IHandler {
-  getModesController: controllers.GetModesController;
+  getModesByAdminController: controllers.GetModesByAdminController;
 }
-export const adminModeRoutesHandler = ({ getModesController }: IHandler, adminAuthorizer: JWTAdminAuthorizer, router: Router): Router => {
+export const adminModeRoutesHandler = ({ getModesByAdminController }: IHandler, adminAuthorizer: JWTAdminAuthorizer, router: Router): Router => {
   router.get(
     '/admin/modes',
     adminAuthorizer.authorize,
-    getModesController.invoke.bind(getModesController)
+    getModesByAdminController.invoke.bind(getModesByAdminController)
     /*
       #swagger.security = [{
             "bearerAuth": []

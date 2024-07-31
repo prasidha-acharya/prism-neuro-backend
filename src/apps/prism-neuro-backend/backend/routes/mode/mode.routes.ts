@@ -7,7 +7,7 @@ interface IHandler {
 }
 export const modeRoutesHandler = ({ getModesController }: IHandler, physioAuthorizer: JWTPhysioTherapistAuthorizer, router: Router): Router => {
   router.get(
-    '/physio/modes',
+    '/physio/modes/:modeSessionId',
     physioAuthorizer.authorize,
     getModesController.invoke.bind(getModesController)
     /*
@@ -16,7 +16,10 @@ export const modeRoutesHandler = ({ getModesController }: IHandler, physioAuthor
     }] 
     #swagger.tags= ['Tablet Mode']
     #swagger.summary ='Phsyio therapist can access to this end point'
-    
+    #swagger.parameters['modeSessionId'] = {
+      in: 'path',
+      type: 'string'
+      }
      */
   );
 

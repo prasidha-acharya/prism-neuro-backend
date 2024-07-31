@@ -8,7 +8,7 @@ import {
   IGetModeByIdRequest,
   IGetModeByTypeRequest
 } from '../interface/mode-request.interface';
-import { IPrismaModeWithTrials } from '../interface/mode-response.interface';
+import { IPrismaModeWithDetail, IPrismaModeWithTrials } from '../interface/mode-response.interface';
 
 export interface IModeRepository {
   createTargetMode(request: ICreateTargetModeRequest, instructions: string[]): Promise<void>;
@@ -18,5 +18,5 @@ export interface IModeRepository {
   getModeByType(request: IGetModeByTypeRequest): Promise<Mode | null>;
   getModeById(request: IGetModeByIdRequest): Promise<Mode | null>;
   getAllModes(request: IGetAllModesRequest): Promise<IPrismaModeWithTrials[] | null>;
-  getModes(): Promise<Mode[] | null>;
+  getModes(sessionId: string): Promise<IPrismaModeWithDetail[] | null>;
 }

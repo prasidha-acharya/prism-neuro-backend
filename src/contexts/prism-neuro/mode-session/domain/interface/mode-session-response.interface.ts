@@ -1,4 +1,4 @@
-import { ModeSession, ModeTrialSession } from '@prisma/client';
+import { MODE_TRIAL_SESSION_STATUS, MODE_TYPE, ModeSession, ModeTrialSession } from '@prisma/client';
 
 export interface ITrials {
   id: string;
@@ -41,4 +41,32 @@ export interface IGetPatientsActivityResponse {
 
 export interface IPrismaModeSessionOfPhysioAndPatientReponse extends ModeSession {
   modeTrialSession: ModeTrialSession[];
+}
+
+export interface IGetModesDetailForDashBoardResponse {
+  id: string;
+  type: MODE_TYPE;
+  name: string;
+  instructions: string[];
+  images: string[];
+}
+
+interface IModeTrialSession {
+  id: string;
+  trialId: number;
+  startTime: Date | null;
+  endTime: Date | null;
+  status: MODE_TRIAL_SESSION_STATUS | null;
+  createdAt: Date;
+  results: number | null;
+}
+
+export interface IGetModesDetailForTabletResponse {
+  id: string;
+  type: MODE_TYPE;
+  name: string;
+  trialCount: number;
+  instructions: string[];
+  modeTrialSession: IModeTrialSession[];
+  trialDuration: number | null;
 }

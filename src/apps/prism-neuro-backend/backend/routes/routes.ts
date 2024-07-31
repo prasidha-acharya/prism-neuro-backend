@@ -65,6 +65,7 @@ export const masterRouter = (
   updatePhysioByPhysioController: controllers.UpdatePhysioByPhysioController,
   getUserDetailController: controllers.GetUserDetailController,
   updateAdminProfileController: controllers.UpdateAdminProfileController,
+  getModesByAdminController: controllers.GetModesByAdminController,
   refreshAuthorizer: RefreshAuthorizer,
   userAuthorizer: JWTUserAuthorizer,
   physioAuthorizer: JWTPhysioTherapistAuthorizer,
@@ -84,7 +85,7 @@ export const masterRouter = (
     apiRouter
   );
 
-  adminModeRoutesHandler({ getModesController }, adminAuthorizer, apiRouter);
+  adminModeRoutesHandler({ getModesByAdminController }, adminAuthorizer, apiRouter);
 
   activityRoutesHandler({ getAllPatientActivityController }, adminAuthorizer, apiRouter);
 
