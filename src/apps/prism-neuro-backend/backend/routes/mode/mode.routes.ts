@@ -9,6 +9,7 @@ export const modeRoutesHandler = ({ getModesController }: IHandler, physioAuthor
   router.get(
     '/physio/modes/:modeSessionId',
     physioAuthorizer.authorize,
+    getModesController.validate,
     getModesController.invoke.bind(getModesController)
     /*
       #swagger.security = [{
