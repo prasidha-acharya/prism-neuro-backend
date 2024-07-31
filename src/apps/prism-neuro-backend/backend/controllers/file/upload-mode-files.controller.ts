@@ -60,7 +60,7 @@ export class UploadModeFilesController implements Controller {
       const imagesURLs = await Promise.all(response);
 
       const request: ICreateFileRequest[] = imagesURLs.map(data => {
-        const fileName = data.split('/').shift() ?? '';
+        const fileName = data.split('/').pop() ?? '';
         return {
           name: fileName,
           url: data,

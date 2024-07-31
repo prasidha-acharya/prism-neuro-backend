@@ -972,6 +972,41 @@
         }
       }
     },
+    "/upload-modes": {
+      "post": {
+        "tags": ["File"],
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "required": ["files"],
+                "properties": {
+                  "files": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "binary"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/physio/mode/session-start/{patientId}": {
       "post": {
         "tags": ["Tablet Mode Session"],

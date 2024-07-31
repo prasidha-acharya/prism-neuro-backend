@@ -17,6 +17,7 @@ export class Server {
     private requestLogger: RequestLogger
   ) {
     this.express = express();
+    this.express.use(express.static('public'));
     this.express.use(this.logger.stream());
     this.express.use(this.requestLogger.logs);
     this.express.use(this.router);
