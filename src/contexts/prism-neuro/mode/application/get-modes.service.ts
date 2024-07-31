@@ -1,10 +1,10 @@
-import { Mode } from '@prisma/client';
+import { IPrismaModeWithDetail } from '../domain/interface/mode-response.interface';
 import { PrismaModeRepository } from '../infrastructure/repositories/prisma-mode-repository';
 
 export class GetModesService {
   constructor(private prismaModeRepository: PrismaModeRepository) {}
 
-  invoke(): Promise<Mode[] | null> {
-    return this.prismaModeRepository.getModes();
+  invoke(sessionId?: string): Promise<IPrismaModeWithDetail[] | null> {
+    return this.prismaModeRepository.getModes(sessionId);
   }
 }

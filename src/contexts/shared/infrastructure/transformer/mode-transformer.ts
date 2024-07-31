@@ -1,6 +1,9 @@
 import { ModeTrialSession, Prisma } from '@prisma/client';
+import { IPrismaModeWithDetail } from 'src/contexts/prism-neuro/mode/domain/interface/mode-response.interface';
 import { IPrismaModeSessionRequest } from '../../../../contexts/prism-neuro/mode-session/domain/interface/mode-session-request.interface';
 import {
+  IGetModesDetailForDashBoardResponse,
+  IGetModesDetailForTabletResponse,
   IGetModeSessionOfPatientResponse,
   IGetPatientsActivityResponse,
   IGetPatientsModeSessionByPhysioResponse,
@@ -174,4 +177,45 @@ export class ModeTransformer {
       };
     });
   };
+
+  public getModesDetailForTablet(modes: IPrismaModeWithDetail[]): IGetModesDetailForTabletResponse[] {
+    return modes.map(({ trialCount, type, name, id, trialDuration, modeDetail, modeTrialSession }) => {
+      return {
+        id,
+        trialCount,
+        type,
+        name,
+        trialDuration,
+        instructions: modeDetail?.instructions ?? [],
+        modeTrialSession: modeTrialSession.map(({ id, trialId, startTime, endTime, status, createdAt, results }) => {
+          let result: number | null = null;
+          if (results && typeof results === 'object') {
+            const trialObject = results as Prisma.JsonObject;
+            result = Number(trialObject.data);
+          }
+          return {
+            id,
+            trialId,
+            startTime,
+            endTime,
+            status,
+            createdAt,
+            results: result
+          };
+        })
+      };
+    });
+  }
+
+  public getModesDetailForDashboard(modes: IPrismaModeWithDetail[]): IGetModesDetailForDashBoardResponse[] {
+    return modes.map(({ id, images, modeDetail, type, name }) => {
+      return {
+        id,
+        images,
+        instructions: modeDetail?.instructions ?? [],
+        type,
+        name
+      };
+    });
+  }
 }

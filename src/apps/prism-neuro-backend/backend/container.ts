@@ -113,7 +113,8 @@ const {
   UploadProfileImageController,
   UpdatePhysioByPhysioController,
   GetUserDetailController,
-  UpdateAdminProfileController
+  UpdateAdminProfileController,
+  GetModesByAdminController
 } = controller;
 export class Container {
   private readonly container: AwilixContainer;
@@ -257,7 +258,8 @@ export class Container {
         getSessionsBetweenPatientAndPhysioController: asClass(GetSessionsBetweenPatientAndPhysioController),
         getModeSessionsByPatientIdController: asClass(GetModeSessionsByPatientIdController),
         getAllPatientsInCludingSessionInfoService: asClass(GetAllPatientsInCludingSessionInfoService).singleton(),
-        endModeSessionByPhsyioService: asClass(EndModeSessionByPhsyioService).singleton()
+        endModeSessionByPhsyioService: asClass(EndModeSessionByPhsyioService).singleton(),
+        getModesByAdminController: asClass(GetModesByAdminController)
       })
       //Mode trial session
       .register({
