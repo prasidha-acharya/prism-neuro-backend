@@ -1,10 +1,32 @@
 import { Router } from 'express';
+import httpStatus from 'http-status';
 import multer from 'multer';
-import { JWTUserAuthorizer } from 'src/contexts/shared/infrastructure/authorizer/user.authorizer';
 import { JWTAdminAuthorizer } from '../../../../../contexts/shared/infrastructure/authorizer/admin.authorizer';
+import { JWTUserAuthorizer } from '../../../../../contexts/shared/infrastructure/authorizer/user.authorizer';
+import { regex } from '../../../../../contexts/shared/infrastructure/utils/constant';
+import { getCurrentTimeStamp } from '../../../../../contexts/shared/infrastructure/utils/date';
 import * as controller from '../../controllers/index';
 
+const storage = multer.diskStorage({
+  destination(req, file, callback) {
+    callback(null, 'public/images/mode');
+  },
+  filename(req, file, callback) {
+    const fileInfo = file.originalname.split('.');
+
+    const fileExtension = fileInfo.pop();
+
+    const fileName = fileInfo.pop()?.replace(regex, '_');
+
+    const key = `${fileName}_${getCurrentTimeStamp()}.${fileExtension}`;
+
+    callback(null, key);
+  }
+});
+
 export const imageUpload = multer();
+
+const uploadImageToPublic = multer({ storage: storage });
 
 interface IHandler {
   uploadModeFilesController: controller.UploadModeFilesController;
@@ -14,7 +36,7 @@ interface IHandler {
 }
 
 export const fileRoutesHandler = (
-  { uploadModeFilesController, getModeFilesController, deleteFilesController, uploadProfileImageController }: IHandler,
+  { getModeFilesController, deleteFilesController, uploadProfileImageController }: IHandler,
   adminAuthorizer: JWTAdminAuthorizer,
   userAuthorizer: JWTUserAuthorizer,
   router: Router
@@ -56,42 +78,43 @@ export const fileRoutesHandler = (
     */
   );
 
-  router.post(
-    '/admin/upload-files',
-    adminAuthorizer.authorize,
-    imageUpload.array('files', 25),
-    uploadModeFilesController.validate,
-    uploadModeFilesController.invoke.bind(uploadModeFilesController)
-    /*
-      #swagger.security = [{
-            "bearerAuth": []
-    }] 
-    #swagger.tags = ['File']
-    #swagger.requestBody = {
-    content:{
-    "multipart/form-data": {
-    schema:{
-    type: "object",
-    required: ["files"],
-    properties:{
-    files:{
-    type:"array",
-    items:{
-    type:"string",
-    format:"binary"
-    }
-    },
-    type:{enum :["LEFT_RIGHT_MODE","VISUAL_BALANCE_MODE"]},
-    isLeftMode:{type:"boolean"},
-    isRightMode:{type:"boolean"}
-    }
-    }
-    }
-    }
-    }
- 
-     */
-  );
+  //TODO :Do not remove /admin/upload-files , might need later to store image in bucket
+
+  // router.post(
+  //   '/admin/upload-files',
+  //   adminAuthorizer.authorize,
+  //   imageUpload.array('files', 25),
+  //   uploadModeFilesController.validate,
+  //   uploadModeFilesController.invoke.bind(uploadModeFilesController)
+  //   /*
+  //     #swagger.security = [{
+  //           "bearerAuth": []
+  //   }]
+  //   #swagger.tags = ['File']
+  //   #swagger.requestBody = {
+  //   content:{
+  //   "multipart/form-data": {
+  //   schema:{
+  //   type: "object",
+  //   required: ["files"],
+  //   properties:{
+  //   files:{
+  //   type:"array",
+  //   items:{
+  //   type:"string",
+  //   format:"binary"
+  //   }
+  //   },
+  //   type:{enum :["LEFT_RIGHT_MODE","VISUAL_BALANCE_MODE"]},
+  //   isLeftMode:{type:"boolean"},
+  //   isRightMode:{type:"boolean"}
+  //   }
+  //   }
+  //   }
+  //   }
+  //   }
+  //    */
+  // );
 
   router.get(
     '/admin/files',
@@ -150,6 +173,41 @@ export const fileRoutesHandler = (
     }
   }
   */
+  );
+
+  router.post(
+    '/upload-modes',
+    uploadImageToPublic.array('files', 25),
+    (__, res, ___) => {
+      res.status(httpStatus.OK).json({
+        status: 'SUCCESS'
+      });
+    }
+    /*
+      #swagger.security = [{
+            "bearerAuth": []
+    }] 
+    #swagger.tags = ['File']
+    #swagger.requestBody = {
+    content:{
+    "multipart/form-data": {
+    schema:{
+    type: "object",
+    required: ["files"],
+    properties:{
+    files:{
+    type:"array",
+    items:{
+    type:"string",
+    format:"binary"
+    }
+    },
+    }
+    }
+    }
+    }
+    }
+     */
   );
 
   return router;

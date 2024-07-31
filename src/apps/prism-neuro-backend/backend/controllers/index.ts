@@ -2,6 +2,7 @@ export * from './admin/activity/get-user.activity.controller';
 export * from './admin/auth/login-admin.controller';
 export * from './admin/auth/update-admin-profile.controller';
 export * from './admin/general/get-all-users.controller';
+export * from './admin/mode/get-modes-by-admin.controller';
 export * from './admin/patient/delete-patient-by-admin.controller';
 export * from './admin/patient/get-sessions-by-patientId.controller';
 export * from './admin/physio/create-physio.controller';

@@ -31,7 +31,7 @@ export const modeTypes = [
       'Concentrate on responding accurately and promptly to the directional prompts given by the displayed images.'
     ],
     name: 'Left and Right Mode',
-    trialCount: 3
+    trialCount: 1
   },
   {
     type: MODE_TYPE.VISUAL_BALANCE_MODE,

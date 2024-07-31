@@ -7,10 +7,10 @@
   },
   "servers": [
     {
-      "url": "http://26b3-2407-1400-aa00-c308-1492-ab41-2447-a8dc.ngrok-free.app/api/"
+      "url": "http://c287-2407-1400-aa10-2f50-a5d4-def8-e57e-e191.ngrok-free.app/api/"
     },
     {
-      "url": "https://26b3-2407-1400-aa00-c308-1492-ab41-2447-a8dc.ngrok-free.app/api/"
+      "url": "https://c287-2407-1400-aa10-2f50-a5d4-def8-e57e-e191.ngrok-free.app/api/"
     }
   ],
   "paths": {
@@ -972,6 +972,41 @@
         }
       }
     },
+    "/upload-modes": {
+      "post": {
+        "tags": ["File"],
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "required": ["files"],
+                "properties": {
+                  "files": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "binary"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/physio/mode/session-start/{patientId}": {
       "post": {
         "tags": ["Tablet Mode Session"],
@@ -1209,11 +1244,21 @@
         ]
       }
     },
-    "/physio/modes": {
+    "/physio/modes/{modeSessionId}": {
       "get": {
         "tags": ["Tablet Mode"],
         "summary": "Phsyio therapist can access to this end point",
         "description": "",
+        "parameters": [
+          {
+            "name": "modeSessionId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
           "default": {
             "description": ""
