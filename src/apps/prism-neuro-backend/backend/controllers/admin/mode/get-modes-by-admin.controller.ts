@@ -11,9 +11,8 @@ export class GetModesByAdminController implements Controller {
   ) {}
 
   async invoke(req: Request, res: Response, next: NextFunction): Promise<void> {
-    const sessionId = req.params.modeSessionId;
     try {
-      const response = await this.getModesService.invoke(sessionId);
+      const response = await this.getModesService.invoke();
 
       const data = response === null ? null : this.modeTransformer.getModesDetailForDashboard(response ?? []);
       res.status(httpStatus.OK).json({

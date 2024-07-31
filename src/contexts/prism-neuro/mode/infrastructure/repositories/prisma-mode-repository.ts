@@ -14,7 +14,7 @@ import { IModeRepository } from '../../domain/repositories/mode-repository';
 export class PrismaModeRepository implements IModeRepository {
   constructor(private db: PrismaClient) {}
 
-  getModes(sessionId: string): Promise<IPrismaModeWithDetail[] | null> {
+  getModes(sessionId?: string): Promise<IPrismaModeWithDetail[] | null> {
     return this.db.mode.findMany({
       include: {
         modeDetail: true,

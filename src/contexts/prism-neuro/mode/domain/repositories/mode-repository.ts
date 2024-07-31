@@ -18,5 +18,5 @@ export interface IModeRepository {
   getModeByType(request: IGetModeByTypeRequest): Promise<Mode | null>;
   getModeById(request: IGetModeByIdRequest): Promise<Mode | null>;
   getAllModes(request: IGetAllModesRequest): Promise<IPrismaModeWithTrials[] | null>;
-  getModes(sessionId: string): Promise<IPrismaModeWithDetail[] | null>;
+  getModes(sessionId?: string): Promise<IPrismaModeWithDetail[] | null>;
 }

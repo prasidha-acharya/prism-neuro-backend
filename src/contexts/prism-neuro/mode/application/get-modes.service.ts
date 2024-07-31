@@ -4,7 +4,7 @@ import { PrismaModeRepository } from '../infrastructure/repositories/prisma-mode
 export class GetModesService {
   constructor(private prismaModeRepository: PrismaModeRepository) {}
 
-  invoke(sessionId: string): Promise<IPrismaModeWithDetail[] | null> {
+  invoke(sessionId?: string): Promise<IPrismaModeWithDetail[] | null> {
     return this.prismaModeRepository.getModes(sessionId);
   }
 }
