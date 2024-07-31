@@ -1,6 +1,7 @@
 import express from 'express';
 import * as http from 'http';
 import { AddressInfo } from 'net';
+import path from 'path';
 import { Configuration } from '../../../../config';
 import { RequestLogger } from '../../../contexts/shared/infrastructure/request-logs/request-logger';
 import { ServerLogger } from '../../../contexts/shared/infrastructure/winston-logger';
@@ -17,13 +18,14 @@ export class Server {
     private requestLogger: RequestLogger
   ) {
     this.express = express();
-    this.express.use(express.static('public'));
+    this.express.use('/static', express.static(path.join(__dirname, '~/public')));
     this.express.use(this.logger.stream());
     this.express.use(this.requestLogger.logs);
     this.express.use(this.router);
   }
 
   public start = async (): Promise<void> => {
+    console.log(__dirname, 'dirrrr==>>>>>>>>>');
     return await new Promise<void>(resolve => {
       this.http = this.express.listen(this.config.PORT, () => {
         const { port } = this.http.address() as AddressInfo;

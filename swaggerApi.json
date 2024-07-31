@@ -853,50 +853,6 @@
         }
       }
     },
-    "/admin/upload-files": {
-      "post": {
-        "tags": ["File"],
-        "description": "",
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        },
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "multipart/form-data": {
-              "schema": {
-                "type": "object",
-                "required": ["files"],
-                "properties": {
-                  "files": {
-                    "type": "array",
-                    "items": {
-                      "type": "string",
-                      "format": "binary"
-                    }
-                  },
-                  "type": {
-                    "enum": ["LEFT_RIGHT_MODE", "VISUAL_BALANCE_MODE"]
-                  },
-                  "isLeftMode": {
-                    "type": "boolean"
-                  },
-                  "isRightMode": {
-                    "type": "boolean"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/admin/files": {
       "get": {
         "tags": ["File"],
@@ -1005,6 +961,31 @@
             }
           }
         }
+      }
+    },
+    "/files": {
+      "get": {
+        "tags": ["File"],
+        "description": "",
+        "parameters": [
+          {
+            "name": "type",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
       }
     },
     "/physio/mode/session-start/{patientId}": {

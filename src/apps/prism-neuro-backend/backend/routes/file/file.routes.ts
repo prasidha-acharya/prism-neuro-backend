@@ -9,7 +9,9 @@ import * as controller from '../../controllers/index';
 
 const storage = multer.diskStorage({
   destination(req, file, callback) {
-    callback(null, 'public/images/mode');
+    let path = 'public/images/mode/';
+
+    callback(null, path);
   },
   filename(req, file, callback) {
     const fileInfo = file.originalname.split('.');
@@ -33,10 +35,11 @@ interface IHandler {
   getModeFilesController: controller.GetModeFilesController;
   deleteFilesController: controller.DeleteFilesController;
   uploadProfileImageController: controller.UploadProfileImageController;
+  getStaticFilesController: controller.GetStaticFilesController;
 }
 
 export const fileRoutesHandler = (
-  { getModeFilesController, deleteFilesController, uploadProfileImageController }: IHandler,
+  { getModeFilesController, deleteFilesController, uploadProfileImageController, getStaticFilesController }: IHandler,
   adminAuthorizer: JWTAdminAuthorizer,
   userAuthorizer: JWTUserAuthorizer,
   router: Router
@@ -178,7 +181,7 @@ export const fileRoutesHandler = (
   router.post(
     '/upload-modes',
     uploadImageToPublic.array('files', 25),
-    (__, res, ___) => {
+    (__, res, _next) => {
       res.status(httpStatus.OK).json({
         status: 'SUCCESS'
       });
@@ -206,6 +209,22 @@ export const fileRoutesHandler = (
     }
     }
     }
+    }
+     */
+  );
+
+  router.get(
+    '/files',
+    getStaticFilesController.invoke.bind(getStaticFilesController)
+
+    /*
+      #swagger.security = [{
+            "bearerAuth": []
+    }]
+    #swagger.tags = ['File']
+    #swagger.parameters['type'] = {
+    in:"query",
+    type:"string",
     }
      */
   );

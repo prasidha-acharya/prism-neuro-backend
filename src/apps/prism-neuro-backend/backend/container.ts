@@ -114,7 +114,8 @@ const {
   UpdatePhysioByPhysioController,
   GetUserDetailController,
   UpdateAdminProfileController,
-  GetModesByAdminController
+  GetModesByAdminController,
+  GetStaticFilesController
 } = controller;
 export class Container {
   private readonly container: AwilixContainer;
@@ -259,7 +260,8 @@ export class Container {
         getModeSessionsByPatientIdController: asClass(GetModeSessionsByPatientIdController),
         getAllPatientsInCludingSessionInfoService: asClass(GetAllPatientsInCludingSessionInfoService).singleton(),
         endModeSessionByPhsyioService: asClass(EndModeSessionByPhsyioService).singleton(),
-        getModesByAdminController: asClass(GetModesByAdminController)
+        getModesByAdminController: asClass(GetModesByAdminController),
+        getStaticFilesController: asClass(GetStaticFilesController)
       })
       //Mode trial session
       .register({

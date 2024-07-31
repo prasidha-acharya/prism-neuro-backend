@@ -14,6 +14,7 @@ export * from './admin/statistics/get-mode-analytics.controller';
 export * from './admin/statistics/get-total-users.controller';
 export * from './file/delete-files.controller';
 export * from './file/get-mode-files.controller';
+export * from './file/get-static-files.controller';
 export * from './file/upload-mode-files.controller';
 export * from './file/upload-profile-image.controller';
 export * from './general/access-token.controller';

@@ -3,7 +3,7 @@ import { MODE_TYPE } from '@prisma/client';
 export const modeTypes = [
   {
     name: 'Balance Mode-with Feedback',
-    images: [],
+    images: ['public/images/mode/image_21_1722414462073.png'],
     trialCount: 3,
     trialDuration: 30,
     type: MODE_TYPE.BALANCE_MODE,
@@ -20,7 +20,7 @@ export const modeTypes = [
     name: 'Target Mode',
     trialCount: 3,
     trialDuration: 30,
-    images: [],
+    images: ['public/images/mode/target_mode_1722415013862.png'],
     modeDetail: {
       instructions: [
         'Position yourself stably on the balance board.',
@@ -38,9 +38,9 @@ export const modeTypes = [
     ],
     name: 'Left and Right Mode',
     trialCount: 3,
-    images: [],
+    images: ['public/images/mode/left_right_mode_1722414584654.png'],
     modeDetail: {
-      imageUrls: [],
+      imageUrls: ['public/images/mode/left_image_one_1722415845559.jpeg', 'public/images/mode/left_image_two_1722415845568.jpeg'],
       instructions: [
         'Position yourself stably on the balance board.',
         'Move towards each target displayed on the screen.',
@@ -57,9 +57,9 @@ export const modeTypes = [
     ],
     name: 'Balance Mode with visuals-no Feedback',
     trialCount: 3,
-    images: [],
+    images: ['public/images/mode/visual_image_1722414924591.png'],
     modeDetail: {
-      videoUrls: [],
+      videoUrls: ['public/images/mode/visual_video_1722415536421.mp4'],
       instructions: [
         'Position yourself stably on the balance board.',
         'Move towards each target displayed on the screen.',
