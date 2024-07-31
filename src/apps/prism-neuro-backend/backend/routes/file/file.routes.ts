@@ -78,6 +78,8 @@ export const fileRoutesHandler = (
     */
   );
 
+  //TODO :Do not remove /admin/upload-files , might need later to store image in bucket
+
   // router.post(
   //   '/admin/upload-files',
   //   adminAuthorizer.authorize,
