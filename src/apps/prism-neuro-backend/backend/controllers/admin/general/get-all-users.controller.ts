@@ -69,7 +69,7 @@ export class GetAllUsersController implements Controller {
     try {
       const params = req.query;
 
-      const response = await this.getUsersService.invoke({ ...params });
+      const response = await this.getUsersService.invoke(params);
 
       const data = response.data === null ? [] : this.userTransformer.userListsByAdmin(response.data);
 
