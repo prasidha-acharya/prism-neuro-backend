@@ -215,6 +215,7 @@ export const fileRoutesHandler = (
 
   router.get(
     '/files',
+    userAuthorizer.authorize,
     getStaticFilesController.invoke.bind(getStaticFilesController)
 
     /*
