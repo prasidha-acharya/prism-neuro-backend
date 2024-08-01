@@ -78,7 +78,6 @@ export class LoginAdminController implements Controller {
         role: user.role,
         scopes
       };
-      console.log(this.config.JWT_SECRET, 'this is scret token >>>>>>>>>>>.');
 
       const jwtToken = JWTSign(
         payload,
