@@ -33,11 +33,12 @@ export class UploadProfileImageController implements Controller {
 
       const key = `/PROFILE/${uploadFor}/${fileName}_${getCurrentTimeStamp()}.${fileExtension}`;
 
-      const profileURL = await this.uploadFileToBucketService.invoke(key, file);
+      const profileURLs = await this.uploadFileToBucketService.invoke(key, file);
 
       res.status(httpStatus.OK).json({
         data: {
-          profileURL
+          path: profileURLs.key,
+          profileURL: profileURLs.url
         },
         status: 'SUCCESS'
       });
