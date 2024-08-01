@@ -1,6 +1,7 @@
 import { PutObjectCommand } from '@aws-sdk/client-s3';
 import { Configuration } from 'config';
 import { s3ClientBucket } from '../../bucket/s3-client';
+import { IFileUploadResponse } from '../domain/interface/file-request.interface';
 import { GetSignedURLService } from './get-signed-url.service';
 
 export class UploadFileToBucketService {
@@ -9,7 +10,7 @@ export class UploadFileToBucketService {
     private getSignedURLService: GetSignedURLService
   ) {}
 
-  async invoke(key: string, file: Express.Multer.File): Promise<string> {
+  async invoke(key: string, file: Express.Multer.File): Promise<IFileUploadResponse> {
     const command = new PutObjectCommand({
       Bucket: this.config.AWS.BUCKET_NAME,
       Key: key,
@@ -18,8 +19,7 @@ export class UploadFileToBucketService {
     });
     await s3ClientBucket.send(command);
 
-    return key;
-
-    // return this.getSignedURLService.invoke(key);
+    const url = await this.getSignedURLService.invoke(key);
+    return { key, url };
   }
 }
