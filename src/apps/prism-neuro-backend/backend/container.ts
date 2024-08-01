@@ -115,7 +115,8 @@ const {
   GetUserDetailController,
   UpdateAdminProfileController,
   GetModesByAdminController,
-  GetStaticFilesController
+  GetStaticFilesController,
+  HealthCheckController
 } = controller;
 export class Container {
   private readonly container: AwilixContainer;
@@ -293,6 +294,9 @@ export class Container {
         modeTransformer: asClass(ModeTransformer),
         activityTransformer: asClass(ActivityTransformer),
         fileTransformer: asClass(FileTransformer)
+      })
+      .register({
+        healthCheckController: asClass(HealthCheckController)
       });
   }
 
