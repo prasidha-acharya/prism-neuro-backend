@@ -18,14 +18,13 @@ export class Server {
     private requestLogger: RequestLogger
   ) {
     this.express = express();
-    this.express.use('/static', express.static(path.join(__dirname, '~/public')));
+    this.express.use(express.static(path.join('public')));
     this.express.use(this.logger.stream());
     this.express.use(this.requestLogger.logs);
     this.express.use(this.router);
   }
 
   public start = async (): Promise<void> => {
-    console.log(__dirname, 'dirrrr==>>>>>>>>>');
     return await new Promise<void>(resolve => {
       this.http = this.express.listen(this.config.PORT, () => {
         const { port } = this.http.address() as AddressInfo;

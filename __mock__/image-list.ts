@@ -10,7 +10,8 @@ export const imagesList = [
     type: MODE_TYPE.VISUAL_BALANCE_MODE,
     videos: [
       {
-        path: '/public/images/mode/visual_video_1722415536421.mp4'
+        id: 'visual_video_1722415536421.mp4',
+        path: 'images/mode/visual_video_1722415536421.mp4'
       }
     ]
   },
@@ -18,28 +19,24 @@ export const imagesList = [
     type: MODE_TYPE.LEFT_RIGHT_MODE,
     images: [
       {
-        path: '/public/images/mode/left_image_one_1722415845559.jpeg',
+        id: 'left_image_one_1722415845559.jpeg',
+        path: 'images/mode/left_image_one_1722415845559.jpeg',
         direction: DIRECTION.LEFT
       },
       {
-        path: '/public/images/mode/visual_video_1722415536421.mp4',
+        id: 'left_image_two_1722415845568.jpeg',
+        path: 'images/mode/left_image_two_1722415845568.jpeg',
         direction: DIRECTION.RIGHT
       },
       {
-        path: '/public/images/mode/visual_video_1722415536421.mp4',
+        id: 'right_image_one_1722415845574.png',
+        path: 'images/mode/right_image_one_1722415845574.png',
         direction: DIRECTION.RIGHT
       },
       {
-        path: '/public/images/mode/visual_video_1722415536421.mp4',
+        id: 'left_right_mode_1722414584654.png',
+        path: 'images/mode/left_right_mode_1722414584654.png',
         direction: DIRECTION.RIGHT
-      },
-      {
-        path: '/public/images/mode/visual_video_1722415536421.mp4',
-        direction: DIRECTION.RIGHT
-      },
-      {
-        path: '/public/images/mode/visual_video_1722415536421.mp4',
-        direction: DIRECTION.LEFT
       }
     ]
   }
