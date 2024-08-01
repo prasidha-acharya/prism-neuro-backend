@@ -61,7 +61,6 @@ export class LoginPhysioController implements Controller {
         role: user.role,
         scopes: [TokenScope.PHYSIO_ACCESS]
       };
-
       const jwtToken = JWTSign(
         payload,
         this.config.JWT_SECRET,

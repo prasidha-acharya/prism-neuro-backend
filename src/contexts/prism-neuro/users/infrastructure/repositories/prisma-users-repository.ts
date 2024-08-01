@@ -300,6 +300,8 @@ export class PrismaUserRepository implements IPrismaUserRepository {
   async getPaginatedUsers(request: IFetchUsersRequest): Promise<IPaginateResponse<any>> {
     const { page = 1, limit = 10 } = request;
     const args = this.arguments(request);
+    const pageNo = Number(page);
+    const limitNo = Number(limit);
 
     const [users, count] = await this.db.$transaction([
       this.db.user.findMany({
@@ -318,25 +320,25 @@ export class PrismaUserRepository implements IPrismaUserRepository {
         orderBy: {
           createdAt: 'desc'
         },
-        take: limit,
-        skip: (page - 1) * limit
+        take: limitNo,
+        skip: (pageNo - 1) * limitNo
       }),
       this.db.user.count({
         where: args
       })
     ]);
 
-    const totalPages = Math.ceil(count / limit) ?? 0;
+    const totalPages = Math.ceil(count / limitNo) ?? 0;
 
     return {
       data: users,
       pagination: {
-        limit,
+        limit: limitNo,
         total: count,
         totalPages,
-        currentPage: page,
-        isFirstPage: page === 0,
-        isLastPage: page === totalPages - 1
+        currentPage: pageNo,
+        isFirstPage: pageNo === 0,
+        isLastPage: pageNo === totalPages - 1
       }
     };
   }

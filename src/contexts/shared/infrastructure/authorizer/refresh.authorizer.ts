@@ -18,9 +18,9 @@ export class RefreshAuthorizer implements IAuthorizer<Request, Response, NextFun
 
     const tokenArray = authorization !== undefined ? authorization.split(' ') : [];
     const token = tokenArray[1];
-
     try {
-      const payload: Payload = jwt.verify(token, this.config.JWT_SECRET!) as Payload;
+      const payload: Payload = jwt.verify(token, this.config.JWT_SECRET) as Payload;
+
       const userSession = await this.getUserSessionService.invoke(payload.sessionId);
 
       if (!userSession || userSession.userId !== payload.userId) {
