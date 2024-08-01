@@ -988,6 +988,18 @@
         ]
       }
     },
+    "/health-check": {
+      "post": {
+        "tags": ["Health check"],
+        "summary": "Check if end point is working or not",
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
     "/physio/mode/session-start/{patientId}": {
       "post": {
         "tags": ["Tablet Mode Session"],
