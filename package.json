@@ -2,6 +2,9 @@
   "name": "prism-neuro-backend",
   "version": "1.0.0",
   "main": "index.js",
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
+  },
   "scripts": {
     "build": "npm run build:clean && npm run build:tsc ",
     "build:tsc": "tsc -p tsconfig.prod.json",
@@ -15,7 +18,8 @@
     "migration:deploy": "prisma migrate deploy",
     "generate:prisma": "prisma generate",
     "swagger": "ts-node-dev src/contexts/shared/infrastructure/swagger/swagger.ts",
-    "prepare": "husky"
+    "prepare": "husky",
+    "db:seeder": "prisma db seed"
   },
   "keywords": [],
   "author": "",
