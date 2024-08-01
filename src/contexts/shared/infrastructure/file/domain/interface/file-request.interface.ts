@@ -15,3 +15,8 @@ export interface IGetFileRequest {
   isLeftMode?: true;
   isRightMode?: true;
 }
+
+export interface IFileUploadResponse {
+  key: string;
+  url: string;
+}
