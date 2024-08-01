@@ -31,37 +31,27 @@ export const modeTypes = [
   },
   {
     type: MODE_TYPE.LEFT_RIGHT_MODE,
-    instructions: [
-      'Stand on the balance board while viewing a total of 50 randomly displayed images, including 25 left foot and 25 right foot images, on the screen.',
-      'Promptly tilt the trainer board left or right.',
-      'Concentrate on responding accurately and promptly to the directional prompts given by the displayed images.'
-    ],
     name: 'Left and Right Mode',
     trialCount: 3,
     images: ['images/mode/left_right_mode_1722414584654.png'],
     modeDetail: {
       instructions: [
-        'Position yourself stably on the balance board.',
-        'Move towards each target displayed on the screen.',
-        'Complete the task by accurately targeting as many points as possible within 30 seconds.'
+        'Stand on the balance board while viewing a total of 50 randomly displayed images, including 25 left foot and 25 right foot images, on the screen.',
+        'Promptly tilt the trainer board left or right.',
+        'Concentrate on responding accurately and promptly to the directional prompts given by the displayed images.'
       ]
     }
   },
   {
     type: MODE_TYPE.VISUAL_BALANCE_MODE,
-    instructions: [
-      'Place the balance board on a stable surface and stand comfortably.',
-      'Shift your weight gently from side to side on the board.',
-      'Evaluate your balance and movement as you shift your body.'
-    ],
     name: 'Balance Mode with visuals-no Feedback',
     trialCount: 3,
     images: ['images/mode/visual_image_1722414924591.png'],
     modeDetail: {
       instructions: [
-        'Position yourself stably on the balance board.',
-        'Move towards each target displayed on the screen.',
-        'Complete the task by accurately targeting as many points as possible within 30 seconds.'
+        'Place the balance board on a stable surface and stand comfortably.',
+        'Shift your weight gently from side to side on the board.',
+        'Evaluate your balance and movement as you shift your body.'
       ]
     }
   }

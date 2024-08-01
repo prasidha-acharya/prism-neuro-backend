@@ -11,7 +11,6 @@ import { GetAllModesService } from '../../../contexts/prism-neuro/mode/applicati
 import { GetModeByIdService } from '../../../contexts/prism-neuro/mode/application/get-mode-by-id.service';
 import { GetModesService } from '../../../contexts/prism-neuro/mode/application/get-modes.service';
 import { PrismaModeRepository } from '../../../contexts/prism-neuro/mode/infrastructure/repositories/prisma-mode-repository';
-import { CreateModeSeeder } from '../../../contexts/prism-neuro/mode/infrastructure/seeders/create-mode.seeder';
 import { EndModeTrialService } from '../../../contexts/prism-neuro/trial/application/end-mode-trial.service';
 import { GetModeTrialsBySessionService } from '../../../contexts/prism-neuro/trial/application/get-mode-trial.service';
 import { GetModeTrialsOfPatientService } from '../../../contexts/prism-neuro/trial/application/get-mode-trials-of-patient.service';
@@ -43,7 +42,6 @@ import { UpdatePatientService } from '../../../contexts/prism-neuro/users/applic
 import { UpdatePhysioService } from '../../../contexts/prism-neuro/users/application/update-physio-by-admin.service';
 import { UserTransformer } from '../../../contexts/prism-neuro/users/domain/transformer/user-transformer';
 import { PrismaUserRepository } from '../../../contexts/prism-neuro/users/infrastructure/repositories/prisma-users-repository';
-import { CreateAdminSeeder } from '../../../contexts/prism-neuro/users/infrastructure/seeders/create-admin.seeder';
 import { JWTAdminAuthorizer } from '../../../contexts/shared/infrastructure/authorizer/admin.authorizer';
 import { JWTPatientAuthorizer } from '../../../contexts/shared/infrastructure/authorizer/patient.authorizer';
 import { JWTPhysioTherapistAuthorizer } from '../../../contexts/shared/infrastructure/authorizer/physio.authorizer';
@@ -185,11 +183,6 @@ export class Container {
       // Login
       .register({
         loginPhysioController: asClass(LoginPhysioController)
-      })
-      //Seeder
-      .register({
-        adminSeeder: asClass(CreateAdminSeeder).singleton(),
-        modeSeeder: asClass(CreateModeSeeder).singleton()
       })
       //User logout
       .register({
