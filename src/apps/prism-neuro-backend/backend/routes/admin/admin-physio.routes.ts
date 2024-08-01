@@ -123,6 +123,16 @@ export const adminPhysioRoutesHandler = (
         in: 'query',
         type: 'string'
       }
+      #swagger.parameters['page'] = {
+        in: 'query',
+        type: 'number'
+      }
+
+      #swagger.parameters['limit'] = {
+        in: 'query',
+        type: 'number'
+      }
+
       #swagger.parameters['startDate'] = {
         in: 'query',
         type: 'Date'
