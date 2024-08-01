@@ -1,6 +1,7 @@
 import express from 'express';
 import * as http from 'http';
 import { AddressInfo } from 'net';
+import path from 'path';
 import { Configuration } from '../../../../config';
 import { RequestLogger } from '../../../contexts/shared/infrastructure/request-logs/request-logger';
 import { ServerLogger } from '../../../contexts/shared/infrastructure/winston-logger';
@@ -17,7 +18,7 @@ export class Server {
     private requestLogger: RequestLogger
   ) {
     this.express = express();
-    this.express.use(express.static('public'));
+    this.express.use(express.static(path.join('public')));
     this.express.use(this.logger.stream());
     this.express.use(this.requestLogger.logs);
     this.express.use(this.router);
