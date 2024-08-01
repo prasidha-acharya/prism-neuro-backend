@@ -6,8 +6,11 @@ const prisma = new PrismaClient();
 async function main(): Promise<void> {
   //admin
 
-  const admin = await prisma.user.create({
-    data: {
+  const admin = await prisma.user.upsert({
+    where: {
+      email: adminUser.email
+    },
+    create: {
       email: adminUser.email,
       role: USER_ROLES.ADMIN,
       password: adminUser.password,
@@ -16,7 +19,8 @@ async function main(): Promise<void> {
           data: adminUser.address
         }
       }
-    }
+    },
+    update: {}
   });
 
   //mode
