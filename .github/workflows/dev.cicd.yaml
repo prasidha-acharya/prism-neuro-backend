@@ -6,6 +6,7 @@ on:
 
 env:
   S3_BUCKET_REGION: 'ap-southeast-2'
+  AWS_REGION: 'ap-southeast-2'
   S3_BUCKET_NAME: 'prism-neuro'
   S3_PUBLIC_BUCKET_STORAGE_URL: 'https://prism-neuro.s3.ap-southeast-2.amazonaws.com/'
   MAIL_SENDER_ADDRESS: 'mailtester41a@gmail.com'
