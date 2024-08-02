@@ -71,14 +71,14 @@ jobs:
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           ECR_REPOSITORY: ${{ env.AWS_REGISTERY }}
-          run: |
-            echo "Build docker container"
-            # Build a docker container and
-            # push it to ECR so that it can
-            # be deployed to ECS.
-            docker image build \
-            --tag $ECR_REGISTRY/$ECR_REPOSITORY:${{ env.SHORT_SHA }} \
-            --tag $ECR_REGISTRY/$ECR_REPOSITORY:latest .
+        run: |
+          echo "Build docker container"
+          # Build a docker container and
+          # push it to ECR so that it can
+          # be deployed to ECS.
+          docker image build \
+          --tag $ECR_REGISTRY/$ECR_REPOSITORY:${{ env.SHORT_SHA }} \
+          --tag $ECR_REGISTRY/$ECR_REPOSITORY:latest .
 
-            docker push $ECR_REGISTRY/$ECR_REPOSITORY:${{ env.SHORT_SHA }}
-            docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:${{ env.SHORT_SHA }}
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
