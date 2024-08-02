@@ -20,7 +20,8 @@ env:
   JWT_EXPIRY: 3600
   SALT_ROUNDS: 10
   AWS_REGISTERY: 'prism-neuro'
-  SHORT_SHA: $(echo ${{ github.sha }} | cut -c 1-8)
+  SHORT_SHA: ${{ github.sha | substr(0, 8 }}
+  TIMESTAMP: ${{ github.run_id }}
 
 name: Deploy Prism Neuro backend
 
@@ -74,12 +75,9 @@ jobs:
           ECR_REPOSITORY: ${{ env.AWS_REGISTERY }}
         run: |
           echo "Build docker container"
-          # Build a docker container and
-          # push it to ECR so that it can
-          # be deployed to ECS.
           docker image build \
-          --tag $ECR_REGISTRY/$ECR_REPOSITORY:${{ env.SHORT_SHA }} \
-          --tag $ECR_REGISTRY/$ECR_REPOSITORY:latest .
+            --tag $ECR_REGISTRY/$ECR_REPOSITORY:${{ env.SHORT_SHA }}-${{ env.TIMESTAMP }} \
+            --tag $ECR_REGISTRY/$ECR_REPOSITORY:latest .
 
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:${{ env.SHORT_SHA }}
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:${{ env.SHORT_SHA }}-${{ env.TIMESTAMP }}
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
