@@ -14,7 +14,7 @@ env:
   PORT: '4000'
   APP_NAME: 'Prism Neuro'
   BASE_URL: '2ece-113-199-226-36.ngrok-free.app'
-  APP_LOG_LEVEL: ''
+  APP_LOG_LEVEL: 'debug'
   JWT_REFRESH_EXPIRY: 3800
   JWT_EXPIRY: 3600
   SALT_ROUNDS: 10
