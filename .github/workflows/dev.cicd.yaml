@@ -66,12 +66,12 @@ jobs:
           export S3_PUBLIC_BUCKET_STORAGE_URL=${{ env.S3_PUBLIC_BUCKET_STORAGE_URL }}
           envsubst < .env.example > .env.aws-exports
 
-       - name: Build, tag, and push image to Amazon ECR
-         id: build-image
-         env:
+      - name: Build, tag, and push image to Amazon ECR
+        id: build-image
+        env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           ECR_REPOSITORY: ${{ env.AWS_REGISTERY }}
-         run: |
+          run: |
           echo "Build docker container"
           # Build a docker container and
           # push it to ECR so that it can
