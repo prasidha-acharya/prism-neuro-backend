@@ -68,7 +68,7 @@ jobs:
           export S3_PUBLIC_BUCKET_STORAGE_URL=${{ env.S3_PUBLIC_BUCKET_STORAGE_URL }}
           envsubst < .env.example > .env.aws-exports
 
-      - name: Build, tag, and push image to Amazon ECR
+      - name: Build, tag, and push image to Amazon ECRc
         id: build-image
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
