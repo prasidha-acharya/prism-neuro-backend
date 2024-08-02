@@ -1003,7 +1003,7 @@
       }
     },
     "/health-check": {
-      "post": {
+      "get": {
         "tags": ["Health check"],
         "summary": "Check if end point is working or not",
         "description": "",
