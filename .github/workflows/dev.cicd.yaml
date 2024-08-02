@@ -1,0 +1,84 @@
+on:
+  push:
+    branches:
+      - dev
+  workflow_dispatch:
+
+env:
+  S3_BUCKET_REGION: 'ap-southeast-2'
+  S3_BUCKET_NAME: 'prism-neuro'
+  S3_PUBLIC_BUCKET_STORAGE_URL: 'https://prism-neuro.s3.ap-southeast-2.amazonaws.com/'
+  MAIL_SENDER_ADDRESS: 'mailtester41a@gmail.com'
+  MAIL_PORT: '587'
+  MAIL_HOST: 'smtp.gmail.com'
+  PORT: '4000'
+  APP_NAME: 'Prism Neuro'
+  BASE_URL: '2ece-113-199-226-36.ngrok-free.app'
+  APP_LOG_LEVEL: ''
+  JWT_REFRESH_EXPIRY: 3800
+  JWT_EXPIRY: 3600
+  SALT_ROUNDS: 10
+  AWS_REGISTERY: 'prism-neuro'
+  SHORT_SHA: $(echo ${{ github.sha }} | cut -c 1-8)
+
+name: Deploy Prism Neuro backend
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: action/checkout@v2
+
+      - name: Configure aws Credentials
+        uses: asw-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.DEV_AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.DEV_AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Build env file for docker images before buildings
+        run: |
+          # do bunch of exports and store it to .env.aws-exports file
+          export PORT=${{ env.PORT }}
+          export APP_NAME=${{ env.APP_NAME }}
+          export DATABASE_URL=${{ secrets.DEV_AWS_DATABASE_URL }}
+          export APP_LOG_LEVEL=${{ env.APP_LOG_LEVEL }}
+          export JWT_SECRET_TOKEN=${{ secrets.DEV_AWS_JWT_SECRET_TOKEN}}
+          export JWT_REFRESH_EXPIRY=${{ env.JWT_REFRESH_EXPIRY }}
+          export JWT_EXPIRY=${{ env.JWT_EXPIRY }}
+          export SALT_ROUNDS=${{ env.SALT_ROUNDS }}
+          export MAIL_HOST=${{ env.MAIL_HOST }}
+          export MAIL_PORT=${{ env.MAIL_PORT}}
+          export MAIL_SENDER_ADDRESS=${{ env.MAIL_SENDER_ADDRESS }}
+          export MAIL_AUTH_USER=${{ secrets.DEV_AWS_MAIL_AUTH_USER }}
+          export MAIL_AUTH_PASS=${{ secrets.DEV_AWS_MAIL_AUTH_PASSWORD }}
+          export S3_BUCKET_NAME=${{ env.S3_BUCKET_NAME }}
+          export S3_BUCKET_ACCESS_KEY_ID=${{ secrets.DEV_AWS_S3_BUCKET_ACCESS_KEY_ID }}
+          export S3_BUCKET_SECRET_ACCESS_KEY=${{ secrets.DEV_AWS_S3_BUCKET_SECRET_ACCESS_KEY }}
+          export S3_BUCKET_REGION=${ env.S3_BUCKET_REGION }}
+          export S3_PUBLIC_BUCKET_STORAGE_URL=${{ env.S3_PUBLIC_BUCKET_STORAGE_URL }}
+          envsubst < .env.example > .env.aws-exports
+
+       - name: Build, tag, and push image to Amazon ECR
+         id: build-image
+         env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: ${{ env.AWS_REGISTERY }}
+         run: |
+          echo "Build docker container"
+          # Build a docker container and
+          # push it to ECR so that it can
+          # be deployed to ECS.
+          docker image build \
+          --tag $ECR_REGISTRY/$ECR_REPOSITORY:${{ env.SHORT_SHA }} \
+          --tag $ECR_REGISTRY/$ECR_REPOSITORY:latest .
+
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:${{ env.SHORT_SHA }}
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
