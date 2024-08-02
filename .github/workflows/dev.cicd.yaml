@@ -63,7 +63,7 @@ jobs:
           export S3_BUCKET_NAME=${{ env.S3_BUCKET_NAME }}
           export S3_BUCKET_ACCESS_KEY_ID=${{ secrets.DEV_AWS_S3_BUCKET_ACCESS_KEY_ID }}
           export S3_BUCKET_SECRET_ACCESS_KEY=${{ secrets.DEV_AWS_S3_BUCKET_SECRET_ACCESS_KEY }}
-          export S3_BUCKET_REGION=${ env.S3_BUCKET_REGION }}
+          export S3_BUCKET_REGION=${{ env.S3_BUCKET_REGION }}
           export S3_PUBLIC_BUCKET_STORAGE_URL=${{ env.S3_PUBLIC_BUCKET_STORAGE_URL }}
           envsubst < .env.example > .env.aws-exports
 
