@@ -7,10 +7,10 @@
   },
   "servers": [
     {
-      "url": "http://f8dc-2407-1400-aa1f-53a0-c8d8-3d3f-591d-bb37.ngrok-free.app/api/"
+      "url": "http://2ece-113-199-226-36.ngrok-free.app/api/"
     },
     {
-      "url": "https://f8dc-2407-1400-aa1f-53a0-c8d8-3d3f-591d-bb37.ngrok-free.app/api/"
+      "url": "https://2ece-113-199-226-36.ngrok-free.app/api/"
     }
   ],
   "paths": {
