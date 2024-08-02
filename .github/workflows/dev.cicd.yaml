@@ -20,7 +20,7 @@ env:
   JWT_EXPIRY: 3600
   SALT_ROUNDS: 10
   AWS_REGISTERY: 'prism-neuro'
-  SHORT_SHA: ${{ github.sha | substr(0, 8 }}
+  SHORT_SHA: $(echo ${{ github.sha }} | cut -c 1-8)
   TIMESTAMP: ${{ github.run_id }}
 
 name: Deploy Prism Neuro backend
