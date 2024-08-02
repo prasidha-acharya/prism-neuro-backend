@@ -19,6 +19,7 @@ import {
   IGetTotalUsersResponse,
   IPaginateResponse,
   IPrismaGetUserByEmail,
+  IPrismaUserDetailByEmailAndRole,
   IPrismaUserForGetPatientsByPhysioResponse,
   IPrismaUserForGetPatientsDetailIncludingSessions
 } from '../../domain/interface/user.response.interface';
@@ -227,12 +228,16 @@ export class PrismaUserRepository implements IPrismaUserRepository {
     };
   }
 
-  async getUserByRole({ userId, role }: IGetUserByRoleRequest): Promise<User | null> {
+  async getUserByRole({ userId, role }: IGetUserByRoleRequest): Promise<IPrismaUserDetailByEmailAndRole | null> {
     return await this.db.user.findUnique({
       where: {
         id: userId,
         role: role,
         deletedAt: null
+      },
+      include: {
+        userDetail: true,
+        userAddress: true
       }
     });
   }

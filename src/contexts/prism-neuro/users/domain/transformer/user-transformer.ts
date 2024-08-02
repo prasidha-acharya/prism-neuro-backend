@@ -2,8 +2,10 @@ import { MODE_SESSION_STATUS, MODE_TRIAL_SESSION_STATUS, ModeTrialSession, Prism
 import { GetSignedURLService } from '../../../../../contexts/shared/infrastructure/file/application/get-signed-url.service';
 import {
   IGetPatientPerformance,
+  IGetUserDetailByIdResponse,
   IGetUserListByAdminResponse,
   IPrismaGetUserByEmail,
+  IPrismaUserDetailByEmailAndRole,
   IPrismaUserResponse,
   UserResponse
 } from '../interface/user.response.interface';
@@ -120,6 +122,18 @@ export class UserTransformer {
     return {
       bestScores: response.bestScores,
       averageScores: response?.totalScores > 0 ? response.totalScores / trials.length : 0
+    };
+  }
+
+  public userDetailInfoByIdForDashBoard(user: IPrismaUserDetailByEmailAndRole): IGetUserDetailByIdResponse {
+    const { email, firstName, lastName, isVerified, userDetail, userAddress } = user;
+    return {
+      email,
+      fullName: `${firstName} ${lastName}`,
+      isVerified,
+      weight: userDetail?.weight ?? null,
+      age: userDetail?.age ?? null,
+      userAddress: userAddress.map(({ id, address }) => ({ id, address }))
     };
   }
 }
