@@ -5,7 +5,7 @@ interface IRouterHandler {
   healthCheckController: controllers.HealthCheckController;
 }
 export const healthCheckRoutesHandler = ({ healthCheckController }: IRouterHandler, router: Router): Router => {
-  router.post(
+  router.get(
     '/health-check',
     healthCheckController.invoke.bind(healthCheckController)
     /*

@@ -3,10 +3,8 @@ import { NextFunction, Request, Response } from 'express';
 import { USER_ROLES } from '@prisma/client';
 import { Configuration } from 'config';
 import httpStatus from 'http-status';
-import { HTTP400Error } from '../../../../../contexts/shared/domain/errors/http.exception';
 import { Payload, TokenScope } from '../../../../../contexts/shared/domain/interface/payload';
 import { JWTSign } from '../../../../../contexts/shared/infrastructure/authorizer/jwt-token';
-import { MESSAGE_CODES } from '../../../../../contexts/shared/infrastructure/utils/message-code';
 import { Controller } from '../controller';
 
 export class GenerateAccessTokenController implements Controller {
@@ -14,7 +12,7 @@ export class GenerateAccessTokenController implements Controller {
 
   async invoke(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-      const { email, role, user_id, session_id } = req.body.user;
+      const { email, role, userId, sessionId } = req.body.user;
 
       let scopes: TokenScope[] = [];
 
@@ -23,10 +21,10 @@ export class GenerateAccessTokenController implements Controller {
       } else if (role === USER_ROLES.PHYSIO) {
         scopes = [TokenScope.PHYSIO_ACCESS];
       } else {
-        throw new HTTP400Error(MESSAGE_CODES.USER.INVALID_REFRESH_TOKEN);
+        scopes = [TokenScope.PATIENT_ACCESS];
       }
 
-      const payload: Payload = { userId: user_id, email, role, sessionId: session_id, scopes };
+      const payload: Payload = { userId: userId, email, role, sessionId: sessionId, scopes };
       const jwtToken = JWTSign(
         payload,
         this.config.JWT_SECRET,
