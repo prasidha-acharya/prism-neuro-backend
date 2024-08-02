@@ -4,6 +4,7 @@ import {
   IGetPatientPerformance,
   IGetUserListByAdminResponse,
   IPrismaGetUserByEmail,
+  IPrismaUserDetailByEmailAndRole,
   IPrismaUserResponse,
   UserResponse
 } from '../interface/user.response.interface';
@@ -120,6 +121,19 @@ export class UserTransformer {
     return {
       bestScores: response.bestScores,
       averageScores: response?.totalScores > 0 ? response.totalScores / trials.length : 0
+    };
+  }
+
+  public userDetailInfoByIdForDashBoard(user: IPrismaUserDetailByEmailAndRole): any {
+    const { email, firstName, lastName, isVerified, userDetail, userAddress } = user;
+    return {
+      email,
+      firstName,
+      lastName,
+      isVerified,
+      weight: userDetail?.weight,
+      age: userDetail?.age,
+      userAddress
     };
   }
 }

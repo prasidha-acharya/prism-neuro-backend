@@ -114,7 +114,8 @@ const {
   UpdateAdminProfileController,
   GetModesByAdminController,
   GetStaticFilesController,
-  HealthCheckController
+  HealthCheckController,
+  GetUserDetailByIdController
 } = controller;
 export class Container {
   private readonly container: AwilixContainer;
@@ -209,7 +210,8 @@ export class Container {
         deletePatientByAdminController: asClass(DeletePatientByAdminController),
         getPatientsOfPhysioService: asClass(GetPatientsOfPhysioService).singleton(),
         getUserDetailController: asClass(GetUserDetailController),
-        updateLastLoginService: asClass(UpdateLastLoginService).singleton()
+        updateLastLoginService: asClass(UpdateLastLoginService).singleton(),
+        getUserDetailByIdController: asClass(GetUserDetailByIdController)
       })
       //Physio
       .register({

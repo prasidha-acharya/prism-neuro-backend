@@ -21,6 +21,7 @@ export * from './general/access-token.controller';
 export * from './general/change-password.controller';
 export * from './general/delete-account.controller';
 export * from './general/forgot-password.controller';
+export * from './general/get-user-detail-by-id.controller';
 export * from './general/get-user-detail.controller';
 export * from './general/logout.controller';
 export * from './general/reset-password.controller';

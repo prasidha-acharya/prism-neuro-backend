@@ -7,10 +7,10 @@
   },
   "servers": [
     {
-      "url": "http://f8dc-2407-1400-aa1f-53a0-c8d8-3d3f-591d-bb37.ngrok-free.app/api/"
+      "url": "http://2ece-113-199-226-36.ngrok-free.app/api/"
     },
     {
-      "url": "https://f8dc-2407-1400-aa1f-53a0-c8d8-3d3f-591d-bb37.ngrok-free.app/api/"
+      "url": "https://2ece-113-199-226-36.ngrok-free.app/api/"
     }
   ],
   "paths": {
@@ -820,6 +820,41 @@
       "get": {
         "tags": ["User"],
         "description": "Get user detail",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/user/{userId}": {
+      "get": {
+        "tags": ["User"],
+        "description": "Get user detail",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "role",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": ["ADMIN", "PATIENT", "PHYSIO"]
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK"

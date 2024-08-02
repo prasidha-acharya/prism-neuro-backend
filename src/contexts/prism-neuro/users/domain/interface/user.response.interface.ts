@@ -86,3 +86,8 @@ export interface UserResponse {
     profileURL: string | null;
   };
 }
+
+export interface IPrismaUserDetailByEmailAndRole extends User {
+  userAddress: UserAddress[];
+  userDetail: UserDetail | null;
+}
