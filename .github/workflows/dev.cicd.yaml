@@ -14,7 +14,7 @@ env:
   MAIL_HOST: 'smtp.gmail.com'
   PORT: '4000'
   APP_NAME: 'Prism Neuro'
-  BASE_URL: '2ece-113-199-226-36.ngrok-free.app'
+  BASE_URL: 'https://wzc3awtzdf.ap-southeast-2.awsapprunner.com'
   APP_LOG_LEVEL: 'debug'
   JWT_REFRESH_EXPIRY: 3800
   JWT_EXPIRY: 3600
