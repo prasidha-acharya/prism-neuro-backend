@@ -44,6 +44,11 @@ export interface IPatientModeAnalysticsRequest {
   patientId: string;
 }
 
+export interface IAdminModeAnalysticsRequest {
+  startDate: Date;
+  endDate: Date;
+}
+
 export interface IModeAnalyticsQuery {
   physioId?: string;
   patientId?: string;

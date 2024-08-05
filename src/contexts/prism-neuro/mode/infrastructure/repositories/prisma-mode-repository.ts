@@ -109,7 +109,7 @@ export class PrismaModeRepository implements IModeRepository {
     });
   }
 
-  async getModeSessionsByQuery({ startDate, endDate, physioId, patientId }: IGetAllModesRequest): Promise<IPrismaModeAnalyticsReponse[]> {
+  async getModeAnalyticsByQuery({ startDate, endDate, physioId, patientId }: IGetAllModesRequest): Promise<IPrismaModeAnalyticsReponse[]> {
     let query: IModeAnalyticsQuery = {};
 
     if (physioId) {

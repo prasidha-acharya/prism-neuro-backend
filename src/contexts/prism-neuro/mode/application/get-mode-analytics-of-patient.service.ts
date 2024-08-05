@@ -10,7 +10,7 @@ export class GetModeAnalyticsOfPatientService {
   ) {}
 
   async invoke(request: IPatientModeAnalysticsRequest): Promise<IModeAnalyticsReponse[]> {
-    const response = await this.prismaModeRepository.getModeSessionsByQuery(request);
+    const response = await this.prismaModeRepository.getModeAnalyticsByQuery(request);
     const resp = this.statisticsTransformer.modeAnalayticsTransformer(response);
     return resp;
   }
