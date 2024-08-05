@@ -1,11 +1,9 @@
 import { NextFunction, Request, Response } from 'express';
 import { query } from 'express-validator';
 import httpStatus from 'http-status';
-import { GetAllModesService } from '../../../../../contexts/prism-neuro/mode/application/get-all-mode.service';
 import { GetModeAnalyticsOfPhysioService } from '../../../../../contexts/prism-neuro/mode/application/get-mode-analytics-of-physio.service';
 import { HTTP400Error, HTTP422Error } from '../../../../../contexts/shared/domain/errors/http.exception';
 import { RequestValidator } from '../../../../../contexts/shared/infrastructure/middleware/request-validator';
-import { StatisticsTransformer } from '../../../../../contexts/shared/infrastructure/transformer/statistics-transformer';
 import {
   getDateBeforeOneMonth,
   getDateBeforeWeek,
@@ -16,11 +14,7 @@ import { MESSAGE_CODES } from '../../../../../contexts/shared/infrastructure/uti
 import { Controller } from '../controller';
 
 export class GetPhysioModeAnalyticsController implements Controller {
-  constructor(
-    private getAllModesService: GetAllModesService,
-    private statisticsTransformer: StatisticsTransformer,
-    private getModeAnalyticsOfPhysioService: GetModeAnalyticsOfPhysioService
-  ) {}
+  constructor(private getModeAnalyticsOfPhysioService: GetModeAnalyticsOfPhysioService) {}
 
   public validate = [
     query('startDate')
