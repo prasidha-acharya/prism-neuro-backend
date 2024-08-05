@@ -48,7 +48,7 @@ jobs:
       - name: Remove Latest Tag
         run: |
           aws ecr batch-delete-image \
-            --repository-name Y${{ env.AWS_REGISTERY }} \
+            --repository-name ${{ env.AWS_REGISTERY }} \
             --image-ids imageTag=latest imageTag=demo
 
       - name: Build env file for docker images before buildings
