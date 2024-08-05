@@ -11,31 +11,7 @@ interface ModeResponse {
   data: number;
 }
 export class StatisticsTransformer {
-  modeAnalyticsTransformer(modes: IPrismaModeWithTrials[]): ModeResponse[] {
-    const result = modes.map(mode => {
-      const data = mode.modeTrialSession.reduce((a: number, trial: ModeTrialSession) => {
-        //assuming
-        if (trial.results && typeof trial.results === 'object') {
-          const trialObject = trial.results as Prisma.JsonObject;
-          const value = Number(trialObject.data);
-          a += value;
-        }
-
-        return a;
-      }, 0);
-
-      return {
-        id: mode.id,
-        type: mode.type,
-        data: Number((data / mode.trialCount).toFixed(2)),
-        createdAt: mode.createdAt
-      };
-    });
-
-    return result;
-  }
-
-  public newModeAnalayticsDashBoardTransformer(modes: IPrismaModeAnalyticsReponse[]): IModeAnalyticsReponse[] {
+  public modeAnalayticsTransformer(modes: IPrismaModeAnalyticsReponse[]): IModeAnalyticsReponse[] {
     const result = modes.reduce((finalResult: Record<string, IModeAnalyticsReponse>, mode) => {
       const { modeTrialSession } = mode;
 

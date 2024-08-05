@@ -11,7 +11,7 @@ export class GetModeAnalyticsOfPhysioService {
 
   async invoke(request: IPhysioModeAnalysticsRequest): Promise<IModeAnalyticsReponse[]> {
     const response = await this.prismaModeRepository.getModeSessionsByQuery(request);
-    const resp = this.statisticsTransformer.newModeAnalayticsDashBoardTransformer(response);
+    const resp = this.statisticsTransformer.modeAnalayticsTransformer(response);
     return resp;
   }
 }

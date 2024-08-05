@@ -10,7 +10,7 @@ export class GetModeAnalyticsOfAdminService {
 
   async invoke(request: any): Promise<IModeAnalyticsReponse[]> {
     const response = await this.prismaModeRepository.getModeSessionsByQuery(request);
-    const resp = this.statisticsTransformer.newModeAnalayticsDashBoardTransformer(response);
+    const resp = this.statisticsTransformer.modeAnalayticsTransformer(response);
     return resp;
   }
 }
