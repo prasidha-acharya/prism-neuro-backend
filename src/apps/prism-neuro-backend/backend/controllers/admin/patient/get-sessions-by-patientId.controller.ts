@@ -80,7 +80,7 @@ export class GetModeSessionsByPatientIdController implements Controller {
     const modeId = req.params.modeId;
 
     try {
-      const response = await this.getSessionOfPateintService.invoke({
+      const data = await this.getSessionOfPateintService.invoke({
         patientId,
         modeId,
         search,
@@ -90,12 +90,8 @@ export class GetModeSessionsByPatientIdController implements Controller {
         page: Number(page)
       });
 
-      const data = response.data === null ? [] : this.modeTransformer.modeSessionOfPatients(response.data);
       res.status(httpStatus.OK).json({
-        data: {
-          ...response,
-          data
-        },
+        data,
         status: 'SUCCESS'
       });
     } catch (error) {

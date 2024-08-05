@@ -129,10 +129,13 @@ export class UserTransformer {
     const { email, firstName, lastName, isVerified, userDetail, userAddress } = user;
     return {
       email,
-      fullName: `${firstName} ${lastName}`,
+      firstName: firstName ?? null,
+      lastName: lastName ?? null,
       isVerified,
       weight: userDetail?.weight ?? null,
       age: userDetail?.age ?? null,
+      phoneCode: userDetail?.phoneCode ?? null,
+      phoneNumber: userDetail?.phoneNumber ?? null,
       userAddress: userAddress.map(({ id, address }) => ({ id, address }))
     };
   }

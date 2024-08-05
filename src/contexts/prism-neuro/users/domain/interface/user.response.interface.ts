@@ -94,9 +94,12 @@ export interface IPrismaUserDetailByEmailAndRole extends User {
 
 export interface IGetUserDetailByIdResponse {
   email: string;
-  fullName: string;
+  firstName: string | null;
+  lastName: string | null;
   isVerified: boolean;
   weight: number | null;
   age: number | null;
   userAddress: IAddress[];
+  phoneCode: string | null;
+  phoneNumber: string | null;
 }
