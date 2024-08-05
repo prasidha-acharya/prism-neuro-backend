@@ -3,14 +3,8 @@ import { query } from 'express-validator';
 import httpStatus from 'http-status';
 import { GetModeAnalyticsOfPatientService } from '../../../../../contexts/prism-neuro/mode/application/get-mode-analytics-of-patient.service';
 import { Filter } from '../../../../../contexts/prism-neuro/statistics/domain/interface/statistics-request.interface';
-import { HTTP400Error } from '../../../../../contexts/shared/domain/errors/http.exception';
 import { RequestValidator } from '../../../../../contexts/shared/infrastructure/middleware/request-validator';
-import {
-  getDateBeforeOneMonth,
-  getDateBeforeWeek,
-  getEndDayOfDate,
-  getStartDayOfDate
-} from '../../../../../contexts/shared/infrastructure/utils/date';
+import { getEndDayOfDate } from '../../../../../contexts/shared/infrastructure/utils/date';
 import { MESSAGE_CODES } from '../../../../../contexts/shared/infrastructure/utils/message-code';
 import { Controller } from '../controller';
 
@@ -31,19 +25,7 @@ export class GetPatientModeAnalyticsController implements Controller {
 
     endDate = getEndDayOfDate(currentDate);
 
-    if (filter === 'monthly') {
-      startDate = getDateBeforeOneMonth();
-    } else if (filter === 'weekly') {
-      startDate = getDateBeforeWeek();
-    } else {
-      startDate = getStartDayOfDate(currentDate);
-    }
-
     try {
-      if (!startDate || !endDate) {
-        throw new HTTP400Error(MESSAGE_CODES.INVALID_DATE);
-      }
-
       const response = await this.getModeAnalyticsOfPatientService.invoke({ startDate, endDate, patientId }, filter);
 
       res.status(httpStatus.OK).json({ data: response, status: 'SUCCESS' });

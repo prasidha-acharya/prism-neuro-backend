@@ -82,21 +82,7 @@ export class GetModeAnalyticsController implements Controller {
       endDate = getEndDayOfDate(req.query.endDate as unknown as Date);
     }
 
-    console.log(filter, 'startDate');
-
-    // if (filter === 'monthly') {
-    //   startDate = getDateBeforeOneMonth();
-    // } else if (filter === 'weekly') {
-    //   startDate = getDateBeforeWeek();
-    // } else {
-    //   startDate = getStartDayOfDate(currentDate);
-    // }
-
     try {
-      // if (!startDate || !endDate) {
-      //   throw new HTTP400Error(MESSAGE_CODES.INVALID_DATE);
-      // }
-
       const resp = await this.getModeAnalyticsOfAdminService.invoke({ startDate, endDate }, filter);
 
       res.status(httpStatus.OK).json({ data: resp, status: 'SUCCESS' });

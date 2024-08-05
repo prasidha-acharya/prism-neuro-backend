@@ -5,6 +5,7 @@ import {
   IPrismaModeWithTrials
 } from '../../../../contexts/prism-neuro/mode/domain/interface/mode-response.interface';
 import { Filter } from '../../../../contexts/prism-neuro/statistics/domain/interface/statistics-request.interface';
+import { fixedDigitNumber } from '../utils/utility';
 
 interface ModeResponse {
   id: string;
@@ -13,34 +14,33 @@ interface ModeResponse {
 }
 export class StatisticsTransformer {
   public modeAnalayticsTransformer(modes: IPrismaModeAnalyticsReponse[], filter: Filter): IModeAnalyticsReponse[] {
-    console.log(filter, 'filter');
     const result = modes.reduce((finalResult: Record<string, IModeAnalyticsReponse>, mode) => {
       const { modeTrialSession } = mode;
+      let total = 0;
 
-      modeTrialSession.forEach(c => {
-        const date: string = c.createdAt.toISOString().split('T')[0];
-        const year: string = c.createdAt.getFullYear().toString(); // Extract year
+      modeTrialSession.forEach(trialSession => {
+        const year: string = trialSession.createdAt.getFullYear().toString(); // Extract year
 
         let label = '';
 
         if (filter === Filter.DAILY) {
-          label = `${c.createdAt.toLocaleString('default', { weekday: 'short' })}-${date}`;
+          label = `${trialSession.createdAt.toLocaleString('default', { weekday: 'short' })}-${new Date(trialSession.createdAt).toLocaleDateString()}`;
         } else if (filter === Filter.MONTHLY) {
-          label = `${c.createdAt.toLocaleString('default', { month: 'short' })}-${year}`;
+          label = `${trialSession.createdAt.toLocaleString('default', { month: 'short' })}-${year}`;
         }
 
-        // sun mon
-
-        const result = c.results as Prisma.JsonObject;
+        const result = trialSession.results as Prisma.JsonObject;
         if (!finalResult[label]) {
+          total += 1;
           finalResult[label] = {
             label,
-            [mode.type]: Number(result?.data ?? 0)
+            [mode.type]: fixedDigitNumber(Number(result?.data ?? 0) / total)
           };
         } else {
+          total += 1;
           finalResult[label] = {
             ...finalResult[label],
-            [mode.type]: (finalResult[label]?.[mode.type] ?? 0) + Number(result?.data ?? 0)
+            [mode.type]: fixedDigitNumber(((finalResult[label]?.[mode.type] ?? 0) + Number(result?.data ?? 0)) / total)
           };
         }
       });
@@ -53,14 +53,14 @@ export class StatisticsTransformer {
 
   modeComparisionTransformer(modes: IPrismaModeWithTrials[]): ModeResponse[] {
     const result = modes.map(mode => {
-      const data = mode.modeTrialSession.reduce((a: number, trial: ModeTrialSession) => {
+      const data = mode.modeTrialSession.reduce((modeComparisionResult: number, trial: ModeTrialSession) => {
         if (trial.results && typeof trial.results === 'object') {
           const trialObject = trial.results as Prisma.JsonObject;
           const value = Number(trialObject.data);
-          a += value;
+          modeComparisionResult += value;
         }
 
-        return a;
+        return modeComparisionResult;
       }, 0);
 
       return {
