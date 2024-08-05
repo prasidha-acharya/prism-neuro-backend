@@ -108,7 +108,17 @@ export class PrismaModeRepository implements IModeRepository {
     });
   }
 
-  async getModeSessionsByQuery({ startDate, endDate }: any): Promise<IPrismaModeAnalyticsReponse[]> {
+  async getModeSessionsByQuery({ startDate, endDate, physioId, patientId }: IGetAllModesRequest): Promise<IPrismaModeAnalyticsReponse[]> {
+    let query: { physioId?: string; patientId?: string } = {};
+
+    if (physioId) {
+      query = { ...query, physioId };
+    }
+
+    if (patientId) {
+      query = { ...query, patientId };
+    }
+
     return await this.db.mode.findMany({
       include: {
         modeTrialSession: {
@@ -116,6 +126,9 @@ export class PrismaModeRepository implements IModeRepository {
             createdAt: {
               gte: startDate,
               lte: endDate
+            },
+            modeSession: {
+              ...query
             }
           },
           select: {

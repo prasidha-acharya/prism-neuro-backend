@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 import { query } from 'express-validator';
 import httpStatus from 'http-status';
 import { GetAllModesService } from '../../../../../contexts/prism-neuro/mode/application/get-all-mode.service';
+import { GetModeAnalyticsOfPhysioService } from '../../../../../contexts/prism-neuro/mode/application/get-mode-analytics-of-physio.service';
 import { HTTP400Error, HTTP422Error } from '../../../../../contexts/shared/domain/errors/http.exception';
 import { RequestValidator } from '../../../../../contexts/shared/infrastructure/middleware/request-validator';
 import { StatisticsTransformer } from '../../../../../contexts/shared/infrastructure/transformer/statistics-transformer';
@@ -17,7 +18,8 @@ import { Controller } from '../controller';
 export class GetPhysioModeAnalyticsController implements Controller {
   constructor(
     private getAllModesService: GetAllModesService,
-    private statisticsTransformer: StatisticsTransformer
+    private statisticsTransformer: StatisticsTransformer,
+    private getModeAnalyticsOfPhysioService: GetModeAnalyticsOfPhysioService
   ) {}
 
   public validate = [
@@ -105,11 +107,11 @@ export class GetPhysioModeAnalyticsController implements Controller {
         throw new HTTP400Error(MESSAGE_CODES.INVALID_DATE);
       }
 
-      const response = await this.getAllModesService.invoke({ startDate, endDate, physioId });
+      const response = await this.getModeAnalyticsOfPhysioService.invoke({ startDate, endDate, physioId });
 
-      const data = response === null ? [] : this.statisticsTransformer.modeAnalyticsTransformer(response);
+      // const data = response === null ? [] : this.statisticsTransformer.modeAnalyticsTransformer(response);
 
-      res.status(httpStatus.OK).json({ data, status: 'SUCCESS' });
+      res.status(httpStatus.OK).json({ data: response, status: 'SUCCESS' });
     } catch (error) {
       next(error);
     }

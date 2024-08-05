@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { query } from 'express-validator';
 import httpStatus from 'http-status';
-import { GetSessionsForModeAnalyticsDashBoardService } from '../../../../../../contexts/prism-neuro/mode-session/application/get-session-for-mode-analytics.service';
+import { GetModeAnalyticsOfAdminService } from '../../../../../../contexts/prism-neuro/mode/application/get-mode-analytics-of-admin.service';
 import { HTTP400Error, HTTP422Error } from '../../../../../../contexts/shared/domain/errors/http.exception';
 import { RequestValidator } from '../../../../../../contexts/shared/infrastructure/middleware/request-validator';
 import {
@@ -14,7 +14,7 @@ import { MESSAGE_CODES } from '../../../../../../contexts/shared/infrastructure/
 import { Controller } from '../../controller';
 
 export class GetModeAnalyticsController implements Controller {
-  constructor(private getSessionsForModeAnalyticsService: GetSessionsForModeAnalyticsDashBoardService) {}
+  constructor(private getModeAnalyticsOfAdminService: GetModeAnalyticsOfAdminService) {}
 
   public validate = [
     query('startDate')
@@ -99,7 +99,7 @@ export class GetModeAnalyticsController implements Controller {
         throw new HTTP400Error(MESSAGE_CODES.INVALID_DATE);
       }
 
-      const resp = await this.getSessionsForModeAnalyticsService.invoke({ startDate, endDate });
+      const resp = await this.getModeAnalyticsOfAdminService.invoke({ startDate, endDate });
 
       res.status(httpStatus.OK).json({ data: resp, status: 'SUCCESS' });
     } catch (error) {

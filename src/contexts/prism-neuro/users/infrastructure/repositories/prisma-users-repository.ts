@@ -359,9 +359,9 @@ export class PrismaUserRepository implements IPrismaUserRepository {
       where: {
         otpCode: otp,
         type,
-        expiresAt: {
-          gte: new Date()
-        },
+        // expiresAt: {
+        //   gte: new Date()
+        // },
         userId
       }
     });
