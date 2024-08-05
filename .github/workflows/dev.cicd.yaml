@@ -19,7 +19,7 @@ env:
   JWT_REFRESH_EXPIRY: 3800
   JWT_EXPIRY: 3600
   SALT_ROUNDS: 10
-  AWS_REGISTERY: 'latest'
+  AWS_REGISTERY: 'prism-neuro'
   SHORT_SHA: $(echo ${{ github.sha }} | cut -c 1-8)
   TIMESTAMP: ${{ github.run_id }}
 
