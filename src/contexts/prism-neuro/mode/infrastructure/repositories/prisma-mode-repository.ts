@@ -6,7 +6,8 @@ import {
   ICreateVisualBalanceModeRequest,
   IGetAllModesRequest,
   IGetModeByIdRequest,
-  IGetModeByTypeRequest
+  IGetModeByTypeRequest,
+  IModeAnalyticsQuery
 } from '../../domain/interface/mode-request.interface';
 import { IPrismaModeAnalyticsReponse, IPrismaModeWithDetail, IPrismaModeWithTrials } from '../../domain/interface/mode-response.interface';
 import { IModeRepository } from '../../domain/repositories/mode-repository';
@@ -109,7 +110,7 @@ export class PrismaModeRepository implements IModeRepository {
   }
 
   async getModeSessionsByQuery({ startDate, endDate, physioId, patientId }: IGetAllModesRequest): Promise<IPrismaModeAnalyticsReponse[]> {
-    let query: { physioId?: string; patientId?: string } = {};
+    let query: IModeAnalyticsQuery = {};
 
     if (physioId) {
       query = { ...query, physioId };
