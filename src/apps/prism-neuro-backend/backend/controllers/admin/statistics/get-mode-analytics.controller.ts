@@ -2,14 +2,10 @@ import { NextFunction, Request, Response } from 'express';
 import { query } from 'express-validator';
 import httpStatus from 'http-status';
 import { GetModeAnalyticsOfAdminService } from '../../../../../../contexts/prism-neuro/mode/application/get-mode-analytics-of-admin.service';
+import { Filter } from '../../../../../../contexts/prism-neuro/statistics/domain/interface/statistics-request.interface';
 import { HTTP400Error, HTTP422Error } from '../../../../../../contexts/shared/domain/errors/http.exception';
 import { RequestValidator } from '../../../../../../contexts/shared/infrastructure/middleware/request-validator';
-import {
-  getDateBeforeOneMonth,
-  getDateBeforeWeek,
-  getEndDayOfDate,
-  getStartDayOfDate
-} from '../../../../../../contexts/shared/infrastructure/utils/date';
+import { getEndDayOfDate, getStartDayOfDate } from '../../../../../../contexts/shared/infrastructure/utils/date';
 import { MESSAGE_CODES } from '../../../../../../contexts/shared/infrastructure/utils/message-code';
 import { Controller } from '../../controller';
 
@@ -72,7 +68,7 @@ export class GetModeAnalyticsController implements Controller {
     let startDate: any | undefined;
     let endDate: any | undefined;
 
-    const filter = req?.query?.filter as string;
+    const filter = req?.query?.filter as Filter;
 
     const currentDate = new Date();
 
@@ -86,20 +82,22 @@ export class GetModeAnalyticsController implements Controller {
       endDate = getEndDayOfDate(req.query.endDate as unknown as Date);
     }
 
-    if (filter === 'monthly') {
-      startDate = getDateBeforeOneMonth();
-    } else if (filter === 'weekly') {
-      startDate = getDateBeforeWeek();
-    } else {
-      startDate = getStartDayOfDate(currentDate);
-    }
+    console.log(filter, 'startDate');
+
+    // if (filter === 'monthly') {
+    //   startDate = getDateBeforeOneMonth();
+    // } else if (filter === 'weekly') {
+    //   startDate = getDateBeforeWeek();
+    // } else {
+    //   startDate = getStartDayOfDate(currentDate);
+    // }
 
     try {
-      if (!startDate || !endDate) {
-        throw new HTTP400Error(MESSAGE_CODES.INVALID_DATE);
-      }
+      // if (!startDate || !endDate) {
+      //   throw new HTTP400Error(MESSAGE_CODES.INVALID_DATE);
+      // }
 
-      const resp = await this.getModeAnalyticsOfAdminService.invoke({ startDate, endDate });
+      const resp = await this.getModeAnalyticsOfAdminService.invoke({ startDate, endDate }, filter);
 
       res.status(httpStatus.OK).json({ data: resp, status: 'SUCCESS' });
     } catch (error) {

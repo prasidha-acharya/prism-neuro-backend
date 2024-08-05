@@ -4,6 +4,7 @@ import {
   IPrismaModeAnalyticsReponse,
   IPrismaModeWithTrials
 } from '../../../../contexts/prism-neuro/mode/domain/interface/mode-response.interface';
+import { Filter } from '../../../../contexts/prism-neuro/statistics/domain/interface/statistics-request.interface';
 
 interface ModeResponse {
   id: string;
@@ -11,12 +12,22 @@ interface ModeResponse {
   data: number;
 }
 export class StatisticsTransformer {
-  public modeAnalayticsTransformer(modes: IPrismaModeAnalyticsReponse[]): IModeAnalyticsReponse[] {
+  public modeAnalayticsTransformer(modes: IPrismaModeAnalyticsReponse[], filter: Filter): IModeAnalyticsReponse[] {
+    console.log(filter, 'filter');
     const result = modes.reduce((finalResult: Record<string, IModeAnalyticsReponse>, mode) => {
       const { modeTrialSession } = mode;
 
       modeTrialSession.forEach(c => {
-        const label: string = c.createdAt.toISOString().split('T')[0];
+        const date: string = c.createdAt.toISOString().split('T')[0];
+        const year: string = c.createdAt.getFullYear().toString(); // Extract year
+
+        let label = '';
+
+        if (filter === Filter.DAILY) {
+          label = `${c.createdAt.toLocaleString('default', { weekday: 'short' })}-${date}`;
+        } else if (filter === Filter.MONTHLY) {
+          label = `${c.createdAt.toLocaleString('default', { month: 'short' })}-${year}`;
+        }
 
         // sun mon
 

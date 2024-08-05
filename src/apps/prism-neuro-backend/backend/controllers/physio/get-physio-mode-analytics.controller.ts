@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 import { query } from 'express-validator';
 import httpStatus from 'http-status';
 import { GetModeAnalyticsOfPhysioService } from '../../../../../contexts/prism-neuro/mode/application/get-mode-analytics-of-physio.service';
+import { Filter } from '../../../../../contexts/prism-neuro/statistics/domain/interface/statistics-request.interface';
 import { HTTP400Error, HTTP422Error } from '../../../../../contexts/shared/domain/errors/http.exception';
 import { RequestValidator } from '../../../../../contexts/shared/infrastructure/middleware/request-validator';
 import {
@@ -74,7 +75,7 @@ export class GetPhysioModeAnalyticsController implements Controller {
 
     const physioId = req.body.user.userId;
 
-    const filter = req?.query?.filter as string;
+    const filter = req?.query?.filter as Filter;
 
     const currentDate = new Date();
 
@@ -101,7 +102,7 @@ export class GetPhysioModeAnalyticsController implements Controller {
         throw new HTTP400Error(MESSAGE_CODES.INVALID_DATE);
       }
 
-      const response = await this.getModeAnalyticsOfPhysioService.invoke({ startDate, endDate, physioId });
+      const response = await this.getModeAnalyticsOfPhysioService.invoke({ startDate, endDate, physioId }, filter);
 
       res.status(httpStatus.OK).json({ data: response, status: 'SUCCESS' });
     } catch (error) {

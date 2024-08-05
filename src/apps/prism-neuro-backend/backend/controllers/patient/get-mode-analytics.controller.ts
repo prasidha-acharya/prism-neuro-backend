@@ -1,7 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
 import { query } from 'express-validator';
 import httpStatus from 'http-status';
-import { GetModeAnalyticsOfPatientService } from 'src/contexts/prism-neuro/mode/application/get-mode-analytics-of-patient.service';
+import { GetModeAnalyticsOfPatientService } from '../../../../../contexts/prism-neuro/mode/application/get-mode-analytics-of-patient.service';
+import { Filter } from '../../../../../contexts/prism-neuro/statistics/domain/interface/statistics-request.interface';
 import { HTTP400Error } from '../../../../../contexts/shared/domain/errors/http.exception';
 import { RequestValidator } from '../../../../../contexts/shared/infrastructure/middleware/request-validator';
 import {
@@ -24,7 +25,7 @@ export class GetPatientModeAnalyticsController implements Controller {
     let startDate: any | undefined;
     let endDate: any | undefined;
 
-    const filter = req?.query?.filter as string;
+    const filter = req?.query?.filter as Filter;
 
     const currentDate = new Date();
 
@@ -43,7 +44,7 @@ export class GetPatientModeAnalyticsController implements Controller {
         throw new HTTP400Error(MESSAGE_CODES.INVALID_DATE);
       }
 
-      const response = await this.getModeAnalyticsOfPatientService.invoke({ startDate, endDate, patientId });
+      const response = await this.getModeAnalyticsOfPatientService.invoke({ startDate, endDate, patientId }, filter);
 
       res.status(httpStatus.OK).json({ data: response, status: 'SUCCESS' });
     } catch (error) {

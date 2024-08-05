@@ -109,7 +109,7 @@ export class PrismaModeRepository implements IModeRepository {
     });
   }
 
-  async getModeAnalyticsByQuery({ startDate, endDate, physioId, patientId }: IGetAllModesRequest): Promise<IPrismaModeAnalyticsReponse[]> {
+  async getModeAnalyticsByQuery({ physioId, patientId }: IGetAllModesRequest): Promise<IPrismaModeAnalyticsReponse[]> {
     let query: IModeAnalyticsQuery = {};
 
     if (physioId) {
@@ -124,10 +124,10 @@ export class PrismaModeRepository implements IModeRepository {
       include: {
         modeTrialSession: {
           where: {
-            createdAt: {
-              gte: startDate,
-              lte: endDate
-            },
+            // createdAt: {
+            //   gte: startDate,
+            //   lte: endDate
+            // },
             modeSession: {
               ...query
             }
