@@ -144,10 +144,11 @@ export class ModeTransformer {
   }
 
   public modeSessionOfPatients(modeSessions: IPrismaModeSessionRequest[], sessionCount = 0): IGetModeSessionOfPatientResponse[] {
-    return modeSessions.map(({ id, createdAt, modeTrialSession }) => {
+    return modeSessions.map(({ id, createdAt, modeTrialSession }, index) => {
+      let session = sessionCount > 0 ? sessionCount + index + 1 : index + 1;
       return {
         id,
-        session: sessionCount + 1,
+        session,
         createdAt,
         trials: modeTrialSession.map(({ trialId, results, id, modeId }) => {
           let result: number | null = null;
