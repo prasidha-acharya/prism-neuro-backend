@@ -49,7 +49,7 @@ jobs:
         run: |
           aws ecr batch-delete-image \
             --repository-name ${{ env.AWS_REGISTRY }} \
-            --image-ids imageTag=latest
+            --image-ids imageTag=latest || echo "No existing latest tag found"
 
       - name: Build env file for docker images before buildings
         run: |
