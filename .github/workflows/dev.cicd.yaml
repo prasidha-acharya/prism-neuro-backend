@@ -45,11 +45,22 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
 
-      - name: Delete existing latest tag
+      - name: List Images in ECR
         run: |
-          aws ecr batch-delete-image \
-            --repository-name ${{ env.AWS_REGISTRY }} \
-            --image-ids imageTag=latest || echo "No existing latest tag found"
+          aws ecr list-images --repository-name ${{ env.AWS_REGISTERY }} --query 'imageIds[*].{ImageTag:imageTag,ImageDigest:imageDigest}' --output json > images.json
+          cat images.json
+
+      - name: Remove Latest Tag
+        run: |
+          imageDigest=$(jq -r '.[] | select(.ImageTag=="latest") | .ImageDigest' images.json)
+          if [ -n "$imageDigest" ]; then
+            aws ecr batch-delete-image --repository-name ${{ env.AWS_REGISTERY }} --image-ids imageTag=latest
+          else
+            echo "No image with 'latest' tag found"
+          fi
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
       - name: Build env file for docker images before buildings
         run: |
