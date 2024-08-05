@@ -5,6 +5,7 @@ import { GetSessionOfPateintService } from '../../../../../contexts/prism-neuro/
 import { HTTP422Error } from '../../../../../contexts/shared/domain/errors/http.exception';
 import { RequestValidator } from '../../../../../contexts/shared/infrastructure/middleware/request-validator';
 import { ModeTransformer } from '../../../../../contexts/shared/infrastructure/transformer/mode-transformer';
+import { defaultLimit, defaultPage } from '../../../../../contexts/shared/infrastructure/utils/constant';
 import { MESSAGE_CODES } from '../../../../../contexts/shared/infrastructure/utils/message-code';
 import { Controller } from '../controller';
 
@@ -62,8 +63,8 @@ export class GetSessionsBetweenPatientAndPhysioController implements Controller 
 
   async invoke(req: Request, res: Response, next: NextFunction): Promise<void> {
     const {
-      limit = 10,
-      page = 1,
+      limit = defaultLimit,
+      page = defaultPage,
       endDate,
       search,
       startDate
@@ -81,7 +82,7 @@ export class GetSessionsBetweenPatientAndPhysioController implements Controller 
     const modeId = req.params.modeId;
 
     try {
-      const response = await this.getSessionOfPateintService.invoke({
+      const data = await this.getSessionOfPateintService.invoke({
         patientId,
         physioId,
         modeId,
@@ -92,12 +93,8 @@ export class GetSessionsBetweenPatientAndPhysioController implements Controller 
         page: Number(page)
       });
 
-      const data = response.data === null ? [] : this.modeTransformer.modeSessionOfPatients(response.data);
       res.status(httpStatus.OK).json({
-        data: {
-          ...response,
-          data
-        },
+        data,
         status: 'SUCCESS'
       });
     } catch (error) {

@@ -143,10 +143,12 @@ export class ModeTransformer {
     return { data: activities.slice(offset, offset + limit), pagination };
   }
 
-  public modeSessionOfPatients(modeSessions: IPrismaModeSessionRequest[]): IGetModeSessionOfPatientResponse[] {
-    return modeSessions.map(({ id, createdAt, modeTrialSession }) => {
+  public modeSessionOfPatients(modeSessions: IPrismaModeSessionRequest[], sessionCount = 0): IGetModeSessionOfPatientResponse[] {
+    return modeSessions.map(({ id, createdAt, modeTrialSession }, index) => {
+      let session = sessionCount > 0 ? sessionCount + index + 1 : index + 1;
       return {
         id,
+        session,
         createdAt,
         trials: modeTrialSession.map(({ trialId, results, id, modeId }) => {
           let result: number | null = null;

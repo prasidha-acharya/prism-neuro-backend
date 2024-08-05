@@ -21,6 +21,7 @@ env:
   SALT_ROUNDS: 10
   AWS_REGISTERY: 'prism-neuro'
   SHORT_SHA: $(echo ${{ github.sha }} | cut -c 1-8)
+  TIMESTAMP: ${{ github.run_id }}
 
 name: Deploy Prism Neuro backend
 
@@ -43,6 +44,12 @@ jobs:
       - name: Login to Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Remove Latest Tag
+        run: |
+          aws ecr batch-delete-image \
+            --repository-name ${{ env.AWS_REGISTERY }} \
+            --image-ids imageTag=latest imageTag=demo
 
       - name: Build env file for docker images before buildings
         run: |
@@ -67,19 +74,16 @@ jobs:
           export S3_PUBLIC_BUCKET_STORAGE_URL=${{ env.S3_PUBLIC_BUCKET_STORAGE_URL }}
           envsubst < .env.example > .env.aws-exports
 
-      - name: Build, tag, and push image to Amazon ECR
+      - name: Build, tag, and push image to Amazon ECRc
         id: build-image
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           ECR_REPOSITORY: ${{ env.AWS_REGISTERY }}
         run: |
           echo "Build docker container"
-          # Build a docker container and
-          # push it to ECR so that it can
-          # be deployed to ECS.
           docker image build \
-          --tag $ECR_REGISTRY/$ECR_REPOSITORY:${{ env.SHORT_SHA }} \
-          --tag $ECR_REGISTRY/$ECR_REPOSITORY:latest .
+            --tag $ECR_REGISTRY/$ECR_REPOSITORY:${{ env.SHORT_SHA }}-${{ env.TIMESTAMP }} \
+            --tag $ECR_REGISTRY/$ECR_REPOSITORY:latest .
 
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:${{ env.SHORT_SHA }}
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:${{ env.SHORT_SHA }}-${{ env.TIMESTAMP }}
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest

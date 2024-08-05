@@ -69,6 +69,7 @@ export const masterRouter = (
   getModesByAdminController: controllers.GetModesByAdminController,
   getStaticFilesController: controllers.GetStaticFilesController,
   healthCheckController: controllers.HealthCheckController,
+  getUserDetailByIdController: controllers.GetUserDetailByIdController,
   refreshAuthorizer: RefreshAuthorizer,
   userAuthorizer: JWTUserAuthorizer,
   physioAuthorizer: JWTPhysioTherapistAuthorizer,
@@ -137,7 +138,8 @@ export const masterRouter = (
       changePasswordController,
       resetPasswordController,
       deleteAccountController,
-      getUserDetailController
+      getUserDetailController,
+      getUserDetailByIdController
     },
     userAuthorizer,
     refreshAuthorizer,

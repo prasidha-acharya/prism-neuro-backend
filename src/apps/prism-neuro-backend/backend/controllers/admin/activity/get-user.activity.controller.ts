@@ -7,6 +7,7 @@ import { GetAllPatientsInCludingSessionInfoService } from '../../../../../../con
 import { HTTP422Error } from '../../../../../../contexts/shared/domain/errors/http.exception';
 import { RequestValidator } from '../../../../../../contexts/shared/infrastructure/middleware/request-validator';
 import { ModeTransformer } from '../../../../../../contexts/shared/infrastructure/transformer/mode-transformer';
+import { defaultLimit, defaultPage } from '../../../../../../contexts/shared/infrastructure/utils/constant';
 import { MESSAGE_CODES } from '../../../../../../contexts/shared/infrastructure/utils/message-code';
 import { Controller } from '../../controller';
 
@@ -68,8 +69,8 @@ export class GetAllPatientActivityController implements Controller {
   ): Promise<void> {
     try {
       const {
-        page = 1,
-        limit = 10,
+        page = defaultPage,
+        limit = defaultLimit,
         startDate,
         endDate,
         search

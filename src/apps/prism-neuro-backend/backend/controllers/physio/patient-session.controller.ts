@@ -5,6 +5,7 @@ import { GetPatientsOfPhysioService } from '../../../../../contexts/prism-neuro/
 import { HTTP422Error } from '../../../../../contexts/shared/domain/errors/http.exception';
 import { RequestValidator } from '../../../../../contexts/shared/infrastructure/middleware/request-validator';
 import { ModeTransformer } from '../../../../../contexts/shared/infrastructure/transformer/mode-transformer';
+import { defaultLimit, defaultPage } from '../../../../../contexts/shared/infrastructure/utils/constant';
 import { MESSAGE_CODES } from '../../../../../contexts/shared/infrastructure/utils/message-code';
 import { Controller } from '../controller';
 
@@ -61,8 +62,8 @@ export class GetModeSessionActivityOfPatientByPhysioController implements Contro
 
   async invoke(req: Request, res: Response, next: NextFunction): Promise<void> {
     const {
-      limit = 10,
-      page = 1,
+      limit = defaultLimit,
+      page = defaultPage,
       endDate,
       search,
       startDate

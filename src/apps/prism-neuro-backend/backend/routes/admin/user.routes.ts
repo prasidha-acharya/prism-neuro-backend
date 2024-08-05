@@ -10,6 +10,7 @@ interface IHandler {
   resetPasswordController: controllers.ResetPasswordController;
   deleteAccountController: controllers.DeleteAccountController;
   getUserDetailController: controllers.GetUserDetailController;
+  getUserDetailByIdController: controllers.GetUserDetailByIdController;
 }
 
 export const userRoutesHandler = (
@@ -20,7 +21,8 @@ export const userRoutesHandler = (
     forgotPasswordController,
     changePasswordController,
     resetPasswordController,
-    getUserDetailController
+    getUserDetailController,
+    getUserDetailByIdController
   }: IHandler,
   userAuthorizer: IAuthorizer<Request, Response, NextFunction>,
   refreshAuthorizer: IAuthorizer<Request, Response, NextFunction>,
@@ -199,5 +201,29 @@ export const userRoutesHandler = (
         */
   );
 
+  router.get(
+    '/user/:userId',
+    userAuthorizer.authorize,
+    getUserDetailByIdController.validate,
+    getUserDetailByIdController.invoke.bind(getUserDetailByIdController)
+    /*
+      #swagger.security = [{
+              "bearerAuth": []
+            }]
+        #swagger.tags = ['User']
+        #swagger.description="Get user detail"
+        #swagger.description="End point to fetch user detail "
+        #swagger.parameters['role'] ={
+        in:'query',
+        type:'string',
+        required:true,
+        schema :{
+        '@enum':['ADMIN','PATIENT',"PHYSIO"]
+        }
+        }
+        
+        #swagger.responses[200] 
+        */
+  );
   return router;
 };
