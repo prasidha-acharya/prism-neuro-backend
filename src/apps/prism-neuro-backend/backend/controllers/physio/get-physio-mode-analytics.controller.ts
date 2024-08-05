@@ -109,8 +109,6 @@ export class GetPhysioModeAnalyticsController implements Controller {
 
       const response = await this.getModeAnalyticsOfPhysioService.invoke({ startDate, endDate, physioId });
 
-      // const data = response === null ? [] : this.statisticsTransformer.modeAnalyticsTransformer(response);
-
       res.status(httpStatus.OK).json({ data: response, status: 'SUCCESS' });
     } catch (error) {
       next(error);
