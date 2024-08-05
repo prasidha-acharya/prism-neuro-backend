@@ -1,4 +1,5 @@
 import { LoginSession, MODE_SESSION_STATUS, OTP_TYPE, Otp, Prisma, PrismaClient, USER_ROLES, User } from '@prisma/client';
+import { defaultLimit, defaultPage } from '../../../../../contexts/shared/infrastructure/utils/constant';
 import {
   IChangePassword,
   ICreateAdminRequest,
@@ -303,7 +304,7 @@ export class PrismaUserRepository implements IPrismaUserRepository {
   }
 
   async getPaginatedUsers(request: IFetchUsersRequest): Promise<IPaginateResponse<any>> {
-    const { page = 1, limit = 10 } = request;
+    const { page = defaultPage, limit = defaultLimit } = request;
     const args = this.arguments(request);
     const pageNo = Number(page);
     const limitNo = Number(limit);

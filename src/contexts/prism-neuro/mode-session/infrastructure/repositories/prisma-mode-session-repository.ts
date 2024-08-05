@@ -1,5 +1,6 @@
 import { MODE_SESSION_STATUS, ModeSession, Prisma, PrismaClient } from '@prisma/client';
 import { IPaginateResponse } from '../../../../../contexts/prism-neuro/users/domain/interface/user.response.interface';
+import { defaultLimit, defaultPage } from '../../../../../contexts/shared/infrastructure/utils/constant';
 import {
   ICreateModeSessionRequest,
   IGetModeSessionRequest,
@@ -31,8 +32,8 @@ export class PrismaModeSessionRepository implements IModeSessionRepository {
     modeId,
     patientId,
     physioId,
-    page = 1,
-    limit = 10
+    page = defaultPage,
+    limit = defaultLimit
   }: IGetModeTrialsOfPatientRequest): Promise<IPaginateResponse<any[] | null>> {
     let args: Prisma.ModeSessionFindManyArgs['where'] = {
       deletedAt: null,

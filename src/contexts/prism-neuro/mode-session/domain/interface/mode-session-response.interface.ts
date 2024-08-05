@@ -7,6 +7,7 @@ export interface ITrials {
 }
 
 export interface IGetModeSessionOfPatientResponse {
+  session: number;
   id: string;
   createdAt: Date;
   trials: ITrials[];

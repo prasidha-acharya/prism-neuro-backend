@@ -3,15 +3,12 @@ import { param } from 'express-validator';
 import httpStatus from 'http-status';
 import { GetSessionOfPateintService } from '../../../../../contexts/prism-neuro/mode-session/application/get-session-of-patient.service';
 import { RequestValidator } from '../../../../../contexts/shared/infrastructure/middleware/request-validator';
-import { ModeTransformer } from '../../../../../contexts/shared/infrastructure/transformer/mode-transformer';
+import { defaultLimit, defaultPage } from '../../../../../contexts/shared/infrastructure/utils/constant';
 import { MESSAGE_CODES } from '../../../../../contexts/shared/infrastructure/utils/message-code';
 import { Controller } from '../controller';
 
 export class GetModeSessionOfPatientController implements Controller {
-  constructor(
-    private getSessionOfPateintService: GetSessionOfPateintService,
-    private modeTransformer: ModeTransformer
-  ) {}
+  constructor(private getSessionOfPateintService: GetSessionOfPateintService) {}
 
   public validate = [
     param('patientId').exists().withMessage(MESSAGE_CODES.MODE.REQUIRED_PATIENT_ID),
@@ -21,8 +18,8 @@ export class GetModeSessionOfPatientController implements Controller {
 
   async invoke(req: Request, res: Response, next: NextFunction): Promise<void> {
     const {
-      limit = 10,
-      page = 1,
+      limit = defaultLimit,
+      page = defaultPage,
       endDate,
       search,
       startDate
@@ -37,7 +34,7 @@ export class GetModeSessionOfPatientController implements Controller {
     const { modeId, patientId }: { modeId: string; patientId: string } = req.body;
 
     try {
-      const response = await this.getSessionOfPateintService.invoke({
+      const data = await this.getSessionOfPateintService.invoke({
         modeId,
         patientId,
         search,
@@ -47,12 +44,9 @@ export class GetModeSessionOfPatientController implements Controller {
         page: Number(page)
       });
 
-      const data = response.data === null ? [] : this.modeTransformer.modeSessionOfPatients(response.data);
       res.status(httpStatus.OK).json({
-        data: {
-          ...response,
-          data
-        }
+        data,
+        status: 'SUCCESS'
       });
     } catch (error) {
       next(error);
