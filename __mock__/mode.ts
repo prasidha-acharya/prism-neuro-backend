@@ -32,7 +32,7 @@ export const modeTypes = [
   {
     type: MODE_TYPE.LEFT_RIGHT_MODE,
     name: 'Left and Right Mode',
-    trialCount: 3,
+    trialCount: 1,
     images: ['images/mode/left_right_mode_1722414584654.png'],
     modeDetail: {
       instructions: [

@@ -1,5 +1,9 @@
 import { MODE_TYPE, ModeTrialSession, Prisma } from '@prisma/client';
-import { IPrismaModeWithTrials } from '../../../../contexts/prism-neuro/mode/domain/interface/mode-response.interface';
+import {
+  IModeAnalyticsReponse,
+  IPrismaModeAnalyticsReponse,
+  IPrismaModeWithTrials
+} from '../../../../contexts/prism-neuro/mode/domain/interface/mode-response.interface';
 
 interface ModeResponse {
   id: string;
@@ -31,10 +35,38 @@ export class StatisticsTransformer {
     return result;
   }
 
+  public newModeAnalayticsDashBoardTransformer(modes: IPrismaModeAnalyticsReponse[]): IModeAnalyticsReponse[] {
+    const result = modes.reduce((finalResult: Record<string, IModeAnalyticsReponse>, mode) => {
+      const { modeTrialSession } = mode;
+
+      modeTrialSession.forEach(c => {
+        const label: string = c.createdAt.toISOString().split('T')[0];
+
+        // sun mon
+
+        const result = c.results as Prisma.JsonObject;
+        if (!finalResult[label]) {
+          finalResult[label] = {
+            label,
+            [mode.type]: Number(result?.data ?? 0)
+          };
+        } else {
+          finalResult[label] = {
+            ...finalResult[label],
+            [mode.type]: (finalResult[label]?.[mode.type] ?? 0) + Number(result?.data ?? 0)
+          };
+        }
+      });
+
+      return finalResult;
+    }, {});
+
+    return Object.values(result);
+  }
+
   modeComparisionTransformer(modes: IPrismaModeWithTrials[]): ModeResponse[] {
     const result = modes.map(mode => {
       const data = mode.modeTrialSession.reduce((a: number, trial: ModeTrialSession) => {
-        //assuming
         if (trial.results && typeof trial.results === 'object') {
           const trialObject = trial.results as Prisma.JsonObject;
           const value = Number(trialObject.data);

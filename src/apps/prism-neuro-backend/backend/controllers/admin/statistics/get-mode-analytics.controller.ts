@@ -1,10 +1,9 @@
 import { NextFunction, Request, Response } from 'express';
 import { query } from 'express-validator';
 import httpStatus from 'http-status';
-import { GetAllModesService } from '../../../../../../contexts/prism-neuro/mode/application/get-all-mode.service';
+import { GetSessionsForModeAnalyticsDashBoardService } from '../../../../../../contexts/prism-neuro/mode-session/application/get-session-for-mode-analytics.service';
 import { HTTP400Error, HTTP422Error } from '../../../../../../contexts/shared/domain/errors/http.exception';
 import { RequestValidator } from '../../../../../../contexts/shared/infrastructure/middleware/request-validator';
-import { StatisticsTransformer } from '../../../../../../contexts/shared/infrastructure/transformer/statistics-transformer';
 import {
   getDateBeforeOneMonth,
   getDateBeforeWeek,
@@ -15,10 +14,7 @@ import { MESSAGE_CODES } from '../../../../../../contexts/shared/infrastructure/
 import { Controller } from '../../controller';
 
 export class GetModeAnalyticsController implements Controller {
-  constructor(
-    private getAllModesService: GetAllModesService,
-    private statisticsTransformer: StatisticsTransformer
-  ) {}
+  constructor(private getSessionsForModeAnalyticsService: GetSessionsForModeAnalyticsDashBoardService) {}
 
   public validate = [
     query('startDate')
@@ -103,11 +99,9 @@ export class GetModeAnalyticsController implements Controller {
         throw new HTTP400Error(MESSAGE_CODES.INVALID_DATE);
       }
 
-      const response = await this.getAllModesService.invoke({ startDate, endDate });
+      const resp = await this.getSessionsForModeAnalyticsService.invoke({ startDate, endDate });
 
-      const data = response === null ? [] : this.statisticsTransformer.modeAnalyticsTransformer(response);
-
-      res.status(httpStatus.OK).json({ data, status: 'SUCCESS' });
+      res.status(httpStatus.OK).json({ data: resp, status: 'SUCCESS' });
     } catch (error) {
       next(error);
     }

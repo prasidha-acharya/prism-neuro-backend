@@ -2,6 +2,7 @@ import { AwilixContainer, InjectionMode, asClass, asFunction, asValue, createCon
 import { config } from '../../../../config';
 import { EndModeSessionByPhsyioService } from '../../../contexts/prism-neuro/mode-session/application/end-session-by-physio.service';
 import { EndModeSessionService } from '../../../contexts/prism-neuro/mode-session/application/end-session.service';
+import { GetSessionsForModeAnalyticsDashBoardService } from '../../../contexts/prism-neuro/mode-session/application/get-session-for-mode-analytics.service';
 import { GetSessionOfPateintService } from '../../../contexts/prism-neuro/mode-session/application/get-session-of-patient.service';
 import { GetModeSessionOfPhysioAndPatientService } from '../../../contexts/prism-neuro/mode-session/application/get-session.service';
 import { StartModeSessionService } from '../../../contexts/prism-neuro/mode-session/application/start-session.service';
@@ -255,7 +256,8 @@ export class Container {
         getAllPatientsInCludingSessionInfoService: asClass(GetAllPatientsInCludingSessionInfoService).singleton(),
         endModeSessionByPhsyioService: asClass(EndModeSessionByPhsyioService).singleton(),
         getModesByAdminController: asClass(GetModesByAdminController),
-        getStaticFilesController: asClass(GetStaticFilesController)
+        getStaticFilesController: asClass(GetStaticFilesController),
+        getSessionsForModeAnalyticsService: asClass(GetSessionsForModeAnalyticsDashBoardService).singleton()
       })
       //Mode trial session
       .register({

@@ -8,7 +8,7 @@ import {
   IGetModeByIdRequest,
   IGetModeByTypeRequest
 } from '../../domain/interface/mode-request.interface';
-import { IPrismaModeWithDetail, IPrismaModeWithTrials } from '../../domain/interface/mode-response.interface';
+import { IPrismaModeAnalyticsReponse, IPrismaModeWithDetail, IPrismaModeWithTrials } from '../../domain/interface/mode-response.interface';
 import { IModeRepository } from '../../domain/repositories/mode-repository';
 
 export class PrismaModeRepository implements IModeRepository {
@@ -102,6 +102,25 @@ export class PrismaModeRepository implements IModeRepository {
         modeDetail: {
           create: {
             instructions
+          }
+        }
+      }
+    });
+  }
+
+  async getModeSessionsByQuery({ startDate, endDate }: any): Promise<IPrismaModeAnalyticsReponse[]> {
+    return await this.db.mode.findMany({
+      include: {
+        modeTrialSession: {
+          where: {
+            createdAt: {
+              gte: startDate,
+              lte: endDate
+            }
+          },
+          select: {
+            results: true,
+            createdAt: true
           }
         }
       }
