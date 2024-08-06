@@ -58,7 +58,7 @@ export class GetModeSessionActivityOfPatientByPhysioController implements Contro
   ];
 
   async invoke(req: Request, res: Response, next: NextFunction): Promise<void> {
-    const { limit = defaultLimit, page = defaultPage, endDate, search, startDate } = req?.query as unknown as IDataFilterQueryRequest;
+    const { limit = defaultLimit, page = defaultPage, endDate = new Date(), search, startDate } = req?.query as unknown as IDataFilterQueryRequest;
 
     const physioId = req.body.user.userId;
 
