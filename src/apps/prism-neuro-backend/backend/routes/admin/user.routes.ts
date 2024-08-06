@@ -123,6 +123,7 @@ export const userRoutesHandler = (
   router.post(
     '/change-password',
     userAuthorizer.authorize,
+    changePasswordController.validate,
     changePasswordController.invoke.bind(changePasswordController)
     /*
         #swagger.tags = ['User']
