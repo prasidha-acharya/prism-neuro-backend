@@ -563,7 +563,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "enum": ["monthly", "weekly", "daily"]
+              "enum": ["monthly", "daily"]
             }
           },
           {
@@ -1520,7 +1520,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "enum": ["monthly", "weekly", "daily"]
+              "enum": ["monthly", "daily"]
             }
           }
         ],
@@ -1807,7 +1807,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "enum": ["monthly", "weekly", "daily"]
+              "enum": ["monthly", "daily"]
             }
           },
           {

@@ -11,7 +11,10 @@ import { Controller } from '../controller';
 export class GetPatientModeAnalyticsController implements Controller {
   constructor(private getModeAnalyticsOfPatientService: GetModeAnalyticsOfPatientService) {}
 
-  public validate = [query('filter').exists().withMessage(MESSAGE_CODES.MODE), RequestValidator];
+  public validate = [
+    query('filter').isIn([Filter.DAILY, Filter.MONTHLY]).withMessage(MESSAGE_CODES.MODE.FILTER_VALUE_MUST_BE_DAILY_OR_MONTHLY),
+    RequestValidator
+  ];
 
   async invoke(req: Request, res: Response, next: NextFunction): Promise<void> {
     const patientId = req.body.user.userId as string;

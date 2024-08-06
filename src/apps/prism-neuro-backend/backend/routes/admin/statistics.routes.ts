@@ -50,7 +50,7 @@ export const statisticsRoutesHandler = (
     in:'query',
     required:false,
       schema: {
-                '@enum': ['monthly','weekly',"daily"]
+                '@enum': ['monthly',"daily"]
             }
     }
 

@@ -54,7 +54,8 @@ export class GetModeAnalyticsController implements Controller {
         return true;
       }),
     query('filter')
-      .optional()
+      .isIn([Filter.DAILY, Filter.MONTHLY])
+      .withMessage(MESSAGE_CODES.MODE.FILTER_VALUE_MUST_BE_DAILY_OR_MONTHLY)
       .custom((val, { req }) => {
         if (!req?.query?.startDate && !val) {
           throw new HTTP400Error(MESSAGE_CODES.MODE.REQUIRED_FILTER_OR_DATE_RANGE);
