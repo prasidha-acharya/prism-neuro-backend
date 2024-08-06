@@ -1,4 +1,4 @@
-import { Mode, MODE_SESSION_STATUS, PrismaClient } from '@prisma/client';
+import { Mode, MODE_SESSION_STATUS, Prisma, PrismaClient } from '@prisma/client';
 import {
   ICreateBalanceModeRequest,
   ICreateLeftRightMode,
@@ -6,9 +6,10 @@ import {
   ICreateVisualBalanceModeRequest,
   IGetAllModesRequest,
   IGetModeByIdRequest,
-  IGetModeByTypeRequest
+  IGetModeByTypeRequest,
+  IModeAnalyticsQuery
 } from '../../domain/interface/mode-request.interface';
-import { IPrismaModeWithDetail, IPrismaModeWithTrials } from '../../domain/interface/mode-response.interface';
+import { IPrismaModeAnalyticsReponse, IPrismaModeWithDetail, IPrismaModeWithTrials } from '../../domain/interface/mode-response.interface';
 import { IModeRepository } from '../../domain/repositories/mode-repository';
 
 export class PrismaModeRepository implements IModeRepository {
@@ -102,6 +103,47 @@ export class PrismaModeRepository implements IModeRepository {
         modeDetail: {
           create: {
             instructions
+          }
+        }
+      }
+    });
+  }
+
+  async getModeAnalyticsByQuery({ startDate, endDate, physioId, patientId }: IGetAllModesRequest): Promise<IPrismaModeAnalyticsReponse[]> {
+    let args: Prisma.ModeTrialSessionFindManyArgs['where'] = {};
+
+    let query: IModeAnalyticsQuery = {};
+
+    if (physioId) {
+      query = { ...query, physioId };
+    }
+
+    if (patientId) {
+      query = { ...query, patientId };
+    }
+
+    if (startDate) {
+      args = {
+        ...args,
+        createdAt: {
+          gte: startDate,
+          lte: endDate
+        }
+      };
+    }
+
+    return await this.db.mode.findMany({
+      include: {
+        modeTrialSession: {
+          where: {
+            ...args,
+            modeSession: {
+              ...query
+            }
+          },
+          select: {
+            results: true,
+            createdAt: true
           }
         }
       }

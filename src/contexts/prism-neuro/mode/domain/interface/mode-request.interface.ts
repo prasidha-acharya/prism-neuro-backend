@@ -31,3 +31,25 @@ export interface IGetAllModesRequest {
   physioId?: string;
   patientId?: string;
 }
+
+export interface IPhysioModeAnalysticsRequest {
+  startDate: Date;
+  endDate: Date;
+  physioId: string;
+}
+
+export interface IPatientModeAnalysticsRequest {
+  startDate: Date;
+  endDate: Date;
+  patientId: string;
+}
+
+export interface IAdminModeAnalysticsRequest {
+  startDate: Date;
+  endDate: Date;
+}
+
+export interface IModeAnalyticsQuery {
+  physioId?: string;
+  patientId?: string;
+}
