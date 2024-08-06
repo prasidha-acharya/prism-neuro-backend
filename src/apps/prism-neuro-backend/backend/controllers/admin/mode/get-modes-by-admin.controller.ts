@@ -15,6 +15,7 @@ export class GetModesByAdminController implements Controller {
       const response = await this.getModesService.invoke();
 
       const data = response === null ? null : this.modeTransformer.getModesDetailForDashboard(response ?? []);
+
       res.status(httpStatus.OK).json({
         data,
         status: 'SUCCESS'

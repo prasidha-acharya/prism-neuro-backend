@@ -1,6 +1,8 @@
-import { ModeTrialSession, Prisma } from '@prisma/client';
+import { MODE_TYPE, ModeTrialSession, Prisma } from '@prisma/client';
+import { Configuration } from 'config';
 import { IPrismaModeWithDetail } from 'src/contexts/prism-neuro/mode/domain/interface/mode-response.interface';
 import { IGetPatientsActivityByPhysioTransformerRequest } from 'src/contexts/prism-neuro/users/domain/interface/user-request.interface';
+import { imagesList } from '../../../../../__mock__/image-list';
 import { IPrismaModeSessionRequest } from '../../../../contexts/prism-neuro/mode-session/domain/interface/mode-session-request.interface';
 import {
   IGetModesDetailForDashBoardResponse,
@@ -17,6 +19,8 @@ import {
 } from '../../../../contexts/prism-neuro/users/domain/interface/user.response.interface';
 
 export class ModeTransformer {
+  constructor(private config: Configuration) {}
+
   public modeSessionActivityOfAllPatientsByPhysio(
     users: IPrismaUserForGetPatientsByPhysioResponse[] | null,
     { page, limit, endDate, startDate, modeId }: IGetPatientsActivityByPhysioTransformerRequest
@@ -225,13 +229,18 @@ export class ModeTransformer {
   }
 
   public getModesDetailForDashboard(modes: IPrismaModeWithDetail[]): IGetModesDetailForDashBoardResponse[] {
-    return modes.map(({ id, images, modeDetail, type, name }) => {
+    return modes.map(({ id, images, modeDetail, type, name, trialDuration }): IGetModesDetailForDashBoardResponse => {
       return {
         id,
-        images,
+        images: images.map(img => {
+          return `${this.config.BASE_URL}/${img}`;
+        }),
         instructions: modeDetail?.instructions ?? [],
         type,
-        name
+        name,
+        trialDuration,
+        totalImages: imagesList.find(image => image.type === type)?.images?.length,
+        isVideo: trialDuration === null && type === MODE_TYPE.VISUAL_BALANCE_MODE
       };
     });
   }
