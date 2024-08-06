@@ -4,7 +4,7 @@ import {
   IPrismaModeAnalyticsReponse,
   IPrismaModeWithTrials
 } from '../../../../contexts/prism-neuro/mode/domain/interface/mode-response.interface';
-import { Filter } from '../../../../contexts/prism-neuro/statistics/domain/interface/statistics-request.interface';
+import { Filter } from '../../../../contexts/shared/domain/interface/enum';
 import { fixedDigitNumber } from '../utils/utility';
 
 interface ModeResponse {

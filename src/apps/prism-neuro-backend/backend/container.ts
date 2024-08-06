@@ -12,7 +12,8 @@ import { GetModeAnalyticsOfAdminService } from '../../../contexts/prism-neuro/mo
 import { GetModeAnalyticsOfPatientService } from '../../../contexts/prism-neuro/mode/application/get-mode-analytics-of-patient.service';
 import { GetModeAnalyticsOfPhysioService } from '../../../contexts/prism-neuro/mode/application/get-mode-analytics-of-physio.service';
 import { GetModeByIdService } from '../../../contexts/prism-neuro/mode/application/get-mode-by-id.service';
-import { GetModesService } from '../../../contexts/prism-neuro/mode/application/get-modes.service';
+import { GetModesByAdminService } from '../../../contexts/prism-neuro/mode/application/get-modes-by-admin.service';
+import { GetActiveSessionModesByPhysioService } from '../../../contexts/prism-neuro/mode/application/get-modes-by-physio.service';
 import { PrismaModeRepository } from '../../../contexts/prism-neuro/mode/infrastructure/repositories/prisma-mode-repository';
 import { EndModeTrialService } from '../../../contexts/prism-neuro/trial/application/end-mode-trial.service';
 import { GetModeTrialsBySessionService } from '../../../contexts/prism-neuro/trial/application/get-mode-trial.service';
@@ -31,9 +32,9 @@ import { DeleteUserService } from '../../../contexts/prism-neuro/users/applicati
 import { DeleteUserSessionService } from '../../../contexts/prism-neuro/users/application/delete-user-session.service';
 import { ForgotPasswordService } from '../../../contexts/prism-neuro/users/application/forgot-password.service';
 import { GetAdminByEmailService } from '../../../contexts/prism-neuro/users/application/get-admin-email.service';
-import { GetAllPatientsInCludingSessionInfoService } from '../../../contexts/prism-neuro/users/application/get-all-patients-including-session-info.service';
+import { GetAllPatientsActivityByAdminService } from '../../../contexts/prism-neuro/users/application/get-all-patients-activity-by-admin.service';
+import { GetAllPatientsActivityByPhysioService } from '../../../contexts/prism-neuro/users/application/get-all-patients-activity-by-physio.service';
 import { GetOtpService } from '../../../contexts/prism-neuro/users/application/get-otp.service';
-import { GetPatientsOfPhysioService } from '../../../contexts/prism-neuro/users/application/get-pateints-of-physio.service';
 import { GetTotalPatientsService } from '../../../contexts/prism-neuro/users/application/get-total-patients.service';
 import { GetTotalUsersService } from '../../../contexts/prism-neuro/users/application/get-total-users.service';
 import { GetUserByRoleService } from '../../../contexts/prism-neuro/users/application/get-user-by-role.service';
@@ -211,7 +212,7 @@ export class Container {
         updatePatientProfileController: asClass(UpdatePatientProfileController),
         deletePatientByAdminService: asClass(DeletePatientByAdminService).singleton(),
         deletePatientByAdminController: asClass(DeletePatientByAdminController),
-        getPatientsOfPhysioService: asClass(GetPatientsOfPhysioService).singleton(),
+        getAllPatientsActivityByPhysioService: asClass(GetAllPatientsActivityByPhysioService).singleton(),
         getUserDetailController: asClass(GetUserDetailController),
         updateLastLoginService: asClass(UpdateLastLoginService).singleton(),
         getUserDetailByIdController: asClass(GetUserDetailByIdController)
@@ -243,7 +244,6 @@ export class Container {
         getModeSessionOfPhysioAndPatientService: asClass(GetModeSessionOfPhysioAndPatientService).singleton(),
         getSessionOfPateintService: asClass(GetSessionOfPateintService).singleton(),
         getModeSessionOfPatientController: asClass(GetModeSessionOfPatientController),
-        getModesService: asClass(GetModesService).singleton(),
         getModesController: asClass(GetModesController),
         getModeSessionActivityOfPatientController: asClass(GetModeSessionActivityOfPatientController),
         getModeTrialsOfPatientService: asClass(GetModeTrialsOfPatientService).singleton(),
@@ -257,13 +257,15 @@ export class Container {
         getModeSessionActivityOfPatientByPhysioController: asClass(GetModeSessionActivityOfPatientByPhysioController),
         getSessionsBetweenPatientAndPhysioController: asClass(GetSessionsBetweenPatientAndPhysioController),
         getModeSessionsByPatientIdController: asClass(GetModeSessionsByPatientIdController),
-        getAllPatientsInCludingSessionInfoService: asClass(GetAllPatientsInCludingSessionInfoService).singleton(),
+        getAllPatientsActivityByAdminService: asClass(GetAllPatientsActivityByAdminService).singleton(),
         endModeSessionByPhsyioService: asClass(EndModeSessionByPhsyioService).singleton(),
         getModesByAdminController: asClass(GetModesByAdminController),
         getStaticFilesController: asClass(GetStaticFilesController),
         getModeAnalyticsOfPatientService: asClass(GetModeAnalyticsOfPatientService).singleton(),
         getModeAnalyticsOfPhysioService: asClass(GetModeAnalyticsOfPhysioService).singleton(),
-        getModeAnalyticsOfAdminService: asClass(GetModeAnalyticsOfAdminService).singleton()
+        getModeAnalyticsOfAdminService: asClass(GetModeAnalyticsOfAdminService).singleton(),
+        getModesByAdminService: asClass(GetModesByAdminService).singleton(),
+        getModesByPhysioService: asClass(GetActiveSessionModesByPhysioService).singleton()
       })
       //Mode trial session
       .register({

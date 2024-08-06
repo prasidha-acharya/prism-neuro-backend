@@ -50,6 +50,9 @@ export interface IGetModesDetailForDashBoardResponse {
   name: string;
   instructions: string[];
   images: string[];
+  trialDuration: number | null;
+  totalImages?: number;
+  isVideo?: boolean;
 }
 
 interface IModeTrialSession {

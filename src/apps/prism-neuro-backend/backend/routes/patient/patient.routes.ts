@@ -66,6 +66,7 @@ export const patientRoutesHandler = (
   router.get(
     '/patient/activity/:modeId',
     patientAuthorizer.authorize,
+    getModeSessionActivityOfPatientController.validate,
     getModeSessionActivityOfPatientController.invoke.bind(getModeSessionActivityOfPatientController)
     /*
     #swagger.security =[{

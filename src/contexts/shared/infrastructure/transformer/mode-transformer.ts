@@ -1,5 +1,8 @@
-import { ModeTrialSession, Prisma } from '@prisma/client';
+import { MODE_TYPE, ModeTrialSession, Prisma } from '@prisma/client';
+import { Configuration } from 'config';
 import { IPrismaModeWithDetail } from 'src/contexts/prism-neuro/mode/domain/interface/mode-response.interface';
+import { IGetPatientsActivityByPhysioTransformerRequest } from 'src/contexts/prism-neuro/users/domain/interface/user-request.interface';
+import { imagesList } from '../../../../../__mock__/image-list';
 import { IPrismaModeSessionRequest } from '../../../../contexts/prism-neuro/mode-session/domain/interface/mode-session-request.interface';
 import {
   IGetModesDetailForDashBoardResponse,
@@ -16,11 +19,12 @@ import {
 } from '../../../../contexts/prism-neuro/users/domain/interface/user.response.interface';
 
 export class ModeTransformer {
+  constructor(private config: Configuration) {}
+
   public modeSessionActivityOfAllPatientsByPhysio(
-    users: IPrismaUserForGetPatientsByPhysioResponse[],
-    modeId: string,
-    { page, limit, endDate, startDate }: any
-  ): IPaginateResponse<IGetPatientsModeSessionByPhysioResponse[]> {
+    users: IPrismaUserForGetPatientsByPhysioResponse[] | null,
+    { page, limit, endDate, startDate, modeId }: IGetPatientsActivityByPhysioTransformerRequest
+  ): IPaginateResponse<IGetPatientsModeSessionByPhysioResponse[] | null> {
     const activities = users?.reduce((results: IGetPatientsModeSessionByPhysioResponse[], user) => {
       const { firstName, lastName, id: userId, patientModeSession } = user;
 
@@ -37,7 +41,15 @@ export class ModeTransformer {
 
       const trials = patientModeSession.reduce(
         (modeTrials: IGetPatientsModeSessionByPhysioResponse[], { modeIds, modeTrialSession, id, createdAt }, index: number) => {
-          if (modeIds.includes(modeId) || (modeIds.includes(modeId) && startDate && endDate && startDate <= createdAt >= endDate)) {
+          let isFilterable = false;
+
+          if (startDate && endDate) {
+            isFilterable = modeIds.includes(modeId) && startDate <= createdAt && createdAt <= endDate;
+          } else {
+            isFilterable = modeIds.includes(modeId);
+          }
+
+          if (isFilterable) {
             const trialsFilteredByMode = modeTrialSession.reduce((trialResult: ITrials[], trialSession) => {
               if (trialSession.modeId === modeId) {
                 let result: number | null = null;
@@ -74,13 +86,13 @@ export class ModeTransformer {
       return [...results, ...trials];
     }, []);
 
-    const totalPages = Math.ceil(activities.length / limit);
+    const totalPages = !activities ? 0 : Math.ceil(activities.length / limit);
 
     return {
-      data: activities,
+      data: activities ?? null,
       pagination: {
         limit,
-        total: activities.length,
+        total: activities?.length ?? 0,
         totalPages,
         currentPage: page,
         isFirstPage: page === 1,
@@ -90,18 +102,25 @@ export class ModeTransformer {
   }
 
   public modeSessionActivityOfAllPatients(
-    users: IPrismaUserForGetPatientsDetailIncludingSessions[],
+    users: IPrismaUserForGetPatientsDetailIncludingSessions[] | null,
     { startDate, endDate, page, limit }: { startDate?: Date; endDate?: Date; page: number; limit: number }
-  ): IPaginateResponse<IGetPatientsActivityResponse[]> {
+  ): IPaginateResponse<IGetPatientsActivityResponse[] | null> {
     const activities = users?.reduce((results: IGetPatientsActivityResponse[], user) => {
       const { firstName, email, lastName, isVerified, id: userId, patientModeSession, physioTherapist } = user;
 
       const modeSession = patientModeSession.reduce((activity: IGetPatientsActivityResponse[], modeSessionOfPatient, index) => {
         const trialSessionIsDone = modeSessionOfPatient.modeTrialSession.length > 0;
-        if (
-          trialSessionIsDone ||
-          (trialSessionIsDone && startDate && endDate && startDate <= modeSessionOfPatient.createdAt && modeSessionOfPatient.createdAt >= endDate)
-        ) {
+
+        let isModeSummaryFilterable = false;
+
+        if (startDate && endDate) {
+          isModeSummaryFilterable =
+            trialSessionIsDone && startDate && endDate && startDate <= modeSessionOfPatient.createdAt && modeSessionOfPatient.createdAt <= endDate;
+        } else {
+          isModeSummaryFilterable = trialSessionIsDone;
+        }
+
+        if (isModeSummaryFilterable) {
           activity.push({
             id: modeSessionOfPatient.id,
             createdAt: modeSessionOfPatient.createdAt,
@@ -127,11 +146,11 @@ export class ModeTransformer {
       return [...results, ...modeSession];
     }, []);
 
-    const totalPages = Math.ceil(activities.length / limit) ?? 0;
+    const totalPages = !activities ? 0 : Math.ceil(activities.length / limit) ?? 0;
 
     const pagination = {
       limit,
-      total: activities.length,
+      total: activities?.length ?? 0,
       totalPages,
       currentPage: page,
       isFirstPage: page === 1,
@@ -140,7 +159,7 @@ export class ModeTransformer {
 
     const offset = (page - 1) * limit;
 
-    return { data: activities.slice(offset, offset + limit), pagination };
+    return { data: !activities ? null : activities?.slice(offset, offset + limit), pagination };
   }
 
   public modeSessionOfPatients(modeSessions: IPrismaModeSessionRequest[], sessionCount = 0): IGetModeSessionOfPatientResponse[] {
@@ -210,13 +229,18 @@ export class ModeTransformer {
   }
 
   public getModesDetailForDashboard(modes: IPrismaModeWithDetail[]): IGetModesDetailForDashBoardResponse[] {
-    return modes.map(({ id, images, modeDetail, type, name }) => {
+    return modes.map(({ id, images, modeDetail, type, name, trialDuration }): IGetModesDetailForDashBoardResponse => {
       return {
         id,
-        images,
+        images: images.map(img => {
+          return `${this.config.BASE_URL}/${img}`;
+        }),
         instructions: modeDetail?.instructions ?? [],
         type,
-        name
+        name,
+        trialDuration,
+        totalImages: imagesList.find(image => image.type === type)?.images?.length,
+        isVideo: trialDuration === null && type === MODE_TYPE.VISUAL_BALANCE_MODE
       };
     });
   }

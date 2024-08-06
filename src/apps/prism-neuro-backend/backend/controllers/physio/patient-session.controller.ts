@@ -1,19 +1,16 @@
 import { NextFunction, Request, Response } from 'express';
 import { param, query } from 'express-validator';
 import httpStatus from 'http-status';
-import { GetPatientsOfPhysioService } from '../../../../../contexts/prism-neuro/users/application/get-pateints-of-physio.service';
+import { IDataFilterQueryRequest } from 'src/contexts/prism-neuro/users/domain/interface/user-request.interface';
+import { GetAllPatientsActivityByPhysioService } from '../../../../../contexts/prism-neuro/users/application/get-all-patients-activity-by-physio.service';
 import { HTTP422Error } from '../../../../../contexts/shared/domain/errors/http.exception';
 import { RequestValidator } from '../../../../../contexts/shared/infrastructure/middleware/request-validator';
-import { ModeTransformer } from '../../../../../contexts/shared/infrastructure/transformer/mode-transformer';
 import { defaultLimit, defaultPage } from '../../../../../contexts/shared/infrastructure/utils/constant';
 import { MESSAGE_CODES } from '../../../../../contexts/shared/infrastructure/utils/message-code';
 import { Controller } from '../controller';
 
 export class GetModeSessionActivityOfPatientByPhysioController implements Controller {
-  constructor(
-    private modeTransformer: ModeTransformer,
-    private getPatientsOfPhysioService: GetPatientsOfPhysioService
-  ) {}
+  constructor(private getAllPatientsActivityByPhysioService: GetAllPatientsActivityByPhysioService) {}
 
   public validate = [
     param('modeId').exists().withMessage(MESSAGE_CODES.MODE.REQUIRED_MODE_ID),
@@ -61,31 +58,22 @@ export class GetModeSessionActivityOfPatientByPhysioController implements Contro
   ];
 
   async invoke(req: Request, res: Response, next: NextFunction): Promise<void> {
-    const {
-      limit = defaultLimit,
-      page = defaultPage,
-      endDate,
-      search,
-      startDate
-    } = req?.query as unknown as {
-      limit?: number;
-      page?: number;
-      search?: string;
-      endDate?: Date;
-      startDate?: Date;
-    };
+    const { limit = defaultLimit, page = defaultPage, endDate = new Date(), search, startDate } = req?.query as unknown as IDataFilterQueryRequest;
 
     const physioId = req.body.user.userId;
 
     const modeId = req.params.modeId;
 
     try {
-      const response = await this.getPatientsOfPhysioService.invoke(physioId, search);
-
-      const data =
-        response === null
-          ? []
-          : this.modeTransformer.modeSessionActivityOfAllPatientsByPhysio(response, modeId, { search, page, limit, startDate, endDate });
+      const data = await this.getAllPatientsActivityByPhysioService.invoke({
+        physioId,
+        search,
+        page: Number(page),
+        limit: Number(limit),
+        startDate,
+        endDate,
+        modeId
+      });
 
       res.status(httpStatus.OK).json({
         status: 'SUCCESS',

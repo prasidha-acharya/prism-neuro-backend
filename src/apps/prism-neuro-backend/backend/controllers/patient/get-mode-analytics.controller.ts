@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
 import { query } from 'express-validator';
 import httpStatus from 'http-status';
+import { Filter } from '../../../../..//contexts/shared/domain/interface/enum';
 import { GetModeAnalyticsOfPatientService } from '../../../../../contexts/prism-neuro/mode/application/get-mode-analytics-of-patient.service';
-import { Filter } from '../../../../../contexts/prism-neuro/statistics/domain/interface/statistics-request.interface';
 import { RequestValidator } from '../../../../../contexts/shared/infrastructure/middleware/request-validator';
 import { getEndDayOfDate } from '../../../../../contexts/shared/infrastructure/utils/date';
 import { MESSAGE_CODES } from '../../../../../contexts/shared/infrastructure/utils/message-code';

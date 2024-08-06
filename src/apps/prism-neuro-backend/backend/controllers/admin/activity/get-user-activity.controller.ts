@@ -3,7 +3,8 @@ import { ParamsDictionary } from 'express-serve-static-core';
 import { query } from 'express-validator';
 import httpStatus from 'http-status';
 import { ParsedQs } from 'qs';
-import { GetAllPatientsInCludingSessionInfoService } from '../../../../../../contexts/prism-neuro/users/application/get-all-patients-including-session-info.service';
+import { GetAllPatientsActivityByAdminService } from '../../../../../../contexts/prism-neuro/users/application/get-all-patients-activity-by-admin.service';
+import { IDataFilterQueryRequest } from '../../../../../../contexts/prism-neuro/users/domain/interface/user-request.interface';
 import { HTTP422Error } from '../../../../../../contexts/shared/domain/errors/http.exception';
 import { RequestValidator } from '../../../../../../contexts/shared/infrastructure/middleware/request-validator';
 import { ModeTransformer } from '../../../../../../contexts/shared/infrastructure/transformer/mode-transformer';
@@ -14,7 +15,7 @@ import { Controller } from '../../controller';
 export class GetAllPatientActivityController implements Controller {
   constructor(
     private modeTransformer: ModeTransformer,
-    private getAllPatientsInCludingSessionInfoService: GetAllPatientsInCludingSessionInfoService
+    private getAllPatientsActivityByAdminService: GetAllPatientsActivityByAdminService
   ) {}
 
   public validate = [
@@ -68,19 +69,14 @@ export class GetAllPatientActivityController implements Controller {
     next: NextFunction
   ): Promise<void> {
     try {
-      const {
-        page = defaultPage,
-        limit = defaultLimit,
+      const { page = defaultPage, limit = defaultLimit, startDate, endDate, search } = req.query as unknown as IDataFilterQueryRequest;
+      const data = await this.getAllPatientsActivityByAdminService.invoke({
+        limit: Number(limit),
+        page: Number(page),
         startDate,
         endDate,
         search
-      } = req.query as unknown as { page?: number; limit?: number; startDate?: Date; endDate?: Date; search?: string };
-
-      const response = await this.getAllPatientsInCludingSessionInfoService.invoke(search);
-      const data =
-        response === null
-          ? []
-          : this.modeTransformer.modeSessionActivityOfAllPatients(response, { limit: Number(limit), page: Number(page), startDate, endDate });
+      });
       res.status(httpStatus.OK).json({ data, status: 'SUCESS' });
     } catch (error) {
       next(error);

@@ -266,6 +266,7 @@ export const physioRoutesHandler = (
   router.get(
     '/physio/activity/:modeId',
     physioAuthorizer.authorize,
+    getModeSessionActivityOfPatientByPhysioController.validate,
     getModeSessionActivityOfPatientByPhysioController.invoke.bind(getModeSessionActivityOfPatientByPhysioController)
     /*
     #swagger.security =[{

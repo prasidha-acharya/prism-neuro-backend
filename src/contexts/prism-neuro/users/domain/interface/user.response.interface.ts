@@ -102,4 +102,8 @@ export interface IGetUserDetailByIdResponse {
   userAddress: IAddress[];
   phoneCode: string | null;
   phoneNumber: string | null;
+  profile: {
+    path: string | null;
+    profileURL: string | null;
+  };
 }

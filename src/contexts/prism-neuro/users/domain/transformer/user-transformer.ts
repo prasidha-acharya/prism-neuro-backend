@@ -125,8 +125,14 @@ export class UserTransformer {
     };
   }
 
-  public userDetailInfoByIdForDashBoard(user: IPrismaUserDetailByEmailAndRole): IGetUserDetailByIdResponse {
+  public async userDetailInfoByIdForDashBoard(user: IPrismaUserDetailByEmailAndRole): Promise<IGetUserDetailByIdResponse> {
     const { email, firstName, lastName, isVerified, userDetail, userAddress } = user;
+    let profileURL: string | null = null;
+
+    if (userDetail?.profileURL) {
+      profileURL = await this.getSignedURLService.invoke(userDetail.profileURL);
+    }
+
     return {
       email,
       firstName: firstName ?? null,
@@ -136,6 +142,10 @@ export class UserTransformer {
       age: userDetail?.age ?? null,
       phoneCode: userDetail?.phoneCode ?? null,
       phoneNumber: userDetail?.phoneNumber ?? null,
+      profile: {
+        path: userDetail?.profileURL ?? null,
+        profileURL
+      },
       userAddress: userAddress.map(({ id, address }) => ({ id, address }))
     };
   }

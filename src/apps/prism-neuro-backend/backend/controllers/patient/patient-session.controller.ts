@@ -4,16 +4,12 @@ import httpStatus from 'http-status';
 import { GetSessionOfPateintService } from '../../../../../contexts/prism-neuro/mode-session/application/get-session-of-patient.service';
 import { HTTP422Error } from '../../../../../contexts/shared/domain/errors/http.exception';
 import { RequestValidator } from '../../../../../contexts/shared/infrastructure/middleware/request-validator';
-import { ModeTransformer } from '../../../../../contexts/shared/infrastructure/transformer/mode-transformer';
 import { defaultLimit, defaultPage } from '../../../../../contexts/shared/infrastructure/utils/constant';
 import { MESSAGE_CODES } from '../../../../../contexts/shared/infrastructure/utils/message-code';
 import { Controller } from '../controller';
 
 export class GetModeSessionActivityOfPatientController implements Controller {
-  constructor(
-    private getSessionOfPateintService: GetSessionOfPateintService,
-    private modeTransformer: ModeTransformer
-  ) {}
+  constructor(private getSessionOfPateintService: GetSessionOfPateintService) {}
 
   public validate = [
     param('modeId').exists().withMessage(MESSAGE_CODES.MODE.REQUIRED_MODE_ID),

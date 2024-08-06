@@ -1,6 +1,6 @@
+import { Filter } from '../../../../contexts/shared/domain/interface/enum';
 import { StatisticsTransformer } from '../../../../contexts/shared/infrastructure/transformer/statistics-transformer';
 import { PrismaModeRepository } from '../../mode/infrastructure/repositories/prisma-mode-repository';
-import { Filter } from '../../statistics/domain/interface/statistics-request.interface';
 import { IPatientModeAnalysticsRequest } from '../domain/interface/mode-request.interface';
 import { IModeAnalyticsReponse } from '../domain/interface/mode-response.interface';
 
