@@ -90,18 +90,25 @@ export class ModeTransformer {
   }
 
   public modeSessionActivityOfAllPatients(
-    users: IPrismaUserForGetPatientsDetailIncludingSessions[],
+    users: IPrismaUserForGetPatientsDetailIncludingSessions[] | null,
     { startDate, endDate, page, limit }: { startDate?: Date; endDate?: Date; page: number; limit: number }
-  ): IPaginateResponse<IGetPatientsActivityResponse[]> {
+  ): IPaginateResponse<IGetPatientsActivityResponse[] | null> {
     const activities = users?.reduce((results: IGetPatientsActivityResponse[], user) => {
       const { firstName, email, lastName, isVerified, id: userId, patientModeSession, physioTherapist } = user;
 
       const modeSession = patientModeSession.reduce((activity: IGetPatientsActivityResponse[], modeSessionOfPatient, index) => {
         const trialSessionIsDone = modeSessionOfPatient.modeTrialSession.length > 0;
-        if (
-          trialSessionIsDone ||
-          (trialSessionIsDone && startDate && endDate && startDate <= modeSessionOfPatient.createdAt && modeSessionOfPatient.createdAt >= endDate)
-        ) {
+
+        let isModeSummaryFilterable = false;
+
+        if (startDate && endDate) {
+          isModeSummaryFilterable =
+            trialSessionIsDone && startDate && endDate && startDate <= modeSessionOfPatient.createdAt && modeSessionOfPatient.createdAt <= endDate;
+        } else {
+          isModeSummaryFilterable = trialSessionIsDone;
+        }
+
+        if (isModeSummaryFilterable) {
           activity.push({
             id: modeSessionOfPatient.id,
             createdAt: modeSessionOfPatient.createdAt,
@@ -127,11 +134,11 @@ export class ModeTransformer {
       return [...results, ...modeSession];
     }, []);
 
-    const totalPages = Math.ceil(activities.length / limit) ?? 0;
+    const totalPages = !activities ? 0 : Math.ceil(activities.length / limit) ?? 0;
 
     const pagination = {
       limit,
-      total: activities.length,
+      total: activities?.length ?? 0,
       totalPages,
       currentPage: page,
       isFirstPage: page === 1,
@@ -140,7 +147,7 @@ export class ModeTransformer {
 
     const offset = (page - 1) * limit;
 
-    return { data: activities.slice(offset, offset + limit), pagination };
+    return { data: !activities ? null : activities?.slice(offset, offset + limit), pagination };
   }
 
   public modeSessionOfPatients(modeSessions: IPrismaModeSessionRequest[], sessionCount = 0): IGetModeSessionOfPatientResponse[] {
