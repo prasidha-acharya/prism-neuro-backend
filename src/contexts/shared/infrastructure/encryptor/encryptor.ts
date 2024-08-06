@@ -1,4 +1,5 @@
 import * as bcrypt from 'bcrypt';
+import { minPasswordLength } from '../utils/constant';
 
 export const hashPassword = (string: string): string => {
   const hash = bcrypt.hashSync(string, Number(process.env.SALT_ROUNDS || '10'));
@@ -10,7 +11,7 @@ export const comparePassword = (string: string, hash: string): boolean => {
 };
 
 export const generatePassword = (): string => {
-  const length = 8;
+  const length = minPasswordLength;
   const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_-+=<>?';
 
   let password = '';

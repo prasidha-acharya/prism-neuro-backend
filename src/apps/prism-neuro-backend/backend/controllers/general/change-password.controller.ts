@@ -8,6 +8,7 @@ import { GetAdminByEmailService } from '../../../../../contexts/prism-neuro/user
 import { HTTP404Error, HTTP422Error } from '../../../../../contexts/shared/domain/errors/http.exception';
 import { comparePassword, hashPassword } from '../../../../../contexts/shared/infrastructure/encryptor/encryptor';
 import { RequestValidator } from '../../../../../contexts/shared/infrastructure/middleware/request-validator';
+import { minPasswordLength } from '../../../../../contexts/shared/infrastructure/utils/constant';
 import { MESSAGE_CODES } from '../../../../../contexts/shared/infrastructure/utils/message-code';
 import { Controller } from '../controller';
 
@@ -22,17 +23,17 @@ export class ChangePasswordController implements Controller {
     body('oldPassword')
       .exists()
       .withMessage(MESSAGE_CODES.USER.REQUIRED_OLD_PASSWORD)
-      .isLength({ min: 6 })
+      .isLength({ min: minPasswordLength })
       .withMessage(MESSAGE_CODES.USER.PASSWORD_MIN_LENGTH),
     body('newPassword')
       .exists()
       .withMessage(MESSAGE_CODES.USER.REQUIRED_NEW_PASSWORD)
-      .isLength({ min: 6 })
+      .isLength({ min: minPasswordLength })
       .withMessage(MESSAGE_CODES.USER.PASSWORD_MIN_LENGTH),
     body('confirmPassword')
       .exists()
       .withMessage(MESSAGE_CODES.USER.REQUIRED_CONFIRMED_PASSWORD)
-      .isLength({ min: 6 })
+      .isLength({ min: minPasswordLength })
       .withMessage(MESSAGE_CODES.USER.PASSWORD_MIN_LENGTH)
       .custom(async (confirmPassword: string, { req }) => {
         if (confirmPassword === req.body.newPassword) return true;
