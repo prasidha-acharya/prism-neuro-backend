@@ -1,5 +1,6 @@
 import { ModeTrialSession, Prisma } from '@prisma/client';
 import { IPrismaModeWithDetail } from 'src/contexts/prism-neuro/mode/domain/interface/mode-response.interface';
+import { IGetPatientsActivityByPhysioTransformerRequest } from 'src/contexts/prism-neuro/users/domain/interface/user-request.interface';
 import { IPrismaModeSessionRequest } from '../../../../contexts/prism-neuro/mode-session/domain/interface/mode-session-request.interface';
 import {
   IGetModesDetailForDashBoardResponse,
@@ -17,10 +18,9 @@ import {
 
 export class ModeTransformer {
   public modeSessionActivityOfAllPatientsByPhysio(
-    users: IPrismaUserForGetPatientsByPhysioResponse[],
-    modeId: string,
-    { page, limit, endDate, startDate }: any
-  ): IPaginateResponse<IGetPatientsModeSessionByPhysioResponse[]> {
+    users: IPrismaUserForGetPatientsByPhysioResponse[] | null,
+    { page, limit, endDate, startDate, modeId }: IGetPatientsActivityByPhysioTransformerRequest
+  ): IPaginateResponse<IGetPatientsModeSessionByPhysioResponse[] | null> {
     const activities = users?.reduce((results: IGetPatientsModeSessionByPhysioResponse[], user) => {
       const { firstName, lastName, id: userId, patientModeSession } = user;
 
@@ -37,7 +37,15 @@ export class ModeTransformer {
 
       const trials = patientModeSession.reduce(
         (modeTrials: IGetPatientsModeSessionByPhysioResponse[], { modeIds, modeTrialSession, id, createdAt }, index: number) => {
-          if (modeIds.includes(modeId) || (modeIds.includes(modeId) && startDate && endDate && startDate <= createdAt >= endDate)) {
+          let isFilterable = false;
+
+          if (startDate && endDate) {
+            isFilterable = modeIds.includes(modeId) && startDate <= createdAt && createdAt <= endDate;
+          } else {
+            isFilterable = modeIds.includes(modeId);
+          }
+
+          if (isFilterable) {
             const trialsFilteredByMode = modeTrialSession.reduce((trialResult: ITrials[], trialSession) => {
               if (trialSession.modeId === modeId) {
                 let result: number | null = null;
@@ -74,13 +82,13 @@ export class ModeTransformer {
       return [...results, ...trials];
     }, []);
 
-    const totalPages = Math.ceil(activities.length / limit);
+    const totalPages = !activities ? 0 : Math.ceil(activities.length / limit);
 
     return {
-      data: activities,
+      data: activities ?? null,
       pagination: {
         limit,
-        total: activities.length,
+        total: activities?.length ?? 0,
         totalPages,
         currentPage: page,
         isFirstPage: page === 1,

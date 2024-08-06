@@ -150,3 +150,20 @@ export interface IUpdatePatientReq {
     profileURL?: string;
   };
 }
+
+export interface IGetPatientsActivityByPhysioServiceRequest extends IDataFilterQueryRequest {
+  physioId: string;
+  modeId: string;
+}
+
+export interface IGetPatientsActivityByPhysioTransformerRequest extends IDataFilterQueryRequest {
+  modeId: string;
+}
+
+export interface IDataFilterQueryRequest {
+  limit: number;
+  page: number;
+  search?: string;
+  endDate?: Date;
+  startDate?: Date;
+}

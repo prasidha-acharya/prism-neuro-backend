@@ -29,8 +29,8 @@ import { DeleteUserSessionService } from '../../../contexts/prism-neuro/users/ap
 import { ForgotPasswordService } from '../../../contexts/prism-neuro/users/application/forgot-password.service';
 import { GetAdminByEmailService } from '../../../contexts/prism-neuro/users/application/get-admin-email.service';
 import { GetAllPatientsActivityByAdminService } from '../../../contexts/prism-neuro/users/application/get-all-patients-activity-by-admin.service';
+import { GetAllPatientsActivityByPhysioService } from '../../../contexts/prism-neuro/users/application/get-all-patients-activity-by-physio.service';
 import { GetOtpService } from '../../../contexts/prism-neuro/users/application/get-otp.service';
-import { GetPatientsOfPhysioService } from '../../../contexts/prism-neuro/users/application/get-pateints-of-physio.service';
 import { GetTotalPatientsService } from '../../../contexts/prism-neuro/users/application/get-total-patients.service';
 import { GetTotalUsersService } from '../../../contexts/prism-neuro/users/application/get-total-users.service';
 import { GetUserByRoleService } from '../../../contexts/prism-neuro/users/application/get-user-by-role.service';
@@ -208,7 +208,7 @@ export class Container {
         updatePatientProfileController: asClass(UpdatePatientProfileController),
         deletePatientByAdminService: asClass(DeletePatientByAdminService).singleton(),
         deletePatientByAdminController: asClass(DeletePatientByAdminController),
-        getPatientsOfPhysioService: asClass(GetPatientsOfPhysioService).singleton(),
+        getAllPatientsActivityByPhysioService: asClass(GetAllPatientsActivityByPhysioService).singleton(),
         getUserDetailController: asClass(GetUserDetailController),
         updateLastLoginService: asClass(UpdateLastLoginService).singleton(),
         getUserDetailByIdController: asClass(GetUserDetailByIdController)
