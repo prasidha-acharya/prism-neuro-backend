@@ -12,7 +12,8 @@ import { GetModeAnalyticsOfAdminService } from '../../../contexts/prism-neuro/mo
 import { GetModeAnalyticsOfPatientService } from '../../../contexts/prism-neuro/mode/application/get-mode-analytics-of-patient.service';
 import { GetModeAnalyticsOfPhysioService } from '../../../contexts/prism-neuro/mode/application/get-mode-analytics-of-physio.service';
 import { GetModeByIdService } from '../../../contexts/prism-neuro/mode/application/get-mode-by-id.service';
-import { GetModesService } from '../../../contexts/prism-neuro/mode/application/get-modes.service';
+import { GetModesByAdminService } from '../../../contexts/prism-neuro/mode/application/get-modes-by-admin.service';
+import { GetModesByPhysioService } from '../../../contexts/prism-neuro/mode/application/get-modes-by-physio.service';
 import { PrismaModeRepository } from '../../../contexts/prism-neuro/mode/infrastructure/repositories/prisma-mode-repository';
 import { EndModeTrialService } from '../../../contexts/prism-neuro/trial/application/end-mode-trial.service';
 import { GetModeTrialsBySessionService } from '../../../contexts/prism-neuro/trial/application/get-mode-trial.service';
@@ -243,7 +244,6 @@ export class Container {
         getModeSessionOfPhysioAndPatientService: asClass(GetModeSessionOfPhysioAndPatientService).singleton(),
         getSessionOfPateintService: asClass(GetSessionOfPateintService).singleton(),
         getModeSessionOfPatientController: asClass(GetModeSessionOfPatientController),
-        getModesService: asClass(GetModesService).singleton(),
         getModesController: asClass(GetModesController),
         getModeSessionActivityOfPatientController: asClass(GetModeSessionActivityOfPatientController),
         getModeTrialsOfPatientService: asClass(GetModeTrialsOfPatientService).singleton(),
@@ -263,7 +263,9 @@ export class Container {
         getStaticFilesController: asClass(GetStaticFilesController),
         getModeAnalyticsOfPatientService: asClass(GetModeAnalyticsOfPatientService).singleton(),
         getModeAnalyticsOfPhysioService: asClass(GetModeAnalyticsOfPhysioService).singleton(),
-        getModeAnalyticsOfAdminService: asClass(GetModeAnalyticsOfAdminService).singleton()
+        getModeAnalyticsOfAdminService: asClass(GetModeAnalyticsOfAdminService).singleton(),
+        getModesByAdminService: asClass(GetModesByAdminService).singleton(),
+        getModesByPhysioService: asClass(GetModesByPhysioService).singleton()
       })
       //Mode trial session
       .register({
