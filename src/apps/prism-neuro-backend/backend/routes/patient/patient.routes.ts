@@ -149,6 +149,7 @@ export const patientRoutesHandler = (
   router.get(
     '/patient/statistics/mode-analytics',
     patientAuthorizer.authorize,
+    getPatientModeAnalyticsController.validate,
     getPatientModeAnalyticsController.invoke.bind(getPatientModeAnalyticsController)
     /*
     #swagger.security = [{
@@ -160,7 +161,7 @@ export const patientRoutesHandler = (
     in:'query',
     required:true,
       schema: {
-                '@enum': ['monthly','weekly',"daily"]
+                '@enum': ['monthly',"daily"]
             }
     }
     #swagger.responses[200] = {

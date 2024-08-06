@@ -203,6 +203,7 @@ export const physioRoutesHandler = (
   router.get(
     '/physio/statistics/mode-analytics',
     physioAuthorizer.authorize,
+    getPhysioModeAnalyticsController.validate,
     getPhysioModeAnalyticsController.invoke.bind(getPhysioModeAnalyticsController)
 
     /*
@@ -216,7 +217,7 @@ export const physioRoutesHandler = (
       in:'query',
       required:true,
       schema: {
-                '@enum': ['monthly','weekly',"daily"]
+                '@enum': ['monthly',"daily"]
             }
     }
       #swagger.parameters['startDate'] = {

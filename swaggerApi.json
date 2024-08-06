@@ -7,10 +7,10 @@
   },
   "servers": [
     {
-      "url": "http://2ece-113-199-226-36.ngrok-free.app/api/"
+      "url": "http://localhost:4000/api/"
     },
     {
-      "url": "https://2ece-113-199-226-36.ngrok-free.app/api/"
+      "url": "https://localhost:4000/api/"
     }
   ],
   "paths": {
@@ -563,7 +563,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "enum": ["monthly", "weekly", "daily"]
+              "enum": ["monthly", "daily"]
             }
           },
           {
@@ -1520,7 +1520,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "enum": ["monthly", "weekly", "daily"]
+              "enum": ["monthly", "daily"]
             }
           }
         ],
@@ -1807,7 +1807,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "enum": ["monthly", "weekly", "daily"]
+              "enum": ["monthly", "daily"]
             }
           },
           {
