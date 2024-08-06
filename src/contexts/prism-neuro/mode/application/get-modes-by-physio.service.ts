@@ -2,7 +2,7 @@ import { ModeTransformer } from '../../../../contexts/shared/infrastructure/tran
 import { IGetModesDetailForTabletResponse } from '../../mode-session/domain/interface/mode-session-response.interface';
 import { PrismaModeRepository } from '../infrastructure/repositories/prisma-mode-repository';
 
-export class GetModesByPhysioService {
+export class GetActiveSessionModesByPhysioService {
   constructor(
     private prismaModeRepository: PrismaModeRepository,
     private modeTransformer: ModeTransformer

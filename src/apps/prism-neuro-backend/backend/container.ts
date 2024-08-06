@@ -13,7 +13,7 @@ import { GetModeAnalyticsOfPatientService } from '../../../contexts/prism-neuro/
 import { GetModeAnalyticsOfPhysioService } from '../../../contexts/prism-neuro/mode/application/get-mode-analytics-of-physio.service';
 import { GetModeByIdService } from '../../../contexts/prism-neuro/mode/application/get-mode-by-id.service';
 import { GetModesByAdminService } from '../../../contexts/prism-neuro/mode/application/get-modes-by-admin.service';
-import { GetModesByPhysioService } from '../../../contexts/prism-neuro/mode/application/get-modes-by-physio.service';
+import { GetActiveSessionModesByPhysioService } from '../../../contexts/prism-neuro/mode/application/get-modes-by-physio.service';
 import { PrismaModeRepository } from '../../../contexts/prism-neuro/mode/infrastructure/repositories/prisma-mode-repository';
 import { EndModeTrialService } from '../../../contexts/prism-neuro/trial/application/end-mode-trial.service';
 import { GetModeTrialsBySessionService } from '../../../contexts/prism-neuro/trial/application/get-mode-trial.service';
@@ -265,7 +265,7 @@ export class Container {
         getModeAnalyticsOfPhysioService: asClass(GetModeAnalyticsOfPhysioService).singleton(),
         getModeAnalyticsOfAdminService: asClass(GetModeAnalyticsOfAdminService).singleton(),
         getModesByAdminService: asClass(GetModesByAdminService).singleton(),
-        getModesByPhysioService: asClass(GetModesByPhysioService).singleton()
+        getModesByPhysioService: asClass(GetActiveSessionModesByPhysioService).singleton()
       })
       //Mode trial session
       .register({

@@ -3,7 +3,7 @@ import { NextFunction, Request, Response } from 'express';
 import { param } from 'express-validator';
 import httpStatus from 'http-status';
 import { GetModeSessionOfPhysioAndPatientService } from '../../../../../contexts/prism-neuro/mode-session/application/get-session.service';
-import { GetModesByPhysioService } from '../../../../../contexts/prism-neuro/mode/application/get-modes-by-physio.service';
+import { GetActiveSessionModesByPhysioService } from '../../../../../contexts/prism-neuro/mode/application/get-modes-by-physio.service';
 import { HTTP404Error } from '../../../../../contexts/shared/domain/errors/http.exception';
 import { RequestValidator } from '../../../../../contexts/shared/infrastructure/middleware/request-validator';
 import { MESSAGE_CODES } from '../../../../../contexts/shared/infrastructure/utils/message-code';
@@ -11,7 +11,7 @@ import { Controller } from '../controller';
 
 export class GetModesController implements Controller {
   constructor(
-    private getModesByPhysioService: GetModesByPhysioService,
+    private getModesByPhysioService: GetActiveSessionModesByPhysioService,
     private getModeSessionOfPhysioAndPatientService: GetModeSessionOfPhysioAndPatientService
   ) {}
 
