@@ -4,6 +4,7 @@ import { query } from 'express-validator';
 import httpStatus from 'http-status';
 import { ParsedQs } from 'qs';
 import { GetAllPatientsActivityByAdminService } from '../../../../../../contexts/prism-neuro/users/application/get-all-patients-activity-by-admin.service';
+import { IDataFilterQueryRequest } from '../../../../../../contexts/prism-neuro/users/domain/interface/user-request.interface';
 import { HTTP422Error } from '../../../../../../contexts/shared/domain/errors/http.exception';
 import { RequestValidator } from '../../../../../../contexts/shared/infrastructure/middleware/request-validator';
 import { ModeTransformer } from '../../../../../../contexts/shared/infrastructure/transformer/mode-transformer';
@@ -68,14 +69,7 @@ export class GetAllPatientActivityController implements Controller {
     next: NextFunction
   ): Promise<void> {
     try {
-      const {
-        page = defaultPage,
-        limit = defaultLimit,
-        startDate,
-        endDate,
-        search
-      } = req.query as unknown as { page?: number; limit?: number; startDate?: Date; endDate?: Date; search?: string };
-
+      const { page = defaultPage, limit = defaultLimit, startDate, endDate, search } = req.query as unknown as IDataFilterQueryRequest;
       const data = await this.getAllPatientsActivityByAdminService.invoke({
         limit: Number(limit),
         page: Number(page),
