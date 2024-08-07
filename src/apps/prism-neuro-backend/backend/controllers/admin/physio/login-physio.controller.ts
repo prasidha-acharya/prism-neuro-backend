@@ -5,7 +5,7 @@ import { ParamsDictionary } from 'express-serve-static-core';
 import { body } from 'express-validator';
 import httpStatus from 'http-status';
 import { ParsedQs } from 'qs';
-import { EndModeSessionByPhsyioService } from 'src/contexts/prism-neuro/mode-session/application/end-session-by-physio.service';
+import { EndModeSessionByPhsyioService } from '../../../../../..//contexts/prism-neuro/mode-session/application/end-session-by-physio.service';
 import { AddUserSessionService } from '../../../../../../contexts/prism-neuro/users/application/create-user-session.service';
 import { GetAdminByEmailService } from '../../../../../../contexts/prism-neuro/users/application/get-admin-email.service';
 import { UpdateLastLoginService } from '../../../../../../contexts/prism-neuro/users/application/update-last-login.service';
