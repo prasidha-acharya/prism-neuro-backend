@@ -401,8 +401,19 @@ export class PrismaUserRepository implements IPrismaUserRepository {
   }
 
   async createOTP(request: IFogotPasswordRequest, userId: string): Promise<void> {
-    await this.db.otp.create({
-      data: {
+    await this.db.otp.upsert({
+      where: {
+        userId
+      },
+      create: {
+        ...request,
+        user: {
+          connect: {
+            id: userId
+          }
+        }
+      },
+      update: {
         ...request,
         user: {
           connect: {
