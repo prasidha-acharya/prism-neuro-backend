@@ -11,6 +11,7 @@ interface IHandler {
   deleteAccountController: controllers.DeleteAccountController;
   getUserDetailController: controllers.GetUserDetailController;
   getUserDetailByIdController: controllers.GetUserDetailByIdController;
+  verifyOtpController: controllers.VerifyOtpController;
 }
 
 export const userRoutesHandler = (
@@ -22,7 +23,8 @@ export const userRoutesHandler = (
     changePasswordController,
     resetPasswordController,
     getUserDetailController,
-    getUserDetailByIdController
+    getUserDetailByIdController,
+    verifyOtpController
   }: IHandler,
   userAuthorizer: IAuthorizer<Request, Response, NextFunction>,
   refreshAuthorizer: IAuthorizer<Request, Response, NextFunction>,
@@ -122,8 +124,8 @@ export const userRoutesHandler = (
 
   router.post(
     '/verify-otp',
-    resetPasswordController.validate,
-    resetPasswordController.invoke.bind(resetPasswordController)
+    verifyOtpController.validate,
+    verifyOtpController.invoke.bind(verifyOtpController)
     /*
         #swagger.tags = ['User']
         #swagger.summary = "Verify otp"

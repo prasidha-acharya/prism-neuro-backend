@@ -705,18 +705,52 @@
                   },
                   "otp": {
                     "type": "string",
-                    "minLength": 5,
+                    "minLength": 6,
                     "description": "OTP must be at least 5 characters long."
                   },
                   "password": {
                     "type": "string",
-                    "minLength": 6,
-                    "description": "Password must be at least 6 characters long."
+                    "minLength": 8,
+                    "description": "Password must be at least 8 characters long."
                   },
                   "confirmPassword": {
                     "type": "string",
-                    "minLength": 6,
+                    "minLength": 8,
                     "description": "Must match the password."
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/verify-otp": {
+      "post": {
+        "tags": ["User"],
+        "summary": "Verify otp",
+        "description": "End point to reset password",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["email", "otp"],
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "format": "email"
+                  },
+                  "otp": {
+                    "type": "string",
+                    "minLength": 6,
+                    "description": "OTP must be at least 6 characters long."
                   }
                 }
               }
