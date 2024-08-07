@@ -108,9 +108,36 @@ export const userRoutesHandler = (
                 required: ["email", "otp", "newPassword", "confirmPassword"],
                 properties: {
                   email: { type: "string", format: "email" },
-                  otp: { type: "string", minLength: 5, description: "OTP must be at least 5 characters long." },
-                  password: { type: "string", minLength: 6, description: "Password must be at least 6 characters long." },
-                  confirmPassword: { type: "string", minLength: 6, description: "Must match the password." }
+                  otp: { type: "string", minLength: 6, description: "OTP must be at least 5 characters long." },
+                  password: { type: "string", minLength: 8, description: "Password must be at least 8 characters long." },
+                  confirmPassword: { type: "string", minLength: 8, description: "Must match the password." }
+                }
+              }
+            }
+          }
+        }
+        #swagger.responses[200]
+        */
+  );
+
+  router.post(
+    '/verify-otp',
+    resetPasswordController.validate,
+    resetPasswordController.invoke.bind(resetPasswordController)
+    /*
+        #swagger.tags = ['User']
+        #swagger.summary = "Verify otp"
+        #swagger.description = "End point to reset password"
+   #swagger.requestBody = {
+          required: true,
+          content: {
+            "application/json": {
+              schema: {
+                type: "object",
+                required: ["email", "otp"],
+                properties: {
+                  email: { type: "string", format: "email" },
+                  otp: { type: "string", minLength: 6, description: "OTP must be at least 6 characters long." },
                 }
               }
             }

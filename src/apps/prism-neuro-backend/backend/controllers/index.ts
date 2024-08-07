@@ -25,6 +25,7 @@ export * from './general/get-user-detail-by-id.controller';
 export * from './general/get-user-detail.controller';
 export * from './general/logout.controller';
 export * from './general/reset-password.controller';
+export * from './general/verify-otp.controller';
 export * from './health-check/health-check.controller';
 export * from './mode-session/end-mode-session.controller';
 export * from './mode-session/get-mode-session.controller';

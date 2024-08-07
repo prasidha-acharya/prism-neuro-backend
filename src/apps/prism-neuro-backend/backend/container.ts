@@ -119,7 +119,8 @@ const {
   GetModesByAdminController,
   GetStaticFilesController,
   HealthCheckController,
-  GetUserDetailByIdController
+  GetUserDetailByIdController,
+  VerifyOtpController
 } = controller;
 export class Container {
   private readonly container: AwilixContainer;
@@ -199,7 +200,8 @@ export class Container {
         changePasswordService: asClass(ChangePasswordService).singleton(),
         resetPasswordService: asClass(ResetPasswordService).singleton(),
         changePasswordController: asClass(ChangePasswordController).singleton(),
-        resetPasswordController: asClass(ResetPasswordController)
+        resetPasswordController: asClass(ResetPasswordController),
+        verifyOtpController: asClass(VerifyOtpController)
       })
       .register({
         getAllUsersController: asClass(controller.GetAllUsersController),
