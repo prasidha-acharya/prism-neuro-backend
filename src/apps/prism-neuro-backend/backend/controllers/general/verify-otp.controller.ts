@@ -23,8 +23,10 @@ export class VerifyOtpController implements Controller {
       .withMessage(MESSAGE_CODES.USER.INVALID_EMAIL)
       .custom(async (email: string, { req }) => {
         const isUserExist = await this.getAdminByEmailService.invoke({ email });
+
         if (isUserExist) {
           req.body.userId = isUserExist.id;
+          return true;
         }
         throw new HTTP404Error(MESSAGE_CODES.USER.INVALID_EMAIL);
       }),
